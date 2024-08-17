@@ -23,12 +23,23 @@
     userHostPairSeparator = "_";
     userHosts = builtins.foldl' (x: y: x ++ y) [] (lib.lists.forEach users (user: lib.lists.forEach darwinHosts (host: user + userHostPairSeparator + host )));
     dotfilesDir = "~/.dotfiles";
+    nixpkgsConfig = {
+      config.allowUnfree = true;
+      overlays = [
+        alacritty-theme.overlays.default
+      ];
+    };
+    getHostArchitecture = system: import ./system/${system}/system.nix;
   in {
     darwinConfigurations = lib.genAttrs darwinHosts (system:
+      let
+        sys = getHostArchitecture system;
+      in
       nix-darwin.lib.darwinSystem {
-        system = import ./system/${system}/system.nix;
+        system = sys;
 	specialArgs = inputs;
 	modules = [
+	  { nixpkgs = nixpkgsConfig; }
 	  ./system/${system}
 	];
       }
@@ -39,14 +50,9 @@
 	user = builtins.elemAt userHostPair 0;
         system = builtins.elemAt userHostPair 1;
         sys = import ./system/${system}/system.nix;
-	pkgs = (import nixpkgs {
-	  system = sys;
-	  config.allowUnfree = true;
-	  overlays = [ alacritty-theme.overlays.default ];
-	});
       in
       home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = import nixpkgs (nixpkgsConfig // { system = sys; });
 	modules = [
 	  ./user/${user}
 	];
