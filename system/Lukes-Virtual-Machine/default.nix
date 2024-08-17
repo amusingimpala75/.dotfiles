@@ -27,18 +27,8 @@ in
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
   '';
 
-  system.defaults = {
-    dock = {
-      autohide = true;
-      mru-spaces = false;
-      orientation = "bottom";
-      # persistent-apps = {
-      #   "/"
-      # };
-    };
-    SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
-  };
+  system.defaults.SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
 
-  # For backwards compatibility
+   # For backwards compatibility
   system.stateVersion = 4;
 }
