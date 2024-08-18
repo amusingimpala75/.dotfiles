@@ -3,7 +3,12 @@
 let
   emacsTerm = "emacsclient -nw";
   emacsGui = "emacsclient -c";
-  emacsPackage = pkgs.emacs;
+  emacsPackage = pkgs.emacsWithPackagesFromUsePackage {
+    package = pkgs.emacs;
+    alwaysTangle = true;
+    defaultInitFile = true;
+    config = ./config.org;
+  };
 in
 {
   home.packages = with pkgs; [
@@ -17,7 +22,7 @@ in
       StandardOutPath = "/tmp/emacs-stdout";
       StandardErrorPath = "/tmp/emacs-stderr";
       Program = "${emacsPackage}/bin/emacs";
-      ProgramArguments = [ "emacs" "--fg-daemon" ];
+      ProgramArguments = [ "${emacsPackage}/bin/emacs" "--fg-daemon" ];
       KeepAlive = true;
     };
   };
