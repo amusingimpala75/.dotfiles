@@ -3,8 +3,6 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    alacritty
-    emacs
     fastfetch
     jq
   ];
@@ -15,12 +13,11 @@ in
 
   fonts.packages = [ pkgs.iosevka ];
 
-  services.emacs.enable = true;
-
   programs.zsh.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   services.nix-daemon.enable = true;
+  nix.package = pkgs.nixVersions.nix_2_20;
   nixpkgs.hostPlatform = import ./system.nix;
 
   system.activationScripts.postUserActivation.text = ''

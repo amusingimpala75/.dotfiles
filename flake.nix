@@ -16,7 +16,7 @@
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { self, nixpkgs, nixpkgs-stable-darwin, nix-darwin, home-manager, emacs-overlay, alacritty-theme }@inputs: let
+  outputs = { self, nixpkgs, nixpkgs-stable-darwin, nix-darwin, home-manager, ... }@inputs: let
     lib = nixpkgs.lib;
     users = [ "lukemurray" ];
     darwinHosts = [ "Lukes-Virtual-Machine" ];
@@ -26,7 +26,8 @@
     nixpkgsConfig = {
       config.allowUnfree = true;
       overlays = [
-        alacritty-theme.overlays.default
+        inputs.alacritty-theme.overlays.default
+        inputs.emacs-overlay.overlays.default
       ];
     };
     getHostArchitecture = system: import ./system/${system}/system.nix;

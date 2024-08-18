@@ -9,6 +9,11 @@
 
   programs.home-manager.enable = true;
 
+  imports = [
+    ../../module/alacritty
+    ../../module/emacs
+  ];
+
   home.packages = with pkgs; [
     iosevka
   ];
@@ -20,12 +25,6 @@
     reload-hm = "home-manager switch --flake ${dotfilesDir}#${username}_${hostname}";
     reload-nd = "darwin-rebuild switch --flake ${dotfilesDir}";
     reload-config = "reload-nd && reload-hm";
-    vim = "emacsclient -nw";
-    vi = "emacsclient -nw";
-  };
-
-  home.sessionVariables = {
-    EDITOR="emacsclient -nw";
   };
 
   programs.zsh = {
@@ -38,27 +37,6 @@
     autosuggestion = {
       enable = true;
       highlight = "bg=cyan,bold,underline";
-    };
-  };
-
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      window = {
-        # decorations = "Buttonless";
-        padding = {
-          x = 4;
-          y = 4;
-        };
-        option_as_alt = "Both";
-      };
-      font.size = 14;
-      font.normal = {
-        family = "Iosevka";
-        style = "Regular";
-      };
-      live_config_reload = true;
-      import = [ pkgs.alacritty-theme.gruvbox_dark ];
     };
   };
 
@@ -107,10 +85,6 @@
       InitialKeyRepeat = 10;
       KeyRepeat = 1;
     };
-    # I've been told this makes it look better
-    # "org.gnu.Emacs" = {
-    #   AppleFontSmoothing = 0;
-    # };
   };
 
   home.activation = {
