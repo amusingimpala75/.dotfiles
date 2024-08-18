@@ -10,8 +10,9 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ../../module/alacritty
-    ../../module/emacs
+    ../../module/app/alacritty
+    ../../module/app/emacs
+    ../../module/cli/git
   ];
 
   home.packages = with pkgs; [
@@ -42,12 +43,12 @@
     };
   };
 
-  programs.git = {
-    enable = true;
-    ignores = [
-      "*~"
-    ];
-  };
+  # programs.git = {
+  #   enable = true;
+  #   ignores = [
+  #     "*~"
+  #   ];
+  # };
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings
