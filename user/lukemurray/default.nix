@@ -1,11 +1,11 @@
-{ lib, config, pkgs, username, hostname, dotfilesDir, ... }:
+{ lib, config, pkgs, username, hostname, dotfilesDir, userSettings, ... }:
 
 # TODO: add wallpaper (both with nix-wallpaper,
 #       and with some custom way to set the Index.plist
 {
   home.username = username;
   home.homeDirectory = "/Users/${username}";
-  home.stateVersion = "24.05";
+  home.stateVersion = "24.05"; # Don't change; kept for backwards compatibility reasons.
 
   programs.home-manager.enable = true;
 
@@ -13,16 +13,14 @@
     ../../module/app/alacritty
     ../../module/app/emacs
     ../../module/cli/git
+    ../../module/font
   ];
 
   home.packages = with pkgs; [
-    iosevka
     tree
   ];
 
   news.display = "silent";
-
-  fonts.fontconfig.enable = true;
 
   home.shellAliases = {
     ll = "ls -lah";
@@ -43,13 +41,6 @@
       highlight = "bg=cyan,bold,underline";
     };
   };
-
-  # programs.git = {
-  #   enable = true;
-  #   ignores = [
-  #     "*~"
-  #   ];
-  # };
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings

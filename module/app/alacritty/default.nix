@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, userSettings, ... }:
 
 {
   programs.alacritty = {
@@ -14,7 +14,7 @@
       };
       font.size = 14;
       font.normal = {
-        family = "Iosevka";
+        family = userSettings.font.family;
         style = "Regular";
       };
       live_config_reload = true;

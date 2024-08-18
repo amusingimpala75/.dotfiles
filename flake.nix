@@ -61,6 +61,7 @@
 	  username = user;
 	  dotfilesDir = dotfilesDir;
 	  hostname = system;
+	  userSettings = import ./user/${user}/settings.nix;
 	};
       }
     );
