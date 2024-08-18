@@ -18,6 +18,8 @@
     iosevka
   ];
 
+  news.display = "silent";
+
   fonts.fontconfig.enable = true;
 
   home.shellAliases = {
