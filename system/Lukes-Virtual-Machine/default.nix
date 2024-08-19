@@ -3,8 +3,6 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
-    fastfetch
-    jq
   ];
 
   environment.shells = with pkgs; [
