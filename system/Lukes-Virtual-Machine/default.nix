@@ -2,6 +2,10 @@
 let
 in
 {
+  # TODO:
+  # Decide if we want to eradicate all default references to the system's
+  # ncurses 6.0 library, which cannot read the alacritty-direct generated
+  # by nix's ncurses 6.4 library
   environment.systemPackages = with pkgs; [
   ];
 
