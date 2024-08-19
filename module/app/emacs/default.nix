@@ -1,7 +1,7 @@
 { lib, config, pkgs, username, userSettings, ... }:
 
 let
-  emacsTerm = "emacsclient -nw";
+  emacsTerm = "TERM=alacritty-direct emacsclient -nw";
   emacsGui = "emacsclient -c";
   emacsPackage = pkgs.emacsWithPackagesFromUsePackage {
     package = pkgs.emacs;

@@ -1,6 +1,9 @@
 { lib, config, pkgs, userSettings, ... }:
 
 {
+  home.sessionVariables = {
+    TERM="alacritty";
+  };
   programs.alacritty = {
     enable = true;
     settings = {
