@@ -19,6 +19,7 @@
 
   home.packages = with pkgs; [
     tree
+    yq-go
   ];
 
   news.display = "silent";
