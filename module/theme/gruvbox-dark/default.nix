@@ -18,4 +18,6 @@
   base0D = "83a598"; # blue
   base0E = "d3869b"; # purple
   base0F = "d65d0e"; # brown
+
+  darkMode = true;
 }

@@ -14,6 +14,7 @@
     ../../module/app/emacs
     ../../module/cli/git
     ../../module/font
+    ../../module/theme
   ];
 
   home.packages = with pkgs; [
