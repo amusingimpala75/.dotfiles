@@ -21,7 +21,7 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 
 I also like a transparent background (still waiting on alpha-background on mac)
 #+begin_src emacs-lisp
-(defvar my/alpha-setting (if (eq system-type 'darwin) '(alpha . 85) '(alpha-background . 70)))
+(defvar my/alpha-setting (if (eq system-type 'darwin) '(alpha . 90) '(alpha-background . 70)))
 (use-package frame
   :custom
   (default-frame-alist `(,my/alpha-setting
