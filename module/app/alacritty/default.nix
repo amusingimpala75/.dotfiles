@@ -7,6 +7,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
+      shell = "${pkgs.zsh}/bin/zsh";
       window = {
         # decorations = "Buttonless";
         padding = {
@@ -15,9 +16,9 @@
         };
         option_as_alt = "Both";
       };
-      font.size = 14;
+      font.size = userSettings.font.size;
       font.normal = {
-        family = userSettings.font.family;
+        family = userSettings.font.family.fixed-pitch;
         style = "Regular";
       };
       live_config_reload = true;

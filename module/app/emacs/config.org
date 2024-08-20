@@ -6,6 +6,7 @@ Lexical Bindings, and ensure we can use :bind:
 #+begin_src emacs-lisp
 ;;; -*- lexical-binding: t -*-
 (require 'bind-key)
+(add-to-list 'exec-path "~/.nix-profile/bin")
 #+end_src
 
 ** UI
@@ -13,7 +14,7 @@ Lexical Bindings, and ensure we can use :bind:
 I really don't want the scroll bar or the tool bar, nor is the startup screen necessary
 #+begin_src emacs-lisp
 (use-package scroll-bar
-  :custom (scroll-bar-mode nil))
+  :custom (scroll-bar-mode nil)) ;;  Also see the section regarding frame defaults
 (use-package tool-bar
   :custom (tool-bar-mode nil))
 (setq initial-buffer-choice t)
@@ -25,7 +26,9 @@ I also like a transparent background (still waiting on alpha-background on mac)
 (use-package frame
   :custom
   (default-frame-alist `(,my/alpha-setting
-                         (ns-transparent-titlebar . t))))
+                         (ns-transparent-titlebar . t)
+			 (vertical-scroll-bars . nil)
+			 (horizontal-scroll-bars . nil))))
 #+end_src
 *** Theme
 I use base16-based themes in Nix, which is automatically generated from user preferences
@@ -38,14 +41,15 @@ I use base16-based themes in Nix, which is automatically generated from user pre
 #+end_src
 
 *** Font
-I use the Iosevka font, at 16-pt.
+Pull from the user configuration for the font family/size
 #+begin_src emacs-lisp
-(defvar my/font-size 16)
+;; (defvar my/font-size 16)
+(require 'my-font)
 (use-package cus-face
   :custom-face
-  (default ((t (:family "Iosevka" :height ,(* my/font-size 10)))))
-  (variable-pitch ((t (:family "Iosevka Aile"))))
-  (fixed-pitch ((t (:family "Iosevka")))))
+  (default ((t (:family ,my/font-family-fixed-pitch :height ,(* my/font-size 10)))))
+  (variable-pitch ((t (:family ,my/font-family-variable-pitch))))
+  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch)))))
 #+end_src
 
 I also like to make it easy to modify the font size, bound to `C--` and `C-=`
@@ -80,6 +84,65 @@ I also like to make it easy to modify the font size, bound to `C--` and `C-=`
   (add-to-list 'org-modules 'org-tempo))
 #+end_src
 
+** Language Support
+Since this is an emacs configuration after all, we use nix-mode
+#+begin_src emacs-lisp
+(use-package nix-mode
+  :ensure t
+  :after eglot
+  :hook
+  (nix-mode . eglot-ensure)
+  (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-mode-format nil t)))
+  :config
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
+#+end_src
+
+** Completion
+Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
+#+begin_src emacs-lisp
+(use-package vertico
+  :ensure t
+  :custom (vertico-cycle t)
+  :config (vertico-mode))
+
+(use-package vertico-posframe
+  :ensure t
+  :after vertico
+  :config (vertico-posframe-mode))
+
+(use-package marginalia
+  :ensure t
+  :config (marginalia-mode))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package savehist
+  :config (savehist-mode))
+
+(use-package consult
+  :ensure t)
+#+end_src
+
+Corfu and completion preview (now in Emacs 30) for in-buffer completion
+#+begin_src emacs-lisp
+(use-package corfu
+  :ensure t
+  :bind (:map corfu-mode-map ("S-<tab>" . completion-at-point))
+  :custom
+  (corfu-cycle t)
+  (corfu-popupinfo-delay '(0.5 . 0.5))
+  :hook
+  (prog-mode . corfu-mode)
+  (corfu-mode . corfu-popupinfo-mode))
+
+;; (use-package completion-preview
+;;   :hook (corfu-mode . completion-preview-mode)
+;;   :custom (completion-preview-minimum-symbol-length 2))
+#+end_src
 ** Miscellaneous
 Remove the annoying files Emacs dumps all over the system
 #+begin_src emacs-lisp
