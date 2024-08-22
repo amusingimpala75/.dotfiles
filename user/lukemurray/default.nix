@@ -20,6 +20,7 @@
   home.packages = with pkgs; [
     tree
     yq-go
+    fastfetch
   ];
 
   news.display = "silent";

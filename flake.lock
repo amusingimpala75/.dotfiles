@@ -200,6 +200,21 @@
         "type": "indirect"
       }
     },
+    "nixpkgs-stable-nixos": {
+      "locked": {
+        "lastModified": 1724242322,
+        "narHash": "sha256-HMpK7hNjhEk4z5SFg5UtxEio9OWFocHdaQzCfW1pE7w=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "224042e9a3039291f22f4f2ded12af95a616cca0",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-24.05",
+        "type": "indirect"
+      }
+    },
     "root": {
       "inputs": {
         "alacritty-theme": "alacritty-theme",
@@ -207,7 +222,8 @@
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-stable-darwin": "nixpkgs-stable-darwin"
+        "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
+        "nixpkgs-stable-nixos": "nixpkgs-stable-nixos"
       }
     },
     "systems": {
