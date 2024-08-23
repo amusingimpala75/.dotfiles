@@ -44,14 +44,16 @@ let
 	      packageRequires = [ epkgs.base16-theme ];
       })
       (epkgs.trivialBuild {
-        pname = "my-font";
+        pname = "nix-settings";
 	      version = "0.1.0";
-	      src = pkgs.writeText "my-font.el" (with userSettings.font; ''
-	        (defvar my/font-family-fixed-pitch "${family.fixed-pitch}")
-	        (defvar my/font-family-variable-pitch "${family.variable-pitch}")
-	        (defvar my/font-size ${builtins.toString size})
+	      src = pkgs.writeText "nix-settings.el" (with userSettings; ''
+	        (defvar my/font-family-fixed-pitch "${font.family.fixed-pitch}")
+	        (defvar my/font-family-variable-pitch "${font.family.variable-pitch}")
+	        (defvar my/font-size ${builtins.toString font.size})
 
-          (provide 'my-font)
+          (defvar my/opacity (truncate ${builtins.toString (opacity * 100)}))
+
+          (provide 'nix-settings)
 	      '');
       })
     ];

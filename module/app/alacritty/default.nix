@@ -14,6 +14,7 @@
           x = 4;
           y = 4;
         };
+        opacity = userSettings.opacity;
         option_as_alt = "Both";
       };
       font.size = userSettings.font.size;

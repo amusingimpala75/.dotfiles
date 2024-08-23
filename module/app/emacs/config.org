@@ -6,6 +6,7 @@ Lexical Bindings, and ensure we can use :bind:
 #+begin_src emacs-lisp
 ;;; -*- lexical-binding: t -*-
 (require 'bind-key)
+(require 'nix-settings)
 (add-to-list 'exec-path "~/.nix-profile/bin")
 #+end_src
 
@@ -22,7 +23,9 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 
 I also like a transparent background (still waiting on alpha-background on mac)
 #+begin_src emacs-lisp
-(defvar my/alpha-setting (if (eq system-type 'darwin) '(alpha . 90) '(alpha-background . 70)))
+(defvar my/alpha-setting (if (eq system-type 'darwin)
+			      `(alpha . ,(+ my/opacity 10))
+			    `(alpha-backgorund . ,(- my/opacity 10))))
 (use-package frame
   :custom
   (default-frame-alist `(,my/alpha-setting
@@ -43,8 +46,6 @@ I use base16-based themes in Nix, which is automatically generated from user pre
 *** Font
 Pull from the user configuration for the font family/size
 #+begin_src emacs-lisp
-;; (defvar my/font-size 16)
-(require 'my-font)
 (use-package cus-face
   :custom-face
   (default ((t (:family ,my/font-family-fixed-pitch :height ,(* my/font-size 10)))))
