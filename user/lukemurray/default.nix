@@ -18,9 +18,15 @@
   ];
 
   home.packages = with pkgs; [
+    fastfetch
     tree
     yq-go
-    fastfetch
+  ] ++ lib.optionals pkgs.stdenv.isDarwin [
+    # Emacs implicitly calls these,
+    # which pulls up a warning from macOS
+    # if `xcode-install --select` isn't run first
+    pkgs.gcc
+    pkgs.git
   ];
 
   news.display = "silent";

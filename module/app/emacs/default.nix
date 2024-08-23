@@ -67,7 +67,6 @@ in
   launchd.agents.emacs = {
     enable = true;
     config = {
-      WorkingDirectory = "/Users/${username}";
       StandardOutPath = "/tmp/emacs-stdout";
       StandardErrorPath = "/tmp/emacs-stderr";
       Program = "${emacsPackage}/bin/emacs";
