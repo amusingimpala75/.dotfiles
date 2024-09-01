@@ -11,6 +11,10 @@
     userName = userSettings.git-username;
   };
 
+  home.packages = [
+    pkgs.github-cli
+  ];
+
   home.shellAliases = {
     gcm = "git commit -m";
     ga = "git add";
