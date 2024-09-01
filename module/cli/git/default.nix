@@ -1,4 +1,4 @@
-{ lib, config, pkgs, username, ...}:
+{ lib, config, pkgs, username, userSettings, ...}:
 
 {
   programs.git = {
@@ -7,6 +7,8 @@
       "*~"
       "**/.DS_Store"
     ];
+    userEmail = userSettings.git-email;
+    userName = userSettings.git-username;
   };
 
   home.shellAliases = {
