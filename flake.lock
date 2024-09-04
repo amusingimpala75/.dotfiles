@@ -136,6 +136,26 @@
         "type": "github"
       }
     },
+    "nix-darwin-firefox": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1725324742,
+        "narHash": "sha256-MNTl+ckhd1nzCrljPIbOYdW5/FDoGu1fI8MPTYWyfsI=",
+        "owner": "bandithedoge",
+        "repo": "nixpkgs-firefox-darwin",
+        "rev": "2416f978a8cd603b9261da8a28fa2aecd606eb64",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bandithedoge",
+        "repo": "nixpkgs-firefox-darwin",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1723703277,
@@ -215,15 +235,32 @@
         "type": "indirect"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1725395451,
+        "narHash": "sha256-es/2hgy9B9DIX/LUlI+t6jIfKlx3VJevUQVqkDlyn/s=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "d2575e02d0050253bd98a7f7b2f8922282d507a0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "alacritty-theme": "alacritty-theme",
         "emacs-overlay": "emacs-overlay",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
+        "nix-darwin-firefox": "nix-darwin-firefox",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
-        "nixpkgs-stable-nixos": "nixpkgs-stable-nixos"
+        "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
+        "nur": "nur"
       }
     },
     "systems": {

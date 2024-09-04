@@ -1,0 +1,15 @@
+.titlebar-buttonbox-container {
+    display: none;
+}
+
+.titlebar-spacer {
+    display: none !important;
+}
+
+#TabsToolbar {
+    visibility: collapse;
+}
+
+#titlebar {
+    height: 1px;
+}

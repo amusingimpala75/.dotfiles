@@ -5,6 +5,8 @@
     nixpkgs-stable-darwin.url = "nixpkgs/nixpkgs-24.05-darwin";
     nixpkgs-stable-nixos.url = "nixpkgs/nixos-24.05";
 
+    nur.url = "github:nix-community/NUR";
+
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -16,6 +18,9 @@
 
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-darwin-firefox.url = "github:bandithedoge/nixpkgs-firefox-darwin";
+    nix-darwin-firefox.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, nixpkgs-stable-darwin, nixpkgs-stable-nixos, nix-darwin, home-manager, ... }@inputs: let
     lib = nixpkgs.lib;
@@ -29,6 +34,8 @@
       overlays = [
         inputs.alacritty-theme.overlays.default
         inputs.emacs-overlay.overlays.default
+        inputs.nix-darwin-firefox.overlay
+        inputs.nur.overlay
         (final: prev: {
           stable = if prev.stdenv.isDarwin then nixpkgs-stable-darwin.legacyPackages.${prev.system} else nixpkgs-stable-nixos.legacyPackages.${prev.system};
         })
