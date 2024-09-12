@@ -66,6 +66,32 @@ in
     pkgs.nixfmt-rfc-style
   ];
 
+  home.shellAliases = {
+    vim = emacsTerm;
+    vi = emacsTerm;
+    gvim = emacsGui;
+    gvi = emacsGui;
+  };
+
+  services.emacs = pkgs.lib.mkIf pkgs.stdenv.isLinux {
+    defaultEditor = true;
+    enable = true;
+    package = emacsPackage;
+    startWithUserSession = true;
+
+    client.enable = true;
+    client.arguments = [ "-c" ];
+  };
+
+  home.sessionVariables = {
+    EDITOR = pkgs.lib.mkIf pkgs.stdenv.isDarwin emacsTerm;
+  };
+
+  # I honestly have no idea why targets.darwin.<thing> has issues while launchd agents don't when in Linux.
+  targets.darwin.defaults."org.gnu.Emacs" = pkgs.lib.mkIf pkgs.stdenv.isDarwin {
+    AppleFontSmoothing = 0;
+  };
+
   launchd.agents.emacs = {
     enable = true;
     config = {
@@ -75,20 +101,5 @@ in
       ProgramArguments = [ "${emacsPackage}/bin/emacs" "--fg-daemon" ];
       KeepAlive = true;
     };
-  };
-
-  home.shellAliases = {
-    vim = emacsTerm;
-    vi = emacsTerm;
-    gvim = emacsGui;
-    gvi = emacsGui;
-  };
-
-  home.sessionVariables = {
-    EDITOR = emacsTerm;
-  };
-
-  targets.darwin.defaults."org.gnu.Emacs" = {
-    AppleFontSmoothing = 0;
   };
 }

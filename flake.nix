@@ -1,11 +1,17 @@
 {
   description = "My system configurations for macOS, WSL, and NixOS";
   inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
     nixpkgs-stable-darwin.url = "nixpkgs/nixpkgs-24.05-darwin";
     nixpkgs-stable-nixos.url = "nixpkgs/nixos-24.05";
 
     nur.url = "github:nix-community/NUR";
+
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl.inputs.flake-utils.follows = "flake-utils";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -15,6 +21,7 @@
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    emacs-overlay.inputs.flake-utils.follows = "flake-utils";
 
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
@@ -22,12 +29,14 @@
     nix-darwin-firefox.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nix-darwin-firefox.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { self, nixpkgs, nixpkgs-stable-darwin, nixpkgs-stable-nixos, nix-darwin, home-manager, ... }@inputs: let
+  outputs = { self, nixpkgs, nixpkgs-stable-darwin, nixpkgs-stable-nixos, nix-darwin, nixos-wsl, home-manager, ... }@inputs: let
     lib = nixpkgs.lib;
-    users = [ "lukemurray" ];
+    users = [ "lukemurray" "murrayle23" ];
     darwinHosts = [ "Lukes-Virtual-Machine" ];
+    nixosHosts = [ "wsl-nix" ];
     userHostPairSeparator = "_";
-    userHosts = builtins.foldl' (x: y: x ++ y) [] (lib.lists.forEach users (user: lib.lists.forEach darwinHosts (host: user + userHostPairSeparator + host )));
+    hosts = darwinHosts ++ nixosHosts;
+    userHosts = builtins.foldl' (x: y: x ++ y) [] (lib.lists.forEach users (user: lib.lists.forEach hosts (host: user + userHostPairSeparator + host )));
     dotfilesDir = "~/.dotfiles";
     nixpkgsConfig = {
       config.allowUnfree = true;
@@ -48,12 +57,25 @@
       sys = getHostArchitecture system;
     in
     nix-darwin.lib.darwinSystem {
-      system = sys;
+      system = sys.arch;
 	    specialArgs = inputs;
 	    modules = [
 	      { nixpkgs = nixpkgsConfig; }
 	      ./system/${system}
 	    ];
+    }
+    );
+    nixosConfigurations = lib.genAttrs nixosHosts (system:
+    let
+      sys = getHostArchitecture system;
+    in
+    nixpkgs.lib.nixosSystem {
+      system = sys.arch;
+      specialArgs = inputs;
+      modules = [
+        { nixpkgs = nixpkgsConfig; }
+        ./system/${system}
+      ] ++ (if sys.wsl then [ nixos-wsl.nixosModules.default ] else [ ]);
     }
     );
     homeConfigurations = lib.genAttrs userHosts (userHost:
@@ -64,7 +86,7 @@
     sys = import ./system/${system}/system.nix;
     in
     home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs (nixpkgsConfig // { system = sys; });
+      pkgs = import nixpkgs (nixpkgsConfig // { system = sys.arch; });
 	    modules = [
 	      ./user/${user}
 	    ];

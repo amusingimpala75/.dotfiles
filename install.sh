@@ -2,14 +2,18 @@
 
 # TODO: install nix
 
-# Build nix-darwin configuration
-nix build .#darwinConfigurations.$(hostname -s).system
+if [ $(uname) = "Darwin" ]; then
+  # Build nix-darwin configuration
+  nix build .#darwinConfigurations.$(hostname -s).system
 
-# Switch to nix-darwin config
-./result/sw/bin/darwin-rebuild switch --flake .
+  # Switch to nix-darwin config
+  ./result/sw/bin/darwin-rebuild switch --flake .
 
-# Remove result prior to running home-manager
-rm result
+  # Remove result prior to running home-manager
+  rm result
+else
+  sudo nixos-rebuild switch --flake .
+fi
 
 # Build home-manager configurations
 nix build .#homeConfigurations."$(id -un)_$(hostname -s)".activationPackage

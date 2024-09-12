@@ -1,1 +1,4 @@
-"aarch64-darwin"
+{
+  arch = "aarch64-darwin";
+  wsl = false;
+}
