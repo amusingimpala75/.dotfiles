@@ -14,6 +14,7 @@
     ../../module/app/emacs
     ../../module/app/firefox
     ../../module/cli/git
+    ../../module/cli/nix
     ../../module/font
     ../../module/theme
   ];
@@ -34,9 +35,6 @@
 
   home.shellAliases = {
     ll = "ls -lah";
-    reload-hm = "home-manager switch --flake ${dotfilesDir}#${username}_${hostname}";
-    reload-nd = "darwin-rebuild switch --flake ${dotfilesDir}";
-    reload-config = "reload-nd && reload-hm";
   };
 
   programs.zsh = {
