@@ -77,7 +77,6 @@ in
     defaultEditor = true;
     enable = true;
     package = emacsPackage;
-    startWithUserSession = true;
 
     client.enable = true;
     client.arguments = [ "-c" ];
