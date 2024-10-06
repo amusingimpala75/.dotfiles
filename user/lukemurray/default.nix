@@ -21,6 +21,9 @@
 
   home.packages = with pkgs; [
     fastfetch
+    fd
+    jq
+    ripgrep
     tree
     yq-go
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
