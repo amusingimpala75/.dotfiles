@@ -3,9 +3,6 @@
 {
   programs.git = {
     enable = true;
-    extraConfig = {
-      credential.helper = "oauth";
-    };
     ignores = [
       "*~"
       "**/.DS_Store"
@@ -13,6 +10,8 @@
     userEmail = userSettings.git-email;
     userName = userSettings.git-username;
   };
+
+  programs.git-credential-oauth.enable = true;
 
   home.packages = [
     pkgs.github-cli
