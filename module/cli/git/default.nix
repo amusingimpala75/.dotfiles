@@ -3,6 +3,9 @@
 {
   programs.git = {
     enable = true;
+    extraConfig = {
+      credential.helper = "oauth";
+    };
     ignores = [
       "*~"
       "**/.DS_Store"
