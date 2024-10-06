@@ -1,5 +1,6 @@
 { self, config, pkgs, inputs, ... }:
 let
+  system = import ./system.nix;
 in
 {
   # TODO:
@@ -18,7 +19,7 @@ in
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   services.nix-daemon.enable = true;
   nix.package = pkgs.nixVersions.nix_2_20;
-  nixpkgs.hostPlatform = import ./system.nix;
+  nixpkgs.hostPlatform = system.arch;
 
   system.activationScripts.postUserActivation.text = ''
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
