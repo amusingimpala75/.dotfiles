@@ -98,6 +98,45 @@ Since this is an emacs configuration after all, we use nix-mode
   (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
 #+end_src
 
+\LaTeX is a necessary component for document editing
+#+begin_src emacs-lisp
+
+(defun my/add-bin-folder (path)
+  (add-to-list 'exec-path path)
+  (setenv "PATH" (concat (getenv "PATH") ":" path)))
+
+;; TODO get pdf-tools fixed on Nix
+;; (use-package pdf-tools :ensure t)
+
+(use-package tex
+  :ensure auctex
+  ;; :after pdf-tools
+  :custom
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-master t)
+  (reftex-plug-into-AUCTeX t)
+  ;; (TeX-view-program-selection '((output-pdf "PDF Tools")))
+  (TeX-save-query nil)
+  ;; (TeX-source-correlate-start-server t)
+  :hook
+  (LaTeX-mode . visual-line-mode)
+  (LaTeX-mode . flyspell-mode)
+  (LaTeX-mode . LaTeX-math-mode)
+  (LaTeX-mode . turn-on-reftex)
+  :init
+  ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  (my/add-bin-folder my/texlive-bin)
+  (my/add-bin-folder my/ghostscript-bin))
+
+(use-package preview
+  :hook (LaTeX-mode . LaTeX-preview-setup)
+  :custom
+  (preview-scale 1.4)
+  ;;(preview-scale-function (lambda () (* (/ 10.0 (preview-document-pt)) preview-scale)))
+  (preview-auto-cache-preamble nil))
+
+#+end_src
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 #+begin_src emacs-lisp
