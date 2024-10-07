@@ -139,6 +139,10 @@ Since this is an emacs configuration after all, we use nix-mode
   ;;(preview-scale-function (lambda () (* (/ 10.0 (preview-document-pt)) preview-scale)))
   (preview-auto-cache-preamble nil))
 
+(use-package latex-preview-pane
+  :ensure t
+  :hook (LaTeX-mode . latex-preview-pane-mode))
+
 #+end_src
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
