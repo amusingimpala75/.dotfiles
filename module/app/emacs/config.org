@@ -126,6 +126,9 @@ Since this is an emacs configuration after all, we use nix-mode
   (LaTeX-mode . turn-on-reftex)
   :init
   ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  (defun my/add-latex-preview-save-hook ()
+    (add-hook 'after-save-hook 'preview-buffer nil t))
+  (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook)
   (my/add-bin-folder my/texlive-bin)
   (my/add-bin-folder my/ghostscript-bin))
 
