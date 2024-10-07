@@ -125,12 +125,31 @@ Since this is an emacs configuration after all, we use nix-mode
   (my/add-bin-folder my/texlive-bin)
   (my/add-bin-folder my/ghostscript-bin))
 
+;; TODO hook when \) to do preview-at-point a few chars back
 (use-package preview
   :hook (LaTeX-mode . LaTeX-preview-setup)
   :custom
   (preview-scale 1.4)
-  ;;(preview-scale-function (lambda () (* (/ 10.0 (preview-document-pt)) preview-scale)))
-  (preview-auto-cache-preamble nil))
+  (preview-auto-cache-preamble nil)
+  :config
+  (defun my/text-scale-adjust-latex-previews ()
+    (dolist (ov (overlays-in (point-min) (point-max)))
+      (if (eq (overlay-get ov 'category)
+	      'preview-overlay)
+	  (my/text-scale--resize-fragment ov))))
+  (defun my/text-scale--resize-fragment (ov)
+    (overlay-put ov 'display (cons 'image
+				   (plist-put
+				    (cdr (overlay-get ov 'display))
+				    :scale (+ 1.0 (* 0.5 text-scale-mode-amount))))))
+  (add-hook 'LaTeX-mode-hook (lambda ()
+			       (add-hook 'text-scale-mode-hook #'my/text-scale-adjust-latex-previews))))
+
+(use-package preview-dvisvgm
+  :after preview
+  :ensure t
+  :custom
+  (preview-image-type 'dvisvgm))
 
 (use-package latex-preview-pane
   :ensure t
