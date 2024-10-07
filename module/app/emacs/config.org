@@ -105,27 +105,20 @@ Since this is an emacs configuration after all, we use nix-mode
   (add-to-list 'exec-path path)
   (setenv "PATH" (concat (getenv "PATH") ":" path)))
 
-;; TODO get pdf-tools fixed on Nix
-;; (use-package pdf-tools :ensure t)
-
 (use-package tex
   :ensure auctex
-  ;; :after pdf-tools
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t)
   (TeX-master t)
   (reftex-plug-into-AUCTeX t)
-  ;; (TeX-view-program-selection '((output-pdf "PDF Tools")))
   (TeX-save-query nil)
-  ;; (TeX-source-correlate-start-server t)
   :hook
   (LaTeX-mode . visual-line-mode)
   (LaTeX-mode . flyspell-mode)
   (LaTeX-mode . LaTeX-math-mode)
   (LaTeX-mode . turn-on-reftex)
   :init
-  ;; (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   (defun my/add-latex-preview-save-hook ()
     (add-hook 'after-save-hook 'preview-buffer nil t))
   (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook)
