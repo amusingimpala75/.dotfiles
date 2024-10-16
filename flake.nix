@@ -98,5 +98,17 @@
 	    };
     }
     );
+    packages = lib.genAttrs ["aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux" "i686-linux"] (platform:
+      let pkgs = import nixpkgs (nixpkgsConfig // {system = platform; });
+      in {
+        default = self.packages.${platform}.graphical-emacs;
+
+        graphical-emacs = (import ./module/app/emacs/package.nix) pkgs {
+          opacity = 0.8;
+          font = import ./module/font/iosevka; # TODO this will need to be fixed
+          theme = import ./module/theme/generated/gruvbox-dark-medium;
+        };
+      }
+    );
   };
 }
