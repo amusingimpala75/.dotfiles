@@ -69,6 +69,7 @@ I also like to make it easy to modify the font size, bound to `C--` and `C-=`
    (org-mode . visual-line-mode)
   :custom-face
   (org-block ((t (:inherit fixed-pitch))))
+  (org-table ((t (:inherit fixed-pitch))))
   (org-code ((t (:inherit (shadow fixed-pitch)))))
   (org-level-1 ((t (:weight bold :height 1.5))))
   (org-level-2 ((t (:weight bold :height 1.4))))
