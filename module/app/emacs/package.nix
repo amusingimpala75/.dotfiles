@@ -1,5 +1,5 @@
 pkgs: userSettings: pkgs.emacsWithPackagesFromUsePackage {
-  package = pkgs.emacs;
+  package = pkgs.emacs30;
   alwaysTangle = true;
   defaultInitFile = true;
   config = ./config.org;

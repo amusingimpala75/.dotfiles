@@ -21,6 +21,13 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 (setq initial-buffer-choice t)
 #+end_src
 
+~which-key~ being integrated into core is great for discovery.
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :config (which-key-mode))
+#+end_src
+
 I also like a transparent background (still waiting on alpha-background on mac)
 #+begin_src emacs-lisp
 (defvar my/alpha-setting (if (eq system-type 'darwin)
@@ -158,7 +165,9 @@ Since this is an emacs configuration after all, we use nix-mode
 
 #+end_src
 ** Completion
+
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
+# TODO: embark
 #+begin_src emacs-lisp
 (use-package vertico
   :ensure t
@@ -187,7 +196,7 @@ Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
   :ensure t)
 #+end_src
 
-Corfu and completion preview (now in Emacs 30) for in-buffer completion
+Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure t
@@ -199,9 +208,14 @@ Corfu and completion preview (now in Emacs 30) for in-buffer completion
   (prog-mode . corfu-mode)
   (corfu-mode . corfu-popupinfo-mode))
 
-;; (use-package completion-preview
-;;   :hook (corfu-mode . completion-preview-mode)
-;;   :custom (completion-preview-minimum-symbol-length 2))
+(use-package completion-preview
+  :hook (corfu-mode . completion-preview-mode)
+  :custom (completion-preview-minimum-symbol-length 2))
+
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 ** Miscellaneous
 Remove the annoying files Emacs dumps all over the system
