@@ -200,7 +200,9 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure t
-  :bind (:map corfu-mode-map ("S-<tab>" . completion-at-point))
+  :bind ( :map corfu-mode-map
+	  ("S-<tab>" . completion-at-point)
+	  ("<backtab>" . completion-at-point))
   :custom
   (corfu-cycle t)
   (corfu-popupinfo-delay '(0.5 . 0.5))
