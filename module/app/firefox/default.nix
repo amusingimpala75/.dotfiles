@@ -2,12 +2,6 @@
 
 # TODO: de-darwin-ize the config
 {
-  # Otherwise it will not start on macOS, pending fix in HM
-  # Requires opening Firefox from cli, not gui
-  home.sessionVariables = {
-    MOZ_LEGACY_PROFILES = 1;
-  };
-
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-bin;
