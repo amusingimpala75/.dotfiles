@@ -10,7 +10,10 @@
       name = "default-release";
       isDefault = true;
       userChrome = builtins.readFile ./userChrome.css;
-      search.default = "DuckDuckGo";
+      search = {
+        default = "DuckDuckGo";
+        force = true;
+      };
       settings = {
         # "app.update.channel" = "default"; # TODO prevent autoupdate
         "extensions.autoDisableScopes" = 0;
