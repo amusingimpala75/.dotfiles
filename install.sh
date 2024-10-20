@@ -1,25 +1,13 @@
 #!/usr/bin/env bash
 
-# TODO: install nix
+DOTDIR="$HOME/.dotfiles"
+
+nix run nixpkgs#git -- clone https://github.com/amusingimpala75/.dotfiles "$DOTDIR"
 
 if [ $(uname) = "Darwin" ]; then
-  # Build nix-darwin configuration
-  nix build .#darwinConfigurations.$(hostname -s).system
-
-  # Switch to nix-darwin config
-  ./result/sw/bin/darwin-rebuild switch --flake .
-
-  # Remove result prior to running home-manager
-  rm result
+    nix run nix-darwin/master -- switch --flake "$DOTDIR"
 else
-  sudo nixos-rebuild switch --flake .
+    sudo nixos-rebuild switch --flake "$DOTDIR"
 fi
 
-# Build home-manager configurations
-nix build .#homeConfigurations."$(id -un)_$(hostname -s)".activationPackage
-
-# Switch to the home-manager config
-./result/home-path/bin/home-manager switch --flake .#"$(id -un)_$(hostname -s)"
-
-# Cleanup the results folder
-rm result
+nix run home-manager/master -- switch --flake "$DOTDIR"#"$(id -un)_$(hostname -s)"

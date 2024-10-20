@@ -51,6 +51,7 @@
       ];
     };
     getHostArchitecture = system: import ./system/${system}/system.nix;
+    forAllSystems = lib.genAttrs ["aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux" "i686-linux"];
   in {
     darwinConfigurations = lib.genAttrs darwinHosts (system:
     let
@@ -98,15 +99,35 @@
 	    };
     }
     );
-    packages = lib.genAttrs ["aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux" "i686-linux"] (platform:
+    packages = forAllSystems (platform:
       let pkgs = import nixpkgs (nixpkgsConfig // {system = platform; });
       in {
-        default = self.packages.${platform}.graphical-emacs;
+        default = self.packages.${platform}.installer;
 
-        graphical-emacs = (import ./module/app/emacs/package.nix) pkgs {
+        emacs = (import ./module/app/emacs/package.nix) pkgs {
           opacity = 0.8;
           font = import ./module/font/iosevka; # TODO this will need to be fixed
           theme = import ./module/theme/generated/gruvbox-dark-medium;
+        };
+
+        installer = pkgs.writeShellApplication {
+          name = "install";
+          text = ''${./install.sh} "$@"'';
+        };
+      }
+    );
+    apps = forAllSystems (platform:
+      {
+        default = self.apps.${platform}.installer;
+
+        emacs = {
+          type = "app";
+          program = "${self.packages.${platform}.emacs}/bin/emacs";
+        };
+
+        installer = {
+          type = "app";
+          program = "${self.packages.${platform}.installer}/bin/install";
         };
       }
     );
