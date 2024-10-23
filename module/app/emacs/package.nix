@@ -51,6 +51,7 @@ pkgs: userSettings: pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/texlive-bin "${pkgs.texlive.combined.scheme-full}/bin")
         (defvar my/ghostscript-bin "${pkgs.ghostscript}/bin")
         (defvar my/mysql-bin "${pkgs.mysql84}/bin")
+        (defvar my/jdtls-bin "${pkgs.jdt-language-server}/bin")
 
         (provide 'nix-settings)
       '');

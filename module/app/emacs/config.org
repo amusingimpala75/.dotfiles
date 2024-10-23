@@ -170,6 +170,13 @@ Since this is an emacs configuration after all, we use nix-mode
 ;; Credentials moved to separate file
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package java-mode
+  :after eglot
+  :hook (java-mode . eglot-ensure)
+  :config
+  (my/add-bin-folder my/jdtls-bin))
+#+end_src
 ** Completion
 
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
