@@ -48,7 +48,7 @@ pkgs: userSettings: pkgs.emacsWithPackagesFromUsePackage {
 
         (defvar my/opacity (truncate ${builtins.toString (opacity * 100)}))
 
-        (defvar my/texlive-bin "${pkgs.texlive.combined.scheme-medium}/bin")
+        (defvar my/texlive-bin "${pkgs.texlive.combined.scheme-full}/bin")
         (defvar my/ghostscript-bin "${pkgs.ghostscript}/bin")
 
         (provide 'nix-settings)
