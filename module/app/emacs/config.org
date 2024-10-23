@@ -164,6 +164,12 @@ Since this is an emacs configuration after all, we use nix-mode
   :hook (LaTeX-mode . latex-preview-pane-mode))
 
 #+end_src
+
+#+begin_src emacs-lisp
+(my/add-bin-folder my/mysql-bin)
+;; Credentials moved to separate file
+#+end_src
+
 ** Completion
 
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
