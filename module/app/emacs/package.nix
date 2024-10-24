@@ -52,6 +52,7 @@ pkgs: userSettings: pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/ghostscript-bin "${pkgs.ghostscript}/bin")
         (defvar my/mysql-bin "${pkgs.mysql84}/bin")
         (defvar my/jdtls-bin "${pkgs.jdt-language-server}/bin")
+        (defvar my/mpv-executable "${pkgs.mpv}/bin/mpv")
 
         (provide 'nix-settings)
       '');

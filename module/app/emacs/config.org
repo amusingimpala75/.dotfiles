@@ -11,7 +11,6 @@ Lexical Bindings, and ensure we can use :bind:
 #+end_src
 
 ** UI
-
 I really don't want the scroll bar or the tool bar, nor is the startup screen necessary
 #+begin_src emacs-lisp
 (use-package scroll-bar
@@ -21,11 +20,50 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 (setq initial-buffer-choice t)
 #+end_src
 
-~which-key~ being integrated into core is great for discovery.
+Line numbers are a must for programming, especially relative numbers for jumping quickly
+#+begin_src emacs-lisp
+(use-package display-line-numbers
+  :custom (display-line-numbers-type 'relative)
+  :hook (prog-mode . display-line-numbers-mode))
+#+end_src
 
+~which-key~ being integrated into core is great for discovery.
 #+begin_src emacs-lisp
 (use-package which-key
   :config (which-key-mode))
+#+end_src
+
+The normal bell noise is just awful, this replaces it with the visual bell.
+#+begin_src emacs-lisp
+(use-package emacs
+  :custom (visible-bell 1))
+#+end_src
+
+*** Scrolling
+The frame really needs to scroll better.
+#+begin_src emacs-lisp
+(use-package emacs
+  :custom
+  ;(scroll-margin 2)
+  (scroll-conservatively 101))
+#+end_src
+
+Additionally, truncate text off the edge of the screen unless in a text mode
+#+begin_src emacs-lisp
+(use-package emacs
+  :custom (truncate-lines t))
+(use-package text-mode
+  :hook (text-mode . visual-line-mode))
+#+end_src
+
+*** Theme
+I use base16-based themes in Nix, which is automatically generated from user preferences
+#+begin_src emacs-lisp
+(use-package my-base16-theme
+  :demand
+  :custom (base16-theme-256-color-source 'colors)
+  :config
+  (load-theme 'my-base16 t))
 #+end_src
 
 I also like a transparent background (still waiting on alpha-background on mac)
@@ -39,15 +77,6 @@ I also like a transparent background (still waiting on alpha-background on mac)
                          (ns-transparent-titlebar . t)
 			 (vertical-scroll-bars . nil)
 			 (horizontal-scroll-bars . nil))))
-#+end_src
-*** Theme
-I use base16-based themes in Nix, which is automatically generated from user preferences
-#+begin_src emacs-lisp
-(use-package my-base16-theme
-  :demand
-  :custom (base16-theme-256-color-source 'colors)
-  :config
-  (load-theme 'my-base16 t))
 #+end_src
 
 *** Font
@@ -68,6 +97,13 @@ I also like to make it easy to modify the font size, bound to `C--` and `C-=`
   ("C-=" . text-scale-increase))
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package ligature
+  :ensure t
+  :config
+  (ligature-set-ligatures 'prog-mode '("==" "!=" ">=" "<=" "->" "=>" ".." "..." "++" "+=" "::=" "__"))
+  (global-ligature-mode t))
+#+end_src
 ** Org Mode
 #+begin_src emacs-lisp
 (use-package org
@@ -177,8 +213,8 @@ Since this is an emacs configuration after all, we use nix-mode
   :config
   (my/add-bin-folder my/jdtls-bin))
 #+end_src
-** Completion
 
+** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 # TODO: embark
 #+begin_src emacs-lisp
@@ -232,6 +268,24 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   :after corfu
   :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
+
+Auto-completion of matching parenthesis is really useful, although it can get in the way sometimes (ie. TODO fix this or not in all prog-modes)
+#+begin_src emacs-lisp
+(use-package electric-pair
+  :hook (prog-mode . electric-pair-mode))
+#+end_src
+
+** Apps
+Eradio allows listening to internet radio in Emacs.
+# TODO broken?
+#+begin_src emacs-lisp
+(use-package eradio
+  :ensure t
+  :custom
+  (eradio-channels '(("KBach" . "https://zeno.fm/radio/kbach-89-5-fm-aac-64/")))
+  (eradio-player `(,my/mpv-executable "--no-video" "--no-terminal")))
+#+end_src
+
 ** Miscellaneous
 Remove the annoying files Emacs dumps all over the system
 #+begin_src emacs-lisp
@@ -246,3 +300,18 @@ Visual Undo to visualize the undo tree
 (use-package vundo
   :ensure t)
 #+end_src
+
+Always use utf-8 when possible
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (set-default-coding-systems 'utf-8))
+#+end_src
+
+Never use tabs; always spaces
+#+begin_src emacs-lisp
+(use-package simple
+  :custom (indent-tabs-mode nil))
+#+end_src
+
+# TODO: eat, treesit-utils, zig/go other prog modes, custom modeline, ibuffer/dired sidebars, flymake, dape, magit/forge, hideshow, all-the-icons (or alt.), golden-ratio, dimmer
