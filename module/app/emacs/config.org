@@ -201,17 +201,18 @@ Since this is an emacs configuration after all, we use nix-mode
 
 #+end_src
 
+Use mySQL.
 #+begin_src emacs-lisp
 (my/add-bin-folder my/mysql-bin)
 ;; Credentials moved to separate file
 #+end_src
 
+Configure java to use jdtls/eglot
+# TODO make this a (use-package java-mode ...) or (use-package cc-mode ...). I cannot for the life of me get those to work.
 #+begin_src emacs-lisp
-(use-package java-mode
-  :after eglot
-  :hook (java-mode . eglot-ensure)
-  :config
-  (my/add-bin-folder my/jdtls-bin))
+(my/add-bin-folder my/jdtls-bin)
+(use-package eglot
+  :hook (java-mode . eglot-ensure))
 #+end_src
 
 ** Completion
