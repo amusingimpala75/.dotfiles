@@ -11,13 +11,19 @@ Lexical Bindings, and ensure we can use :bind:
 #+end_src
 
 ** UI
-I really don't want the scroll bar or the tool bar, nor is the startup screen necessary
+I really don't want the scroll bar or the tool bar, nor is the startup screen necessary; additionally the menu bar is only really fine on macOS where it is separate from the window, and hidden most of the time.
 #+begin_src emacs-lisp
 (use-package scroll-bar
   :custom (scroll-bar-mode nil)) ;;  Also see the section regarding frame defaults
 (use-package tool-bar
   :custom (tool-bar-mode nil))
+
 (setq initial-buffer-choice t)
+
+(use-package emacs
+  :config
+  (unless (eq 'system-type 'darwin)
+    (menu-bar-mode -1)))
 #+end_src
 
 Line numbers are a must for programming, especially relative numbers for jumping quickly
@@ -30,7 +36,7 @@ Line numbers are a must for programming, especially relative numbers for jumping
 ~which-key~ being integrated into core is great for discovery.
 #+begin_src emacs-lisp
 (use-package which-key
-  :config (which-key-mode))
+  :custom (which-key-mode t))
 #+end_src
 
 The normal bell noise is just awful, this replaces it with the visual bell.
@@ -69,8 +75,8 @@ I use base16-based themes in Nix, which is automatically generated from user pre
 I also like a transparent background (still waiting on alpha-background on mac)
 #+begin_src emacs-lisp
 (defvar my/alpha-setting (if (eq system-type 'darwin)
-			      `(alpha . ,(+ my/opacity 10))
-			    `(alpha-backgorund . ,(- my/opacity 10))))
+			      `(alpha . ,(+ my/opacity 5))
+			    `(alpha-background . ,(- my/opacity 5))))
 (use-package frame
   :custom
   (default-frame-alist `(,my/alpha-setting
