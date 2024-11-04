@@ -1,4 +1,8 @@
-pkgs: userSettings: pkgs.emacsWithPackagesFromUsePackage {
+pkgs: userSettings:
+let
+  vlc-pkg = if pkgs.stdenv.isDarwin then pkgs.vlc-bin else pkgs.vlc;
+in
+pkgs.emacsWithPackagesFromUsePackage {
   package = pkgs.emacs30-pgtk;
   alwaysTangle = true;
   defaultInitFile = true;
@@ -52,7 +56,7 @@ pkgs: userSettings: pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/ghostscript-bin "${pkgs.ghostscript}/bin")
         (defvar my/mysql-bin "${pkgs.mysql84}/bin")
         (defvar my/jdtls-bin "${pkgs.jdt-language-server}/bin")
-        (defvar my/mpv-executable "${pkgs.mpv}/bin/mpv")
+        (defvar my/vlc "${vlc-pkg}/bin/vlc")
 
         (provide 'nix-settings)
       '');

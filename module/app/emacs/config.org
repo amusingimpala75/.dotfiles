@@ -289,8 +289,8 @@ Eradio allows listening to internet radio in Emacs.
 (use-package eradio
   :ensure t
   :custom
-  (eradio-channels '(("KBach" . "https://zeno.fm/radio/kbach-89-5-fm-aac-64/")))
-  (eradio-player `(,my/mpv-executable "--no-video" "--no-terminal")))
+  (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128")))
+  (eradio-player `(,my/vlc "--no-video" "-I" "rc")))
 #+end_src
 
 ** Miscellaneous
