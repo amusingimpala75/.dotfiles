@@ -32,7 +32,7 @@
   outputs = { self, nixpkgs, nixpkgs-stable-darwin, nixpkgs-stable-nixos, nix-darwin, nixos-wsl, home-manager, ... }@inputs: let
     lib = nixpkgs.lib;
     users = [ "lukemurray" "murrayle23" ];
-    darwinHosts = [ "Lukes-Virtual-Machine" ];
+    darwinHosts = [ "Lukes-Virtual-Machine" "Lukes-MacBook-Air" ];
     nixosHosts = [ "wsl-nix" ];
     userHostPairSeparator = "_";
     hosts = darwinHosts ++ nixosHosts;
@@ -80,7 +80,7 @@
     }
     );
     homeConfigurations = lib.genAttrs userHosts (userHost:
-    let 
+    let
     userHostPair = lib.strings.splitString userHostPairSeparator userHost;
 	  user = builtins.elemAt userHostPair 0;
     system = builtins.elemAt userHostPair 1;
