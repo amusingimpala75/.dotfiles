@@ -3,7 +3,7 @@ let
   vlc-pkg = if pkgs.stdenv.isDarwin then pkgs.vlc-bin else pkgs.vlc;
 in
 pkgs.emacsWithPackagesFromUsePackage {
-  package = pkgs.emacs30-pgtk;
+  package = pkgs.emacs30;
   alwaysTangle = true;
   defaultInitFile = true;
   config = ./config.org;

@@ -74,9 +74,10 @@ I use base16-based themes in Nix, which is automatically generated from user pre
 
 I also like a transparent background (still waiting on alpha-background on mac)
 #+begin_src emacs-lisp
-(defvar my/alpha-setting (if (eq system-type 'darwin)
-			      `(alpha . ,(+ my/opacity 5))
-			    `(alpha-background . ,(- my/opacity 5))))
+;; Update if macOS ever supports alpha-background
+(defvar my/alpha-setting (if (string-match-p "PGTK" system-configuration-features)
+                             `(alpha-background . ,(- my/opacity 5))
+                           `(alpha . ,(+ my/opacity 5))))
 (use-package frame
   :custom
   (default-frame-alist `(,my/alpha-setting
