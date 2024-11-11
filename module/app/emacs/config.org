@@ -136,6 +136,13 @@ I also like to make it easy to modify the font size, bound to `C--` and `C-=`
   (add-to-list 'org-modules 'org-tempo))
 #+end_src
 
+Org-modern just makes things look nicer
+#+begin_src emacs-lisp
+(use-package org-modern
+  :ensure t
+  :hook (org-mode . org-modern-mode))
+#+end_src
+
 ** Language Support
 Since this is an emacs configuration after all, we use nix-mode
 #+begin_src emacs-lisp
