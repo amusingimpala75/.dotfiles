@@ -12,6 +12,7 @@
   imports = [
     ../../module/app/alacritty
     ../../module/app/emacs
+    ../../module/app/jankyborders
     # ../../module/app/firefox
     ../../module/cli/git
     ../../module/cli/nix
