@@ -12,19 +12,21 @@
   imports = [
     ../../module/app/alacritty
     ../../module/app/emacs
-    ../../module/app/jankyborders
     # ../../module/app/firefox
     ../../module/cli/git
     ../../module/cli/nix
+    ../../module/desktop/jankyborders
     ../../module/font
     ../../module/theme
   ];
 
   home.packages = with pkgs; [
-    fastfetch
+    btop # TODO proper monitor package
     fd
     jq
     ripgrep
+    scc # SLOC counting
+    tealdeer
     tree
     yq-go
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
@@ -33,6 +35,7 @@
     # if `xcode-install --select` isn't run first
     pkgs.gcc
     pkgs.git
+    pkgs.darwin.trash # TODO cross-platform
   ];
 
   news.display = "silent";
