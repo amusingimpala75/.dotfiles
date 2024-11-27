@@ -1,0 +1,17 @@
+import = [
+       "~/.config/alacritty/alacritty.toml"
+]
+
+[shell]
+program = "/bin/sh"
+args = [
+     "-c",
+     "btop"
+]
+
+[window]
+title = "Monitor"
+dynamic_title = false
+dimensions = { columns = 160, lines = 40 }
+position = { x = 300, y = 240 }
+decorations = "None"

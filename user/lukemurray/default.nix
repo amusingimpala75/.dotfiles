@@ -39,6 +39,7 @@
 
   home.shellAliases = {
     ll = "ls -lah";
+    monitor = "alacritty --config-file ${./monitor.toml}"; # TODO proper package
   };
 
   programs.zsh = {
