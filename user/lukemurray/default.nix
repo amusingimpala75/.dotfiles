@@ -71,10 +71,10 @@
       # Need some fixing to some format
       # Spacers with:
       #  com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
-      # persistent-apps = [
+      # persistent-apps = [ #
       #   "/System/Library/Launchpad.app"
       # ];
-      # persistent-others = [
+      # persistent-others = [ #
       #   "/Users/${username}/Downloads"
       # ];
       show-recents = false;
