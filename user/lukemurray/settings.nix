@@ -9,4 +9,11 @@ rec {
     inactive = theme.base02;
     width = 4; # pixels
   };
+  gaps = rec {
+    inner = border.width / 2;
+    outer = inner;
+  };
+  bar = {
+    height = 32;
+  };
 }

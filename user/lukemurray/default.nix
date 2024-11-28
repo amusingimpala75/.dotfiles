@@ -15,6 +15,7 @@
     # ../../module/app/firefox
     ../../module/cli/git
     ../../module/cli/nix
+    ../../module/desktop/aerospace
     ../../module/desktop/jankyborders
     ../../module/font
     ../../module/theme
