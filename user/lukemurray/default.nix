@@ -17,6 +17,7 @@
     ../../module/cli/nix
     ../../module/desktop/aerospace
     ../../module/desktop/jankyborders
+    ../../module/desktop/sketchybar
     ../../module/font
     ../../module/theme
   ];

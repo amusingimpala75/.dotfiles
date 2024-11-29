@@ -14,6 +14,8 @@ rec {
     outer = inner;
   };
   bar = {
+    isTop = true;
     height = 32;
+    color = theme.base01;
   };
 }
