@@ -1,33 +1,18 @@
 { lib, config, pkgs, userSettings, ... }: let
-  formatScript = path: pkgs.substituteAll {
-    src = path;
-    isExecutable = true;
-
-    sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
-    bash = "${pkgs.bash}/bin/bash";
-  };
+  lua = pkgs.lua54Packages.lua.withPackages (ps: [
+    ps.lua
+    ((import ./sbarlua.nix) { inherit (pkgs) lua54Packages gcc darwin fetchFromGitHub readline; })
+    ((import ./config.nix) { inherit (pkgs) lua54Packages lib writeText; inherit userSettings; })
+  ]);
+  sketchybarrc = pkgs.writeScript "sketchybarrc"
+    ''
+      #!${lua}/bin/lua
+      package.cpath = package.cpath .. ";${lua}/lib/?.so"
+      defaults = require('defaults')
+      require('init')
+    '';
 in {
-  home.packages = pkgs.lib.mkIf pkgs.stdenv.isDarwin [ pkgs.sketchybar ];
-
-  home.file.".config/sketchybar/sketchybarrc".source = lib.mkIf pkgs.stdenv.isDarwin (
-    pkgs.substituteAll {
-      src = ./sketchybarrc;
-      isExecutable = true;
-
-      sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
-      bash = "${pkgs.bash}/bin/bash";
-
-      "bar_position" = if userSettings.bar.isTop then "top" else "bottom";
-      "bar_height" = userSettings.bar.height;
-      "bar_color" = userSettings.bar.color;
-
-      "font_family" = userSettings.font.family.fixed-pitch;
-      "font_size" = userSettings.font.size;
-      "text_color" = userSettings.theme.base05;
-
-      "front_app_script" = (formatScript ./front_app.sh);
-    }
-  );
+  home.packages = lib.mkIf pkgs.stdenv.isDarwin [ pkgs.sketchybar ];
 
   launchd.agents."sketchybar" = {
     enable = true;
@@ -36,13 +21,9 @@ in {
       Program = "${pkgs.sketchybar}/bin/sketchybar";
       ProgramArguments = [
         Program
+        "-c"
+        "${sketchybarrc}"
       ];
     };
   };
-
-  home.activation."sketchybar" = lib.mkIf pkgs.stdenv.isDarwin (
-    lib.hm.dag.entryAfter [ "setupLaunchAgents" "onFilesChange" "installPackages" ] ''
-      ${pkgs.sketchybar}/bin/sketchybar --reload
-    ''
-  );
 }
