@@ -33,6 +33,10 @@ let
         base0E = '0xff${theme.base0E}',
         base0F = '0xff${theme.base0F}',
       },
+      border = {
+        color = '0xff${border.active}',
+        width = ${toString border.width},
+      },
     }
   '');
 in
