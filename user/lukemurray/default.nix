@@ -10,9 +10,9 @@
   programs.home-manager.enable = true;
 
   imports = [
-    ../../module/app/alacritty
     ../../module/app/emacs
     # ../../module/app/firefox
+    ../../module/app/ghostty
     ../../module/cli/git
     ../../module/cli/nix
     ../../module/desktop/aerospace

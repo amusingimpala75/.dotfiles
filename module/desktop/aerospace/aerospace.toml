@@ -40,7 +40,8 @@ outer.bottom =     @outer_gap_bottom@
 [mode.main.binding]
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
-alt-enter = 'exec-and-forget open -na Alacritty'
+# TODO Eventually should be replaced with an "open-or-new-window" variant once Ghostty can do cli actions
+alt-enter = 'exec-and-forget open -na Ghostty'
 
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
