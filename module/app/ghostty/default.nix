@@ -3,6 +3,8 @@
 {
   # This will have to wait a few weeks once we're out of beta.
   # home.packages = [ pkgs.ghostty ];
+
+  home.file.".hushlogin".text = lib.mkIf pkgs.stdenv.isDarwin "";
   
   home.file.".config/ghostty/config".text = (with userSettings; ''
     background = ${theme.base00}
