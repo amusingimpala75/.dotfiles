@@ -37,6 +37,7 @@ let
         color = '0xff${border.active}',
         width = ${toString border.width},
       },
+      padding = 4, -- TODO don't hardcode
     }
   '');
 in

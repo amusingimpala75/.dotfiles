@@ -34,6 +34,7 @@ sbar.bar({
 
 -- Left Items
 require('items.front_app')
+require('items.spaces')
 
 -- Right Items
 require('items.time')
