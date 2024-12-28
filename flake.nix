@@ -48,6 +48,7 @@
         (final: prev: {
           stable = if prev.stdenv.isDarwin then nixpkgs-stable-darwin.legacyPackages.${prev.system} else nixpkgs-stable-nixos.legacyPackages.${prev.system};
         })
+        # (import ./packages/ghostty.nix)
       ];
     };
     getHostArchitecture = system: import ./system/${system}/system.nix;

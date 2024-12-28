@@ -2,10 +2,12 @@
 
 {
   # This will have to wait a few weeks once we're out of beta.
-  # home.packages = [ pkgs.ghostty ];
+  # home.packages = [ pkgs.ghostty-bin ];
 
   home.file.".hushlogin".text = lib.mkIf pkgs.stdenv.isDarwin "";
-  
+
+  # TODO once this has a CLI (to force a reload) move this
+  # to only be in the store, and copy it into the launch command
   home.file.".config/ghostty/config".text = (with userSettings; ''
     background = ${theme.base00}
     foreground = ${theme.base06}
@@ -57,5 +59,7 @@
     # TODO genericize
     shell-integration = zsh
     command = ${pkgs.zsh}/bin/zsh
+
+    auto-update = off
   '');
 }
