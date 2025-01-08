@@ -52,11 +52,14 @@ pkgs.emacsWithPackagesFromUsePackage {
 
         (defvar my/opacity (truncate ${builtins.toString (opacity * 100)}))
 
+        (defvar my/vlc "${vlc-pkg}/bin/vlc")
+
         (defvar my/texlive-bin "${pkgs.texlive.combined.scheme-full}/bin")
         (defvar my/ghostscript-bin "${pkgs.ghostscript}/bin")
+
         (defvar my/mysql-bin "${pkgs.mysql84}/bin")
         (defvar my/jdtls-bin "${pkgs.jdt-language-server}/bin")
-        (defvar my/vlc "${vlc-pkg}/bin/vlc")
+        (defvar my/zls-bin "${pkgs.zls}/bin")
 
         (provide 'nix-settings)
       '');
