@@ -1,6 +1,17 @@
 pkgs: userSettings:
 let
   vlc-pkg = if pkgs.stdenv.isDarwin then pkgs.vlc-bin else pkgs.vlc;
+  make-grammar = package: filename: package.overrideAttrs (old: {
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out
+      mv parser "$out/${filename}" # only change is here
+      if [[ -d queries ]]; then
+      cp -r queries $out
+      fi
+      runHook postInstall
+    '';
+  });
 in
 pkgs.emacsWithPackagesFromUsePackage {
   package = pkgs.emacs30;
@@ -57,8 +68,15 @@ pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/texlive-bin "${pkgs.texlive.combined.scheme-full}/bin")
         (defvar my/ghostscript-bin "${pkgs.ghostscript}/bin")
 
+        (defvar my/rustfmt-bin "${pkgs.rustfmt}/bin")
+        (defvar my/cargo-bin "${pkgs.cargo}/bin")
+        (defvar my/rustc-bin "${pkgs.rustc}/bin")
+
         (defvar my/jdtls-bin "${pkgs.jdt-language-server}/bin")
         (defvar my/zls-bin "${pkgs.zls}/bin")
+        (defvar my/rust-analyzer-bin "${pkgs.rust-analyzer}/bin")
+
+        (defvar my/treesitter-rust "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-rust "libtree-sitter-rust.so"}")
 
         (provide 'nix-settings)
       '');

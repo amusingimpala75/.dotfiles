@@ -226,6 +226,24 @@ Configure java to use jdtls/eglot
   :hook (java-mode . eglot-ensure))
 #+end_src
 
+*** Rust
+#+begin_src emacs-lisp
+(my/add-bin-folder my/rust-analyzer-bin)
+(my/add-bin-folder my/rustfmt-bin)
+(my/add-bin-folder my/cargo-bin)
+(my/add-bin-folder my/rustc-bin)
+
+(use-package rust-mode
+  :after treesit
+  :ensure t
+  :hook (rust-ts-mode . eglot-ensure)
+  :custom
+  (rust-mode-treesitter-derive t)
+  (rust-format-on-save t)
+  :init
+  (add-to-list 'treesit-extra-load-path my/treesitter-rust))
+#+end_src
+
 *** Zig
 #+begin_src emacs-lisp
 (my/add-bin-folder my/zls-bin)
