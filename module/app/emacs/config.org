@@ -244,6 +244,14 @@ Configure java to use jdtls/eglot
   (add-to-list 'treesit-extra-load-path my/treesitter-rust))
 #+end_src
 
+*** Lua
+#+begin_src emacs-lisp
+(my/add-bin-folder my/lua-language-server-bin)
+(use-package lua-mode
+  :ensure t
+  :hook (lua-mode . eglot-ensure))
+#+end_src
+
 *** Zig
 #+begin_src emacs-lisp
 (my/add-bin-folder my/zls-bin)
