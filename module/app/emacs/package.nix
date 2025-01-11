@@ -18,6 +18,7 @@ let
     pylsp-mypy
     python-lsp-ruff
   ]));
+  clangd = if pkgs.stdenv.isDarwin then pkgs.clang else pkgs.clang_multi;
 in
 pkgs.emacsWithPackagesFromUsePackage {
   package = pkgs.emacs30;
@@ -82,7 +83,7 @@ pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/lua-language-server-bin "${pkgs.lua-language-server}/bin")
         (defvar my/zls-bin "${pkgs.zls}/bin")
         (defvar my/rust-analyzer-bin "${pkgs.rust-analyzer}/bin")
-        (defvar my/clang-bin "${pkgs.clang}/bin")
+        (defvar my/clang-bin "${clangd}/bin")
         (defvar my/python-lsp-server-bin "${pylsp}/bin")
         (defvar my/typescript-language-server-bin "${pkgs.typescript-language-server}/bin")
 
