@@ -274,6 +274,17 @@ Configure java to use jdtls/eglot
   (add-to-list 'treesit-extra-load-path my/treesitter-cpp))
 #+end_src
 
+*** Python
+#+begin_src emacs-lisp
+(my/add-bin-folder my/python-lsp-server-bin)
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+(use-package python
+  :after treesit
+  :hook (python-ts-mode  . eglot-ensure)
+  :init
+  (add-to-list 'treesit-extra-load-path my/treesitter-python))
+#+end_src
+
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 # TODO: embark

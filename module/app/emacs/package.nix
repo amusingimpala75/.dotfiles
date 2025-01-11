@@ -12,6 +12,12 @@ let
       runHook postInstall
     '';
   });
+  pylsp = pkgs.python3.withPackages (p: (with p; [
+    python-lsp-server
+    pylsp-rope
+    pylsp-mypy
+    python-lsp-ruff
+  ]));
 in
 pkgs.emacsWithPackagesFromUsePackage {
   package = pkgs.emacs30;
@@ -77,10 +83,12 @@ pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/zls-bin "${pkgs.zls}/bin")
         (defvar my/rust-analyzer-bin "${pkgs.rust-analyzer}/bin")
         (defvar my/clang-bin "${pkgs.clang}/bin")
+        (defvar my/python-lsp-server-bin "${pylsp}/bin")
 
         (defvar my/treesitter-rust "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-rust "libtree-sitter-rust.so"}")
         (defvar my/treesitter-c "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-c "libtree-sitter-c.so"}")
         (defvar my/treesitter-cpp "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-cpp "libtree-sitter-cpp.so"}")
+        (defvar my/treesitter-python "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-python "libtree-sitter-python.so"}")
 
         (provide 'nix-settings)
       '');
