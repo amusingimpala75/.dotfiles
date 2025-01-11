@@ -260,6 +260,20 @@ Configure java to use jdtls/eglot
   :hook (zig-mode . eglot-ensure))
 #+end_src
 
+*** C
+#+begin_src emacs-lisp
+(my/add-bin-folder my/clang-bin) ; for clangd
+; For whatever reason, putting this in the use-package block doesn't immediately run
+; this when .c files are loaded, just when M-x c-ts-mode is executed
+(add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
+(use-package cc-mode
+  :after treesit
+  :hook (c-ts-mode . eglot-ensure)
+  :init
+  (add-to-list 'treesit-extra-load-path my/treesitter-c)
+  (add-to-list 'treesit-extra-load-path my/treesitter-cpp))
+#+end_src
+
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 # TODO: embark
