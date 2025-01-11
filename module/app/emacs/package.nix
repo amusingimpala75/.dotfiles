@@ -18,7 +18,7 @@ let
     pylsp-mypy
     python-lsp-ruff
   ]));
-  clangd = if pkgs.stdenv.isDarwin then pkgs.clang else pkgs.clang_multi;
+  clangd = if pkgs.stdenv.isDarwin then pkgs.clang else pkgs.libclang;
 in
 pkgs.emacsWithPackagesFromUsePackage {
   package = pkgs.emacs30;
