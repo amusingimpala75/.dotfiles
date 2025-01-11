@@ -285,6 +285,17 @@ Configure java to use jdtls/eglot
   (add-to-list 'treesit-extra-load-path my/treesitter-python))
 #+end_src
 
+*** JavaScript
+#+begin_src emacs-lisp
+(my/add-bin-folder my/typescript-language-server-bin)
+(add-to-list 'major-mode-remap-alist '(javascript-mode . js-ts-mode))
+(use-package js
+  :after treesit
+  :hook (js-ts-mode . eglot-ensure)
+  :init
+  (add-to-list 'treesit-extra-load-path my/treesitter-javascript))
+#+end_src
+
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 # TODO: embark

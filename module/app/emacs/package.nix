@@ -84,11 +84,13 @@ pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/rust-analyzer-bin "${pkgs.rust-analyzer}/bin")
         (defvar my/clang-bin "${pkgs.clang}/bin")
         (defvar my/python-lsp-server-bin "${pylsp}/bin")
+        (defvar my/typescript-language-server-bin "${pkgs.typescript-language-server}/bin")
 
         (defvar my/treesitter-rust "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-rust "libtree-sitter-rust.so"}")
         (defvar my/treesitter-c "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-c "libtree-sitter-c.so"}")
         (defvar my/treesitter-cpp "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-cpp "libtree-sitter-cpp.so"}")
         (defvar my/treesitter-python "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-python "libtree-sitter-python.so"}")
+        (defvar my/treesitter-javascript "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-javascript "libtree-sitter-javascript.so"}")
 
         (provide 'nix-settings)
       '');
