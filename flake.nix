@@ -1,17 +1,18 @@
 {
   description = "My system configurations for macOS, WSL, and NixOS";
   inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
 
     nixpkgs.url = "nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable-darwin.url = "nixpkgs/nixpkgs-24.05-darwin";
-    nixpkgs-stable-nixos.url = "nixpkgs/nixos-24.05";
+    nixpkgs-stable-darwin.url = "nixpkgs/nixpkgs-24.11-darwin";
+    nixpkgs-stable-nixos.url = "nixpkgs/nixos-24.11";
 
     nur.url = "github:nix-community/NUR";
+    nur.inputs.nixpkgs.follows = "nixpkgs";
+    nur.inputs.flake-parts.follows = "flake-parts";
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.inputs.flake-utils.follows = "flake-utils";
 
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -21,10 +22,10 @@
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    emacs-overlay.inputs.flake-utils.follows = "flake-utils";
 
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
+    alacritty-theme.inputs.flake-parts.follows = "flake-parts";
 
     nix-darwin-firefox.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nix-darwin-firefox.inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +48,7 @@
         inputs.alacritty-theme.overlays.default
         inputs.emacs-overlay.overlays.default
         inputs.nix-darwin-firefox.overlay
-        inputs.nur.overlay
+        inputs.nur.overlays.default
         (final: prev: {
           stable = if prev.stdenv.isDarwin then nixpkgs-stable-darwin.legacyPackages.${prev.system} else nixpkgs-stable-nixos.legacyPackages.${prev.system};
         })
