@@ -22,7 +22,7 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 
 (use-package emacs
   :config
-  (unless (eq 'system-type 'darwin)
+  (unless (and (eq 'system-type 'darwin) (display-graphic-p))
     (menu-bar-mode -1)))
 #+end_src
 
