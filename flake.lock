@@ -305,7 +305,29 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
-        "nur": "nur"
+        "nur": "nur",
+        "sbarlua": "sbarlua"
+      }
+    },
+    "sbarlua": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1738194078,
+        "narHash": "sha256-DuopardZJh7tMqDzkdsWnGVRAAnYaBvF0ufTdzCYg3c=",
+        "owner": "Lalit64",
+        "repo": "SbarLua",
+        "rev": "2c42a0925223fa9cb8f0901d33b283e91196af1f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Lalit64",
+        "ref": "nix-darwin-package",
+        "repo": "SbarLua",
+        "type": "github"
       }
     },
     "systems": {

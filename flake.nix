@@ -28,6 +28,9 @@
 
     nix-darwin-firefox.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nix-darwin-firefox.inputs.nixpkgs.follows = "nixpkgs";
+
+    sbarlua.url = "github:Lalit64/SbarLua/nix-darwin-package"; # Change to upstream once PR is merged
+    sbarlua.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, nixpkgs-stable-darwin, nixpkgs-stable-nixos, nix-darwin, nixos-wsl, home-manager, ... }@inputs: let
     lib = nixpkgs.lib;
@@ -48,6 +51,7 @@
         (final: prev: {
           stable = if prev.stdenv.isDarwin then nixpkgs-stable-darwin.legacyPackages.${prev.system} else nixpkgs-stable-nixos.legacyPackages.${prev.system};
         })
+        inputs.sbarlua.overlay
         # (import ./packages/ghostty.nix)
       ];
     };
@@ -82,10 +86,10 @@
     );
     homeConfigurations = lib.genAttrs userHosts (userHost:
     let
-    userHostPair = lib.strings.splitString userHostPairSeparator userHost;
-	  user = builtins.elemAt userHostPair 0;
-    system = builtins.elemAt userHostPair 1;
-    sys = import ./system/${system}/system.nix;
+      userHostPair = lib.strings.splitString userHostPairSeparator userHost;
+	    user = builtins.elemAt userHostPair 0;
+      system = builtins.elemAt userHostPair 1;
+      sys = import ./system/${system}/system.nix;
     in
     home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs (nixpkgsConfig // { system = sys.arch; });
@@ -101,36 +105,36 @@
     }
     );
     packages = forAllSystems (platform:
-      let pkgs = import nixpkgs (nixpkgsConfig // {system = platform; });
-      in {
-        default = self.packages.${platform}.installer;
+    let pkgs = import nixpkgs (nixpkgsConfig // {system = platform; });
+    in {
+      default = self.packages.${platform}.installer;
 
-        emacs = (import ./module/app/emacs/package.nix) pkgs {
-          opacity = 0.8;
-          font = import ./module/font/iosevka; # TODO this will need to be fixed
-          theme = import ./module/theme/generated/gruvbox-dark-medium;
-        };
+      emacs = (import ./module/app/emacs/package.nix) pkgs {
+        opacity = 0.8;
+        font = import ./module/font/iosevka; # TODO this will need to be fixed
+        theme = import ./module/theme/generated/gruvbox-dark-medium;
+      };
 
-        installer = pkgs.writeShellApplication {
-          name = "install";
-          text = ''${./install.sh} "$@"'';
-        };
-      }
+      installer = pkgs.writeShellApplication {
+        name = "install";
+        text = ''${./install.sh} "$@"'';
+      };
+    }
     );
     apps = forAllSystems (platform:
-      {
-        default = self.apps.${platform}.installer;
+    {
+      default = self.apps.${platform}.installer;
 
-        emacs = {
-          type = "app";
-          program = "${self.packages.${platform}.emacs}/bin/emacs";
-        };
+      emacs = {
+        type = "app";
+        program = "${self.packages.${platform}.emacs}/bin/emacs";
+      };
 
-        installer = {
-          type = "app";
-          program = "${self.packages.${platform}.installer}/bin/install";
-        };
-      }
+      installer = {
+        type = "app";
+        program = "${self.packages.${platform}.installer}/bin/install";
+      };
+    }
     );
   };
 }
