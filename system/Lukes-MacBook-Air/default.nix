@@ -18,8 +18,11 @@ in
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   services.nix-daemon.enable = true;
-  nix.package = pkgs.nixVersions.nix_2_20;
   nixpkgs.hostPlatform = system.arch;
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 30d";
+  };
 
   system.activationScripts.postUserActivation.text = ''
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
@@ -27,6 +30,6 @@ in
 
   system.defaults.SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
 
-   # For backwards compatibility
+  # For backwards compatibility
   system.stateVersion = 4;
 }
