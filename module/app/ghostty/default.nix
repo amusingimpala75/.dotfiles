@@ -1,65 +1,74 @@
 { lib, config, pkgs, userSettings, ...}:
-
-{
-  # This will have to wait a few weeks once we're out of beta.
-  # home.packages = [ pkgs.ghostty-bin ];
+let
+  package = if pkgs.stdenv.isDarwin then pkgs.ghostty-bin else pkgs.ghostty;
+in {
+  # TODO figure out why .zshenv -> ~/.config/zsh/.zshenv -> ~/.config/zsh/.zshrc is not being sourced
+  #      (ZDOTDIR is overridden by ghostty integration as /Applications/Ghostty.app/<etc>)
 
   home.file.".hushlogin".text = lib.mkIf pkgs.stdenv.isDarwin "";
 
-  # TODO once this has a CLI (to force a reload) move this
-  # to only be in the store, and copy it into the launch command
-  home.file.".config/ghostty/config".text = (with userSettings; ''
-    background = ${theme.base00}
-    foreground = ${theme.base06}
+  programs.ghostty = {
+    package = null; # TODO
+    enable = true;
+    enableZshIntegration = true;
+    settings = with userSettings; {
+      background-opacity = "${toString opacity}";
+      background-blur-radius = 10;
 
-    palette = 0=#${theme.base00}
-    palette = 1=#${theme.base08}
-    palette = 2=#${theme.base0B}
-    palette = 3=#${theme.base0A}
-    palette = 4=#${theme.base0D}
-    palette = 5=#${theme.base0E}
-    palette = 6=#${theme.base0C}
-    palette = 7=#${theme.base05}
-    palette = 8=#${theme.base08}
-    palette = 9=#${theme.base03}
-    palette = 10=#${theme.base08}
-    palette = 11=#${theme.base0B}
-    palette = 12=#${theme.base0A}
-    palette = 13=#${theme.base0D}
-    palette = 14=#${theme.base0E}
-    palette = 15=#${theme.base0C}
-    palette = 16=#${theme.base07}
-    palette = 17=#${theme.base09}
-    palette = 18=#${theme.base0F}
-    palette = 19=#${theme.base01}
-    palette = 20=#${theme.base02}
-    palette = 21=#${theme.base04}
-    palette = 22=#${theme.base06}
+      selection-invert-fg-bg = true;
+      window-theme = "system";
 
-    background-opacity = ${toString opacity}
-    background-blur-radius = 10
+      font-family = "${toString font.family.fixed-pitch}";
+      font-thicken = true;
+      font-size = "${toString font.size}";
 
-    selection-invert-fg-bg = true
-    window-theme = system
+      mouse-hide-while-typing = true;
+      cursor-style = "block";
+      shell-integration-features = "no-cursor";
 
-    font-family = ${toString font.family.fixed-pitch}
-    font-thicken = true
-    font-size = ${toString font.size}
+      quit-after-last-window-closed = true;
 
-    mouse-hide-while-typing = true
-    cursor-style = block
-    shell-integration-features = no-cursor
+      # macos-titlebar-style = hidden
+      window-decoration = false;
+      macos-option-as-alt = true;
 
-    quit-after-last-window-closed = true
+      # TODO genericize
+      command = "${pkgs.zsh}/bin/zsh";
 
-    # macos-titlebar-style = hidden
-    window-decoration = false
-    macos-option-as-alt = true
+      auto-update = "off";
 
-    # TODO genericize
-    shell-integration = zsh
-    command = ${pkgs.zsh}/bin/zsh
-
-    auto-update = off
-  '');
+      theme = "base16";
+    };
+    themes = {
+      base16 = with userSettings; {
+        background = "${theme.base00}";
+        foreground = "${theme.base06}";
+        palette = [
+          "0=#${theme.base00}"
+          "1=#${theme.base08}"
+          "2=#${theme.base0B}"
+          "3=#${theme.base0A}"
+          "4=#${theme.base0D}"
+          "5=#${theme.base0E}"
+          "6=#${theme.base0C}"
+          "7=#${theme.base05}"
+          "8=#${theme.base08}"
+          "9=#${theme.base03}"
+          "10=#${theme.base08}"
+          "11=#${theme.base0B}"
+          "12=#${theme.base0A}"
+          "13=#${theme.base0D}"
+          "14=#${theme.base0E}"
+          "15=#${theme.base0C}"
+          "16=#${theme.base07}"
+          "17=#${theme.base09}"
+          "18=#${theme.base0F}"
+          "19=#${theme.base01}"
+          "20=#${theme.base02}"
+          "21=#${theme.base04}"
+          "22=#${theme.base06}"
+        ];
+      };
+    };
+  };
 }

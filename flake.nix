@@ -51,9 +51,9 @@
         inputs.nur.overlays.default
         (final: prev: {
           stable = if prev.stdenv.isDarwin then nixpkgs-stable-darwin.legacyPackages.${prev.system} else nixpkgs-stable-nixos.legacyPackages.${prev.system};
+          ghostty-bin = final.callPackage ./packages/ghostty.nix {};
         })
         inputs.sbarlua.overlay
-        # (import ./packages/ghostty.nix)
       ];
     };
     getHostArchitecture = system: import ./system/${system}/system.nix;
