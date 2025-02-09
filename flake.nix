@@ -32,6 +32,9 @@
 
     sbarlua.url = "github:Lalit64/SbarLua/nix-darwin-package"; # Change to upstream once PR is merged
     sbarlua.inputs.nixpkgs.follows = "nixpkgs";
+
+    spicetify.url = "github:Gerg-L/spicetify-nix";
+    spicetify.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, nixpkgs-stable-darwin, nixpkgs-stable-nixos, nix-darwin, nixos-wsl, home-manager, ... }@inputs: let
     lib = nixpkgs.lib;

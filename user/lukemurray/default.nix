@@ -13,6 +13,7 @@
     ../../module/app/emacs
     # ../../module/app/firefox
     ../../module/app/ghostty
+    ../../module/app/spotify
     ../../module/cli/git
     ../../module/cli/nix
     ../../module/desktop/aerospace
@@ -52,12 +53,12 @@
     dotDir = ".config/zsh";
     initExtra = ''
       function precmd {
-        if [[ -z "$IN_NIX_SHELL" ]]
-        then
-          _PROMPT_NIX_SHELL="";
-        else
-          _PROMPT_NIX_SHELL=" (dev)";
-        fi
+      if [[ -z "$IN_NIX_SHELL" ]]
+      then
+      _PROMPT_NIX_SHELL="";
+      else
+      _PROMPT_NIX_SHELL=" (dev)";
+      fi
       }
       setopt prompt_subst
       export PROMPT='%n@%U%m%u''${_PROMPT_NIX_SHELL}> '
