@@ -38,6 +38,9 @@
     # if `xcode-install --select` isn't run first
     pkgs.gcc
     pkgs.git
+    # macOS only apps
+    pkgs.whisky-bin
+    # macOS utilities
     pkgs.darwin.trash # TODO cross-platform
   ];
 
