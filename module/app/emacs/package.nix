@@ -93,6 +93,8 @@ pkgs.emacsWithPackagesFromUsePackage {
         (defvar my/treesitter-python "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-python "libtree-sitter-python.so"}")
         (defvar my/treesitter-javascript "${make-grammar pkgs.tree-sitter-grammars.tree-sitter-javascript "libtree-sitter-javascript.so"}")
 
+        (defvar my/snippets-dir "${./snippets}")
+
         (provide 'nix-settings)
       '');
     })

@@ -363,6 +363,16 @@ Auto-completion of matching parenthesis is really useful, although it can get in
   :hook (prog-mode . electric-pair-mode))
 #+end_src
 
+Snippets with yasnippet
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :ensure t
+  :custom
+  (yas-snippet-dirs (list my/snippets-dir))
+  :config
+  (yas-global-mode 1))
+#+end_src
+
 ** Apps
 Eradio allows listening to internet radio in Emacs.
 # TODO broken?
