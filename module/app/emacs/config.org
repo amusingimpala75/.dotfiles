@@ -111,6 +111,7 @@ I also like to make it easy to modify the font size, bound to `C--` and `C-=`
   (ligature-set-ligatures 'prog-mode '("==" "!=" ">=" "<=" "->" "=>" ".." "..." "++" "+=" "::=" "__"))
   (global-ligature-mode t))
 #+end_src
+
 ** Org Mode
 #+begin_src emacs-lisp
 (use-package org
@@ -269,6 +270,8 @@ Configure java to use jdtls/eglot
 (use-package cc-mode
   :after treesit
   :hook (c-ts-mode . eglot-ensure)
+  :custom
+  (c-ts-mode-indent-offset 4)
   :init
   (add-to-list 'treesit-extra-load-path my/treesitter-c)
   (add-to-list 'treesit-extra-load-path my/treesitter-cpp))
