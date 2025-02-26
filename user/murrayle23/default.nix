@@ -15,12 +15,14 @@
     # ../../module/app/firefox
     ../../module/cli/git
     ../../module/cli/nix
+    ../../module/cli/zsh
     ../../module/font
     ../../module/theme
   ];
 
   home.packages = with pkgs; [
     fastfetch
+    scc
     tree
     yq-go
   ];
@@ -29,18 +31,5 @@
 
   home.shellAliases = {
     ll = "ls -lah";
-  };
-
-  programs.zsh = {
-    enable = true;
-    dotDir = ".config/zsh";
-    initExtra = ''
-      export PROMPT="$USERNAME@%U$(hostname -s)%u> "
-      export RPROMPT="%F{green}%~%f"
-    '';
-    autosuggestion = {
-      enable = true;
-      highlight = "bg=cyan,bold,underline";
-    };
   };
 }
