@@ -1,5 +1,5 @@
 # -*- mode:snippet -*-
-# name: main_file
+# name: main-file
 # key: mainf
 # --
 def main():
