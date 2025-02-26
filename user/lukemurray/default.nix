@@ -16,6 +16,7 @@
     ../../module/app/spotify
     ../../module/cli/git
     ../../module/cli/nix
+    ../../module/cli/zsh
     ../../module/desktop/aerospace
     ../../module/desktop/jankyborders
     ../../module/desktop/sketchybar
@@ -50,28 +51,6 @@
   home.shellAliases = {
     ll = "ls -lah";
     monitor = "alacritty --config-file ${./monitor.toml}"; # TODO proper package
-  };
-
-  programs.zsh = {
-    enable = true;
-    dotDir = ".config/zsh";
-    initExtra = ''
-      function precmd {
-      if [[ -z "$IN_NIX_SHELL" ]]
-      then
-      _PROMPT_NIX_SHELL="";
-      else
-      _PROMPT_NIX_SHELL=" (dev)";
-      fi
-      }
-      setopt prompt_subst
-      export PROMPT='%n@%U%m%u''${_PROMPT_NIX_SHELL}> '
-      export RPROMPT="%F{green}%~%f"
-    '';
-    autosuggestion = {
-      enable = true;
-      highlight = "bg=cyan,bold,underline";
-    };
   };
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
