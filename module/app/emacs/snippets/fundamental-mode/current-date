@@ -1,5 +1,5 @@
 # -*- mode:snippet -*-
 # name: current-date
-# key: date-now
+# key: now
 # --
 `(format-time-string "%Y-%m-%d")`
