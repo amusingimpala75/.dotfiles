@@ -10,7 +10,6 @@ in {
       id = 0;
       name = profile;
       isDefault = true;
-      userChrome = builtins.readFile ./userChrome.css;
       search = {
         default = "DuckDuckGo";
         force = true;
@@ -48,7 +47,7 @@ in {
     inherit profile;
   };
 
-  home.activation.default-browser = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.default-browser = lib.mkIf pkgs.stdenv.isDarwin (lib.hm.dag.entryAfter ["writeBoundary"] ''
     ${pkgs.defaultbrowser}/bin/defaultbrowser firefox
-  '';
+  '');
 }
