@@ -27,6 +27,7 @@
   home.packages = with pkgs; [
     btop # TODO proper monitor package
     fd
+    fzf
     jq
     ripgrep
     scc # SLOC counting
@@ -50,7 +51,6 @@
 
   home.shellAliases = {
     ll = "ls -lah";
-    monitor = "alacritty --config-file ${./monitor.toml}"; # TODO proper package
   };
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com

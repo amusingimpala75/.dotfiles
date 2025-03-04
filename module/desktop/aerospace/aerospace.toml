@@ -44,7 +44,9 @@ outer.bottom =     @outer_gap_bottom@
 alt-enter = 'exec-and-forget open -na Ghostty'
 
 alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
+
+# accidentally enabling this is annoying
+# alt-comma = 'layout accordion horizontal vertical'
 
 alt-h = 'focus left'
 alt-j = 'focus down'
@@ -102,11 +104,12 @@ alt-shift-l = ['join-with right', 'mode main']
 
 [mode.launch.binding]
 esc = 'mode main'
-m = ['exec-and-forget zsh -c monitor', 'mode main']
-x = ['exec-and-forget alacritty --config-file ~/.local/share/alacritty/open_launcher.toml', 'mode main']
+m = ['exec-and-forget @ghostty_and@ "@float_and@ btop"', 'mode main']
+x = ['exec-and-forget @ghostty_and@ "@float_and@ @launcher@"', 'mode main']
 f = ['exec-and-forget open ~/', 'mode main']
 s = ['exec-and-forget open "x-apple.systempreferences:"', 'mode main']
 p = ['exec-and-forget open /System/Applications/Passwords.app', 'mode main']
+r = ['exec-and-forget @ghostty_and@ "@float_and@ zsh -ic reload-hm" --wait-after-command', 'mode main']
 
 [[on-window-detected]]
 if.window-title-regex-substring = 'Application Launcher'

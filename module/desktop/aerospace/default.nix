@@ -8,6 +8,9 @@
 
       sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
       bash = "${pkgs.bash}/bin/bash";
+      launcher = "${pkgs.my.launcher}/bin/launcher";
+      float_and = "${pkgs.float_and}/bin/float_and";
+      ghostty_and = "${pkgs.ghostty_and}/bin/ghostty_and";
 
       "inner_gap" = "${toString (userSettings.gaps.inner * 2)}";
       "outer_gap" = "${toString (userSettings.gaps.outer)}";
@@ -22,8 +25,7 @@
       Program = "/usr/bin/open";
       ProgramArguments = [
         Program
-        "-a"
-        "AeroSpace"
+        "${pkgs.aerospace}/Applications/AeroSpace.app"
       ];
       KeepAlive = false;
     };
