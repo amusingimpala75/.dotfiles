@@ -11,7 +11,7 @@
 
   imports = [
     ../../module/app/emacs
-    # ../../module/app/firefox
+    ../../module/app/firefox
     ../../module/app/ghostty
     ../../module/app/spotify
     ../../module/cli/git

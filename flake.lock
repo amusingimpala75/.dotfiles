@@ -288,7 +288,8 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
         "sbarlua": "sbarlua",
-        "spicetify": "spicetify"
+        "spicetify": "spicetify",
+        "textfox": "textfox"
       }
     },
     "sbarlua": {
@@ -345,6 +346,30 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "textfox": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nur": [
+          "nur"
+        ]
+      },
+      "locked": {
+        "lastModified": 1741122022,
+        "narHash": "sha256-bQ7ZqgN1mF/y8BPYRWyZH9HF9u7+R5CPjWlnapeldBM=",
+        "owner": "amusingimpala75",
+        "repo": "textfox",
+        "rev": "8c0d7fe7d923750a0076eebe4f254d8342f2d2f1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amusingimpala75",
+        "ref": "fix-nur",
+        "repo": "textfox",
         "type": "github"
       }
     },
