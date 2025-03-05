@@ -40,6 +40,29 @@
         "type": "github"
       }
     },
+    "bible": {
+      "inputs": {
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1741210719,
+        "narHash": "sha256-1bkA7gkOwL2rkni1FQwhAJT2KVePQlrNNjXTJDgVWIs=",
+        "owner": "amusingimpala75",
+        "repo": "bible.sh",
+        "rev": "8528693982613c83723faf4f2bf3f9eaaaf09f90",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amusingimpala75",
+        "repo": "bible.sh",
+        "type": "github"
+      }
+    },
     "emacs-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -277,6 +300,7 @@
     "root": {
       "inputs": {
         "alacritty-theme": "alacritty-theme",
+        "bible": "bible",
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",

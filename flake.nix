@@ -39,6 +39,10 @@
 
     spicetify.url = "github:Gerg-L/spicetify-nix";
     spicetify.inputs.nixpkgs.follows = "nixpkgs";
+
+    bible.url = "github:amusingimpala75/bible.sh";
+    bible.inputs.nixpkgs.follows = "nixpkgs";
+    bible.inputs.flake-parts.follows = "flake-parts";
   };
   outputs =
     {
@@ -72,6 +76,7 @@
         config.allowUnfree = true;
         overlays = [
           inputs.alacritty-theme.overlays.default
+          inputs.bible.overlays.default
           inputs.emacs-overlay.overlays.default
           inputs.nix-darwin-firefox.overlay
           inputs.nur.overlays.default

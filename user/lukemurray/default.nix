@@ -25,7 +25,8 @@
   ];
 
   home.packages = with pkgs; [
-    btop # TODO proper monitor package
+    btop
+    bible.asv
     fd
     fzf
     jq
