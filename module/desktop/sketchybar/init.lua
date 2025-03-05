@@ -38,6 +38,7 @@ require('items.spaces')
 
 -- Right Items
 require('items.time')
+require('items.water')
 
 sbar.end_config()
 
