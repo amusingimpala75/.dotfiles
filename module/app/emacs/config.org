@@ -388,9 +388,17 @@ Eradio allows listening to internet radio in Emacs.
 #+end_src
 
 ** Miscellaneous
-Remove the annoying files Emacs dumps all over the system
+Remove the annoying files Emacs dumps all over the system.
+Also, I've been burned one too many times by accidentally opening a massive file with =font-lock=
 #+begin_src emacs-lisp
+(defun my/find-file-massive-basic ()
+  "If a file is large, remove features to not freeze."
+  (when (> (buffer-size) (* 256 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)))
 (use-package files
+  :hook (find-file . my/find-file-massive-basic)
   :custom
   (backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
   (create-lockfiles nil))
