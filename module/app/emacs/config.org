@@ -374,8 +374,12 @@ Auto-completion of matching parenthesis is really useful, although it can get in
   :hook (prog-mode . electric-pair-mode))
 #+end_src
 
-Snippets with yasnippet
+Snippets with yasnippet, plus a few helper functions
 #+begin_src emacs-lisp
+(defun my/longest-line (str)
+  "Return length of longest single line in `str'."
+  (seq-max (mapcar 'string-width (split-string str "\n"))))
+
 (use-package yasnippet
   :ensure t
   :custom
