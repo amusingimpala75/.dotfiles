@@ -104,7 +104,7 @@ alt-shift-l = ['join-with right', 'mode main']
 
 [mode.launch.binding]
 esc = 'mode main'
-m = ['exec-and-forget @ghostty_and@ "@float_and@ btop"', 'mode main']
+m = ['exec-and-forget @ghostty_and@ "@float_and@ @btop@"', 'mode main']
 x = ['exec-and-forget @ghostty_and@ "@float_and@ @launcher@"', 'mode main']
 f = ['exec-and-forget open ~/', 'mode main']
 s = ['exec-and-forget open "x-apple.systempreferences:"', 'mode main']

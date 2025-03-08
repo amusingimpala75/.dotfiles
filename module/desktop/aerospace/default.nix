@@ -8,6 +8,7 @@
 
       sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
       bash = "${pkgs.bash}/bin/bash";
+      btop = "${pkgs.btop}/bin/btop";
       launcher = "${pkgs.my.launcher}/bin/launcher";
       float_and = "${pkgs.float_and}/bin/float_and";
       ghostty_and = "${pkgs.ghostty_and}/bin/ghostty_and";

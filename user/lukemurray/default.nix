@@ -25,7 +25,6 @@
   ];
 
   home.packages = with pkgs; [
-    btop
     bible.asv
     fd
     fzf
