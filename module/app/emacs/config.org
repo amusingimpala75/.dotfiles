@@ -434,6 +434,7 @@ Never use tabs; always spaces
   :custom (indent-tabs-mode nil))
 #+end_src
 
+Indent guides to check indentation
 #+begin_src emacs-lisp
 (use-package indent-bars
   :ensure t
@@ -446,4 +447,17 @@ Never use tabs; always spaces
   (indent-bars-treesitter-scope '((python function_definition class_definition for_statement if_statement with_statement while_statement))))
 #+end_src
 
+Gotta get those nice looking SVG tags
+#+begin_src emacs-lisp
+(use-package svg-tag-mode
+  :ensure t
+  :config
+  (global-svg-tag-mode 1)
+  :custom
+  (svg-tag-tags '((":TODO:" . ((lambda (tag)
+                                 (svg-tag-make "TODO" :face 'org-tag
+                                               :radius 4 :inverse t :margin 0))))
+                  ("|[0-9a-zA-z- ]+|" . ((lambda (tag)
+                                           (svg-tag-make tag :beg 1 :end -1 :margin 0)))))))
+#+end_src
 # TODO: eat, treesit-utils, go/other prog modes, custom modeline, ibuffer/dired sidebars, flymake, dape, magit/forge, hideshow, all-the-icons (or alt.), golden-ratio, dimmer
