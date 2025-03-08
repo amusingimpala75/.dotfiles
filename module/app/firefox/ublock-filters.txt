@@ -1,0 +1,11 @@
+! ======== Custom uBlockOrigin Filter lists ========
+
+! ======== Remove the stupid Google sign-in popup on various websites ========
+
+! https://www.reddit.com
+||accounts.google.com/gsi/iframe/select?client_id=705819728788-b2c1kcs7tst3b7ghv7at0hkqmtc68ckl.apps.googleusercontent.com
+
+! https://stackoverflow.com
+||accounts.google.com/gsi/iframe/select?client_id=717762328687-iludtf96g1hinl76e4lc1b9a82g457nn.apps.googleusercontent.com
+
+! ======== End of filter lists =========

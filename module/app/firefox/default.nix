@@ -1,8 +1,15 @@
-{ lib, config, pkgs, userSettings, ...}:
+{
+  lib,
+  config,
+  pkgs,
+  userSettings,
+  ...
+}:
 let
   package = if pkgs.stdenv.isDarwin then pkgs.firefox-bin else pkgs.firefox;
   profile = "default-release";
-in {
+in
+{
   programs.firefox = {
     inherit package;
     enable = true;
@@ -26,19 +33,39 @@ in {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "trailhead.firstrun.didSeeAboutWelcome" = true;
       };
-      extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-        darkreader
-        enhanced-github
-        gaoptout
-        github-file-icons
-        gruvbox-dark-theme # TODO integrate with theme system
-        istilldontcareaboutcookies
-        # sideberry # done by textfox
-        sponsorblock
-        ublock-origin
-        untrap-for-youtube
-        vimium
-      ];
+      extensions = {
+        force = true;
+        packages = with pkgs.nur.repos.rycee.firefox-addons; [
+          darkreader
+          enhanced-github
+          gaoptout
+          github-file-icons
+          gruvbox-dark-theme # TODO integrate with theme system
+          istilldontcareaboutcookies
+          # sideberry # done by textfox
+          sponsorblock
+          ublock-origin
+          untrap-for-youtube
+          vimium
+        ];
+        settings = {
+          "uBlock0@raymondhill.net".settings = {
+            selectedFilterLists = [
+              "user-filters"
+              "ublock-filters"
+              "ublock-badware"
+              "ublock-privacy"
+              "ublock-unbreak"
+              "ublock-quick-fixes"
+              "easylist"
+              "easyprivacy"
+              "urlhaus-1"
+              "plowe-0"
+            ];
+            user-filters = builtins.readFile ./ublock-filters.txt;
+          };
+        };
+      };
     };
   };
 
@@ -47,7 +74,9 @@ in {
     inherit profile;
   };
 
-  home.activation.default-browser = lib.mkIf pkgs.stdenv.isDarwin (lib.hm.dag.entryAfter ["writeBoundary"] ''
-    ${pkgs.defaultbrowser}/bin/defaultbrowser firefox
-  '');
+  home.activation.default-browser = lib.mkIf pkgs.stdenv.isDarwin (
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      ${pkgs.defaultbrowser}/bin/defaultbrowser firefox
+    ''
+  );
 }
