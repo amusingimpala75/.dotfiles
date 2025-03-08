@@ -150,7 +150,7 @@ While many READMEs are in Markdown, this is actually here so that Eldoc (and thu
 #+begin_src emacs-lisp
 (use-package markdown-mode
   :ensure t
-  :mode ("README\\.md'\\" . gfm-mode))
+  :mode ("README\\.md\\'" . gfm-mode))
 #+end_src
 
 *** Nix
@@ -169,7 +169,6 @@ Since this is an emacs configuration after all, we use nix-mode
 *** \LaTeX
 \LaTeX is a necessary component for document editing
 #+begin_src emacs-lisp
-
 (defun my/add-bin-folder (path)
   (add-to-list 'exec-path path)
   (setenv "PATH" (concat (getenv "PATH") ":" path)))
