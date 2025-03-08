@@ -9,6 +9,9 @@
     ];
     userEmail = userSettings.git-email;
     userName = userSettings.git-username;
+    extraConfig = {
+      init.defaultBranch = "master";
+    };
   };
 
   programs.git-credential-oauth.enable = true;
