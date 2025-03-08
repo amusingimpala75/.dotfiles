@@ -28,8 +28,7 @@ in {
 
       quit-after-last-window-closed = true;
 
-      # macos-titlebar-style = hidden
-      window-decoration = false;
+      macos-titlebar-style = "hidden";
       macos-option-as-alt = true;
 
       # TODO genericize
