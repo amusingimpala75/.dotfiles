@@ -145,6 +145,14 @@ Org-modern just makes things look nicer
 #+end_src
 
 ** Language Support
+*** Markdown
+While many READMEs are in Markdown, this is actually here so that Eldoc (and thus corfu-popupinfo) renders docstrings correctly
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md'\\" . gfm-mode))
+#+end_src
+
 *** Nix
 Since this is an emacs configuration after all, we use nix-mode
 #+begin_src emacs-lisp
