@@ -1,4 +1,4 @@
-{ ... }:
+{ userSettings, ... }:
 {
   imports = [ ../direnv ];
 
@@ -21,14 +21,14 @@
           _PROMPT_NIX_SHELL=""
         fi
       }
-      precmd_functions=(precmd_nix_shell)
+      precmd_functions=(precmd_nix_shell, _zsh_autosuggest_start)
       setopt prompt_subst
       export PROMPT='%n@%U%m%u''${_PROMPT_NIX_SHELL}> '
       export RPROMPT="%F{green}%~%f"
     '';
     autosuggestion = {
       enable = true;
-      highlight = "bg=cyan,bold,underline";
+      highlight = "fg=#${userSettings.theme.base03},bold,underline";
     };
   };
 }
