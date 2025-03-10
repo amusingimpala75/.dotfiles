@@ -456,8 +456,6 @@ Gotta get those nice looking SVG tags
   :custom
   (svg-tag-tags '((":TODO:" . ((lambda (tag)
                                  (svg-tag-make "TODO" :face 'org-tag
-                                               :radius 4 :inverse t :margin 0))))
-                  ("|[0-9a-zA-z- ]+|" . ((lambda (tag)
-                                           (svg-tag-make tag :beg 1 :end -1 :margin 0)))))))
+                                               :radius 4 :inverse t :margin 0)))))))
 #+end_src
 # TODO: eat, treesit-utils, go/other prog modes, custom modeline, ibuffer/dired sidebars, flymake, dape, magit/forge, hideshow, all-the-icons (or alt.), golden-ratio, dimmer
