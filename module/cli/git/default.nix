@@ -2,6 +2,7 @@
 
 {
   programs.git = {
+    delta.enable = true;
     enable = true;
     ignores = [
       "*~"
@@ -10,7 +11,16 @@
     userEmail = userSettings.git-email;
     userName = userSettings.git-username;
     extraConfig = {
+      branch.sort = "-committerdate";
+      column.ui = "auto";
+      commit.verbose = true;
+      diff = {
+        algorithm = "histogram";
+        renames = true;
+      };
+      help.autocorrect = "prompt";
       init.defaultBranch = "master";
+      tag.sort = "version:refname";
     };
   };
 
