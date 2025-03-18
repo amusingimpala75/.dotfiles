@@ -23,7 +23,7 @@ in
         force = true;
       };
       settings = {
-        "app.update.channel" = "default"; # TODO prevent autoupdate
+        "app.update.auto" = false;
         "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
         "browser.newtabpage.activity-stream.feeds.wallpaperfeed" = false;
