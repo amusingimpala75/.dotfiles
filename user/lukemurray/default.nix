@@ -25,7 +25,7 @@
   ];
 
   home.packages = with pkgs; [
-    bible.asv
+    (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
     fd
     fzf
     jq

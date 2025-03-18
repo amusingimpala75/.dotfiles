@@ -50,11 +50,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1741916757,
-        "narHash": "sha256-SaliUmtmaZI596E8iCphr/OU3Jocs8bDooloXrseUaI=",
+        "lastModified": 1742307024,
+        "narHash": "sha256-KcwLPrjdWiGpNzIJINkBiqJTFdaXSpTkIA3dKKIn0+Q=",
         "owner": "amusingimpala75",
         "repo": "bible.sh",
-        "rev": "dc18955f76f6699e578e53cee811285c7921c906",
+        "rev": "80b46eeeb5ed12b4999d170df98b11ba932ae1c5",
         "type": "github"
       },
       "original": {
