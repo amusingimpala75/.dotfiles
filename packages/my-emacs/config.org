@@ -76,8 +76,8 @@ I also like a transparent background (still waiting on alpha-background on mac)
 #+begin_src emacs-lisp
 ;; Update if macOS ever supports alpha-background
 (defvar my/alpha-setting (if (string-match-p "PGTK" system-configuration-features)
-                             `(alpha-background . ,(- my/opacity 5))
-                           `(alpha . ,(+ my/opacity 5))))
+                             `(alpha-background . ,(max 0 (- my/opacity 5)))
+                           `(alpha . ,(min 100 (+ my/opacity 5)))))
 (use-package frame
   :custom
   (default-frame-alist `(,my/alpha-setting
@@ -247,9 +247,7 @@ Configure java to use jdtls/eglot
   :hook (rust-ts-mode . eglot-ensure)
   :custom
   (rust-mode-treesitter-derive t)
-  (rust-format-on-save t)
-  :init
-  (add-to-list 'treesit-extra-load-path my/treesitter-rust))
+  (rust-format-on-save t))
 #+end_src
 
 *** Lua
@@ -277,10 +275,7 @@ Configure java to use jdtls/eglot
   :after treesit
   :hook (c-ts-mode . eglot-ensure)
   :custom
-  (c-ts-mode-indent-offset 4)
-  :init
-  (add-to-list 'treesit-extra-load-path my/treesitter-c)
-  (add-to-list 'treesit-extra-load-path my/treesitter-cpp))
+  (c-ts-mode-indent-offset 4))
 #+end_src
 
 *** Python
@@ -289,9 +284,7 @@ Configure java to use jdtls/eglot
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 (use-package python
   :after treesit
-  :hook (python-ts-mode  . eglot-ensure)
-  :init
-  (add-to-list 'treesit-extra-load-path my/treesitter-python))
+  :hook (python-ts-mode  . eglot-ensure))
 #+end_src
 
 *** JavaScript
@@ -300,9 +293,7 @@ Configure java to use jdtls/eglot
 (add-to-list 'major-mode-remap-alist '(javascript-mode . js-ts-mode))
 (use-package js
   :after treesit
-  :hook (js-ts-mode . eglot-ensure)
-  :init
-  (add-to-list 'treesit-extra-load-path my/treesitter-javascript))
+  :hook (js-ts-mode . eglot-ensure))
 #+end_src
 
 ** Completion

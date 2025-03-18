@@ -3,7 +3,13 @@
 let
   emacsTerm = "TERM=alacritty-direct emacsclient -nw";
   emacsGui = "emacsclient -c";
-  emacsPackage = (import ./package.nix) pkgs userSettings;
+  emacsPackage = pkgs.my.emacs.override {
+    font-size = userSettings.font.size;
+    font-family-fixed = userSettings.font.family.fixed-pitch;
+    font-family-variable = userSettings.font.family.variable-pitch;
+    opacity = userSettings.opacity;
+    theme = userSettings.theme;
+  };
 in
 {
   home.packages = [

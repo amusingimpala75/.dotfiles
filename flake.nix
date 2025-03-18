@@ -89,6 +89,7 @@
 
               ghostty-bin = final.callPackage ./packages/ghostty.nix { };
               whisky-bin = final.callPackage ./packages/whisky.nix { };
+              my.emacs = final.callPackage ./packages/my-emacs { };
               my.launcher = final.callPackage ./packages/launcher.nix { };
               scriptWrapper = final.callPackage ./packages/scriptWrapper.nix { };
               float_and = final.callPackage ./packages/float_and.nix { };
@@ -165,11 +166,7 @@
         {
           default = self.packages.${platform}.installer;
 
-          emacs = (import ./module/app/emacs/package.nix) pkgs {
-            opacity = 0.8;
-            font = import ./module/font/iosevka; # TODO this will need to be fixed
-            theme = import ./module/theme/generated/gruvbox-dark-medium;
-          };
+          emacs = pkgs.callPackage ./packages/my-emacs {};
 
           installer = pkgs.writeShellApplication {
             name = "install";
