@@ -262,7 +262,6 @@ Configure java to use jdtls/eglot
 
 *** Zig
 #+begin_src emacs-lisp
-(my/add-bin-folder my/zls-bin)
 (use-package zig-mode
   :ensure t
   :hook (zig-mode . eglot-ensure))
@@ -464,5 +463,13 @@ Gotta get those nice looking SVG tags
   (svg-tag-tags '((":TODO:" . ((lambda (tag)
                                  (svg-tag-make "TODO" :face 'org-tag
                                                :radius 4 :inverse t :margin 0)))))))
+#+end_src
+
+* Direnv
+Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
+#+begin_src emacs-lisp
+(use-package envrc
+  :ensure t
+  :hook (after-init . envrc-global-mode))
 #+end_src
 # TODO: eat, treesit-utils, go/other prog modes, custom modeline, ibuffer/dired sidebars, flymake, dape, magit/forge, hideshow, all-the-icons (or alt.), golden-ratio, dimmer, cape (supposedly can get elisp completion in org and merge yasnippet and eglot capfs), gptel

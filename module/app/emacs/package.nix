@@ -81,7 +81,6 @@ pkgs.emacsWithPackagesFromUsePackage {
 
         (defvar my/jdtls-bin "${pkgs.jdt-language-server}/bin")
         (defvar my/lua-language-server-bin "${pkgs.lua-language-server}/bin")
-        (defvar my/zls-bin "${pkgs.zls}/bin")
         (defvar my/rust-analyzer-bin "${pkgs.rust-analyzer}/bin")
         (defvar my/clang-bin "${clangd}/bin")
         (defvar my/python-lsp-server-bin "${pylsp}/bin")
