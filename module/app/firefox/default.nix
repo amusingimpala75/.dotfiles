@@ -21,6 +21,20 @@ in
       search = {
         default = "DuckDuckGo";
         force = true;
+        engines = {
+          "Nixpkgs" = {
+            urls = [{
+              template = "https://search.nixos.org/packages";
+              params = [
+                { name = "query"; value = "{searchTerms}"; }
+                { name = "type"; value = "packages"; }
+                { name = "channel"; value = "unstable"; }
+              ];
+            }];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = [ "@np" ];
+          };
+        };
       };
       settings = {
         "app.update.auto" = false;
