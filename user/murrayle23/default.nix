@@ -10,9 +10,8 @@
   programs.home-manager.enable = true;
 
   imports = [
-    # ../../module/app/alacritty
     ../../module/app/emacs
-    # ../../module/app/firefox
+    ../../module/app/firefox
     ../../module/cli/git
     ../../module/cli/nix
     ../../module/cli/zsh
@@ -21,7 +20,10 @@
   ];
 
   home.packages = with pkgs; [
+    (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
     fastfetch
+    fd
+    ripgrep
     scc
     tree
     yq-go
