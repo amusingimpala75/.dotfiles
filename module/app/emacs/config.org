@@ -387,6 +387,13 @@ Snippets with yasnippet, plus a few helper functions
   (yas-global-mode 1))
 #+end_src
 
+Avy to help with jumping around text
+#+begin_src emacs-lisp
+(use-package avy
+  :ensure t
+  :bind (("M-j" . avy-goto-char-timer)))
+#+end_src
+
 ** Apps
 Eradio allows listening to internet radio in Emacs.
 # TODO broken?
@@ -458,4 +465,4 @@ Gotta get those nice looking SVG tags
                                  (svg-tag-make "TODO" :face 'org-tag
                                                :radius 4 :inverse t :margin 0)))))))
 #+end_src
-# TODO: eat, treesit-utils, go/other prog modes, custom modeline, ibuffer/dired sidebars, flymake, dape, magit/forge, hideshow, all-the-icons (or alt.), golden-ratio, dimmer
+# TODO: eat, treesit-utils, go/other prog modes, custom modeline, ibuffer/dired sidebars, flymake, dape, magit/forge, hideshow, all-the-icons (or alt.), golden-ratio, dimmer, cape (supposedly can get elisp completion in org and merge yasnippet and eglot capfs), gptel
