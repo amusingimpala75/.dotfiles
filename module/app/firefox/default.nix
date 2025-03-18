@@ -8,6 +8,7 @@
 let
   package = if pkgs.stdenv.isDarwin then pkgs.firefox-bin else pkgs.firefox;
   profile = "default-release";
+  i_externally_support_creators = false;
 in
 {
   programs.firefox = {
@@ -43,10 +44,11 @@ in
           gruvbox-dark-theme # TODO integrate with theme system
           istilldontcareaboutcookies
           # sideberry # done by textfox
-          sponsorblock
-          ublock-origin
           untrap-for-youtube
           vimium
+        ] ++ lib.optionals i_externally_support_creators [
+          sponsorblock
+          ublock-origin
         ];
         settings = {
           "uBlock0@raymondhill.net".settings = {
