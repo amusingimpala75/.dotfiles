@@ -10,11 +10,9 @@
   programs.home-manager.enable = true;
 
   imports = [
+    ../../module/home
     ../../module/app/emacs
     ../../module/app/firefox
-    ../../module/cli/git
-    ../../module/cli/nix
-    ../../module/cli/zsh
     ../../module/font
     ../../module/theme
   ];
@@ -28,6 +26,20 @@
     tree
     yq-go
   ];
+
+  my.direnv.enable = true;
+
+  my.git = {
+    enable = true;
+    email = "69653100+amusingimpala75@users.noreply.github.com";
+    username = "amusingimpala75";
+  };
+
+  my.nix.enable = true;
+
+  my.zsh.enable = true;
+
+  theme = userSettings.theme; # TODO import directly here after we banish userSettings
 
   news.display = "silent";
 
