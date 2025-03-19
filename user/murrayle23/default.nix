@@ -11,7 +11,6 @@
 
   imports = [
     ../../module/home
-    ../../module/app/emacs
     ../../module/app/firefox
     ../../module/font
     ../../module/theme
@@ -28,6 +27,8 @@
   ];
 
   my.direnv.enable = true;
+
+  my.emacs.enable = true;
 
   my.git = {
     enable = true;
