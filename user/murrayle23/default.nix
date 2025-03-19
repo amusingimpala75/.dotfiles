@@ -1,14 +1,5 @@
-{ lib, config, pkgs, username, hostname, dotfilesDir, userSettings, ... }:
-
-# TODO: add wallpaper (both with nix-wallpaper,
-#       and with some custom way to set the Index.plist
+{ pkgs, userSettings, ... }:
 {
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
-  home.stateVersion = "24.05"; # Don't change; kept for backwards compatibility reasons.
-
-  programs.home-manager.enable = true;
-
   imports = [
     ../../module/home
     ../../module/app/firefox
@@ -41,8 +32,6 @@
   my.zsh.enable = true;
 
   theme = userSettings.theme; # TODO import directly here after we banish userSettings
-
-  news.display = "silent";
 
   home.shellAliases = {
     ll = "ls -lah";
