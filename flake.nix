@@ -88,8 +88,9 @@
                 nixpkgs-stable-nixos.legacyPackages.${prev.system};
 
             vlc = final.vlc-bin;
-            firefox = final.firefox-bin; # firefox-bin from nix-darwin-firefox overlay
+            firefox = if prev.stdenv.isDarwin then final.firefox-bin else prev.firefox; # firefox-bin from nix-darwin-firefox overlay
             ghostty-bin = final.callPackage ./packages/ghostty.nix { };
+            ghostty = if prev.stdenv.isDarwin then final.ghostty-bin else prev.ghostty; # ghostty-bin from my flake
             whisky-bin = final.callPackage ./packages/whisky.nix { };
             my.emacs = final.callPackage ./packages/my-emacs { };
             my.launcher = final.callPackage ./packages/launcher.nix { };

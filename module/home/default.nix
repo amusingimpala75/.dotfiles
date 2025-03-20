@@ -6,6 +6,7 @@ in {
     ./direnv
     ./emacs
     ./firefox
+    ./ghostty
     ./git
     ./nix
     ./zsh

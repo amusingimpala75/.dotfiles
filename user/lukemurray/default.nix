@@ -4,7 +4,6 @@
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/app/ghostty
     ../../module/app/spotify
     ../../module/home
     ../../module/desktop/aerospace
@@ -25,6 +24,11 @@
     enable = true;
     email = "69653100+amusingimpala75@users.noreply.github.com";
     username = "amusingimpala75";
+  };
+
+  my.ghostty = {
+    enable = true;
+    package = null; # TODO fix weird errors on macOS with ghostty managed by us (see the module for :TODO: comment)
   };
 
   my.nix.enable = true;
