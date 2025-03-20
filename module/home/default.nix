@@ -3,6 +3,7 @@ let
   stdenv = pkgs.stdenv;
 in {
   imports = [
+    ./alacritty
     ./direnv
     ./emacs
     ./firefox
