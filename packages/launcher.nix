@@ -1,4 +1,5 @@
 {
+  fd,
   fzf,
   makeWrapper,
   symlinkJoin,
@@ -12,7 +13,7 @@ let
   });
 in symlinkJoin {
   inherit name;
-  paths = [ script fzf ];
+  paths = [ script fd fzf ];
   buildInputs = [ makeWrapper ];
   postBuild = "wrapProgram $out/bin/${name} --prefix PATH : $out/bin";
 }

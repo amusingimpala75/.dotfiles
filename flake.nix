@@ -174,6 +174,8 @@
             name = "install";
             text = ''${./install.sh} "$@"'';
           };
+
+          launcher = pkgs.callPackage ./packages/launcher.nix { };
         }
       );
       apps = forAllSystems (platform: {
@@ -187,6 +189,11 @@
         installer = {
           type = "app";
           program = "${self.packages.${platform}.installer}/bin/install";
+        };
+
+        launcher = {
+          type = "app";
+          program = "${self.packages.${platform}.launcher}/bin/launcher";
         };
       });
     };
