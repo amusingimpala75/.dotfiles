@@ -5,6 +5,7 @@ in {
   imports = [
     ./alacritty
     ./bat
+    ./darwin
     ./direnv
     ./emacs
     ./firefox

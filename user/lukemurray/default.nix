@@ -4,12 +4,13 @@
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/desktop/aerospace
     ../../module/desktop/jankyborders
     ../../module/desktop/sketchybar
     ../../module/font
     ../../module/theme
   ];
+
+  my.aerospace.enable = true;
 
   my.bat.enable = true;
 
