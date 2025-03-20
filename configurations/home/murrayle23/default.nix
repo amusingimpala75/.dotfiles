@@ -1,8 +1,8 @@
 { pkgs, userSettings, ... }:
 {
   imports = [
-    ../../module/font
-    ../../module/theme
+    ../../../modules/font
+    ../../../modules/theme
   ];
 
   home.packages = with pkgs; [

@@ -28,7 +28,7 @@
   font-family-fixed ? "Iosevka",
   font-family-variable ? "Iosevka Etoile",
   opacity ? 1.0,
-  theme ? import ../../module/theme/generated/gruvbox-dark-hard,
+  theme ? import ../../modules/theme/generated/gruvbox-dark-hard,
   ...
 }:
 let

@@ -79,19 +79,12 @@
           inputs.emacs-overlay.overlays.default
           inputs.nix-darwin-firefox.overlay
           inputs.nur.overlays.default
-          (final: prev: {
-            spicetify = inputs.spicetify.legacyPackages.${prev.system};
+          inputs.sbarlua.overlay
+          self.overlays.default # for my packages, whether that be script, customization, or vendoring
 
-            ghostty-bin = final.callPackage ./packages/ghostty.nix { };
-            whisky-bin = final.callPackage ./packages/whisky.nix { };
+          (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
 
-            my.emacs = final.callPackage ./packages/my-emacs { };
-            my.launcher = final.callPackage ./packages/launcher.nix { };
-
-            scriptWrapper = final.callPackage ./packages/scriptWrapper.nix { };
-            float_and = final.callPackage ./packages/float_and.nix { };
-            ghostty_and = final.callPackage ./packages/ghostty_and.nix { };
-          } // lib.optionalAttrs prev.stdenv.isDarwin {
+          (final: prev: lib.optionalAttrs prev.stdenv.isDarwin {
             # Override certain packages with
             # their binary equivalents on macOS.
             vlc = final.vlc-bin;
@@ -100,13 +93,13 @@
 
             # provide stable variants
             stable = nixpkgs-stable-darwin.legacyPackages.${prev.system};
-          } // lib.optionalAttrs prev.stdenv.isLinux {
+          })
+
+          (final: prev: lib.optionalAttrs prev.stdenv.isLinux {
             stable = nixpkgs-stable-nixos.legacyPackages.${prev.system};
           })
-          inputs.sbarlua.overlay
         ];
       };
-      getHostArchitecture = system: import ./system/${system}/system.nix;
       forAllSystems = lib.genAttrs [
         "aarch64-darwin"
         "x86_64-darwin"
@@ -119,29 +112,29 @@
       darwinConfigurations = lib.genAttrs darwinHosts (
         system:
         let
-          sys = getHostArchitecture system;
+          sys = import ./configurations/darwin/${system}/system.nix;
         in
         nix-darwin.lib.darwinSystem {
           system = sys.arch;
           specialArgs = inputs;
           modules = [
             { nixpkgs = nixpkgsConfig; }
-            ./system/${system}
+            ./configurations/darwin/${system}
           ];
         }
       );
       nixosConfigurations = lib.genAttrs nixosHosts (
         system:
         let
-          sys = getHostArchitecture system;
+          sys = import ./configurations/nixos/${system}/system.nix;
         in
         nixpkgs.lib.nixosSystem {
           system = sys.arch;
           specialArgs = { inherit inputs; };
           modules = [
             { nixpkgs = nixpkgsConfig; }
-            ./system/${system}
-            ./module/nixos
+            ./configurations/nixos/${system}
+            ./modules/nixos
           ];
         }
       );
@@ -151,20 +144,22 @@
           userHostPair = lib.strings.splitString userHostPairSeparator userHost;
           user = builtins.elemAt userHostPair 0;
           system = builtins.elemAt userHostPair 1;
-          sys = import ./system/${system}/system.nix;
+          possible-darwin = ./configurations/darwin/${system}/system.nix;
+          possible-nixos = ./configurations/nixos/${system}/system.nix;
+          sys = import (if builtins.pathExists possible-darwin then possible-darwin else possible-nixos);
         in
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs (nixpkgsConfig // { system = sys.arch; });
           modules = [
-            ./user/${user}
-            ./module/home
+            ./configurations/home/${user}
+            ./modules/home
           ];
           extraSpecialArgs = {
             inherit inputs;
             username = user;
             dotfilesDir = dotfilesDir;
             hostname = system;
-            userSettings = import ./user/${user}/settings.nix;
+            userSettings = import ./configurations/home/${user}/settings.nix;
           };
         }
       );
@@ -176,11 +171,9 @@
         {
           default = self.packages.${platform}.install;
 
-          emacs = pkgs.callPackage ./packages/my-emacs { };
-
-          install = pkgs.callPackage ./packages/install.nix { };
-
-          launcher = pkgs.callPackage ./packages/launcher.nix { };
+          emacs = pkgs.my.emacs;
+          install = pkgs.my.install;
+          launcher = pkgs.my.launcher;
         }
       );
       apps = forAllSystems (platform: {
@@ -201,5 +194,8 @@
           program = "${self.packages.${platform}.launcher}/bin/launcher";
         };
       });
+      overlays = {
+        default = import ./overlays;
+      };
     };
 }

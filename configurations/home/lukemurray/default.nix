@@ -4,8 +4,8 @@
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/font
-    ../../module/theme
+    ../../../modules/font
+    ../../../modules/theme
   ];
 
   my = {
