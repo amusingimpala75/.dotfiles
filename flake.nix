@@ -83,17 +83,18 @@
           (final: prev: {
             stable =
               if prev.stdenv.isDarwin then
-              nixpkgs-stable-darwin.legacyPackages.${prev.system}
+                nixpkgs-stable-darwin.legacyPackages.${prev.system}
               else
-              nixpkgs-stable-nixos.legacyPackages.${prev.system};
+                nixpkgs-stable-nixos.legacyPackages.${prev.system};
 
-              ghostty-bin = final.callPackage ./packages/ghostty.nix { };
-              whisky-bin = final.callPackage ./packages/whisky.nix { };
-              my.emacs = final.callPackage ./packages/my-emacs { };
-              my.launcher = final.callPackage ./packages/launcher.nix { };
-              scriptWrapper = final.callPackage ./packages/scriptWrapper.nix { };
-              float_and = final.callPackage ./packages/float_and.nix { };
-              ghostty_and = final.callPackage ./packages/ghostty_and.nix { };
+            vlc = final.vlc-bin;
+            ghostty-bin = final.callPackage ./packages/ghostty.nix { };
+            whisky-bin = final.callPackage ./packages/whisky.nix { };
+            my.emacs = final.callPackage ./packages/my-emacs { };
+            my.launcher = final.callPackage ./packages/launcher.nix { };
+            scriptWrapper = final.callPackage ./packages/scriptWrapper.nix { };
+            float_and = final.callPackage ./packages/float_and.nix { };
+            ghostty_and = final.callPackage ./packages/ghostty_and.nix { };
           })
           inputs.sbarlua.overlay
         ];
@@ -166,7 +167,7 @@
         {
           default = self.packages.${platform}.installer;
 
-          emacs = pkgs.callPackage ./packages/my-emacs {};
+          emacs = pkgs.callPackage ./packages/my-emacs { };
 
           installer = pkgs.writeShellApplication {
             name = "install";
