@@ -4,6 +4,7 @@ let
 in {
   imports = [
     ./alacritty
+    ./bat
     ./direnv
     ./emacs
     ./firefox

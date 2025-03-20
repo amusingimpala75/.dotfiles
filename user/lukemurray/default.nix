@@ -12,6 +12,8 @@
     ../../module/theme
   ];
 
+  my.bat.enable = true;
+
   my.direnv.enable = true;
 
   my.emacs.enable = true;
@@ -40,6 +42,7 @@
 
   home.packages = with pkgs; [
     (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
+    chafa
     fd
     fzf
     jq
