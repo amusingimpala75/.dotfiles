@@ -51,7 +51,6 @@
       nixpkgs-stable-darwin,
       nixpkgs-stable-nixos,
       nix-darwin,
-      nixos-wsl,
       home-manager,
       ...
     }@inputs:
@@ -138,11 +137,12 @@
         in
         nixpkgs.lib.nixosSystem {
           system = sys.arch;
-          specialArgs = inputs;
+          specialArgs = { inherit inputs; };
           modules = [
             { nixpkgs = nixpkgsConfig; }
             ./system/${system}
-          ] ++ (if sys.wsl then [ nixos-wsl.nixosModules.default ] else [ ]);
+            ./module/nixos
+          ];
         }
       );
       homeConfigurations = lib.genAttrs userHosts (

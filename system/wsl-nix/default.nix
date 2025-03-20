@@ -5,22 +5,13 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ config, lib, pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
-  imports = [
-    # include NixOS-WSL modules
-    # <nixos-wsl/modules>
-    # inputs.nixos-wsl.nixosModules.default
-  ];
-
   wsl.enable = true;
   wsl.defaultUser = "murrayle23";
 
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  my.zsh.enable = true;
 
   networking.hostName = "wsl-nix";
 
