@@ -1,7 +1,6 @@
 { pkgs, userSettings, ... }:
 {
   imports = [
-    ../../module/home
     ../../module/font
     ../../module/theme
   ];

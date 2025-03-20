@@ -4,7 +4,6 @@
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/home
     ../../module/desktop/aerospace
     ../../module/desktop/jankyborders
     ../../module/desktop/sketchybar

@@ -157,10 +157,10 @@
           pkgs = import nixpkgs (nixpkgsConfig // { system = sys.arch; });
           modules = [
             ./user/${user}
-            inputs.textfox.homeManagerModules.default
-            inputs.spicetify.homeManagerModules.default
+            ./module/home
           ];
-          extraSpecialArgs = inputs // {
+          extraSpecialArgs = {
+            inherit inputs;
             username = user;
             dotfilesDir = dotfilesDir;
             hostname = system;

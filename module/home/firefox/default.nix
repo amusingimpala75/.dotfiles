@@ -1,9 +1,12 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 let
   cfg = config.my.firefox;
 in
 {
-  imports = [ ./darwin.nix ];
+  imports = [
+    ./darwin.nix
+    inputs.textfox.homeManagerModules.default
+  ];
 
   options.my.firefox = {
     enable = lib.mkOption {
@@ -101,23 +104,23 @@ in
               sponsorblock
               ublock-origin
             ];
-          settings = {
-            "uBlock0@raymondhill.net".settings = {
-              selectedFilterLists = [
-                "user-filters"
-                "ublock-filters"
-                "ublock-badware"
-                "ublock-privacy"
-                "ublock-unbreak"
-                "ublock-quick-fixes"
-                "easylist"
-                "easyprivacy"
-                "urlhaus-1"
-                "plowe-0"
-              ];
-              user-filters = builtins.readFile ./ublock-filters.txt;
+            settings = {
+              "uBlock0@raymondhill.net".settings = {
+                selectedFilterLists = [
+                  "user-filters"
+                  "ublock-filters"
+                  "ublock-badware"
+                  "ublock-privacy"
+                  "ublock-unbreak"
+                  "ublock-quick-fixes"
+                  "easylist"
+                  "easyprivacy"
+                  "urlhaus-1"
+                  "plowe-0"
+                ];
+                user-filters = builtins.readFile ./ublock-filters.txt;
+              };
             };
-          };
         };
       };
     };
