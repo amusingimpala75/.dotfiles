@@ -1,4 +1,7 @@
 { ... }:
 {
-  imports = [ ./aerospace ];
+  imports = [
+    ./aerospace
+    ./jankyborders
+  ];
 }

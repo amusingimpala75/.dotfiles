@@ -1,42 +1,37 @@
-{ lib, config, pkgs, username, hostname, dotfilesDir, userSettings, ... }:
+{ lib, pkgs, userSettings, ... }:
 
 # TODO: add wallpaper (both with nix-wallpaper,
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/desktop/jankyborders
     ../../module/desktop/sketchybar
     ../../module/font
     ../../module/theme
   ];
 
-  my.aerospace.enable = true;
-
-  my.bat.enable = true;
-
-  my.direnv.enable = true;
-
-  my.emacs.enable = true;
-  my.emacs.term-command = "TERM=alacritty-direct emacsclient -nw"; # :TODO: this shouldn't be necessary ultimately
-
-  my.firefox.enable = true;
-
-  my.git = {
-    enable = true;
-    email = "69653100+amusingimpala75@users.noreply.github.com";
-    username = "amusingimpala75";
+  my = {
+    aerospace.enable = true;
+    bat.enable = true;
+    direnv.enable = true;
+    emacs = {
+      enable = true;
+      term-command = "TERM=alacritty-direct emacsclient -nw"; # :TODO: this shouldn't be necessary ultimately
+    };
+    firefox.enable = true;
+    git = {
+      enable = true;
+      email = "69653100+amusingimpala75@users.noreply.github.com";
+      username = "amusingimpala75";
+    };
+    ghostty = {
+      enable = true;
+      package = null; # TODO fix weird errors on macOS with ghostty managed by us (see the module for :TODO: comment)
+    };
+    jankyborders.enable = true;
+    nix.enable = true;
+    spotify.enable = true;
+    zsh.enable = true;
   };
-
-  my.ghostty = {
-    enable = true;
-    package = null; # TODO fix weird errors on macOS with ghostty managed by us (see the module for :TODO: comment)
-  };
-
-  my.nix.enable = true;
-
-  my.spotify.enable = true;
-
-  my.zsh.enable = true;
 
   theme = userSettings.theme; # TODO import directly here after we banish userSettings
 
