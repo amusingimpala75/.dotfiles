@@ -81,20 +81,28 @@
           inputs.nix-darwin-firefox.overlay
           inputs.nur.overlays.default
           (final: prev: {
-            stable = if prev.stdenv.isDarwin then nixpkgs-stable-darwin.legacyPackages.${prev.system}
-            else nixpkgs-stable-nixos.legacyPackages.${prev.system};
             spicetify = inputs.spicetify.legacyPackages.${prev.system};
 
-            vlc = if prev.stdenv.isDarwin then final.vlc-bin else prev.vlc;
-            firefox = if prev.stdenv.isDarwin then final.firefox-bin else prev.firefox; # firefox-bin from nix-darwin-firefox overlay
             ghostty-bin = final.callPackage ./packages/ghostty.nix { };
-            ghostty = if prev.stdenv.isDarwin then final.ghostty-bin else prev.ghostty; # ghostty-bin from my flake
             whisky-bin = final.callPackage ./packages/whisky.nix { };
+
             my.emacs = final.callPackage ./packages/my-emacs { };
             my.launcher = final.callPackage ./packages/launcher.nix { };
+
             scriptWrapper = final.callPackage ./packages/scriptWrapper.nix { };
             float_and = final.callPackage ./packages/float_and.nix { };
             ghostty_and = final.callPackage ./packages/ghostty_and.nix { };
+          } // lib.optionalAttrs prev.stdenv.isDarwin {
+            # Override certain packages with
+            # their binary equivalents on macOS.
+            vlc = final.vlc-bin;
+            firefox = final.firefox-bin;
+            ghostty = final.ghostty-bin;
+
+            # provide stable variants
+            stable = nixpkgs-stable-darwin.legacyPackages.${prev.system};
+          } // lib.optionalAttrs prev.stdenv.isLinux {
+            stable = nixpkgs-stable-nixos.legacyPackages.${prev.system};
           })
           inputs.sbarlua.overlay
         ];
