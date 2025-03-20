@@ -88,6 +88,7 @@
                 nixpkgs-stable-nixos.legacyPackages.${prev.system};
 
             vlc = final.vlc-bin;
+            firefox = final.firefox-bin; # firefox-bin from nix-darwin-firefox overlay
             ghostty-bin = final.callPackage ./packages/ghostty.nix { };
             whisky-bin = final.callPackage ./packages/whisky.nix { };
             my.emacs = final.callPackage ./packages/my-emacs { };

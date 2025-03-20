@@ -5,6 +5,7 @@ in {
   imports = [
     ./direnv
     ./emacs
+    ./firefox
     ./git
     ./nix
     ./zsh

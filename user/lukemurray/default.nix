@@ -4,7 +4,6 @@
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/app/firefox
     ../../module/app/ghostty
     ../../module/app/spotify
     ../../module/home
@@ -19,6 +18,8 @@
 
   my.emacs.enable = true;
   my.emacs.term-command = "TERM=alacritty-direct emacsclient -nw"; # :TODO: this shouldn't be necessary ultimately
+
+  my.firefox.enable = true;
 
   my.git = {
     enable = true;
