@@ -174,29 +174,26 @@
           pkgs = import nixpkgs (nixpkgsConfig // { system = platform; });
         in
         {
-          default = self.packages.${platform}.installer;
+          default = self.packages.${platform}.install;
 
           emacs = pkgs.callPackage ./packages/my-emacs { };
 
-          installer = pkgs.writeShellApplication {
-            name = "install";
-            text = ''${./install.sh} "$@"'';
-          };
+          install = pkgs.callPackage ./packages/install.nix { };
 
           launcher = pkgs.callPackage ./packages/launcher.nix { };
         }
       );
       apps = forAllSystems (platform: {
-        default = self.apps.${platform}.installer;
+        default = self.apps.${platform}.install;
 
         emacs = {
           type = "app";
           program = "${self.packages.${platform}.emacs}/bin/emacs";
         };
 
-        installer = {
+        install = {
           type = "app";
-          program = "${self.packages.${platform}.installer}/bin/install";
+          program = "${self.packages.${platform}.install}/bin/install";
         };
 
         launcher = {
