@@ -3,5 +3,6 @@
   imports = [
     ./aerospace
     ./jankyborders
+    ./sketchybar
   ];
 }

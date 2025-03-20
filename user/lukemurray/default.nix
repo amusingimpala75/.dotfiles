@@ -4,7 +4,6 @@
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/desktop/sketchybar
     ../../module/font
     ../../module/theme
   ];
@@ -29,6 +28,7 @@
     };
     jankyborders.enable = true;
     nix.enable = true;
+    sketchybar.enable = true;
     spotify.enable = true;
     zsh.enable = true;
   };

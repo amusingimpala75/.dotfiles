@@ -1,19 +1,31 @@
-# lower portion courtesy of r17x at https://github.com/r17x/universe
-{ lua54Packages, lib, writeText, userSettings, ... }:
+# buildLuaPackage section courtesy of r17x at https://github.com/r17x/universe
+{
+  lua54Packages,
+  lib,
+  writeText,
 
+  bar-height ? 32,
+  bar-isTop ? true,
+  border-active ? "A0A0A",
+  border-width ? 16,
+  theme ? import ../../../theme/generated/gruvbox-dark-hard,
+  font-family-fixed ? "Iosevka",
+  font-family-variable ? "Iosevka Etoila",
+  font-size ? 16,
+  ...
+}:
 let
   inherit (lua54Packages) lua buildLuaPackage;
-  defaults = writeText "defaults.lua" (with userSettings;
-  ''
+  defaults = writeText "defaults.lua" ''
     return {
       bar = {
-        height = ${toString bar.height},
-        position = '${if bar.isTop then "top" else "bottom"}',
+        height = ${toString bar-height},
+        position = '${if bar-isTop then "top" else "bottom"}',
       },
       font = {
-        fixed = '${font.family.fixed-pitch}',
-        variable = '${font.family.variable-pitch}',
-        size = ${toString font.size},
+        fixed = '${font-family-fixed}',
+        variable = '${font-family-variable}',
+        size = ${toString font-size},
       },
       theme = {
         base00 = '0xff${theme.base00}',
@@ -34,12 +46,12 @@ let
         base0F = '0xff${theme.base0F}',
       },
       border = {
-        color = '0xff${border.active}',
-        width = ${toString border.width},
+        color = '0xff${border-active}',
+        width = ${toString border-width},
       },
       padding = 4, -- TODO don't hardcode
     }
-  '');
+  '';
 in
 
 buildLuaPackage {
@@ -49,9 +61,9 @@ buildLuaPackage {
   src = lib.cleanSource ./.;
   buildPhase = ":";
   installPhase = # bash
-    ''
-      mkdir -p "$out/share/lua/${lua.luaversion}"
-      cp -r $src/* "$out/share/lua/${lua.luaversion}/"
-      cp ${defaults} "$out/share/lua/${lua.luaversion}/defaults.lua"
-    '';
+  ''
+    mkdir -p "$out/share/lua/${lua.luaversion}"
+    cp -r $src/* "$out/share/lua/${lua.luaversion}/"
+    cp ${defaults} "$out/share/lua/${lua.luaversion}/defaults.lua"
+  '';
 }
