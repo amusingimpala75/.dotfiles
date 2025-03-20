@@ -4,7 +4,6 @@
 #       and with some custom way to set the Index.plist
 {
   imports = [
-    ../../module/app/spotify
     ../../module/home
     ../../module/desktop/aerospace
     ../../module/desktop/jankyborders
@@ -32,6 +31,8 @@
   };
 
   my.nix.enable = true;
+
+  my.spotify.enable = true;
 
   my.zsh.enable = true;
 

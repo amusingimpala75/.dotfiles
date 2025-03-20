@@ -86,6 +86,7 @@
                 nixpkgs-stable-darwin.legacyPackages.${prev.system}
               else
                 nixpkgs-stable-nixos.legacyPackages.${prev.system};
+            spicetify = inputs.spicetify.legacyPackages.${prev.system};
 
             vlc = final.vlc-bin;
             firefox = if prev.stdenv.isDarwin then final.firefox-bin else prev.firefox; # firefox-bin from nix-darwin-firefox overlay
@@ -152,6 +153,7 @@
           modules = [
             ./user/${user}
             inputs.textfox.homeManagerModules.default
+            inputs.spicetify.homeManagerModules.default
           ];
           extraSpecialArgs = inputs // {
             username = user;

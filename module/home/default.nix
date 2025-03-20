@@ -10,6 +10,7 @@ in {
     ./ghostty
     ./git
     ./nix
+    ./spotify
     ./zsh
   ];
 
