@@ -17,7 +17,6 @@ in
   programs.zsh.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  services.nix-daemon.enable = true;
   nixpkgs.hostPlatform = system.arch;
   nix.gc = {
     automatic = true;
@@ -31,5 +30,5 @@ in
   system.defaults.SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
 
   # For backwards compatibility
-  system.stateVersion = 4;
+  system.stateVersion = 5;
 }
