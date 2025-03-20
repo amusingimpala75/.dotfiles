@@ -14,5 +14,5 @@ symlinkJoin {
   inherit name;
   paths = [ script ] ++ deps;
   buildInputs = [ makeWrapper ];
-  postbuild = "wrapProgram $out/bin/${name} --prefix PATH : $out/bin";
+  postBuild = "wrapProgram $out/bin/${name} --prefix PATH : $out/bin";
 }

@@ -1,19 +1,7 @@
 {
   fd,
   fzf,
-  makeWrapper,
-  symlinkJoin,
-  writeScriptBin,
+  scriptWrapper,
   ...
 }:
-let
-  name = "launcher";
-  script = (writeScriptBin name (builtins.readFile ./${name}.sh)).overrideAttrs(old: {
-    buildCommand = "${old.buildCommand}\n patchShebangs $out";
-  });
-in symlinkJoin {
-  inherit name;
-  paths = [ script fd fzf ];
-  buildInputs = [ makeWrapper ];
-  postBuild = "wrapProgram $out/bin/${name} --prefix PATH : $out/bin";
-}
+scriptWrapper "launcher" [ fd fzf ]
