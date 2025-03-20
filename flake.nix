@@ -81,14 +81,11 @@
           inputs.nix-darwin-firefox.overlay
           inputs.nur.overlays.default
           (final: prev: {
-            stable =
-              if prev.stdenv.isDarwin then
-                nixpkgs-stable-darwin.legacyPackages.${prev.system}
-              else
-                nixpkgs-stable-nixos.legacyPackages.${prev.system};
+            stable = if prev.stdenv.isDarwin then nixpkgs-stable-darwin.legacyPackages.${prev.system}
+            else nixpkgs-stable-nixos.legacyPackages.${prev.system};
             spicetify = inputs.spicetify.legacyPackages.${prev.system};
 
-            vlc = final.vlc-bin;
+            vlc = if prev.stdenv.isDarwin then final.vlc-bin else prev.vlc;
             firefox = if prev.stdenv.isDarwin then final.firefox-bin else prev.firefox; # firefox-bin from nix-darwin-firefox overlay
             ghostty-bin = final.callPackage ./packages/ghostty.nix { };
             ghostty = if prev.stdenv.isDarwin then final.ghostty-bin else prev.ghostty; # ghostty-bin from my flake

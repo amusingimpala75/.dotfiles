@@ -16,6 +16,8 @@
     yq-go
   ];
 
+  my.bat.enable = true;
+
   my.direnv.enable = true;
 
   my.emacs.enable = true;
