@@ -3,26 +3,34 @@
 # TODO: add wallpaper (both with nix-wallpaper,
 #       and with some custom way to set the Index.plist
 {
-  home.username = username;
-  home.homeDirectory = "/Users/${username}";
-  home.stateVersion = "24.05"; # Don't change; kept for backwards compatibility reasons.
-
-  programs.home-manager.enable = true;
-
   imports = [
-    ../../module/app/emacs
     ../../module/app/firefox
     ../../module/app/ghostty
     ../../module/app/spotify
-    ../../module/cli/git
-    ../../module/cli/nix
-    ../../module/cli/zsh
+    ../../module/home
     ../../module/desktop/aerospace
     ../../module/desktop/jankyborders
     ../../module/desktop/sketchybar
     ../../module/font
     ../../module/theme
   ];
+
+  my.direnv.enable = true;
+
+  my.emacs.enable = true;
+  my.emacs.term-command = "TERM=alacritty-direct emacsclient -nw"; # :TODO: this shouldn't be necessary ultimately
+
+  my.git = {
+    enable = true;
+    email = "69653100+amusingimpala75@users.noreply.github.com";
+    username = "amusingimpala75";
+  };
+
+  my.nix.enable = true;
+
+  my.zsh.enable = true;
+
+  theme = userSettings.theme; # TODO import directly here after we banish userSettings
 
   home.packages = with pkgs; [
     (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
@@ -46,8 +54,6 @@
     # macOS utilities
     pkgs.darwin.trash # TODO cross-platform
   ];
-
-  news.display = "silent";
 
   home.shellAliases = {
     ll = "ls -lah";
