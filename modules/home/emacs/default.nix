@@ -60,6 +60,7 @@ in
       cfg.package
       pkgs.nixd
       pkgs.nixfmt-rfc-style
+      pkgs.xterm-24bit-terminfo
     ];
 
     home.shellAliases = lib.mkIf cfg.vi-aliases {
@@ -69,7 +70,9 @@ in
       gvi = cfg.gui-command;
     };
 
-    home.sessionVariables = lib.mkIf cfg.editor {
+    home.sessionVariables = {
+      TERM = "xterm-24bit";
+    } // lib.optionalAttrs cfg.editor {
       EDITOR = cfg.term-command;
     };
   };

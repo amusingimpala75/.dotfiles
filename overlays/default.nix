@@ -1,6 +1,7 @@
 final: prev: {
   ghostty-bin = final.callPackage ../packages/ghostty.nix { };
   whisky-bin = final.callPackage ../packages/whisky.nix { };
+  xterm-24bit-terminfo = final.callPackage ../packages/xterm-24bit-terminfo.nix { };
 
   my.emacs = final.callPackage ../packages/my-emacs { };
   my.launcher = final.callPackage ../packages/launcher.nix { };
