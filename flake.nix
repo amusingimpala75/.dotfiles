@@ -197,5 +197,11 @@
       overlays = {
         default = import ./overlays;
       };
+      templates = {
+        python-basic = {
+          path = ./templates/python-basic;
+          description = "basic python flake for homeworks";
+        };
+      };
     };
 }
