@@ -1,8 +1,7 @@
-{ pkgs, userSettings, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ../../../modules/font
-    ../../../modules/theme
   ];
 
   home.packages = with pkgs; [
@@ -33,7 +32,7 @@
 
   my.zsh.enable = true;
 
-  theme = userSettings.theme; # TODO import directly here after we banish userSettings
+  theme = pkgs.my.schemes.woodland;
 
   home.shellAliases = {
     ll = "ls -lah";

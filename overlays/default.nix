@@ -10,4 +10,8 @@ final: prev: {
   scriptWrapper = final.callPackage ../packages/scriptWrapper.nix { };
   float_and = final.callPackage ../packages/float_and.nix { };
   ghostty_and = final.callPackage ../packages/ghostty_and.nix { };
+
+  # I don't think this is how things are supposed to work
+  # :TODO: move to lib?
+  my.schemes = prev.callPackage ../packages/schemes.nix { };
 }

@@ -13,6 +13,7 @@ in {
     ./git
     ./nix
     ./spotify
+    ./theme
     ./zsh
   ];
 

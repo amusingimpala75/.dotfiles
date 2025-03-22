@@ -18,7 +18,7 @@ in
         font-family-fixed = userSettings.font.family.fixed-pitch;
         font-family-variable = userSettings.font.family.variable-pitch;
         opacity = userSettings.opacity;
-        theme = userSettings.theme;
+        theme = config.theme;
       };
       example = pkgs.emacs;
       description = "package for emacs to use";
