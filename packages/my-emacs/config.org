@@ -479,6 +479,14 @@ Gotta get those nice looking SVG tags
                                                :radius 4 :inverse t :margin 0)))))))
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package hideshow
+  :hook (prog-mode . hs-minor-mode)
+  :bind (:map prog-mode-map
+         ("C-x h" . hs-toggle-hiding)))
+#+end_src
+
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
@@ -486,4 +494,4 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
   :ensure t
   :hook (after-init . envrc-global-mode))
 #+end_src
-# TODO: eat, treesit-utils, go/other prog modes, custom modeline, ibuffer/dired sidebars, flymake, dape, magit/forge, hideshow, all-the-icons (or alt.), golden-ratio, dimmer, cape (supposedly can get elisp completion in org and merge yasnippet and eglot capfs), gptel
+# TODO: eat, treesit-utils, go/other prog modes, custom modeline, flymake, dape, magit/forge, golden-ratio, dimmer, cape (supposedly can get elisp completion in org and merge yasnippet and eglot capfs), gptel
