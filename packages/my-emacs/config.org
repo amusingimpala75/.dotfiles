@@ -384,7 +384,14 @@ Avy to help with jumping around text
   :bind (("M-j" . avy-goto-char-timer)))
 #+end_src
 
+
+#+begin_src emacs-lisp
+(use-package eldoc-box
+  :ensure t
+  :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
+#+end_src
 ** Apps
+*** Eradio
 Eradio allows listening to internet radio in Emacs.
 # TODO broken?
 #+begin_src emacs-lisp
