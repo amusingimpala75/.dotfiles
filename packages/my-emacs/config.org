@@ -402,6 +402,22 @@ Eradio allows listening to internet radio in Emacs.
   (eradio-player `(,my/vlc "--no-video" "-I" "rc")))
 #+end_src
 
+*** Dired
+#+begin_src emacs-lisp
+(use-package vscode-icon
+  :ensure t)
+
+(use-package dired-sidebar
+  :ensure t
+  :after vscode-icon
+  :bind ("C-x C-d" . dired-sidebar-toggle-sidebar)
+  :hook (dired-sidebar-mode . (lambda ()
+                                (unless (file-remote-p default-directory)
+                                  (auto-revert-mode))))
+  :custom
+  (dired-sidebar-theme 'vscode))
+#+end_src
+
 ** Miscellaneous
 Remove the annoying files Emacs dumps all over the system.
 Also, I've been burned one too many times by accidentally opening a massive file with =font-lock=
