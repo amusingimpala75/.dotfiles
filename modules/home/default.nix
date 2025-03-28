@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ pkgs, config, ... }:
 let
   stdenv = pkgs.stdenv;
 in {
@@ -18,9 +18,8 @@ in {
   ];
 
   config = {
-    home.username = username;
-    home.homeDirectory = if stdenv.isDarwin then "/Users/${username}"
-    else "/home/${username}";
+    home.homeDirectory = if stdenv.isDarwin then "/Users/${config.home.username}"
+    else "/home/${config.home.username}";
     home.stateVersion = "24.05"; # Kept for backwards compatibility
 
     programs.home-manager.enable = true;

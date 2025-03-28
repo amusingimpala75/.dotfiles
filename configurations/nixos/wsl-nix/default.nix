@@ -10,6 +10,7 @@
 {
   wsl.enable = true;
   wsl.defaultUser = "murrayle23";
+  wsl.startMenuLaunchers = true;
 
   my.zsh.enable = true;
 

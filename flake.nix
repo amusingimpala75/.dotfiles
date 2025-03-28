@@ -1,5 +1,6 @@
 {
   description = "My system configurations for macOS, WSL, and NixOS";
+
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
 
@@ -44,159 +45,112 @@
     bible.inputs.nixpkgs.follows = "nixpkgs";
     bible.inputs.flake-parts.follows = "flake-parts";
   };
-  outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-stable-darwin,
-      nixpkgs-stable-nixos,
-      nix-darwin,
-      home-manager,
-      ...
-    }@inputs:
-    let
-      lib = nixpkgs.lib;
-      users = [
-        "lukemurray"
-        "murrayle23"
-      ];
-      darwinHosts = [
-        "Lukes-Virtual-Machine"
-        "Lukes-MacBook-Air"
-      ];
-      nixosHosts = [ "wsl-nix" ];
-      userHostPairSeparator = "_";
-      hosts = darwinHosts ++ nixosHosts;
-      userHosts = builtins.foldl' (x: y: x ++ y) [ ] (
-        lib.lists.forEach users (user: lib.lists.forEach hosts (host: user + userHostPairSeparator + host))
-      );
-      dotfilesDir = "~/.dotfiles";
-      nixpkgsConfig = {
-        config.allowUnfree = true;
-        overlays = [
-          inputs.alacritty-theme.overlays.default
-          inputs.bible.overlays.default
-          inputs.emacs-overlay.overlays.default
-          inputs.nix-darwin-firefox.overlay
-          inputs.nur.overlays.default
-          inputs.sbarlua.overlay
-          self.overlays.default # for my packages, whether that be script, customization, or vendoring
 
-          (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
+  outputs = inputs@{ flake-parts, ... }:
+  let
+    lib = inputs.nixpkgs.lib;
+    dotfilesDir = "~/.dotfiles";
+    nixpkgsConfig = { allowUnfree = true; };
+    nixpkgsOverlays = [
+      inputs.alacritty-theme.overlays.default
+      inputs.bible.overlays.default
+      inputs.emacs-overlay.overlays.default
+      inputs.nix-darwin-firefox.overlay
+      inputs.nur.overlays.default
+      inputs.sbarlua.overlay
+      inputs.self.overlays.default # for my packages, whether that be script, customization, or vendoring
 
-          (final: prev: lib.optionalAttrs prev.stdenv.isDarwin {
-            # Override certain packages with
-            # their binary equivalents on macOS.
-            vlc = final.vlc-bin;
-            firefox = final.firefox-bin;
-            ghostty = final.ghostty-bin;
+      (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
 
-            # provide stable variants
-            stable = nixpkgs-stable-darwin.legacyPackages.${prev.system};
-          })
+      (final: prev: lib.optionalAttrs prev.stdenv.isDarwin {
+        # Override certain packages with
+        # their binary equivalents on macOS.
+        vlc = final.vlc-bin;
+        firefox = final.firefox-bin;
+        ghostty = final.ghostty-bin;
 
-          (final: prev: lib.optionalAttrs prev.stdenv.isLinux {
-            stable = nixpkgs-stable-nixos.legacyPackages.${prev.system};
-          })
-        ];
-      };
-      forAllSystems = lib.genAttrs [
-        "aarch64-darwin"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "x86_64-linux"
-        "i686-linux"
-      ];
-    in
-    {
-      darwinConfigurations = lib.genAttrs darwinHosts (
-        system:
-        let
-          sys = import ./configurations/darwin/${system}/system.nix;
-        in
-        nix-darwin.lib.darwinSystem {
-          system = sys.arch;
-          specialArgs = inputs;
+        # provide stable variants
+        stable = inputs.nixpkgs-stable-darwin.legacyPackages.${prev.system};
+      })
+
+      (final: prev: lib.optionalAttrs prev.stdenv.isLinux {
+        stable = inputs.nixpkgs-stable-nixos.legacyPackages.${prev.system};
+      })
+    ];
+  in
+  flake-parts.lib.mkFlake { inherit inputs; } ({ lib, withSystem, ...}: {
+    imports = [
+      inputs.home-manager.flakeModules.home-manager
+    ];
+    flake = {
+      darwinConfigurations = {
+        Lukes-MacBook-Air = inputs.nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = { inherit inputs; }; # :TODO: maybe should just be = inputs;
           modules = [
-            { nixpkgs = nixpkgsConfig; }
-            ./configurations/darwin/${system}
+            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
+            ./configurations/darwin/Lukes-MacBook-Air
           ];
-        }
-      );
-      nixosConfigurations = lib.genAttrs nixosHosts (
-        system:
-        let
-          sys = import ./configurations/nixos/${system}/system.nix;
-        in
-        nixpkgs.lib.nixosSystem {
-          system = sys.arch;
+        };
+        Lukes-Virtual-Machine = inputs.nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = { inherit inputs; }; # :TODO: maybe should just be = inputs;
+          modules = [
+            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
+            ./configurations/darwin/Lukes-MacBook-Air
+          ];
+        };
+      };
+
+      nixosConfigurations = {
+        wsl-nix = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
           specialArgs = { inherit inputs; };
           modules = [
-            { nixpkgs = nixpkgsConfig; }
-            ./configurations/nixos/${system}
+            { nixpkgs.config = nixpkgsConfig; }
+            ./configurations/nixos/wsl-nix
             ./modules/nixos
           ];
-        }
-      );
-      homeConfigurations = lib.genAttrs userHosts (
-        userHost:
-        let
-          userHostPair = lib.strings.splitString userHostPairSeparator userHost;
-          user = builtins.elemAt userHostPair 0;
-          system = builtins.elemAt userHostPair 1;
-          possible-darwin = ./configurations/darwin/${system}/system.nix;
-          possible-nixos = ./configurations/nixos/${system}/system.nix;
-          sys = import (if builtins.pathExists possible-darwin then possible-darwin else possible-nixos);
-        in
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs (nixpkgsConfig // { system = sys.arch; });
+        };
+      };
+
+      # :TODO: genericize pkgs calls
+      homeConfigurations = {
+        lukemurray = withSystem "aarch64-darwin" ({ pkgs, ... }:
+        inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
           modules = [
-            ./configurations/home/${user}
+            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
+            ./configurations/home/lukemurray
             ./modules/home
           ];
           extraSpecialArgs = {
             inherit inputs;
-            username = user;
             dotfilesDir = dotfilesDir;
-            hostname = system;
-            userSettings = import ./configurations/home/${user}/settings.nix;
+            userSettings = import ./configurations/home/lukemurray/settings.nix;
           };
-        }
-      );
-      packages = forAllSystems (
-        platform:
-        let
-          pkgs = import nixpkgs (nixpkgsConfig // { system = platform; });
-        in
-        {
-          default = self.packages.${platform}.install;
+        });
 
-          emacs = pkgs.my.emacs;
-          install = pkgs.my.install;
-          launcher = pkgs.my.launcher;
-        }
-      );
-      apps = forAllSystems (platform: {
-        default = self.apps.${platform}.install;
+        murrayle23 = withSystem "x86_64-linux" ({pkgs, ...}:
+        inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
+            ./configurations/home/murrayle23
+            ./modules/home
+          ];
+          extraSpecialArgs = {
+            inherit inputs;
+            dotfilesDir = dotfilesDir;
+            userSettings = import ./configurations/home/murrayle23/settings.nix;
+          };
+        });
+      };
 
-        emacs = {
-          type = "app";
-          program = "${self.packages.${platform}.emacs}/bin/emacs";
-        };
-
-        install = {
-          type = "app";
-          program = "${self.packages.${platform}.install}/bin/install";
-        };
-
-        launcher = {
-          type = "app";
-          program = "${self.packages.${platform}.launcher}/bin/launcher";
-        };
-      });
       overlays = {
         default = import ./overlays;
       };
+
       templates = {
         python-basic = {
           path = ./templates/python-basic;
@@ -204,4 +158,35 @@
         };
       };
     };
+
+    systems = lib.systems.flakeExposed;
+    perSystem = { self', pkgs, system, ...}: {
+      _module.args.pkgs = import inputs.nixpkgs ({
+        inherit system;
+        config = nixpkgsConfig;
+        overlays = nixpkgsOverlays;
+      });
+
+      apps = let
+        mkAppPackage = name: {
+          type = "app";
+          program = "${self'.packages.${name}}/bin/${name}";
+        };
+      in {
+        default = self'.apps.install;
+
+        emacs = mkAppPackage "emacs";
+        install = mkAppPackage "install";
+        launcher = mkAppPackage "launcher";
+      };
+
+      packages = {
+        default = self'.packages.install;
+
+        emacs = pkgs.my.emacs;
+        install = pkgs.my.install;
+        launcher = pkgs.my.launcher;
+      };
+    };
+  });
 }

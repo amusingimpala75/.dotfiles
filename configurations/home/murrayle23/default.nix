@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  home.username = "murrayle23";
+
   imports = [
     ../../../modules/font
   ];

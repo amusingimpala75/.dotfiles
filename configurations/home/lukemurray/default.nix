@@ -3,6 +3,8 @@
 # TODO: add wallpaper (both with nix-wallpaper,
 #       and with some custom way to set the Index.plist
 {
+  home.username = "lukemurray";
+
   imports = [
     ../../../modules/font
     ../../../modules/theme
