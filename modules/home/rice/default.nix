@@ -5,6 +5,7 @@
     ./darwin.nix
     # rices
     ./rices/woodland.nix
+    ./rices/solarized-light.nix
   ];
 
   # :TODO: expand option docs
