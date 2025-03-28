@@ -12,8 +12,8 @@ in {
     ./ghostty
     ./git
     ./nix
+    ./rice
     ./spotify
-    ./theme
     ./zsh
   ];
 

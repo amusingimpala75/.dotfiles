@@ -1,6 +1,7 @@
-{ lib, config, pkgs, userSettings, ...}:
+{ lib, config, pkgs, ...}:
 let
   cfg = config.my.ghostty;
+  rice = config.rice;
 in {
   # TODO figure out why .zshenv -> ~/.config/zsh/.zshenv -> ~/.config/zsh/.zshrc is not being sourced
   #      (ZDOTDIR is overridden by ghostty integration as /Applications/Ghostty.app/<etc>)
@@ -27,7 +28,7 @@ in {
       package = cfg.package;
       enable = true;
       enableZshIntegration = true; # :TODO: genericize
-      settings = with userSettings; {
+      settings = with rice; {
         background-opacity = "${toString opacity}";
         background-blur-radius = 10;
 
@@ -55,7 +56,7 @@ in {
         theme = "base16";
       };
       themes = {
-        base16 = with config.theme; {
+        base16 = with config.rice.theme; {
           background = "${base00}";
           foreground = "${base06}";
           palette = [

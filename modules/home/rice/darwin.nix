@@ -7,7 +7,7 @@ let
 in {
   config = lib.mkIf stdenv.isDarwin {
     home.activation.set-system-ui = (lib.hm.dag.entryAfter ["writeBoundary"] ''
-      ${appearancePackage}/bin/set-appearance.sh ${ if config.theme.darkMode then "true" else "false" }
+      ${appearancePackage}/bin/set-appearance.sh ${ if config.rice.theme.darkMode then "true" else "false" }
     '');
   };
 }

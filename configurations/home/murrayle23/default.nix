@@ -2,10 +2,6 @@
 {
   home.username = "murrayle23";
 
-  imports = [
-    ../../../modules/font
-  ];
-
   home.packages = with pkgs; [
     (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
     fastfetch
@@ -34,7 +30,7 @@
 
   my.zsh.enable = true;
 
-  theme = pkgs.my.schemes.woodland;
+  rices.woodland.enable = true;
 
   home.shellAliases = {
     ll = "ls -lah";

@@ -11,7 +11,7 @@ in {
     };
     inline-suggestion-color = lib.mkOption {
       type = lib.types.str;
-      default = "${config.theme.base03}";
+      default = "${config.rice.theme.base03}";
       example = "808080";
       description = "Set color of the inline suggestions";
     };

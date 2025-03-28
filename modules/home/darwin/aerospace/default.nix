@@ -1,6 +1,7 @@
-{ lib, config, pkgs, userSettings, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.my.aerospace;
+  rice = config.rice;
   stdenv = pkgs.stdenv;
 
   aerospace = "${pkgs.aerospace}/bin/aerospace";
@@ -39,10 +40,10 @@ in {
         on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
 
         gaps = let
-          inner = userSettings.gaps.inner * 2;
-          outer = userSettings.gaps.outer;
-          outer-top = userSettings.gaps.outer + userSettings.bar.height;
-          outer-bottom = userSettings.gaps.outer - 1;
+          inner = rice.gaps.inner * 2;
+          outer = rice.gaps.outer;
+          outer-top = rice.gaps.outer + rice.bar.height;
+          outer-bottom = rice.gaps.outer - 1;
         in {
           inner.horizontal = inner;
           inner.vertical = inner;

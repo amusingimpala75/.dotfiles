@@ -1,6 +1,7 @@
-{ config, lib, pkgs, userSettings, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.my.emacs;
+  rice = config.rice;
 in
 {
   imports = [ ./darwin.nix ./nixos.nix ];
@@ -14,11 +15,11 @@ in
     package = lib.mkOption {
       type = lib.types.package;
       default = pkgs.my.emacs.override {
-        font-size = userSettings.font.size;
-        font-family-fixed = userSettings.font.family.fixed-pitch;
-        font-family-variable = userSettings.font.family.variable-pitch;
-        opacity = userSettings.opacity;
-        theme = config.theme;
+        font-size = rice.font.size;
+        font-family-fixed = rice.font.family.fixed-pitch;
+        font-family-variable = rice.font.family.variable-pitch;
+        opacity = rice.opacity;
+        theme = rice.theme;
       };
       example = pkgs.emacs;
       description = "package for emacs to use";

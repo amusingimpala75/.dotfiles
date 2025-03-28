@@ -1,6 +1,7 @@
-{ lib, config, pkgs, userSettings, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.my.alacritty;
+  rice = config.rice;
 in {
   options.my.alacritty = {
     enable = lib.mkEnableOption "alacritty config";
@@ -25,34 +26,34 @@ in {
             x = 4;
             y = 4;
           };
-          opacity = userSettings.opacity;
+          opacity = rice.opacity;
           option_as_alt = "Both";
         };
-        font.size = userSettings.font.size;
+        font.size = rice.font.size;
         font.normal = {
-          family = userSettings.font.family.fixed-pitch;
+          family = rice.font.family.fixed-pitch;
           style = "Regular";
         };
 
         colors = let
-          red = "#${config.theme.base08}";
-          green = "#${config.theme.base0B}";
-          yellow = "#${config.theme.base0A}";
-          cyan = "#${config.theme.base0C}";
-          blue = "#${config.theme.base0D}";
-          magenta = "#${config.theme.base0E}";
+          red = "#${rice.base08}";
+          green = "#${rice.theme.base0B}";
+          yellow = "#${rice.theme.base0A}";
+          cyan = "#${rice.theme.base0C}";
+          blue = "#${rice.theme.base0D}";
+          magenta = "#${rice.theme.base0E}";
         in {
-          primary.foreground = "#${config.theme.base06}";
-          primary.background = "#${config.theme.base00}";
+          primary.foreground = "#${rice.theme.base06}";
+          primary.background = "#${rice.theme.base00}";
           normal = {
             inherit red green yellow cyan blue magenta;
-            black = "#${config.theme.base00}";
-            white = "#${config.theme.base06}";
+            black = "#${rice.theme.base00}";
+            white = "#${rice.theme.base06}";
           };
           bright = {
             inherit red green yellow cyan blue magenta;
-            black = "#${config.theme.base03}";
-            white = "#${config.theme.base07}";
+            black = "#${rice.theme.base03}";
+            white = "#${rice.theme.base07}";
           };
         };
       };

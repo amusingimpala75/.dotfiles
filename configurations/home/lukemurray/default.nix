@@ -1,14 +1,9 @@
-{ lib, pkgs, userSettings, ... }:
+{ lib, pkgs, ... }:
 
 # TODO: add wallpaper (both with nix-wallpaper,
 #       and with some custom way to set the Index.plist
 {
   home.username = "lukemurray";
-
-  imports = [
-    ../../../modules/font
-    ../../../modules/theme
-  ];
 
   my = {
     aerospace.enable = true;
@@ -35,7 +30,7 @@
     zsh.enable = true;
   };
 
-  theme = userSettings.theme; # TODO import directly here after we banish userSettings
+  rices.woodland.enable = true;
 
   home.packages = with pkgs; [
     (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })

@@ -1,6 +1,7 @@
-{ lib, config, pkgs, userSettings, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.my.jankyborders;
+  rice = config.rice;
   stdenv = pkgs.stdenv;
 in {
   options.my.jankyborders = {
@@ -15,9 +16,9 @@ in {
         ProgramArguments = [
           Program
           "style=square"
-          "active_color=0xff${toString userSettings.border.active}"
-          "inactive_color=0xff${toString userSettings.border.inactive}"
-          "width=${toString userSettings.border.width}"
+          "active_color=0xff${toString rice.border.active}"
+          "inactive_color=0xff${toString rice.border.inactive}"
+          "width=${toString rice.border.width}"
         ];
         KeepAlive = true;
       };

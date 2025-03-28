@@ -127,7 +127,6 @@
           extraSpecialArgs = {
             inherit inputs;
             dotfilesDir = dotfilesDir;
-            userSettings = import ./configurations/home/lukemurray/settings.nix;
           };
         });
 
@@ -142,7 +141,6 @@
           extraSpecialArgs = {
             inherit inputs;
             dotfilesDir = dotfilesDir;
-            userSettings = import ./configurations/home/murrayle23/settings.nix;
           };
         });
       };

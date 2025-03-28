@@ -1,19 +1,20 @@
-{ config, lib, pkgs, userSettings, ... }: let
+{ config, lib, pkgs, ... }: let
   cfg = config.my.sketchybar;
+  rice = config.rice;
   stdenv = pkgs.stdenv;
 
   lua = pkgs.lua54Packages.lua.withPackages (ps: [
     ps.lua
     pkgs.sbarlua
     (pkgs.callPackage ./config.nix {
-      bar-height = userSettings.bar.height;
-      bar-isTop = userSettings.bar.isTop;
-      border-active = userSettings.border.active;
-      border-width = userSettings.border.width;
-      inherit (userSettings) theme;
-      font-family-fixed = userSettings.font.family.fixed-pitch;
-      font-family-variable = userSettings.font.family.variable-pitch;
-      font-size = userSettings.font.size;
+      bar-height = rice.bar.height;
+      bar-isTop = rice.bar.isTop;
+      border-active = rice.border.active;
+      border-width = rice.border.width;
+      font-family-fixed = rice.font.family.fixed-pitch;
+      font-family-variable = rice.font.family.variable-pitch;
+      font-size = rice.font.size;
+      theme = rice.theme;
     })
   ]);
   sketchybarrc = pkgs.writeScript "sketchybarrc"
