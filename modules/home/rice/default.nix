@@ -36,5 +36,7 @@
       height = lib.mkOption { description = "height of bar"; };
       color = lib.mkOption { description = "bg of bar"; };
     };
+
+    wallpaper = lib.mkOption { description = "wallpaper image to use"; };
   };
 }
