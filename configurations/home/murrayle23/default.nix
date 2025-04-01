@@ -28,9 +28,15 @@
 
   my.nix.enable = true;
 
+  my.wezterm.enable = true;
+
   my.zsh.enable = true;
 
   rices.woodland.enable = true;
+
+  wsl.wallpaper.enable = true;
+  wsl.username = "MURRAYLE23";
+  wsl.wezterm.enable = true;
 
   home.shellAliases = {
     ll = "ls -lah";

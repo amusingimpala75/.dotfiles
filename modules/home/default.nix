@@ -14,6 +14,8 @@ in {
     ./nix
     ./rice
     ./spotify
+    ./wezterm
+    ./wsl
     ./zsh
   ];
 
