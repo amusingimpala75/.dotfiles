@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ config, lib, pkgs, ... }:
 {
   imports = [
     # compat
@@ -38,5 +38,20 @@
     };
 
     wallpaper = lib.mkOption { description = "wallpaper image to use"; };
+
+    emacs = {
+      theme-package = lib.mkOption {
+        description = "package to use";
+        default = pkgs.my.base16-generators.emacs config.rice.theme;
+      };
+      theme-file-name = lib.mkOption {
+        description = "name of file to be `require'd";
+        default = "my-base16-theme";
+      };
+      theme-name = lib.mkOption {
+        description = "name of theme to use";
+        default = "my-base16";
+      };
+    };
   };
 }

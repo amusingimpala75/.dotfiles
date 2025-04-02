@@ -19,7 +19,7 @@ in
         font-family-fixed = rice.font.family.fixed-pitch;
         font-family-variable = rice.font.family.variable-pitch;
         opacity = rice.opacity;
-        theme = rice.theme;
+        inherit (rice.emacs) theme-package theme-file-name theme-name;
       };
       example = pkgs.emacs;
       description = "package for emacs to use";

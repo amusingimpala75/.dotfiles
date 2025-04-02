@@ -65,11 +65,7 @@ Additionally, truncate text off the edge of the screen unless in a text mode
 *** Theme
 I use base16-based themes in Nix, which is automatically generated from user preferences
 #+begin_src emacs-lisp
-(use-package my-base16-theme
-  :demand
-  :custom (base16-theme-256-color-source 'colors)
-  :config
-  (load-theme 'my-base16 t))
+;; Snippet moved into nix-settings.el as part of the system config
 #+end_src
 
 I also like a transparent background (still waiting on alpha-background on mac)

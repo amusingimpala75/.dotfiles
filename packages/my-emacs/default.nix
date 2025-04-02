@@ -1,6 +1,5 @@
 {
   # nixpkgs lib
-  lib,
   stdenv,
 
   # pkgs
@@ -8,6 +7,7 @@
   libclang, # nixos uses libclang
   cargo,
   emacs30,
+  emacsPackages,
   ghostscript,
   jdt-language-server,
   lua-language-server,
@@ -17,7 +17,7 @@
   rustfmt,
   texlive,
   typescript-language-server,
-  vlc, # TODO change pkgs.vlc-bin to replace vlc
+  vlc,
 
   # builders
   emacsWithPackagesFromUsePackage,
@@ -28,7 +28,9 @@
   font-family-fixed ? "Iosevka",
   font-family-variable ? "Iosevka Etoile",
   opacity ? 1.0,
-  theme ? import ../../modules/theme/generated/gruvbox-dark-hard,
+  theme-package ? emacsPackages.gruvbox-theme,
+  theme-file-name ? "gruvbox-theme",
+  theme-name ? "gruvbox-dark-hard",
   ...
 }:
 let
@@ -47,40 +49,6 @@ emacsWithPackagesFromUsePackage {
   config = ./config.org;
   extraEmacsPackages = epkgs: [
     epkgs.treesit-grammars.with-all-grammars
-    (epkgs.trivialBuild {
-      pname = "my-base16-theme";
-      version = "0.1.0";
-      src = writeText "my-base16-theme.el" ''
-        (require 'base16-theme)
-
-        (defvar my-base16-theme-colors
-        '(:base00 "#${theme.base00}"
-        :base01 "#${theme.base01}"
-        :base02 "#${theme.base02}"
-        :base03 "#${theme.base03}"
-        :base04 "#${theme.base04}"
-        :base05 "#${theme.base05}"
-        :base06 "#${theme.base06}"
-        :base07 "#${theme.base07}"
-        :base08 "#${theme.base08}"
-        :base09 "#${theme.base09}"
-        :base0A "#${theme.base0A}"
-        :base0B "#${theme.base0B}"
-        :base0C "#${theme.base0C}"
-        :base0D "#${theme.base0D}"
-        :base0E "#${theme.base0E}"
-        :base0F "#${theme.base0F}"))
-
-        (deftheme my-base16)
-        (base16-theme-define 'my-base16 my-base16-theme-colors)
-        (provide-theme 'my-base16)
-
-        (add-to-list 'custom-theme-load-path (file-name-directory (file-truename load-file-name)))
-
-        (provide 'my-base16-theme)
-      '';
-      packageRequires = [ epkgs.base16-theme ];
-    })
     (epkgs.trivialBuild {
       pname = "nix-settings";
       version = "0.1.0";
@@ -109,8 +77,12 @@ emacsWithPackagesFromUsePackage {
 
         (defvar my/snippets-dir "${./snippets}")
 
+        (require '${theme-file-name})
+        (load-theme '${theme-name} t)
+
         (provide 'nix-settings)
       '';
+      packageRequires = [ theme-package ];
     })
   ];
 }
