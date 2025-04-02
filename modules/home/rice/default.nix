@@ -37,7 +37,17 @@
       color = lib.mkOption { description = "bg of bar"; };
     };
 
-    wallpaper = lib.mkOption { description = "wallpaper image to use"; };
+    wallpaper = lib.mkOption {
+      description = "wallpaper image to use";
+      default = let
+        pkg = pkgs.nix-wallpaper.override {
+          backgroundColor = "#${config.rice.theme.base01}";
+          logoColors = lib.genAttrs ["color0" "color1" "color2" "color3" "color4" "color5"]
+            (name: "#${config.rice.theme.base05}");
+        };
+      in
+        "${pkg}/share/wallpapers/nixos-wallpaper.png";
+    };
 
     emacs = {
       theme-package = lib.mkOption {

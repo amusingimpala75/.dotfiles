@@ -44,6 +44,9 @@
     bible.url = "github:amusingimpala75/bible.sh";
     bible.inputs.nixpkgs.follows = "nixpkgs";
     bible.inputs.flake-parts.follows = "flake-parts";
+
+    nix-wallpaper.url = "github:lunik1/nix-wallpaper";
+    nix-wallpaper.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -60,6 +63,7 @@
       inputs.sbarlua.overlay
       inputs.self.overlays.default # for my packages, whether that be script, customization, or vendoring
 
+      (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${prev.system}.default; })
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
 
       (final: prev: lib.optionalAttrs prev.stdenv.isDarwin {
