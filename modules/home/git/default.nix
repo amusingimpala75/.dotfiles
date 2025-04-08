@@ -30,6 +30,7 @@ in {
         "*~"
         "**/.DS_Store"
         ".direnv"
+        ".envrc"
       ];
       userEmail = lib.mkIf (cfg.email != null) cfg.email;
       userName = lib.mkIf (cfg.username != null) cfg.username;
