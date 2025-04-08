@@ -33,9 +33,16 @@ Line numbers are a must for programming, especially relative numbers for jumping
   :hook (prog-mode . display-line-numbers-mode))
 #+end_src
 
+In order to declutter the bottom, I need diminish
+#+begin_src emacs-lisp
+(use-package diminish
+  :ensure t)
+#+end_src
+
 ~which-key~ being integrated into core is great for discovery.
 #+begin_src emacs-lisp
 (use-package which-key
+  :diminish which-key-mode
   :custom (which-key-mode t))
 #+end_src
 
@@ -59,6 +66,7 @@ Additionally, truncate text off the edge of the screen unless in a text mode
 (use-package emacs
   :custom (truncate-lines t))
 (use-package text-mode
+  :diminish visual-line-mode
   :hook (text-mode . visual-line-mode))
 #+end_src
 
@@ -344,6 +352,7 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
     (corfu-terminal-mode +1)))
 
 (use-package completion-preview
+  :diminish completion-preview-mode
   :hook (corfu-mode . completion-preview-mode)
   :custom (completion-preview-minimum-symbol-length 2))
 
@@ -367,6 +376,7 @@ Snippets with yasnippet, plus a few helper functions
 
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :custom
   (yas-snippet-dirs (list my/snippets-dir))
   :config
@@ -380,8 +390,10 @@ Avy to help with jumping around text
   :bind (("M-j" . avy-goto-char-timer)))
 #+end_src
 
-
+eldoc for inline documentation
 #+begin_src emacs-lisp
+(use-package eldoc
+  :diminish eldoc-mode)
 (use-package eldoc-box
   :ensure t
   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
@@ -477,11 +489,11 @@ Gotta get those nice looking SVG tags
 
 #+begin_src emacs-lisp
 (use-package hideshow
+  :diminish hs-minor-mode
   :hook (prog-mode . hs-minor-mode)
   :bind (:map prog-mode-map
          ("C-x h" . hs-toggle-hiding)))
 #+end_src
-
 
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
