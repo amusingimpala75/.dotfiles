@@ -112,6 +112,8 @@ in {
           };
           launch.binding = {
             esc = ''mode main'';
+            # :TODO: there has to be a better way to express this
+            e = [''exec-and-forget ${config.my.emacs.package}/bin/${config.my.emacs.gui-command}'' ''mode main''];
             m = [''exec-and-forget ${ghostty_and} "${float_and} ${btop}"'' ''mode main''];
             x = [''exec-and-forget ${ghostty_and} "${float_and} ${launcher}"'' ''mode main''];
             f = [''exec-and-forget open ~/'' ''mode main''];
