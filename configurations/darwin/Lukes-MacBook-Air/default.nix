@@ -3,6 +3,9 @@ let
   system = import ./system.nix;
 in
 {
+  imports = [
+    inputs.nix-rosetta-builder.darwinModules.default
+  ];
   # TODO:
   # Decide if we want to eradicate all default references to the system's
   # ncurses 6.0 library, which cannot read the alacritty-direct generated
@@ -28,6 +31,9 @@ in
   '';
 
   system.defaults.SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
+
+  nix.linux-builder.enable = true;
+  nix-rosetta-builder.onDemand = true;
 
   # For backwards compatibility
   system.stateVersion = 5;

@@ -47,6 +47,9 @@
 
     nix-wallpaper.url = "github:lunik1/nix-wallpaper";
     nix-wallpaper.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-rosetta-builder.url = "github:cpick/nix-rosetta-builder";
+    nix-rosetta-builder.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ flake-parts, ... }:
