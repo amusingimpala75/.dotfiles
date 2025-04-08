@@ -46,7 +46,7 @@ in
         name = cfg.profile;
         isDefault = true;
         search = {
-          default = "DuckDuckGo";
+          default = "ddg";
           force = true;
           engines = {
             "Nixpkgs" = {
