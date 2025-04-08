@@ -111,9 +111,12 @@ I also like to make it easy to modify the font size, bound to `C--` and `C-=`
 #+begin_src emacs-lisp
 (use-package ligature
   :ensure t
+  :custom
+  (global-ligature-mode t)
   :config
-  (ligature-set-ligatures 'prog-mode '("==" "!=" ">=" "<=" "->" "=>" ".." "..." "++" "+=" "::=" "__"))
-  (global-ligature-mode t))
+  (ligature-set-ligatures 'prog-mode '("==" "!=" ">=" "<=" "->" "=>"
+                                       ".." "..." "++" "+=" "::=" "__"
+                                       "===" "!==")))
 #+end_src
 
 ** Org Mode
@@ -266,6 +269,7 @@ Configure java to use jdtls/eglot
 #+begin_src emacs-lisp
 (use-package zig-mode
   :ensure t
+  :diminish zig-format-on-save-mode
   :hook (zig-mode . eglot-ensure))
 #+end_src
 
@@ -306,17 +310,20 @@ Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 #+begin_src emacs-lisp
 (use-package vertico
   :ensure t
-  :custom (vertico-cycle t)
-  :config (vertico-mode))
+  :custom
+  (vertico-cycle t)
+  (vertico-mode t))
 
 (use-package vertico-posframe
   :ensure t
   :after vertico
-  :config (vertico-posframe-mode))
+  :custom
+  (vertico-posframe-mode 1))
 
 (use-package marginalia
   :ensure t
-  :config (marginalia-mode))
+  :custom
+  (marginalia-mode 1))
 
 (use-package orderless
   :ensure t
@@ -325,7 +332,8 @@ Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package savehist
-  :config (savehist-mode))
+  :custom
+  (savehist-mode 1))
 
 (use-package consult
   :ensure t)
@@ -359,7 +367,8 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
 (use-package kind-icon
   :ensure t
   :after corfu
-  :config (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+  :custom
+  (corfu-margin-formatters (list #'kind-icon-margin-formatter)))
 #+end_src
 
 Auto-completion of matching parenthesis is really useful, although it can get in the way sometimes (ie. TODO fix this or not in all prog-modes)
@@ -379,7 +388,6 @@ Snippets with yasnippet, plus a few helper functions
   :diminish yas-minor-mode
   :custom
   (yas-snippet-dirs (list my/snippets-dir))
-  :config
   (yas-global-mode 1))
 #+end_src
 
@@ -396,6 +404,7 @@ eldoc for inline documentation
   :diminish eldoc-mode)
 (use-package eldoc-box
   :ensure t
+  :diminish eldoc-box-hover-at-point-mode
   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
 #+end_src
 ** Apps
@@ -479,9 +488,8 @@ Gotta get those nice looking SVG tags
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
   :ensure t
-  :config
-  (global-svg-tag-mode 1)
   :custom
+  (global-svg-tag-mode 1)
   (svg-tag-tags '((":TODO:" . ((lambda (tag)
                                  (svg-tag-make "TODO" :face 'org-tag
                                                :radius 4 :inverse t :margin 0)))))))
