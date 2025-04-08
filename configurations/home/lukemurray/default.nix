@@ -30,7 +30,7 @@
     zsh.enable = true;
   };
 
-  rices.woodland.enable = true;
+  rices.winnie-farming.enable = true;
 
   home.packages = with pkgs; [
     (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })

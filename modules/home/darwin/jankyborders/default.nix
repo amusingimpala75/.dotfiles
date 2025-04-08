@@ -1,8 +1,8 @@
 { lib, config, pkgs, ... }:
 let
   cfg = config.my.jankyborders;
-  rice = config.rice;
   stdenv = pkgs.stdenv;
+  inherit (config.rice.border) active inactive width radius;
 in {
   options.my.jankyborders = {
     enable = lib.mkEnableOption "my janky borders configuration";
@@ -15,10 +15,10 @@ in {
         Program = "${pkgs.jankyborders}/bin/borders";
         ProgramArguments = [
           Program
-          "style=square"
-          "active_color=0xff${toString rice.border.active}"
-          "inactive_color=0xff${toString rice.border.inactive}"
-          "width=${toString rice.border.width}"
+          "style=${if radius == 0 then "square" else "round"}"
+          "active_color=0xff${toString active}"
+          "inactive_color=0xff${toString inactive}"
+          "width=${toString width}"
         ];
         KeepAlive = true;
       };

@@ -4,8 +4,9 @@
     # compat
     ./darwin.nix
     # rices
-    ./rices/woodland.nix
     ./rices/solarized-light.nix
+    ./rices/winnie-farming.nix
+    ./rices/woodland.nix
   ];
 
   # :TODO: expand option docs
@@ -24,6 +25,10 @@
       active = lib.mkOption { description = "color of active window border"; };
       inactive = lib.mkOption { description = "color of inactive window border"; };
       width = lib.mkOption { description = "width of window border"; };
+      radius = lib.mkOption {
+        description = "corner radius";
+        default = 0;
+      };
     };
 
     gaps = {
@@ -43,10 +48,10 @@
         pkg = pkgs.nix-wallpaper.override {
           backgroundColor = "#${config.rice.theme.base01}";
           logoColors = lib.genAttrs ["color0" "color1" "color2" "color3" "color4" "color5"]
-            (name: "#${config.rice.theme.base05}");
+          (name: "#${config.rice.theme.base05}");
         };
       in
-        "${pkg}/share/wallpapers/nixos-wallpaper.png";
+      "${pkg}/share/wallpapers/nixos-wallpaper.png";
     };
 
     emacs = {
