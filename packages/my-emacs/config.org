@@ -176,10 +176,6 @@ Since this is an emacs configuration after all, we use nix-mode
 *** \LaTeX
 \LaTeX is a necessary component for document editing
 #+begin_src emacs-lisp
-(defun my/add-bin-folder (path)
-  (add-to-list 'exec-path path)
-  (setenv "PATH" (concat (getenv "PATH") ":" path)))
-
 (use-package tex
   :ensure auctex
   :custom
@@ -196,9 +192,7 @@ Since this is an emacs configuration after all, we use nix-mode
   :init
   (defun my/add-latex-preview-save-hook ()
     (add-hook 'after-save-hook 'preview-buffer nil t))
-  (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook)
-  (my/add-bin-folder my/texlive-bin)
-  (my/add-bin-folder my/ghostscript-bin))
+  (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook))
 
 ;; TODO hook when \) to do preview-at-point a few chars back
 (use-package preview
@@ -236,18 +230,12 @@ Since this is an emacs configuration after all, we use nix-mode
 Configure java to use jdtls/eglot
 # TODO make this a (use-package java-mode ...) or (use-package cc-mode ...). I cannot for the life of me get those to work.
 #+begin_src emacs-lisp
-(my/add-bin-folder my/jdtls-bin)
 (use-package eglot
   :hook (java-mode . eglot-ensure))
 #+end_src
 
 *** Rust
 #+begin_src emacs-lisp
-(my/add-bin-folder my/rust-analyzer-bin)
-(my/add-bin-folder my/rustfmt-bin)
-(my/add-bin-folder my/cargo-bin)
-(my/add-bin-folder my/rustc-bin)
-
 (use-package rust-mode
   :after treesit
   :ensure t
@@ -259,7 +247,6 @@ Configure java to use jdtls/eglot
 
 *** Lua
 #+begin_src emacs-lisp
-(my/add-bin-folder my/lua-language-server-bin)
 (use-package lua-mode
   :ensure t
   :hook (lua-mode . eglot-ensure))
@@ -275,7 +262,6 @@ Configure java to use jdtls/eglot
 
 *** C
 #+begin_src emacs-lisp
-(my/add-bin-folder my/clang-bin) ; for clangd
 ; For whatever reason, putting this in the use-package block doesn't immediately run
 ; this when .c files are loaded, just when M-x c-ts-mode is executed
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
@@ -288,7 +274,6 @@ Configure java to use jdtls/eglot
 
 *** Python
 #+begin_src emacs-lisp
-(my/add-bin-folder my/python-lsp-server-bin)
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 (use-package python
   :after treesit
@@ -297,7 +282,6 @@ Configure java to use jdtls/eglot
 
 *** JavaScript
 #+begin_src emacs-lisp
-(my/add-bin-folder my/typescript-language-server-bin)
 (add-to-list 'major-mode-remap-alist '(javascript-mode . js-ts-mode))
 (use-package js
   :after treesit
@@ -415,8 +399,7 @@ Eradio allows listening to internet radio in Emacs.
 (use-package eradio
   :ensure t
   :custom
-  (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128")))
-  (eradio-player `(,my/vlc "--no-video" "-I" "rc")))
+  (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128"))))
 #+end_src
 
 *** Dired
