@@ -52,6 +52,12 @@ The normal bell noise is just awful, this replaces it with the visual bell.
   :custom (visible-bell 1))
 #+end_src
 
+I like to be able to visualize colors in the editor, but I probably don't want it on always
+#+begin_src emacs-lisp
+(use-package rainbow-mode
+  :ensure t)
+#+end_src
+
 *** Scrolling
 The frame really needs to scroll better.
 #+begin_src emacs-lisp
