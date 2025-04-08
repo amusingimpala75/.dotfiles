@@ -50,6 +50,8 @@
 
     nix-rosetta-builder.url = "github:cpick/nix-rosetta-builder";
     nix-rosetta-builder.inputs.nixpkgs.follows = "nixpkgs";
+
+    devshell.url = "github:numtide/devshell";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -88,6 +90,7 @@
   flake-parts.lib.mkFlake { inherit inputs; } ({ lib, withSystem, ...}: {
     imports = [
       inputs.home-manager.flakeModules.home-manager
+      inputs.devshell.flakeModule
     ];
     flake = {
       darwinConfigurations = {
@@ -157,20 +160,40 @@
       };
 
       templates = {
+        c = {
+          path = ./templates/c;
+          description = "basic C flake with gcc and clang (for clangd)";
+        };
+        java = {
+          path = ./templates/java;
+          description = "basic java 17 flake with jdtls";
+        };
+        js = {
+          path = ./templates/js;
+          description = "basic JS flake with typescript-language-server";
+        };
         python-basic = {
           path = ./templates/python-basic;
           description = "basic python flake for homeworks";
+        };
+        rust = {
+          path = ./templates/rust;
+          description = "basic rust flake with cargo, rust-analyzer, rustc, and rustfmt";
+        };
+        zig = {
+          path = ./templates/zig;
+          description = "basic zig flake with zls";
         };
       };
     };
 
     systems = lib.systems.flakeExposed;
     perSystem = { self', pkgs, system, ...}: {
-      _module.args.pkgs = import inputs.nixpkgs ({
+      _module.args.pkgs = import inputs.nixpkgs {
         inherit system;
         config = nixpkgsConfig;
         overlays = nixpkgsOverlays;
-      });
+      };
 
       apps = let
         mkAppPackage = name: {
@@ -191,6 +214,14 @@
         emacs = pkgs.my.emacs;
         install = pkgs.my.install;
         launcher = pkgs.my.launcher;
+      };
+
+      devshells.default = {
+        motd = "";
+        packages = with pkgs; [
+          lua
+          lua-language-server
+        ];
       };
     };
   });

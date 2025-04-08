@@ -13,7 +13,14 @@
     systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "x86_64-darwin" ];
     perSystem = { ... }: {
       devshells.default = { pkgs, ... }: {
-        packages = [ pkgs.python3 ];
+        packages = [
+          pkgs.python3.withPackages (p: (with p; [
+            python-lsp-server
+            pylsp-rope
+            pylsp-mypy
+            python-lsp-ruff
+          ]))
+        ];
         motd = "";
       };
     };
