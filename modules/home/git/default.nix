@@ -29,6 +29,7 @@ in {
       ignores = [
         "*~"
         "**/.DS_Store"
+        ".direnv"
       ];
       userEmail = lib.mkIf (cfg.email != null) cfg.email;
       userName = lib.mkIf (cfg.username != null) cfg.username;
