@@ -4,7 +4,7 @@
 
   config = lib.mkIf config.rices.winnie-farming.enable {
     rice = rec {
-      theme = pkgs.my.schemes.mocha;
+      theme = pkgs.my.schemes.base16.mocha;
 
       opacity = 0.9;
 

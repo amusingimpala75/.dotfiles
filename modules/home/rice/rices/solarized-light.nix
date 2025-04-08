@@ -6,7 +6,7 @@ in {
 
   config = lib.mkIf config.rices.${rice-name}.enable {
     rice = rec {
-      theme = pkgs.my.schemes.solarized-light;
+      theme = pkgs.my.schemes.base16.solarized-light;
 
       opacity = 0.9;
 

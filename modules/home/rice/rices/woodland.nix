@@ -4,7 +4,7 @@
 
   config = lib.mkIf config.rices.woodland.enable {
     rice = rec {
-      theme = pkgs.my.schemes.woodland;
+      theme = pkgs.my.schemes.base16.woodland;
 
       opacity = 0.9;
 
