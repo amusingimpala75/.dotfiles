@@ -59,8 +59,6 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       cfg.package
-      pkgs.nixd
-      pkgs.nixfmt-rfc-style
       pkgs.xterm-24bit-terminfo
     ];
 

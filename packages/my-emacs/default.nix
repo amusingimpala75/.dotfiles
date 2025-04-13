@@ -3,11 +3,14 @@
   emacs30,
   emacsPackagesFor,
   ghostscript,
+  nixd,
+  nixfmt-rfc-style,
   texlive,
   vlc,
 
   # builders
   emacsWithPackagesFromUsePackage,
+  makeWrapper,
   symlinkJoin,
   writeText,
 
@@ -50,13 +53,23 @@ let
       })
     ];
   };
+  deps = symlinkJoin {
+    name = "emacs30-path-additions";
+    paths = [
+      nixd
+      nixfmt-rfc-style
+      texlive.combined.scheme-full
+      ghostscript
+      vlc
+    ];
+  };
 in
 symlinkJoin {
   inherit (pkg) name;
-  paths = [
-    pkg
-    texlive.combined.scheme-full
-    ghostscript
-    vlc
-  ];
+  paths = [ pkg ];
+  buildInputs = [ makeWrapper ];
+  postBuild = ''
+    wrapProgram $out/bin/emacs --prefix PATH : ${deps}/bin
+    wrapProgram $out/bin/emacsclient --prefix PATH: ${deps}/bin
+  '';
 }
