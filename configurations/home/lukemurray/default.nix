@@ -108,4 +108,22 @@
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
     '';
   };
+
+  my.darwin.dock.items = [
+    # Finder
+    "/System/Applications/Launchpad.app"
+    "/System/Applications/Messages.app"
+    "/System/Applications/Mail.app"
+    "/System/Applications/Maps.app"
+    "/System/Applications/FaceTime.app"
+    "/System/Applications/Calendar.app"
+    "/Applications/Pages.app"
+    "/System/Applications/App Store.app"
+    "/System/Applications/System Settings.app"
+    "~/Applications/Home Manager Apps/Firefox.app"
+    "~/Applications/Home Manager Apps/Emacs.app"
+    "/Applications/Ghostty.app" # :TODO: still need to fix package
+    "/System/Applications/iPhone Mirroring.app"
+    "~/Downloads"
+  ];
 }
