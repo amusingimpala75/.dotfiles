@@ -239,11 +239,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1742432361,
-        "narHash": "sha256-FlqTrkzSn6oPR5iJTPsCQDd0ioMGzzxnPB+2wve9W2w=",
+        "lastModified": 1744419644,
+        "narHash": "sha256-1zapdtkN1H1HSU/BRyWdRHoKkFH6H3vU6gPkCKjEfQ4=",
         "owner": "bandithedoge",
         "repo": "nixpkgs-firefox-darwin",
-        "rev": "c868ff433ea5123e837a62ae689543045187d7a4",
+        "rev": "12358010721a0be96c49d64a13d4d65d52886c94",
         "type": "github"
       },
       "original": {
