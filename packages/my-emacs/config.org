@@ -497,6 +497,8 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
 #+begin_src emacs-lisp
 (use-package envrc
   :ensure t
-  :hook (after-init . envrc-global-mode))
+  :hook (after-init . envrc-global-mode)
+  :config
+  (advice-add 'Man-completion-table :around #'envrc-propagate-environment))
 #+end_src
 # TODO: eat, treesit-utils, go/other prog modes, custom modeline, flymake, dape, magit/forge, golden-ratio, dimmer, cape (supposedly can get elisp completion in org and merge yasnippet and eglot capfs), gptel
