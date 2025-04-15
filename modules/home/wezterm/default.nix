@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.my.wezterm;
 in {
@@ -7,7 +7,10 @@ in {
   config = lib.mkIf cfg.enable {
     programs.wezterm = {
       enable = true;
-      extraConfig = builtins.readFile ./config.lua;
+      extraConfig = builtins.readFile (pkgs.buildFennelPackage {
+        name = "wezterm-fnl-config";
+        src = ./config.fnl;
+      });
     };
   };
 }

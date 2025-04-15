@@ -219,8 +219,8 @@
       devshells.default = {
         motd = "";
         packages = with pkgs; [
-          lua
-          lua-language-server
+          fennel
+          fennel-ls
         ];
       };
     };

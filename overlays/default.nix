@@ -5,6 +5,8 @@ final: prev: {
   desktoppr = final.callPackage ../packages/desktoppr.nix { };
   wallp = final.callPackage ../packages/wallp.nix { };
 
+  buildFennelPackage = final.callPackage ../packages/buildFennelPackage.nix { };
+
   my.emacs = final.callPackage ../packages/my-emacs { };
   my.launcher = final.callPackage ../packages/launcher.nix { };
   my.install = final.callPackage ../packages/install.nix { };
