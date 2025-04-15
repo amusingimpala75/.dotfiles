@@ -294,6 +294,14 @@ Configure java to use jdtls/eglot
   :hook (js-ts-mode . eglot-ensure))
 #+end_src
 
+*** Fennel
+#+begin_src emacs-lisp
+(use-package fennel-mode
+  :ensure t
+  :mode ("\\.fnl\\'" . fennel-mode)
+  :hook (fennel-mode . eglot-ensure))
+#+end_src
+
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 # TODO: embark
