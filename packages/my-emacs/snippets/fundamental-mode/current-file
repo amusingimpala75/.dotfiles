@@ -1,5 +1,0 @@
-# -*- mode:snippet -*-
-# name: current-file
-# key: cfile
-# --
-`(file-name-nondirectory (buffer-file-name))`

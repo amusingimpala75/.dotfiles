@@ -42,8 +42,6 @@ let
 
           (defvar my/opacity (truncate ${builtins.toString (opacity * 100)}))
 
-          (defvar my/snippets-dir "${./snippets}")
-
           (require '${theme-file-name})
           (load-theme '${theme-name} t)
 

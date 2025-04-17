@@ -125,45 +125,64 @@ I also like to make it easy to modify the font size, bound to `C--` and `C-=`
                                        "===" "!==")))
 #+end_src
 
-** Org Mode
+** Language Support (modes)
+*** ~fundamental-mode~ (global)
+**** Snippets
+***** Insert current file name
 #+begin_src emacs-lisp
-(use-package org
-  :hook
-   (org-mode . variable-pitch-mode)
-   (org-mode . visual-line-mode)
-  :custom-face
-  (org-block ((t (:inherit fixed-pitch))))
-  (org-table ((t (:inherit fixed-pitch))))
-  (org-code ((t (:inherit (shadow fixed-pitch)))))
-  (org-level-1 ((t (:weight bold :height 1.5))))
-  (org-level-2 ((t (:weight bold :height 1.4))))
-  (org-level-3 ((t (:weight bold :height 1.3))))
-  (org-level-4 ((t (:weight bold :height 1.2))))
-  (org-level-5 ((t (:weight bold :height 1.1))))
-  (org-level-6 ((t (:weight bold))))
-  (org-level-7 ((t (:weight bold))))
-  (org-level-8 ((t (:weight bold))))
-  :custom
-  (org-src-fontify-natively t)
-  (org-src-preserve-indentation t)
-  :config
-  (add-to-list 'org-modules 'org-tempo))
+(define-skeleton fundamental-skeleton-current-file
+  "Insert the name of the current file"
+  nil ;; no prompt
+  > (file-name-nondirectory (buffer-file-name)))
+#+END_src
+
+***** Insert current date
+#+begin_src emacs-lisp
+(define-skeleton fundamental-skeleton-current-date
+  "Insert the date"
+  nil ;; no prompt
+  > (format-time-string "%Y-%m-%d"))
 #+end_src
 
-Org-modern just makes things look nicer
+***** Fancy heading
 #+begin_src emacs-lisp
-(use-package org-modern
-  :ensure t
-  :hook (org-mode . org-modern-mode))
+(defun my/longest-line (str)
+  "Return length of longest single line in `str'."
+  (seq-max (mapcar 'string-width (split-string str "\n"))))
+
+(define-skeleton fundamental-skeleton-heading
+  "Generate surrounded heading"
+  ""
+  '(setq str (skeleton-read "Title: "))
+  > (make-string (my/longest-line str) ?=) \n
+  > str \n
+  > (make-string (my/longest-line str) ?=))
 #+end_src
 
-** Language Support
+**** Config
+Actually add the snippets
+#+begin_src emacs-lisp
+(defun my/add-skeleton-abbrevs (table pairs)
+  (dolist (pair pairs)
+    (let ((name (car pair))
+          (fn (cdr pair)))
+      (define-abbrev table name "" fn 1))))
+
+(defun my/add-fundamental-snippets (table)
+  (define-abbrev table "shr" "¯\\_(ツ)_/¯" nil 1)
+  (my/add-skeleton-abbrevs table '(("here" . 'fundamental-skeleton-current-file)
+                                   ("now" . 'fundamental-skeleton-current-date)
+                                   ("heading" . 'fundamental-skeleton-heading))))
+#+end_src
+
 *** Markdown
 While many READMEs are in Markdown, this is actually here so that Eldoc (and thus corfu-popupinfo) renders docstrings correctly
 #+begin_src emacs-lisp
 (use-package markdown-mode
   :ensure t
-  :mode ("README\\.md\\'" . gfm-mode))
+  :mode ("README\\.md\\'" . gfm-mode)
+  :config
+  (my/add-fundamental-snippets markdown-mode-abbrev-table))
 #+end_src
 
 *** Nix
@@ -171,17 +190,27 @@ Since this is an emacs configuration after all, we use nix-mode
 #+begin_src emacs-lisp
 (use-package nix-mode
   :ensure t
-  :after eglot
   :hook
   (nix-mode . eglot-ensure)
   (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-mode-format nil t)))
   :config
-  (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
+  (my/add-fundamental-snippets nix-mode-abbrev-table))
 #+end_src
 
 *** \LaTeX
 \LaTeX is a necessary component for document editing
+**** Snippets
 #+begin_src emacs-lisp
+(defun my/add-LaTeX-snippets (table)
+  (my/add-fundamental-snippets table)
+  (define-abbrev table "ria" "\\rightarrow" nil 1))
+#+end_src
+
+**** config
+#+begin_src emacs-lisp
+;; I don't like this hackiness, but latex/auctex/tex loading is weird
 (use-package tex
   :ensure auctex
   :custom
@@ -198,7 +227,9 @@ Since this is an emacs configuration after all, we use nix-mode
   :init
   (defun my/add-latex-preview-save-hook ()
     (add-hook 'after-save-hook 'preview-buffer nil t))
-  (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook))
+  (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook)
+  :config
+  (my/add-LaTeX-snippets LaTeX-mode-abbrev-table))
 
 ;; TODO hook when \) to do preview-at-point a few chars back
 (use-package preview
@@ -206,7 +237,7 @@ Since this is an emacs configuration after all, we use nix-mode
   :custom
   (preview-scale 1.4)
   (preview-auto-cache-preamble nil)
-  :config
+  :vconfig
   (defun my/text-scale-adjust-latex-previews ()
     (dolist (ov (overlays-in (point-min) (point-max)))
       (if (eq (overlay-get ov 'category)
@@ -229,15 +260,88 @@ Since this is an emacs configuration after all, we use nix-mode
 (use-package latex-preview-pane
   :ensure t
   :hook (LaTeX-mode . latex-preview-pane-mode))
+#+end_src
 
+*** Org Mode
+#+begin_src emacs-lisp
+(use-package org
+  :hook
+   (org-mode . variable-pitch-mode)
+   (org-mode . visual-line-mode)
+  :custom-face
+  (org-block ((t (:inherit fixed-pitch))))
+  (org-table ((t (:inherit fixed-pitch))))
+  (org-code ((t (:inherit (shadow fixed-pitch)))))
+  (org-level-1 ((t (:weight bold :height 1.5))))
+  (org-level-2 ((t (:weight bold :height 1.4))))
+  (org-level-3 ((t (:weight bold :height 1.3))))
+  (org-level-4 ((t (:weight bold :height 1.2))))
+  (org-level-5 ((t (:weight bold :height 1.1))))
+  (org-level-6 ((t (:weight bold))))
+  (org-level-7 ((t (:weight bold))))
+  (org-level-8 ((t (:weight bold))))
+  :custom
+  (org-src-fontify-natively t)
+  (org-src-preserve-indentation t)
+  :config
+  (add-to-list 'org-modules 'org-tempo)
+  (my/add-LaTeX-snippets org-mode-abbrev-table))
+#+end_src
+
+Org-modern just makes things look nicer
+#+begin_src emacs-lisp
+(use-package org-modern
+  :ensure t
+  :hook (org-mode . org-modern-mode))
 #+end_src
 
 *** Java
 Configure java to use jdtls/eglot
 # TODO make this a (use-package java-mode ...) or (use-package cc-mode ...). I cannot for the life of me get those to work.
+**** Snippets
+***** Main class generator
 #+begin_src emacs-lisp
-(use-package eglot
-  :hook (java-mode . eglot-ensure))
+(define-skeleton java-skeleton-def-main
+  "Generate java main class/function."
+  ""
+  "public class " (capitalize (file-name-nondirectory (file-name-sans-extension (buffer-name)))) " {" \n
+  "public static void main(String[] args) {" \n
+  _ \n
+  -4 "}" \n
+  -4 "}")
+#+end_src
+
+produces:
+
+#+begin_src java-mode
+public class [Class name from file name] {
+    public static void main(String[] args) {
+        <cursor here>
+    }
+}
+#+end_src
+
+***** println generator
+#+begin_src emacs-lisp
+(define-skeleton java-skeleton-println
+  "Generate println statement."
+  ""
+  > "System.out.println(" (skeleton-read "text: ") ");" \n
+  > _)
+#+end_src
+
+**** Config
+#+begin_src emacs-lisp
+(defun my/add-java-snippets (table)
+  (my/add-fundamental-snippets table)
+  (my/add-skeleton-abbrevs table '(("defmain" . 'java-skeleton-def-main)
+                                   ("pr" . 'java-skeleton-println))))
+(with-eval-after-load 'java-mode
+  (add-hook 'java-mode-hook 'eglot-ensure)
+  (my/add-java-snippets java-mode-abbrev-table)
+
+  (with-eval-after-load 'java-ts-mode
+    (my/add-java-snippets java-ts-mode-abbrev-table)))
 #+end_src
 
 *** Rust
@@ -248,14 +352,19 @@ Configure java to use jdtls/eglot
   :hook (rust-ts-mode . eglot-ensure)
   :custom
   (rust-mode-treesitter-derive t)
-  (rust-format-on-save t))
+  (rust-format-on-save t)
+  :config
+  (my/add-fundamental-snippets rust-mode-abbrev-table)
+  (my/add-fundamental-snippets rust-ts-mode-abbrev-table))
 #+end_src
 
 *** Lua
 #+begin_src emacs-lisp
 (use-package lua-mode
   :ensure t
-  :hook (lua-mode . eglot-ensure))
+  :hook (lua-mode . eglot-ensure)
+  :config
+  (my/add-fundamental-snippets lua-mode-abbrev-table))
 #+end_src
 
 *** Zig
@@ -263,27 +372,142 @@ Configure java to use jdtls/eglot
 (use-package zig-mode
   :ensure t
   :diminish zig-format-on-save-mode
-  :hook (zig-mode . eglot-ensure))
+  :hook (zig-mode . eglot-ensure)
+  :config
+  (my/add-fundamental-snippets zig-mode-abbrev-table))
 #+end_src
 
 *** C
+**** Snippets
+***** Header Guard
+(yes I know ~#pragma once~ exists)
 #+begin_src emacs-lisp
-; For whatever reason, putting this in the use-package block doesn't immediately run
-; this when .c files are loaded, just when M-x c-ts-mode is executed
+(defun my/default-header-guard-name ()
+  "Default header guard created by upcase the file name."
+  (concat (upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name)))) "_H"))
+
+(define-skeleton c-skeleton-guard
+  "Generate header guard"
+  ""
+  '(setq str (skeleton-read "Header: " (my/default-header-guard-name)))
+  "#ifndef " str \n
+  "#define " str \n
+  \n
+  _ \n
+  \n
+  "#endif /* " str " */")
+#+end_src
+
+produces
+
+#+begin_src cc-mode
+#ifndef CONFIG_H
+#define CONFIG_H
+
+<cursor here>
+
+#endif /* CONFIG_H */
+#+end_src
+
+***** Doxygen Header comment
+#+begin_src emacs-lisp
+(define-skeleton c-skeleton-doxy-header
+  "Doxygen comment for header."
+  ""
+  "/**" \n
+  " * @file " (file-name-nondirectory (buffer-file-name)) \n
+  " * @author " (skeleton-read "Author: " nil nil) \n ;; TODO default author
+  " * @brief " (skeleton-read "Brief: " nil nil) \n
+  " * @date " (format-time-string "%Y-%m-%d") \n
+  " */")
+#+end_src
+
+***** Doxygen function comment
+#+begin_src emacs-lisp
+(define-skeleton c-skeleton-doxy-fn
+  "Doxygen comment for a function."
+  ""
+  > "/**" \n
+  > " * @brief " (skeleton-read "Brief: ") \n
+  > " *" \n
+  > " * " (skeleton-read "Description: ") \n
+  > " *" \n
+  ("Param: " > " * @param " str \n)
+  > " * @return " (skeleton-read "Returns: ") \n
+  > " */")
+#+end_src
+
+**** Config
+#+begin_src emacs-lisp
+(defun my/add-c-snippets (table)
+  (my/add-fundamental-snippets table)
+  (my/add-skeleton-abbrevs table '(("guard" . 'c-skeleton-guard)
+                                   ("doxyheader" . 'c-skeleton-doxy-header)
+                                   ("doxyfn" . 'c-skeleton-doxy-fn))))
+
+;; For whatever reason, putting this in the use-package block doesn't immediately run
+;; this when .c files are loaded, just when M-x c-ts-mode is executed
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
 (use-package cc-mode
   :after treesit
   :hook (c-ts-mode . eglot-ensure)
   :custom
-  (c-ts-mode-indent-offset 4))
+  (c-ts-mode-indent-offset 4)
+  :config
+  (my/add-c-snippets c-mode-abbrev-table)
+  (my/add-c-snippets c-ts-mode-abbrev-table))
 #+end_src
 
 *** Python
+**** Snippets
+***** Doc comment for functions
 #+begin_src emacs-lisp
+(define-skeleton python-skeleton-doc-func
+  "Generate doc comment for function."
+  ""
+  "\"\"\"" (skeleton-read "Brief: ") \n
+  \n
+  (skeleton-read "Long: ") \n
+  \n
+  "Args:" \n
+  ("Arg: " "    " str \n)
+  \n
+  "Returns:" \n
+  "    " (skeleton-read "Returns: ") \n
+  \n
+  "Raises:" \n
+  ("Exception: " "    " str \n)
+  "\"\"\"")
+#+end_src
+
+***** Main function generator
+#+begin_src emacs-lisp
+(define-skeleton python-skeleton-main-fn
+  "Generate main-func paradigm."
+  ""
+  "def main():" \n
+  > _ \n
+  > "pass" \n
+  \n
+  "if __name__ == '__main__':" \n
+  > "main()")
+#+end_src
+
+**** Config
+#+begin_src emacs-lisp
+(defun my/add-python-snippets (table)
+  (my/add-fundamental-snippets table)
+  (my/add-skeleton-abbrevs table '(("dfunc" . 'python-skeleton-doc-func)
+                                   ("mainf" . 'pytho-skeleton-main-fn))))
+
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 (use-package python
   :after treesit
-  :hook (python-ts-mode  . eglot-ensure))
+  :hook (python-ts-mode  . eglot-ensure)
+  :config
+  (my/add-python-snippets python-mode-abbrev-table)
+  (with-eval-after-load 'python-ts-mode
+    (my/add-python-snippets python-ts-mode-abbrev-table)))
 #+end_src
 
 *** JavaScript
@@ -291,7 +515,10 @@ Configure java to use jdtls/eglot
 (add-to-list 'major-mode-remap-alist '(javascript-mode . js-ts-mode))
 (use-package js
   :after treesit
-  :hook (js-ts-mode . eglot-ensure))
+  :hook (js-ts-mode . eglot-ensure)
+  :config
+  (my/add-fundamental-snippets js-mode-abbrev-table)
+  (my/add-fundamental-snippets js-ts-mode-abbrev-table))
 #+end_src
 
 *** Fennel
@@ -299,7 +526,9 @@ Configure java to use jdtls/eglot
 (use-package fennel-mode
   :ensure t
   :mode ("\\.fnl\\'" . fennel-mode)
-  :hook (fennel-mode . eglot-ensure))
+  :hook (fennel-mode . eglot-ensure)
+  :config
+  (my/add-fundamental-snippets fennel-mode-abbrev-table))
 #+end_src
 
 ** Completion
@@ -339,12 +568,33 @@ Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 
 Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
 #+begin_src emacs-lisp
+(use-package cape
+  :ensure t
+  :after corfu
+  :init
+  (setq my/eglot-capf (cape-capf-super #'eglot-completion-at-point #'cape-abbrev)
+        my/elisp-capf (cape-capf-super #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point)
+        my/org-capf (cape-capf-super #'cape-abbrev #'cape-elisp-block #'ispell-completion-at-point)
+        my/generic-capf (cape-capf-super #'cape-abbrev #'ispell-completion-at-point))
+
+  (defun my/cape-capf-set ()
+    (interactive)
+    (setq-local completion-at-point-functions
+                (list
+                 (cond ((equal major-mode #'org-mode) my/org-capf)
+                       ((or (equal major-mode #'emacs-lisp-mode)
+                            (equal major-mode #'lisp-interaction-mode)) my/elisp-capf)
+                       ((and (fboundp 'eglot-managed-p) (eglot-managed-p)) my/eglot-capf)
+                       (t my/generic-capf)))))
+  :hook (after-change-major-mode . my/cape-capf-set))
+
 (use-package corfu
   :ensure t
   :bind ( :map corfu-mode-map
 	  ("S-<tab>" . completion-at-point)
 	  ("<backtab>" . completion-at-point))
   :custom
+  (global-corfu-mode t)
   (corfu-cycle t)
   (corfu-popupinfo-delay '(0.5 . 0.5))
   :hook
@@ -357,10 +607,16 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   (unless (display-graphic-p)
     (corfu-terminal-mode +1)))
 
+;; :TODO: fix suggestion in org mode at least not being anything other than a simple dict autocomplete (abbrev not showing?)
 (use-package completion-preview
   :diminish completion-preview-mode
-  :hook (corfu-mode . completion-preview-mode)
-  :custom (completion-preview-minimum-symbol-length 2))
+  :hook ((corfu-mode . completion-preview-mode)
+         (org-mode . my/completion-preview-add-org))
+  :custom (completion-preview-minimum-symbol-length 2)
+  :init
+  (defun my/completion-preview-add-org ()
+    (setq-local completion-preview-commands
+                (append completion-preview-commands '(org-self-insert-command org-delete-backward-char)))))
 
 (use-package kind-icon
   :ensure t
@@ -373,20 +629,6 @@ Auto-completion of matching parenthesis is really useful, although it can get in
 #+begin_src emacs-lisp
 (use-package electric-pair
   :hook (prog-mode . electric-pair-mode))
-#+end_src
-
-Snippets with yasnippet, plus a few helper functions
-#+begin_src emacs-lisp
-(defun my/longest-line (str)
-  "Return length of longest single line in `str'."
-  (seq-max (mapcar 'string-width (split-string str "\n"))))
-
-(use-package yasnippet
-  :ensure t
-  :diminish yas-minor-mode
-  :custom
-  (yas-snippet-dirs (list my/snippets-dir))
-  (yas-global-mode 1))
 #+end_src
 
 Avy to help with jumping around text
@@ -446,7 +688,8 @@ Also, I've been burned one too many times by accidentally opening a massive file
   :hook (find-file . my/find-file-massive-basic)
   :custom
   (backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
-  (create-lockfiles nil))
+  (create-lockfiles nil)
+  (save-abbrevs nil))
 #+end_src
 
 Visual Undo to visualize the undo tree
