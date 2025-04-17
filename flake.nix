@@ -23,6 +23,7 @@
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    emacs-overlay.inputs.nixpkgs-stable.follows = "nixpkgs-stable-nixos";
 
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
