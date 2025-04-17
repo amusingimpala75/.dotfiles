@@ -705,10 +705,14 @@ Always use utf-8 when possible
   (set-default-coding-systems 'utf-8))
 #+end_src
 
-Never use tabs; always spaces
+Never use tabs; always spaces. Also, always force DWIM if possible
 #+begin_src emacs-lisp
 (use-package simple
-  :custom (indent-tabs-mode nil))
+  :custom (indent-tabs-mode nil)
+  :bind
+  ("M-u" . upcase-dwim)
+  ("M-l" . downcase-dwim)
+  ("M-c" . capitalize-dwim))
 #+end_src
 
 Indent guides to check indentation
