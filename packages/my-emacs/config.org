@@ -751,10 +751,11 @@ Indent guides to check indentation
 
 Gotta get those nice looking SVG tags
 #+begin_src emacs-lisp
+;; TODO resolve why loading causes problems for dasboard and dired-sidebar
 (use-package svg-tag-mode
   :ensure t
   :custom
-  (global-svg-tag-mode 1)
+  ;(global-svg-tag-mode t)
   (svg-tag-tags '((":TODO:" . ((lambda (tag)
                                  (svg-tag-make "TODO" :face 'org-tag
                                                :radius 4 :inverse t :margin 0)))))))
