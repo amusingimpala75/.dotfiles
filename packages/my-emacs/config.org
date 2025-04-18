@@ -103,7 +103,12 @@ Pull from the user configuration for the font family/size
   :custom-face
   (default ((t (:family ,my/font-family-fixed-pitch :height ,(* my/font-size 10)))))
   (variable-pitch ((t (:family ,my/font-family-variable-pitch))))
-  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch)))))
+  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch))))
+  :config
+  ;; I wish I could just do it for the single character required ¯\_(ツ)_/¯
+  ;; But org-export or nix or something is not happy (unrecognized token)
+  (unless (eq 'system-type 'darwin)
+    (set-fontset-font t nil "Noto Sans CJK" nil 'append)))
 #+end_src
 
 I also like to make it easy to modify the font size, bound to `C--` and `C-=`

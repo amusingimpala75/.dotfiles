@@ -11,5 +11,8 @@ in {
       client.enable = true;
       client.arguments = [ "-c" ];
     };
+
+    fonts.fontconfig.enable = true;
+    home.packages = [ pkgs.noto-fonts-cjk-sans ];
   };
 }
