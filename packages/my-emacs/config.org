@@ -371,12 +371,15 @@ public class [Class name from file name] {
   (my/add-fundamental-snippets table)
   (my/add-skeleton-abbrevs table '(("defmain" . java-skeleton-def-main)
                                    ("pr" . java-skeleton-println))))
-(with-eval-after-load 'java-mode
+(with-eval-after-load 'cc-mode
   (add-hook 'java-mode-hook 'eglot-ensure)
-  (my/add-java-snippets java-mode-abbrev-table)
+  (my/add-java-snippets java-mode-abbrev-table))
 
-  (with-eval-after-load 'java-ts-mode
-    (my/add-java-snippets java-ts-mode-abbrev-table)))
+(use-package java-ts-mode
+  :after treesit
+  :hook (java-ts-mode . eglot-ensure)
+  :config
+  (my/add-java-snippets java-ts-mode-abbrev-table))
 #+end_src
 
 *** Rust
@@ -550,8 +553,7 @@ produces
   :hook (python-ts-mode  . eglot-ensure)
   :config
   (my/add-python-snippets python-mode-abbrev-table)
-  (with-eval-after-load 'python-ts-mode
-    (my/add-python-snippets python-ts-mode-abbrev-table)))
+  (my/add-python-snippets python-ts-mode-abbrev-table))
 #+end_src
 
 *** JavaScript
@@ -802,4 +804,4 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
   :config
   (advice-add 'Man-completion-table :around #'envrc-propagate-environment))
 #+end_src
-# TODO: eat, treesit-utils, go/other prog modes, custom modeline, flymake, dape, magit/forge, golden-ratio, dimmer, cape (supposedly can get elisp completion in org and merge yasnippet and eglot capfs), gptel
+# TODO: eat, treesit-utils, go/other prog modes, custom modeline, flymake, dape, golden-ratio, dimmer, gptel, osm, webkit
