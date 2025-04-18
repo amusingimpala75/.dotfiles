@@ -196,9 +196,9 @@ Actually add the snippets
 
 (defun my/add-fundamental-snippets (table)
   (define-abbrev table "shr" "¯\\_(ツ)_/¯" nil 1)
-  (my/add-skeleton-abbrevs table '(("here" . 'fundamental-skeleton-current-file)
-                                   ("now" . 'fundamental-skeleton-current-date)
-                                   ("heading" . 'fundamental-skeleton-heading))))
+  (my/add-skeleton-abbrevs table '(("here" . fundamental-skeleton-current-file)
+                                   ("now" . fundamental-skeleton-current-date)
+                                   ("heading" . fundamental-skeleton-heading))))
 #+end_src
 
 *** Markdown
@@ -360,8 +360,8 @@ public class [Class name from file name] {
 #+begin_src emacs-lisp
 (defun my/add-java-snippets (table)
   (my/add-fundamental-snippets table)
-  (my/add-skeleton-abbrevs table '(("defmain" . 'java-skeleton-def-main)
-                                   ("pr" . 'java-skeleton-println))))
+  (my/add-skeleton-abbrevs table '(("defmain" . java-skeleton-def-main)
+                                   ("pr" . java-skeleton-println))))
 (with-eval-after-load 'java-mode
   (add-hook 'java-mode-hook 'eglot-ensure)
   (my/add-java-snippets java-mode-abbrev-table)
@@ -467,20 +467,23 @@ produces
 #+begin_src emacs-lisp
 (defun my/add-c-snippets (table)
   (my/add-fundamental-snippets table)
-  (my/add-skeleton-abbrevs table '(("guard" . 'c-skeleton-guard)
-                                   ("doxyheader" . 'c-skeleton-doxy-header)
-                                   ("doxyfn" . 'c-skeleton-doxy-fn))))
+  (my/add-skeleton-abbrevs table '(("guard" . c-skeleton-guard)
+                                   ("doxyheader" . c-skeleton-doxy-header)
+                                   ("doxyfn" . c-skeleton-doxy-fn))))
 
 ;; For whatever reason, putting this in the use-package block doesn't immediately run
 ;; this when .c files are loaded, just when M-x c-ts-mode is executed
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
 (use-package cc-mode
+  :config
+  (my/add-c-snippets c-mode-abbrev-table))
+
+(use-package c-ts-mode
   :after treesit
   :hook (c-ts-mode . eglot-ensure)
   :custom
   (c-ts-mode-indent-offset 4)
   :config
-  (my/add-c-snippets c-mode-abbrev-table)
   (my/add-c-snippets c-ts-mode-abbrev-table))
 #+end_src
 
@@ -523,8 +526,8 @@ produces
 #+begin_src emacs-lisp
 (defun my/add-python-snippets (table)
   (my/add-fundamental-snippets table)
-  (my/add-skeleton-abbrevs table '(("dfunc" . 'python-skeleton-doc-func)
-                                   ("mainf" . 'pytho-skeleton-main-fn))))
+  (my/add-skeleton-abbrevs table '(("dfunc" . python-skeleton-doc-func)
+                                   ("mainf" . python-skeleton-main-fn))))
 
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 (use-package python
@@ -600,8 +603,8 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   :init
   (setq my/eglot-capf (cape-capf-super #'eglot-completion-at-point #'cape-abbrev)
         my/elisp-capf (cape-capf-super #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point)
-        my/org-capf (cape-capf-super #'cape-abbrev #'cape-elisp-block #'ispell-completion-at-point)
-        my/generic-capf (cape-capf-super #'cape-abbrev #'ispell-completion-at-point))
+        my/org-capf (cape-capf-super #'cape-abbrev #'cape-elisp-block)
+        my/generic-capf (cape-capf-super #'cape-abbrev))
 
   (defun my/cape-capf-set ()
     (interactive)
@@ -611,7 +614,8 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
                        ((or (equal major-mode #'emacs-lisp-mode)
                             (equal major-mode #'lisp-interaction-mode)) my/elisp-capf)
                        ((and (fboundp 'eglot-managed-p) (eglot-managed-p)) my/eglot-capf)
-                       (t my/generic-capf)))))
+                       (t my/generic-capf))
+                 'ispell-completion-at-point)))
   :hook (after-change-major-mode . my/cape-capf-set))
 
 (use-package corfu
