@@ -49,6 +49,11 @@ let
         '';
         packageRequires = [ theme-package ];
       })
+      (epkgs.trivialBuild {
+        pname = "normie-mode";
+        version = "0.1.0";
+        src = ./normie-mode.el;
+      })
     ];
   };
   deps = symlinkJoin {
