@@ -795,6 +795,13 @@ Gotta get those nice looking SVG tags
   :bind (:map prog-mode-map
          ("C-x h" . hs-toggle-hiding)))
 #+end_src
+*** Version Control
+#+begin_src emacs-lisp
+(use-package vc-git
+  :config
+  ;; I really just need to be able to use ¯\_(ツ)_/¯
+  (my/add-fundamental-snippets vc-git-log-edit-mode-abbrev-table))
+#+end_src
 
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
