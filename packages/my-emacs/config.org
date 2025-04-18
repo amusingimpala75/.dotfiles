@@ -746,7 +746,8 @@ Also, I've been burned one too many times by accidentally opening a massive file
 Visual Undo to visualize the undo tree
 #+begin_src emacs-lisp
 (use-package vundo
-  :ensure t)
+  :ensure t
+  :bind ("C-?" . vundo))
 #+end_src
 
 Always use utf-8 when possible
