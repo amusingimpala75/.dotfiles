@@ -269,7 +269,7 @@ Since this is an emacs configuration after all, we use nix-mode
   :custom
   (preview-scale 1.4)
   (preview-auto-cache-preamble nil)
-  :vconfig
+  :config
   (defun my/text-scale-adjust-latex-previews ()
     (dolist (ov (overlays-in (point-min) (point-max)))
       (if (eq (overlay-get ov 'category)
@@ -694,6 +694,7 @@ eldoc for inline documentation
   :diminish eldoc-box-hover-at-point-mode
   :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
 #+end_src
+
 ** Apps
 *** Eradio
 Eradio allows listening to internet radio in Emacs.
