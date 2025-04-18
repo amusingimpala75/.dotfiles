@@ -154,6 +154,12 @@ Use the biblegateway VotD for the footer
 ** Language Support (modes)
 *** ~fundamental-mode~ (global)
 **** Snippets
+***** Indent snippet
+#+begin_src emacs-lisp
+(defun my/skeleton-indent-afterwards ()
+  (indent-region (car (last skeleton-positions)) (car skeleton-positions)))
+#+end_src
+
 ***** Insert current file name
 #+begin_src emacs-lisp
 (define-skeleton fundamental-skeleton-current-file
@@ -330,11 +336,14 @@ Configure java to use jdtls/eglot
 (define-skeleton java-skeleton-def-main
   "Generate java main class/function."
   ""
+  @
   "public class " (capitalize (file-name-nondirectory (file-name-sans-extension (buffer-name)))) " {" \n
   "public static void main(String[] args) {" \n
   _ \n
-  -4 "}" \n
-  -4 "}")
+  "}" \n
+  "}"
+  @
+  '(my/skeleton-indent-afterwards))
 #+end_src
 
 produces:
@@ -440,12 +449,15 @@ produces
 (define-skeleton c-skeleton-doxy-header
   "Doxygen comment for header."
   ""
+  @
   "/**" \n
   " * @file " (file-name-nondirectory (buffer-file-name)) \n
   " * @author " (skeleton-read "Author: " nil nil) \n ;; TODO default author
   " * @brief " (skeleton-read "Brief: " nil nil) \n
   " * @date " (format-time-string "%Y-%m-%d") \n
-  " */")
+  " */"
+  @
+  '(my/skeleton-indent-afterwards))
 #+end_src
 
 ***** Doxygen function comment
@@ -453,14 +465,17 @@ produces
 (define-skeleton c-skeleton-doxy-fn
   "Doxygen comment for a function."
   ""
-  > "/**" \n
-  > " * @brief " (skeleton-read "Brief: ") \n
-  > " *" \n
-  > " * " (skeleton-read "Description: ") \n
-  > " *" \n
-  ("Param: " > " * @param " str \n)
-  > " * @return " (skeleton-read "Returns: ") \n
-  > " */")
+  @
+  "/**" \n
+  " * @brief " (skeleton-read "Brief: ") \n
+  " *" \n
+  " * " (skeleton-read "Description: ") \n
+  " *" \n
+  ("Param: " " * @param " str \n)
+  " * @return " (skeleton-read "Returns: ") \n
+  " */"
+  @
+  '(my/skeleton-indent-afterwards))
 #+end_src
 
 **** Config
