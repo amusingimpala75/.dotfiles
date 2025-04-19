@@ -1,22 +1,34 @@
 { config, lib, pkgs, ... }: let
   cfg = config.my.sketchybar;
-  rice = config.rice;
   stdenv = pkgs.stdenv;
+
+  wrapFile = drv: filename: pkgs.stdenv.mkDerivation {
+    name = drv.name;
+    src = drv;
+    phases = [ "buildPhase" ];
+    buildPhase = ''
+      mkdir -p $out
+      cp $src $out/${filename}
+    '';
+  };
+
+  defaults = pkgs.buildFennelPackage {
+    name = "fennel-defaults";
+    src = wrapFile config.rice.fennel-defaults "defaults.fnl";
+  };
+
+  bar-cfg = pkgs.buildFennelPackage {
+    name = "sketchybar-config";
+    src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
+  };
 
   lua = pkgs.lua54Packages.lua.withPackages (ps: [
     ps.lua
     pkgs.sbarlua
-    (pkgs.callPackage ./config.nix {
-      bar-height = rice.bar.height;
-      bar-isTop = rice.bar.isTop;
-      border-active = rice.border.active;
-      border-width = rice.border.width;
-      font-family-fixed = rice.font.family.fixed-pitch;
-      font-family-variable = rice.font.family.variable-pitch;
-      font-size = rice.font.size;
-      theme = rice.theme;
-    })
+    bar-cfg
+    defaults
   ]);
+
   sketchybarrc = pkgs.writeScript "sketchybarrc"
   ''
     #!${lua}/bin/lua

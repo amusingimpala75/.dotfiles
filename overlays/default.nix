@@ -6,6 +6,7 @@ final: prev: {
   wallp = final.callPackage ../packages/wallp.nix { };
 
   buildFennelPackage = final.callPackage ../packages/buildFennelPackage.nix { };
+  fennelToLua = final.callPackage ../packages/fennelToLua.nix {} ;
 
   my.emacs = final.callPackage ../packages/my-emacs { };
   my.launcher = final.callPackage ../packages/launcher.nix { };
