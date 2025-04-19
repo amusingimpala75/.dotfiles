@@ -11,6 +11,7 @@
   # builders
   emacsWithPackagesFromUsePackage,
   makeWrapper,
+  stdenv,
   symlinkJoin,
   writeText,
 
@@ -26,7 +27,7 @@
 }:
 let
   pkg = emacsWithPackagesFromUsePackage {
-    package = emacs30;
+    package = emacs30.override { withNativeCompilation = !stdenv.isDarwin; };
     alwaysTangle = true;
     defaultInitFile = true;
     config = ./config.org;
