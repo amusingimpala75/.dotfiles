@@ -65,11 +65,8 @@ The frame really needs to scroll better.
 (use-package emacs
   :custom
   ;(scroll-margin 2)
-  (scroll-conservatively 101))
-
-(use-package ultra-scroll
-  :custom
-  (ultra-scroll-mode t))
+  (scroll-conservatively 101)
+  (pixel-scroll-precision-mode t))
 #+end_src
 
 Additionally, truncate text off the edge of the screen unless in a text mode
