@@ -7,7 +7,10 @@ in {
   config = lib.mkIf cfg.enable {
     programs.wezterm = {
       enable = true;
-      extraConfig = builtins.readFile (pkgs.fennelToLua ./config.fnl);
+      extraConfig = builtins.readFile (pkgs.fennelToLua {
+        name = "wezterm-config";
+        src = ./config.fnl;
+      });
     };
   };
 }
