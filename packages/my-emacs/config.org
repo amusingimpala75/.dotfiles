@@ -821,6 +821,18 @@ Also because why not
   :ensure t)
 #+end_src
 
+*** Zone
+#+begin_src emacs-lisp
+(use-package zone-matrix
+  :demand t
+  :custom
+  (zmx-unicode-mode t)
+  :config
+  ;; For some reason this will not work in the :custom block ¯\_(ツ)_/¯
+  (setq zone-programs [zone-matrix])
+  (zone-when-idle 60))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
