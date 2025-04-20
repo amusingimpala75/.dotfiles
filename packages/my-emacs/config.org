@@ -807,6 +807,20 @@ Gotta get those nice looking SVG tags
   (my/add-fundamental-snippets vc-git-log-edit-mode-abbrev-table))
 #+end_src
 
+*** Fireplace
+Because why not
+#+begin_src emacs-lisp
+(use-package fireplace
+  :ensure t)
+#+end_src
+
+*** Open Streetmap Viewer
+Also because why not
+#+begin_src emacs-lisp
+(use-package osm
+  :ensure t)
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
@@ -816,4 +830,4 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
   :config
   (advice-add 'Man-completion-table :around #'envrc-propagate-environment))
 #+end_src
-# TODO: eat, treesit-utils, go/other prog modes, custom modeline, flymake, dape, golden-ratio, dimmer, gptel, osm, webkit
+# TODO: eat, treesit-utils, go/other prog modes, custom modeline, flymake, dape, golden-ratio, dimmer, gptel, webkit
