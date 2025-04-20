@@ -352,7 +352,7 @@ Configure java to use jdtls/eglot
 
 produces:
 
-#+begin_src java-mode
+#+begin_src java
 public class [Class name from file name] {
     public static void main(String[] args) {
         <cursor here>
@@ -442,7 +442,7 @@ public class [Class name from file name] {
 
 produces
 
-#+begin_src cc-mode
+#+begin_src c
 #ifndef CONFIG_H
 #define CONFIG_H
 
