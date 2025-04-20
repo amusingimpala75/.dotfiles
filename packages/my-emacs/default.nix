@@ -66,6 +66,16 @@ let
           hash = "sha256-uQQviKTvZfWcdovfxy/jF60onFEJYcp98nDrtDt2CGA=";
         };
       })
+      (epkgs.trivialBuild {
+        pname = "ultra-scroll";
+        version = "git+2025-04-17";
+        src = fetchFromGitHub {
+          owner = "jdtsmith";
+          repo = "ultra-scroll";
+          rev = "f2e4fba601b6116f6f0bcb73cadf897bd8f7b764";
+          hash = "sha256-Dgt7eE4a1gi7iYAxLhfPbmo3Jglq97DJopf2i+Ft7vI=";
+        };
+      })
     ];
   };
   deps = symlinkJoin {

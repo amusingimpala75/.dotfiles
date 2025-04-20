@@ -66,6 +66,10 @@ The frame really needs to scroll better.
   :custom
   ;(scroll-margin 2)
   (scroll-conservatively 101))
+
+(use-package ultra-scroll
+  :custom
+  (ultra-scroll-mode t))
 #+end_src
 
 Additionally, truncate text off the edge of the screen unless in a text mode
