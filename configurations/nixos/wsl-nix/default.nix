@@ -12,6 +12,11 @@
   wsl.defaultUser = "murrayle23";
   wsl.startMenuLaunchers = true;
 
+  environment.sessionVariables = {
+    TERM="wezterm";
+  };
+  environment.systemPackages = [ pkgs.wezterm ];
+
   my.zsh.enable = true;
 
   networking.hostName = "wsl-nix";

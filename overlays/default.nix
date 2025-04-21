@@ -1,7 +1,6 @@
 final: prev: {
   ghostty-bin = final.callPackage ../packages/ghostty.nix { };
   whisky-bin = final.callPackage ../packages/whisky.nix { };
-  xterm-24bit-terminfo = final.callPackage ../packages/xterm-24bit-terminfo.nix { };
   desktoppr = final.callPackage ../packages/desktoppr.nix { };
   wallp = final.callPackage ../packages/wallp.nix { };
 
