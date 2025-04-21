@@ -16,6 +16,7 @@
     TERM="wezterm";
   };
   environment.systemPackages = [ pkgs.wezterm ];
+  environment.wordlist.enable = true;
 
   my.zsh.enable = true;
 
