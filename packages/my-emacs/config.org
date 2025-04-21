@@ -7,7 +7,6 @@ Lexical Bindings, and ensure we can use :bind:
 ;;; -*- lexical-binding: t -*-
 (require 'bind-key)
 (require 'nix-settings)
-(require 'normie-mode)
 (add-to-list 'exec-path "~/.nix-profile/bin")
 #+end_src
 
@@ -331,6 +330,10 @@ Org-modern just makes things look nicer
   :hook (org-mode . org-modern-mode))
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package org-present
+  :ensure t)
+#+end_src
 *** Java
 Configure java to use jdtls/eglot
 # TODO make this a (use-package java-mode ...) or (use-package cc-mode ...). I cannot for the life of me get those to work.
@@ -832,6 +835,12 @@ Also because why not
   ;; For some reason this will not work in the :custom block ¯\_(ツ)_/¯
   (setq zone-programs [zone-matrix])
   (zone-when-idle 60))
+#+end_src
+
+*** Normie mode
+Custom mode I wrote to have "normal" keybinds in emacs
+#+begin_src emacs-lisp
+(use-package normie-mode)
 #+end_src
 
 * Direnv
