@@ -59,7 +59,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       cfg.package
-      pkgs.xterm-24bit-terminfo
+      # pkgs.xterm-24bit-terminfo
     ];
 
     home.shellAliases = lib.mkIf cfg.vi-aliases {
@@ -70,7 +70,7 @@ in
     };
 
     home.sessionVariables = {
-      TERM = "xterm-24bit";
+      # TERM = "xterm-24bit";
     } // lib.optionalAttrs cfg.editor {
       EDITOR = cfg.term-command;
     };

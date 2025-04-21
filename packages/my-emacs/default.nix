@@ -1,6 +1,6 @@
 {
   # pkgs
-  emacs30,
+  emacs,
   emacsPackagesFor,
   ghostscript,
   nixd,
@@ -21,14 +21,14 @@
   font-family-fixed ? "Iosevka",
   font-family-variable ? "Iosevka Etoile",
   opacity ? 1.0,
-  theme-package ? (emacsPackagesFor emacs30).gruvbox-theme,
+  theme-package ? (emacsPackagesFor emacs).gruvbox-theme,
   theme-file-name ? "gruvbox-theme",
   theme-name ? "gruvbox-dark-hard",
   ...
 }:
 let
   pkg = emacsWithPackagesFromUsePackage {
-    package = emacs30.override { withNativeCompilation = !stdenv.isDarwin; };
+    package = emacs;
     alwaysTangle = true;
     defaultInitFile = true;
     config = ./config.org;
