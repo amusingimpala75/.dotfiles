@@ -57,36 +57,8 @@
 
   outputs = inputs@{ flake-parts, ... }:
   let
-    lib = inputs.nixpkgs.lib;
     dotfilesDir = "~/.dotfiles";
-    nixpkgsConfig = { allowUnfree = true; };
-    nixpkgsOverlays = [
-      inputs.alacritty-theme.overlays.default
-      inputs.bible.overlays.default
-      inputs.emacs-overlay.overlays.default
-      inputs.nix-darwin-firefox.overlay
-      inputs.nur.overlays.default
-      inputs.sbarlua.overlay
-      inputs.self.overlays.default # for my packages, whether that be script, customization, or vendoring
-
-      (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${prev.system}.default; })
-      (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
-
-      (final: prev: lib.optionalAttrs prev.stdenv.isDarwin {
-        # Override certain packages with
-        # their binary equivalents on macOS.
-        vlc = final.vlc-bin;
-        firefox = final.firefox-bin;
-        ghostty = final.ghostty-bin;
-
-        # provide stable variants
-        stable = inputs.nixpkgs-stable-darwin.legacyPackages.${prev.system};
-      })
-
-      (final: prev: lib.optionalAttrs prev.stdenv.isLinux {
-        stable = inputs.nixpkgs-stable-nixos.legacyPackages.${prev.system};
-      })
-    ];
+    root = ./.;
   in
   flake-parts.lib.mkFlake { inherit inputs; } ({ lib, withSystem, ...}: {
     imports = [
@@ -97,18 +69,18 @@
       darwinConfigurations = {
         Lukes-MacBook-Air = inputs.nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = { inherit inputs; }; # :TODO: maybe should just be = inputs;
+          specialArgs = { inherit inputs root; }; # :TODO: maybe should just be = inputs;
           modules = [
-            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
             ./configurations/darwin/Lukes-MacBook-Air
+            ./modules/darwin
           ];
         };
         Lukes-Virtual-Machine = inputs.nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = { inherit inputs; }; # :TODO: maybe should just be = inputs;
+          specialArgs = { inherit inputs root; }; # :TODO: maybe should just be = inputs;
           modules = [
-            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
             ./configurations/darwin/Lukes-MacBook-Air
+            ./modules/darwin
           ];
         };
       };
@@ -116,9 +88,8 @@
       nixosConfigurations = {
         wsl-nix = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs root; };
           modules = [
-            { nixpkgs.config = nixpkgsConfig; }
             ./configurations/nixos/wsl-nix
             ./modules/nixos
           ];
@@ -131,28 +102,20 @@
         inputs.home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
             ./configurations/home/lukemurray
             ./modules/home
           ];
-          extraSpecialArgs = {
-            inherit inputs;
-            dotfilesDir = dotfilesDir;
-          };
+          extraSpecialArgs = { inherit dotfilesDir inputs root; };
         });
 
         murrayle23 = withSystem "x86_64-linux" ({pkgs, ...}:
         inputs.home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
-            { nixpkgs.config = nixpkgsConfig; nixpkgs.overlays = nixpkgsOverlays; }
             ./configurations/home/murrayle23
             ./modules/home
           ];
-          extraSpecialArgs = {
-            inherit inputs;
-            dotfilesDir = dotfilesDir;
-          };
+          extraSpecialArgs = { inherit dotfilesDir inputs root; };
         });
       };
 
@@ -190,40 +153,45 @@
 
     systems = lib.systems.flakeExposed;
     perSystem = { self', pkgs, system, ...}: {
-      _module.args.pkgs = import inputs.nixpkgs {
-        inherit system;
-        config = nixpkgsConfig;
-        overlays = nixpkgsOverlays;
-      };
-
-      apps = let
-        mkAppPackage = name: {
-          type = "app";
-          program = "${self'.packages.${name}}/bin/${name}";
+      _module.args.pkgs =
+        let
+          shared-nixpkgs-config = ((import modules/shared/nixpkgs.nix) {
+            inherit inputs root;
+          }).config.nixpkgs;
+        in import inputs.nixpkgs {
+          inherit system;
+          config = shared-nixpkgs-config.config;
+          overlays = shared-nixpkgs-config.overlays;
         };
-      in {
-        default = self'.apps.install;
 
-        emacs = mkAppPackage "emacs";
-        install = mkAppPackage "install";
-        launcher = mkAppPackage "launcher";
-      };
+        apps = let
+          mkAppPackage = name: {
+            type = "app";
+            program = "${self'.packages.${name}}/bin/${name}";
+          };
+        in {
+          default = self'.apps.install;
 
-      packages = {
-        default = self'.packages.install;
+          emacs = mkAppPackage "emacs";
+          install = mkAppPackage "install";
+          launcher = mkAppPackage "launcher";
+        };
 
-        emacs = pkgs.my.emacs;
-        install = pkgs.my.install;
-        launcher = pkgs.my.launcher;
-      };
+        packages = {
+          default = self'.packages.install;
 
-      devshells.default = {
-        motd = "";
-        packages = with pkgs; [
-          fennel
-          fennel-ls
-        ];
-      };
+          emacs = pkgs.my.emacs;
+          install = pkgs.my.install;
+          launcher = pkgs.my.launcher;
+        };
+
+        devshells.default = {
+          motd = "";
+          packages = with pkgs; [
+            fennel
+            fennel-ls
+          ];
+        };
     };
   });
 }

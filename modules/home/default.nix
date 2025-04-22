@@ -13,6 +13,7 @@ in {
     ./git
     ./nix
     ./rice
+    ../shared
     ./spotify
     ./wezterm
     ./wsl
