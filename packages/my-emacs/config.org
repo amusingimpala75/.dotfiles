@@ -644,8 +644,7 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
                        ((or (equal major-mode #'emacs-lisp-mode)
                             (equal major-mode #'lisp-interaction-mode)) my/elisp-capf)
                        ((and (fboundp 'eglot-managed-p) (eglot-managed-p)) my/eglot-capf)
-                       (t my/generic-capf))
-                 'ispell-completion-at-point)))
+                       (t my/generic-capf)))))
   :hook (after-change-major-mode . my/cape-capf-set))
 
 (use-package corfu
