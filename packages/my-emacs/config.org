@@ -584,6 +584,12 @@ produces
   (my/add-fundamental-snippets fennel-mode-abbrev-table))
 #+end_src
 
+*** Justfile
+#+begin_src emacs-lisp
+(use-package just-ts-mode
+  :ensure t)
+#+end_src
+
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 # TODO: embark
