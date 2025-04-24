@@ -21,9 +21,6 @@ in
 
   system.defaults.SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
 
-  nix.linux-builder.enable = true;
-  nix-rosetta-builder.onDemand = true;
-
   # For backwards compatibility
   system.stateVersion = 5;
 }
