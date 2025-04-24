@@ -16,7 +16,6 @@ in
 
   programs.zsh.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   services.nix-daemon.enable = true;
   nix.package = pkgs.nixVersions.nix_2_20;
   nixpkgs.hostPlatform = system.arch;
@@ -27,6 +26,6 @@ in
 
   system.defaults.SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
 
-   # For backwards compatibility
+  # For backwards compatibility
   system.stateVersion = 4;
 }
