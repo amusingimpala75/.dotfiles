@@ -13,7 +13,6 @@ in {
       inputs.bible.overlays.default
       inputs.emacs-overlay.overlays.default
       (import "${root}/overlays/macos-bin.nix")
-      inputs.nix-darwin-firefox.overlay
       nixpkgs-stable-overlay
       (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${prev.system}.default; })
       inputs.nur.overlays.default

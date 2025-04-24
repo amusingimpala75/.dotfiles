@@ -29,9 +29,6 @@
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
     alacritty-theme.inputs.flake-parts.follows = "flake-parts";
 
-    nix-darwin-firefox.url = "github:bandithedoge/nixpkgs-firefox-darwin";
-    nix-darwin-firefox.inputs.nixpkgs.follows = "nixpkgs";
-
     textfox.url = "github:amusingimpala75/textfox/fix-nur"; # TODO back to adriankarlen when PR merged
     textfox.inputs.nixpkgs.follows = "nixpkgs";
     textfox.inputs.nur.follows = "nur";

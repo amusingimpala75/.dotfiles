@@ -234,26 +234,6 @@
         "type": "github"
       }
     },
-    "nix-darwin-firefox": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1744938104,
-        "narHash": "sha256-4Mhno9sUc1gllej+bbs31dbezLHJOBocJCZw4AAQLj0=",
-        "owner": "bandithedoge",
-        "repo": "nixpkgs-firefox-darwin",
-        "rev": "e06b81fa3060e0111b47353dd40040d07111a828",
-        "type": "github"
-      },
-      "original": {
-        "owner": "bandithedoge",
-        "repo": "nixpkgs-firefox-darwin",
-        "type": "github"
-      }
-    },
     "nix-rosetta-builder": {
       "inputs": {
         "nixos-generators": "nixos-generators",
@@ -502,7 +482,6 @@
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
-        "nix-darwin-firefox": "nix-darwin-firefox",
         "nix-rosetta-builder": "nix-rosetta-builder",
         "nix-wallpaper": "nix-wallpaper",
         "nixos-wsl": "nixos-wsl",
