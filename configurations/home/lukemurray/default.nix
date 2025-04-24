@@ -7,8 +7,7 @@
 
   my = {
     aerospace.enable = true;
-    bat.enable = true;
-    direnv.enable = true;
+    cli.enable = true;
     emacs = {
       enable = true;
       term-command = "TERM=alacritty-direct emacsclient -nw"; # :TODO: this shouldn't be necessary ultimately
@@ -24,24 +23,14 @@
       package = null; # TODO fix weird errors on macOS with ghostty managed by us (see the module for :TODO: comment)
     };
     jankyborders.enable = true;
-    nix.enable = true;
     sketchybar.enable = true;
     spotify.enable = true;
-    zsh.enable = true;
   };
 
   rices.winnie-farming.enable = true;
 
   home.packages = with pkgs; [
-    (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
-    chafa
-    fd
-    fzf
     jq
-    ripgrep
-    scc # SLOC counting
-    tealdeer
-    tree
     yq-go
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     # Emacs implicitly calls these,
@@ -55,10 +44,6 @@
     # macOS utilities
     pkgs.darwin.trash # TODO cross-platform
   ];
-
-  home.shellAliases = {
-    ll = "ls -lah";
-  };
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings
