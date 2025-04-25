@@ -1,4 +1,4 @@
-{ inputs, root, ... }:
+{ inputs, lib, root, ... }:
 let
   nixpkgs-stable-overlay = (final: prev: if prev.stdenv.isDarwin then {
     stable = inputs.nixpkgs-stable-darwin.legacyPackages.${prev.system};
@@ -7,7 +7,11 @@ let
   });
 in {
   config.nixpkgs = {
-    config.allowUnfree = true;
+    config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+      "dwarf-fortress"
+      "gaoptout" # Google Analytics Opt-Out Firefox Addon
+      "untrap-for-youtube"
+    ];
     overlays = [
       inputs.alacritty-theme.overlays.default
       inputs.bible.overlays.default
