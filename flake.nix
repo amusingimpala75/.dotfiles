@@ -4,9 +4,9 @@
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    nixpkgs.url = "nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable-darwin.url = "nixpkgs/nixpkgs-24.11-darwin";
-    nixpkgs-stable-nixos.url = "nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable-darwin.url = "github:nixos/nixpkgs/nixpkgs-24.11-darwin";
+    nixpkgs-stable-nixos.url = "github:nixos/nixpkgs/nixos-24.11";
 
     nur.url = "github:nix-community/NUR";
     nur.inputs.nixpkgs.follows = "nixpkgs";
