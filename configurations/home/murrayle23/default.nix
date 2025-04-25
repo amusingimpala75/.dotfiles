@@ -3,6 +3,7 @@
   home.username = "murrayle23";
 
   my = {
+    cli.enable = true;
     emacs.enable = true;
     firefox.enable = true;
     git = {
