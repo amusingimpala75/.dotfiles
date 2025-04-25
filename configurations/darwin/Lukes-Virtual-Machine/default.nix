@@ -1,24 +1,10 @@
-{ self, config, pkgs, inputs, ... }:
-let
-  system = import ./system.nix;
-in
+{ pkgs, ... }:
 {
-  # TODO:
-  # Decide if we want to eradicate all default references to the system's
-  # ncurses 6.0 library, which cannot read the alacritty-direct generated
-  # by nix's ncurses 6.4 library
-  environment.systemPackages = with pkgs; [
-  ];
-
   environment.shells = with pkgs; [
     zsh
   ];
 
   programs.zsh.enable = true;
-
-  services.nix-daemon.enable = true;
-  nix.package = pkgs.nixVersions.nix_2_20;
-  nixpkgs.hostPlatform = system.arch;
 
   system.activationScripts.postUserActivation.text = ''
     /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
