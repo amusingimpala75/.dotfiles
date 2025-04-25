@@ -6,6 +6,9 @@
     cli.enable = true;
     emacs.enable = true;
     firefox.enable = true;
+    games = {
+      brogue.enable = true;
+    };
     git = {
       enable = true;
       email = "69653100+amusingimpala75@users.noreply.github.com";

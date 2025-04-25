@@ -10,6 +10,7 @@ in {
     ./direnv
     ./emacs
     ./firefox
+    ./games
     ./ghostty
     ./git
     ./nix

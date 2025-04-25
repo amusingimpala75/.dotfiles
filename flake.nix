@@ -146,11 +146,11 @@
     };
 
     systems = lib.systems.flakeExposed;
-    perSystem = { self', pkgs, system, ...}: {
+    perSystem = { self', lib, pkgs, system, ...}: {
       _module.args.pkgs =
         let
           shared-nixpkgs-config = ((import modules/shared/nixpkgs.nix) {
-            inherit inputs root;
+            inherit inputs root lib;
           }).config.nixpkgs;
         in import inputs.nixpkgs {
           inherit system;
