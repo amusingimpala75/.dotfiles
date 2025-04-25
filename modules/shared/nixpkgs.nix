@@ -11,6 +11,7 @@ in {
       "dwarf-fortress"
       "gaoptout" # Google Analytics Opt-Out Firefox Addon
       "spacefox-theme"
+      "spotify"
       "untrap-for-youtube"
     ];
     overlays = [
