@@ -10,6 +10,7 @@ in {
     config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "dwarf-fortress"
       "gaoptout" # Google Analytics Opt-Out Firefox Addon
+      "spacefox-theme"
       "untrap-for-youtube"
     ];
     overlays = [

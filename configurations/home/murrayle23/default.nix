@@ -8,6 +8,7 @@
     firefox.enable = true;
     games = {
       brogue.enable = true;
+      dwarf-fortress.enable = true;
     };
     git = {
       enable = true;
