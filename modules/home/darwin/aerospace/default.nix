@@ -139,6 +139,10 @@ in {
             "if".window-title-regex-substring = "Dwarf Fortress";
             run = "layout floating";
           }
+          {
+            "if".window-title-regex-substring = "Brogue";
+            run = "layout floating";
+          }
         ];
       };
     };

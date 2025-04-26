@@ -1,7 +1,4 @@
 { lib, pkgs, ... }:
-
-# TODO: add wallpaper (both with nix-wallpaper,
-#       and with some custom way to set the Index.plist
 {
   home.username = "lukemurray";
 
@@ -13,6 +10,7 @@
       term-command = "TERM=alacritty-direct emacsclient -nw"; # :TODO: this shouldn't be necessary ultimately
     };
     firefox.enable = true;
+    games.brogue.enable = true;
     git = {
       enable = true;
       email = "69653100+amusingimpala75@users.noreply.github.com";

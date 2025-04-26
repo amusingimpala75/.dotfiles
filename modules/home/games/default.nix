@@ -5,7 +5,7 @@
       enable = lib.mkEnableOption "use brogue";
       package = lib.mkOption {
         type = lib.types.package;
-        default = pkgs.brogue-ce;
+        default = if pkgs.stdenv.isDarwin then pkgs.brogue-ce-darwin else pkgs.brogue-ce;
       };
     };
     dwarf-fortress = {
