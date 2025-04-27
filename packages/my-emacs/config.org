@@ -838,8 +838,7 @@ Also because why not
   (zmx-unicode-mode t)
   :config
   ;; For some reason this will not work in the :custom block ¯\_(ツ)_/¯
-  (setq zone-programs [zone-matrix])
-  (zone-when-idle 60))
+  (setq zone-programs [zone-matrix]))
 #+end_src
 
 *** Normie mode
