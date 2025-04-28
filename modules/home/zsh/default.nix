@@ -49,6 +49,7 @@ in {
         enable = true;
         highlight = "fg=#${cfg.inline-suggestion-color},bold,underline";
       };
+      defaultKeymap = "emacs";
     };
   };
 }
