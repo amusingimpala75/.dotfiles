@@ -4,15 +4,11 @@ NL=$'\n'
 directories=(
     "/Applications"
     "/System/Applications"
-    "/System/Applications/Utilities"
-    "/Applications/Utilities"
-    "/Applications/KiCad"
     "$HOME/Applications"
-    "$HOME/Applications/Home Manager Apps"
 )
 apps=""
 for dir in "${directories[@]}"; do
-    a=$(fd .app "$dir" -d 1)
+    a=$(fd -e '.app' --prune -a --search-path "$dir" -L | xargs -I {} basename {} | sed 's/.app//')
     if [ "$a" != "" ]; then
         if [ "$dir" != "${directories[0]}" ]; then
             apps="$apps$NL"
