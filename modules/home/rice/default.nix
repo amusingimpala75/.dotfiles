@@ -103,7 +103,14 @@
         bar_color = config.rice.bar.color;
         bar_is_top = config.rice.bar.isTop;
         bar_padding = config.rice.bar.padding;
+
+        wezterm_theme = config.rice.wezterm.theme-name;
       };
+    };
+
+    wezterm.theme-name = lib.mkOption {
+      description = "theme for wezterm to use";
+      default = "my-base16";
     };
   };
 }

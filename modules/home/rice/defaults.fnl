@@ -15,4 +15,5 @@
   :bar-height (tonumber "@bar_height@")
   :bar-color "@bar_color@"
   :bar-is-top (= (tonumber "@bar_is_top@") 1)
-  :bar-padding (tonumber "@bar_padding@")}
+  :bar-padding (tonumber "@bar_padding@")
+  :wezterm-theme "@wezterm_theme@"}

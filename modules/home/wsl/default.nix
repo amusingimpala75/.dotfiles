@@ -30,6 +30,12 @@ in {
       cat > /mnt/c/Users/${cfg.username}/.wezterm.lua << EOF
       ${config.xdg.configFile."wezterm/wezterm.lua".text}
       EOF
+
+      mkdir -p /mnt/c/Users/${cfg.username}/scoop/apps/wezterm/current/colors
+      rm -f /mnt/c/Users/${cfg.username}/scoop/apps/wezterm/current/colors/my-base16.toml
+      cat > /mnt/c/Users/${cfg.username}/scoop/apps/wezterm/current/colors/my-base16.toml << EOF
+      ${builtins.readFile config.xdg.configFile."wezterm/colors/my-base16.toml".source}
+      EOF
     '');
   };
 }
