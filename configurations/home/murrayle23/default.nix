@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   home.username = "murrayle23";
 
@@ -23,4 +23,8 @@
   wsl.wallpaper.enable = true;
   wsl.username = "MURRAYLE23";
   wsl.wezterm.enable = true;
+
+  home.packages = [
+    pkgs.noto-fonts-color-emoji
+  ];
 }
