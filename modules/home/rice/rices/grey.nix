@@ -47,6 +47,6 @@
       pkgs.iosevka-bin
       (pkgs.iosevka-bin.override { variant = "Etoile"; })
     ];
-
+    my.zsh.inline-suggestion-color = config.rice.theme.base04;
   };
 }
