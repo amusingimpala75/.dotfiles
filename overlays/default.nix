@@ -27,8 +27,4 @@ final: prev: {
   my.schemes = prev.callPackage ../packages/schemes.nix { };
   my.wallpapers = final.callPackage ../packages/wallpapers.nix { };
   my.base16-generators.emacs = final.callPackage ../packages/base16-emacs.nix { };
-
-  emacs = prev.emacs.override {
-    withNativeCompilation = !prev.stdenv.isDarwin;
-  };
 }
