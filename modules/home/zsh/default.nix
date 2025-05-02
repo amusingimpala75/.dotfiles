@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.my.zsh;
 in {
@@ -23,7 +23,12 @@ in {
     programs.zsh = {
       enable = true;
       dotDir = ".config/zsh";
-      initExtra = ''
+      autosuggestion = {
+        enable = true;
+        highlight = "fg=#${cfg.inline-suggestion-color},bold,underline";
+      };
+      defaultKeymap = "emacs";
+      initContent = ''
         function precmd_prompt {
         if direnv status | grep -q "Loaded RC";
         then
@@ -44,12 +49,9 @@ in {
         setopt prompt_subst
         export PROMPT='%n@%U%m%u''${_PROMPT_ENV}> '
         export RPROMPT="%F{green}%~%f"
+
+        ${pkgs.bible.asv}/bin/asv random
       '';
-      autosuggestion = {
-        enable = true;
-        highlight = "fg=#${cfg.inline-suggestion-color},bold,underline";
-      };
-      defaultKeymap = "emacs";
     };
   };
 }
