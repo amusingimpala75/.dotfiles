@@ -47,6 +47,7 @@
     nix-wallpaper.inputs.nixpkgs.follows = "nixpkgs";
 
     devshell.url = "github:numtide/devshell";
+    devshell.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ flake-parts, ... }:
