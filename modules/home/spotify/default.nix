@@ -14,7 +14,7 @@ in {
       enable = true;
       enabledExtensions = lib.mkIf cfg.adblock [ pkgs.spicetify.extensions.adblock ];
       theme = pkgs.spicetify.themes.text;
-      colorScheme = "gruvbox"; # TODO unhardcode
+      colorScheme = "Gruvbox"; # TODO unhardcode
     };
   };
 }
