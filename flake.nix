@@ -48,6 +48,12 @@
 
     devshell.url = "github:numtide/devshell";
     devshell.inputs.nixpkgs.follows = "nixpkgs";
+
+    zen-browser-darwin.url = "github:wuz/nix-darwin-browsers";
+    zen-browser-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    zen-browser-nixos.url = "github:marceColl/zen-browser-flake";
+    zen-browser-nixos.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ flake-parts, ... }:

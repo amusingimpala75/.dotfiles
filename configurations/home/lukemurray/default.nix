@@ -28,6 +28,7 @@
   rices.winnie-farming.enable = true;
 
   home.packages = with pkgs; [
+    pkgs.zen
     jq
     yq-go
   ] ++ lib.optionals pkgs.stdenv.isDarwin [

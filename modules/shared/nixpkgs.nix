@@ -25,6 +25,11 @@ in {
       (import "${root}/overlays")
       inputs.sbarlua.overlay
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
+      (final: prev: if prev.stdenv.isDarwin then {
+        zen = inputs.zen-browser-darwin.packages.${prev.system}.default;
+      } else {
+        zen = inputs.zen-browser-nixos.packages.${prev.system}.default;
+      })
     ];
   };
 }
