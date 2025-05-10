@@ -23,13 +23,13 @@ in {
       (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${prev.system}.default; })
       inputs.nur.overlays.default
       (import "${root}/overlays")
-      inputs.sbarlua.overlay
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
       (final: prev: if prev.stdenv.isDarwin then {
         zen = inputs.zen-browser-darwin.packages.${prev.system}.default;
       } else {
         zen = inputs.zen-browser-nixos.packages.${prev.system}.default;
       })
+      (final: prev: { sbarlua = inputs.sbarlua-nixpkgs.legacyPackages.${prev.system}.sbarlua.override { lua54Packages = final.lua54Packages; }; })
     ];
   };
 }

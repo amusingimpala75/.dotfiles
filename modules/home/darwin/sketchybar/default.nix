@@ -23,7 +23,6 @@
   };
 
   lua = pkgs.lua54Packages.lua.withPackages (ps: [
-    ps.lua
     pkgs.sbarlua
     bar-cfg
     defaults
@@ -32,7 +31,6 @@
   sketchybarrc = pkgs.writeScript "sketchybarrc"
   ''
     #!${lua}/bin/lua
-    package.cpath = package.cpath .. ";${lua}/lib/?.so" -- TODO fix (i.e. remove this)
     defaults = require('defaults')
     require('init')
   '';

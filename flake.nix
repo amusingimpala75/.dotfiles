@@ -54,6 +54,8 @@
 
     zen-browser-nixos.url = "github:marceColl/zen-browser-flake";
     zen-browser-nixos.inputs.nixpkgs.follows = "nixpkgs";
+
+    sbarlua-nixpkgs.url = "github:amusingimpala75/nixpkgs/new-sbarlua";
   };
 
   outputs = inputs@{ flake-parts, ... }:

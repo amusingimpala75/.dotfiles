@@ -406,6 +406,7 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
         "sbarlua": "sbarlua",
+        "sbarlua-nixpkgs": "sbarlua-nixpkgs",
         "spicetify": "spicetify",
         "textfox": "textfox",
         "zen-browser-darwin": "zen-browser-darwin",
@@ -430,6 +431,22 @@
         "owner": "Lalit64",
         "ref": "nix-darwin-package",
         "repo": "SbarLua",
+        "type": "github"
+      }
+    },
+    "sbarlua-nixpkgs": {
+      "locked": {
+        "lastModified": 1746890513,
+        "narHash": "sha256-jyVgmdOHbatR3POuauSHbFxNo2+UI6DwQASva7GpT3M=",
+        "owner": "amusingimpala75",
+        "repo": "nixpkgs",
+        "rev": "e147aae0abe436bec9c7c19d50e9ab1f76b0807f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amusingimpala75",
+        "ref": "new-sbarlua",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
