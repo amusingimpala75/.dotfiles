@@ -97,11 +97,29 @@
             ./modules/nixos
           ];
         };
+        glorfindel = inputs.nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs root; };
+          modules = [
+            ./configurations/nixos/glorfindel
+            ./modules/nixos
+          ];
+        };
       };
 
       # :TODO: genericize pkgs calls
       homeConfigurations = {
         lukemurray = withSystem "aarch64-darwin" ({ pkgs, ... }:
+        inputs.home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./configurations/home/lukemurray
+            ./modules/home
+          ];
+          extraSpecialArgs = { inherit dotfilesDir inputs root; };
+        });
+
+        "lukemurray@glorfindel" = withSystem "x86_64-linux" ({ pkgs, ... }:
         inputs.home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [

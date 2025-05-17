@@ -47,7 +47,7 @@
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings
   # Alternately all settings can be found at ~/Library/Preferences/<app-id>.plist
-  targets.darwin.defaults = {
+  targets.darwin.defaults = lib.mkIf pkgs.stdenv.isDarwin {
     "com.apple.dock" = {
       autohide = true;
       largesize = 96;
@@ -84,7 +84,7 @@
     };
   };
 
-  home.activation = {
+  home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     restart-dock = lib.hm.dag.entryAfter ["setDarwinDefaults"] ''
       /usr/bin/killall Dock
     '';
