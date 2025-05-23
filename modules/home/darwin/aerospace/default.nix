@@ -42,7 +42,7 @@ in {
         gaps = let
           inner = rice.gaps.inner * 2;
           outer = rice.gaps.outer;
-          outer-top = rice.gaps.outer + rice.bar.height;
+          outer-top = rice.gaps.outer + rice.bar.height + rice.gaps.outer;
           outer-bottom = rice.gaps.outer - 1;
         in {
           inner.horizontal = inner;
