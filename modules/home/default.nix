@@ -14,6 +14,7 @@ in {
     ./ghostty
     ./git
     ./nix
+    ./nushell
     ./rice
     ../shared
     ./spotify
