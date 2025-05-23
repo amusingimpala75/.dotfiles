@@ -26,4 +26,6 @@
   (doto water
     (: :subscribe "mouse.clicked" drink)
     (: :subscribe "routine" check-drink)
-    (: :subscribe "forced" check-drink)))
+    (: :subscribe "forced" check-drink))
+
+  water)

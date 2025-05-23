@@ -25,4 +25,6 @@
     (: :subscribe "forced" date-update)
     (: :subscribe "mouse.clicked" (lambda []
                                     (set-popup time-item false)
-                                    (os.execute "open -a \"Calendar\"")))))
+                                    (sbar.exec "open -a \"Calendar\""))))
+
+  time-item)
