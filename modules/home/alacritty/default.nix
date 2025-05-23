@@ -18,7 +18,7 @@ in {
           live_config_reload = true;
         };
         terminal = {
-          shell = "${pkgs.zsh}/bin/zsh"; # :TODO: genericize
+          shell = config.my.cli.defaultShell;
         };
         window = {
           # decorations = "Buttonless";

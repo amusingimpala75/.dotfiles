@@ -4,10 +4,17 @@
 
   my = {
     aerospace.enable = true;
-    cli.enable = true;
+    cli = {
+      defaultShell = "${pkgs.nushell}/bin/nu";
+      enable = true;
+    };
     emacs = {
       enable = true;
-      term-command = "TERM=alacritty-direct emacsclient -nw"; # :TODO: this shouldn't be necessary ultimately
+      term-command = let
+        pkg = (pkgs.writeScriptBin "emacs-term" (builtins.readFile ./emacs-term.sh)).overrideAttrs(old: {
+          buildCommand = "${old.buildCommand}\n patchShebangs $out";
+        });
+      in "${pkg}/bin/emacs-term";
     };
     firefox.enable = true;
     games.brogue.enable = true;

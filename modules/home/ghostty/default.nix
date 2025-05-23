@@ -48,8 +48,7 @@ in {
         macos-titlebar-style = "hidden";
         macos-option-as-alt = true;
 
-        # TODO genericize
-        command = "${pkgs.zsh}/bin/zsh";
+        command = config.my.cli.defaultShell;
 
         auto-update = "off";
 

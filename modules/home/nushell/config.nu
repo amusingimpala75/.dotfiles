@@ -1,5 +1,3 @@
-
-
 def nested [] {
     mut extra = ""
     if (direnv status | rg "Loaded RC" | is-not-empty) {
@@ -26,3 +24,9 @@ def rprompt [] {
 }
 $env.PROMPT_COMMAND_RIGHT = {|| rprompt }
 $env.TRANSIENT_PROMPT_COMMAND_RIGHT = null
+
+# TODO waiting to see what happens with home-manager
+use std/util "path add"
+    path add "/run/current-system/sw/bin"
+    path add $"/etc/profiles/per-user/(whoami)/bin"
+    path add $"($env.HOME)/.nix-profile/bin"
