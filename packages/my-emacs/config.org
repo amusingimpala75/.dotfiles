@@ -300,6 +300,7 @@ Since this is an emacs configuration after all, we use nix-mode
 *** Org Mode
 #+begin_src emacs-lisp
 (use-package org
+  :defer 5
   :hook
    (org-mode . variable-pitch-mode)
    (org-mode . visual-line-mode)
@@ -588,6 +589,20 @@ produces
 #+begin_src emacs-lisp
 (use-package just-ts-mode
   :ensure t)
+#+end_src
+
+*** Go
+#+begin_src emacs-lisp
+(use-package go-ts-mode
+  :defer 1
+  :hook (go-ts-mode . eglot-ensure))
+#+end_src
+
+*** Haskell
+#+begin_src emacs-lisp
+(use-package haskell-mode
+  :ensure t
+  :hook (haskell-mode . eglot-ensure))
 #+end_src
 
 ** Completion
