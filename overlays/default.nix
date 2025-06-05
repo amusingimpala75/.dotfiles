@@ -1,6 +1,5 @@
 final: prev: {
   ghostty-bin = final.callPackage ../packages/ghostty.nix { };
-  whisky-bin = final.callPackage ../packages/whisky.nix { };
   brogue-ce-darwin = final.mkDarwinApplication {
     package = final.brogue-ce;
     exeName = "brogue-ce";

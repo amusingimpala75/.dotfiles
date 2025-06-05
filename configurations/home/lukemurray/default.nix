@@ -46,7 +46,6 @@
     pkgs.git
     # macOS only apps
     pkgs.utm
-    pkgs.whisky-bin
     # macOS utilities
     pkgs.darwin.trash # TODO cross-platform
   ];
