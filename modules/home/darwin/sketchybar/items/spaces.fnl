@@ -11,10 +11,12 @@
           index (. spaces name)
           is-focused (= index (tonumber env.FOCUSED_WORKSPACE))
           bg (if is-focused foreground background)
-          fg (if is-focused background foreground)]
-      (sbar.set name {:background {:color bg}
-                      :icon {:color fg}
-                      :label {:color fg}})))
+          fg (if is-focused background foreground)
+          animate (lambda []
+                    (sbar.set name {:background {:color bg}
+                                    :icon {:color fg}
+                                    :label {:color fg}}))]
+      (sbar.animate "tanh" 15 animate)))
   (fn clicked [env]
     (let [name env.NAME
           index (. spaces name)]
