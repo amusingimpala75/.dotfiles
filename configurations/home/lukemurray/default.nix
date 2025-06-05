@@ -18,6 +18,7 @@
     };
     firefox.enable = true;
     games.brogue.enable = true;
+    games.modrinth.enable = true;
     git = {
       enable = true;
       email = "69653100+amusingimpala75@users.noreply.github.com";

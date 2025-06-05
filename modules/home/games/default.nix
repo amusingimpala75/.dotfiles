@@ -15,6 +15,9 @@
         default = pkgs.dwarf-fortress-packages.themes.spacefox;
       };
     };
+    modrinth = {
+      enable = lib.mkEnableOption "use the Modrinth minecraft launcher";
+    };
   };
 
   config = {
@@ -24,6 +27,8 @@
       (pkgs.dwarf-fortress-full.override {
         theme = config.my.games.dwarf-fortress.theme;
       })
+    ]) ++ (lib.optionals config.my.games.modrinth.enable [
+      pkgs.modrinth-app
     ]);
   };
 }

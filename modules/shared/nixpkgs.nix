@@ -10,6 +10,8 @@ in {
     config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "dwarf-fortress"
       "gaoptout" # Google Analytics Opt-Out Firefox Addon
+      "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
+      "modrinth-app-unwrapped"
       "spacefox-theme"
       "spotify"
       "untrap-for-youtube"
