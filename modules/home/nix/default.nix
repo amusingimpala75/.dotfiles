@@ -14,7 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.shellAliases = {
       nds = "nix develop -c $SHELL";
-      reload-hm = "home-manager switch -b backup --flake ${dotfilesDir}#";
+      reload-hm = "home-manager switch -b backup --flake ${dotfilesDir}";
       reload-nd = if pkgs.stdenv.isDarwin then "sudo darwin-rebuild switch --flake ${dotfilesDir}" else "echo 'Did you mean reload-no?'";
       reload-no = if pkgs.stdenv.isLinux  then "sudo nixos-rebuild switch --flake ${dotfilesDir}" else "echo 'Did you mean reload-nd?'";
       reload-config = if pkgs.stdenv.isLinux then "reload-no && reload-hm" else "reload-nd && reload-hm";
