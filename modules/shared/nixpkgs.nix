@@ -1,21 +1,28 @@
 { inputs, lib, root, ... }:
 let
+  unfree-predicate = pkg: builtins.elem (lib.getName pkg) [
+    "dwarf-fortress"
+    "gaoptout" # Google Analytics Opt-Out Firefox Addon
+    "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
+    "modrinth-app-unwrapped"
+    "spacefox-theme"
+    "spotify"
+    "untrap-for-youtube"
+  ];
   nixpkgs-stable-overlay = (final: prev: if prev.stdenv.isDarwin then {
-    stable = inputs.nixpkgs-stable-darwin.legacyPackages.${prev.system};
+    stable = import inputs.nixpkgs-stable-darwin {
+      system = prev.system;
+      config.allowUnfreePredicate = unfree-predicate;
+    };
   } else {
-    stable = inputs.nixpkgs-stable-nixos.legacyPackages.${prev.system};      
+    stable = inputs.nixpkgs-stable-nixos {
+      system = prev.system;
+      config.allowUnfreePredicate = unfree-predicate;
+    };
   });
 in {
   config.nixpkgs = {
-    config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "dwarf-fortress"
-      "gaoptout" # Google Analytics Opt-Out Firefox Addon
-      "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
-      "modrinth-app-unwrapped"
-      "spacefox-theme"
-      "spotify"
-      "untrap-for-youtube"
-    ];
+    config.allowUnfreePredicate = unfree-predicate;
     overlays = [
       inputs.alacritty-theme.overlays.default
       inputs.bible.overlays.default

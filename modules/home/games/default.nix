@@ -28,7 +28,7 @@
         theme = config.my.games.dwarf-fortress.theme;
       })
     ]) ++ (lib.optionals config.my.games.modrinth.enable [
-      pkgs.modrinth-app
+      pkgs.stable.modrinth-app
     ]);
   };
 }

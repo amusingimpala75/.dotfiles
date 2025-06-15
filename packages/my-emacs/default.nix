@@ -5,6 +5,7 @@
   ghostscript,
   nixd,
   nixfmt-rfc-style,
+  stable ? null,
   texlive,
   vlc,
 
@@ -12,7 +13,6 @@
   emacsWithPackagesFromUsePackage,
   fetchFromGitHub,
   makeWrapper,
-  stdenv,
   symlinkJoin,
   writeText,
 
@@ -68,12 +68,17 @@ let
       })
     ];
   };
+
+  texlive-package = if stable != null
+  then stable.texlive.combined.scheme-full
+  else texlive.combined.scheme-full;
+
   deps = symlinkJoin {
     name = "emacs30-path-additions";
     paths = [
       nixd
       nixfmt-rfc-style
-      texlive.combined.scheme-full
+      texlive-package
       ghostscript
       vlc
     ];
