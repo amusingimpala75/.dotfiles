@@ -1,4 +1,4 @@
-{ inputs, lib, root, ... }:
+{ inputs, lib, root, self, ... }:
 let
   unfree-predicate = pkg: builtins.elem (lib.getName pkg) [
     "dwarf-fortress"
@@ -31,6 +31,7 @@ in {
       inputs.emacs-overlay.overlays.default
       (import "${root}/overlays/macos-bin.nix")
       nixpkgs-stable-overlay
+      ((import "${root}/overlays/nixvim.nix") self)
       (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${prev.system}.default; })
       inputs.nur.overlays.default
       (import "${root}/overlays")

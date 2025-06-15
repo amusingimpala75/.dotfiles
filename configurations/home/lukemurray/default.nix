@@ -37,6 +37,7 @@
 
   home.packages = with pkgs; [
     jq
+    my-nvim
     slack
     yq-go
     zen

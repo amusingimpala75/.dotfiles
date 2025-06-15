@@ -56,6 +56,10 @@
     zen-browser-nixos.inputs.nixpkgs.follows = "nixpkgs";
 
     sbarlua-nixpkgs.url = "github:amusingimpala75/nixpkgs/new-sbarlua";
+
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    nixvim.inputs.flake-parts.follows = "flake-parts";
   };
 
   outputs = inputs@{ flake-parts, ... }:
@@ -63,16 +67,17 @@
     dotfilesDir = "~/.dotfiles";
     root = ./.;
   in
-  flake-parts.lib.mkFlake { inherit inputs; } ({ lib, withSystem, ...}: {
+  flake-parts.lib.mkFlake { inherit inputs; } ({ lib, self, withSystem, ...}: {
     imports = [
       inputs.home-manager.flakeModules.home-manager
       inputs.devshell.flakeModule
+      inputs.nixvim.flakeModules.default
     ];
     flake = {
       darwinConfigurations = {
         Lukes-MacBook-Air = inputs.nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = { inherit inputs root; }; # :TODO: maybe should just be = inputs;
+          specialArgs = { inherit inputs root self; }; # :TODO: maybe should just be = inputs;
           modules = [
             ./configurations/darwin/Lukes-MacBook-Air
             ./modules/darwin
@@ -80,7 +85,7 @@
         };
         Lukes-Virtual-Machine = inputs.nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = { inherit inputs root; }; # :TODO: maybe should just be = inputs;
+          specialArgs = { inherit inputs root self; }; # :TODO: maybe should just be = inputs;
           modules = [
             ./configurations/darwin/Lukes-MacBook-Air
             ./modules/darwin
@@ -91,7 +96,7 @@
       nixosConfigurations = {
         wsl-nix = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs root; };
+          specialArgs = { inherit inputs root self; };
           modules = [
             ./configurations/nixos/wsl-nix
             ./modules/nixos
@@ -99,7 +104,7 @@
         };
         glorfindel = inputs.nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit inputs root; };
+          specialArgs = { inherit inputs root self; };
           modules = [
             ./configurations/nixos/glorfindel
             ./modules/nixos
@@ -116,7 +121,7 @@
             ./configurations/home/lukemurray
             ./modules/home
           ];
-          extraSpecialArgs = { inherit dotfilesDir inputs root; };
+          extraSpecialArgs = { inherit dotfilesDir inputs root self; };
         });
 
         "lukemurray@glorfindel" = withSystem "x86_64-linux" ({ pkgs, ... }:
@@ -126,7 +131,7 @@
             ./configurations/home/lukemurray
             ./modules/home
           ];
-          extraSpecialArgs = { inherit dotfilesDir inputs root; };
+          extraSpecialArgs = { inherit dotfilesDir inputs root self; };
         });
 
         murrayle23 = withSystem "x86_64-linux" ({pkgs, ...}:
@@ -136,9 +141,15 @@
             ./configurations/home/murrayle23
             ./modules/home
           ];
-          extraSpecialArgs = { inherit dotfilesDir inputs root; };
+          extraSpecialArgs = { inherit dotfilesDir inputs root self; };
         });
       };
+
+      # :TODO: broken?
+      # nixvim = 
+      #   packages.enable = true;
+      #   checks.enable = true;
+      # ;
 
       overlays = {
         default = import ./overlays;
@@ -177,7 +188,7 @@
       _module.args.pkgs =
         let
           shared-nixpkgs-config = ((import modules/shared/nixpkgs.nix) {
-            inherit inputs root lib;
+            inherit inputs lib root self;
           }).config.nixpkgs;
         in import inputs.nixpkgs {
           inherit system;
@@ -196,6 +207,7 @@
           emacs = mkAppPackage "emacs";
           install = mkAppPackage "install";
           launcher = mkAppPackage "launcher";
+          nixvim = mkAppPackage "nvim";
         };
 
         packages = {
@@ -204,6 +216,7 @@
           emacs = pkgs.my.emacs;
           install = pkgs.my.install;
           launcher = pkgs.my.launcher;
+          nvim = pkgs.my-nvim;
         };
 
         devshells.default = {
@@ -212,6 +225,11 @@
             fennel
             fennel-ls
           ];
+        };
+
+        nixvimConfigurations.nixvim = inputs.nixvim.lib.evalNixvim {
+          inherit system;
+          modules = [ ./configurations/nixvim/nixvim ];
         };
     };
   });
