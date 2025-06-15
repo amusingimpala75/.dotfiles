@@ -5,9 +5,11 @@ let
     "gaoptout" # Google Analytics Opt-Out Firefox Addon
     "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
     "modrinth-app-unwrapped"
+    "slack"
     "spacefox-theme"
     "spotify"
     "untrap-for-youtube"
+    "zoom"
   ];
   nixpkgs-stable-overlay = (final: prev: if prev.stdenv.isDarwin then {
     stable = import inputs.nixpkgs-stable-darwin {

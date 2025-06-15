@@ -36,9 +36,11 @@
   rices.winnie-farming.enable = true;
 
   home.packages = with pkgs; [
-    pkgs.zen
     jq
+    slack
     yq-go
+    zen
+    zoom-us
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
     # Emacs implicitly calls these,
     # which pulls up a warning from macOS
