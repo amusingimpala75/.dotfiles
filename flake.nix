@@ -52,7 +52,6 @@
     zen-browser-nixos.url = "github:marceColl/zen-browser-flake";
     zen-browser-nixos.inputs.nixpkgs.follows = "nixpkgs";
 
-
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.inputs.flake-parts.follows = "flake-parts";
