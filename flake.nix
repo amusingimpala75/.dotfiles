@@ -33,9 +33,6 @@
     textfox.inputs.nixpkgs.follows = "nixpkgs";
     textfox.inputs.nur.follows = "nur";
 
-    sbarlua.url = "github:Lalit64/SbarLua/nix-darwin-package"; # Change to upstream once PR is merged
-    sbarlua.inputs.nixpkgs.follows = "nixpkgs";
-
     spicetify.url = "github:Gerg-L/spicetify-nix";
     spicetify.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -55,7 +52,6 @@
     zen-browser-nixos.url = "github:marceColl/zen-browser-flake";
     zen-browser-nixos.inputs.nixpkgs.follows = "nixpkgs";
 
-    sbarlua-nixpkgs.url = "github:amusingimpala75/nixpkgs/new-sbarlua";
 
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";

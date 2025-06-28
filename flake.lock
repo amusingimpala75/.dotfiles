@@ -500,49 +500,10 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nixvim": "nixvim",
         "nur": "nur",
-        "sbarlua": "sbarlua",
-        "sbarlua-nixpkgs": "sbarlua-nixpkgs",
         "spicetify": "spicetify",
         "textfox": "textfox",
         "zen-browser-darwin": "zen-browser-darwin",
         "zen-browser-nixos": "zen-browser-nixos"
-      }
-    },
-    "sbarlua": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1738194078,
-        "narHash": "sha256-DuopardZJh7tMqDzkdsWnGVRAAnYaBvF0ufTdzCYg3c=",
-        "owner": "Lalit64",
-        "repo": "SbarLua",
-        "rev": "2c42a0925223fa9cb8f0901d33b283e91196af1f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Lalit64",
-        "ref": "nix-darwin-package",
-        "repo": "SbarLua",
-        "type": "github"
-      }
-    },
-    "sbarlua-nixpkgs": {
-      "locked": {
-        "lastModified": 1746890513,
-        "narHash": "sha256-jyVgmdOHbatR3POuauSHbFxNo2+UI6DwQASva7GpT3M=",
-        "owner": "amusingimpala75",
-        "repo": "nixpkgs",
-        "rev": "e147aae0abe436bec9c7c19d50e9ab1f76b0807f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "amusingimpala75",
-        "ref": "new-sbarlua",
-        "repo": "nixpkgs",
-        "type": "github"
       }
     },
     "spicetify": {

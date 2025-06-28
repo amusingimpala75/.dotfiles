@@ -41,7 +41,6 @@ in {
       } else {
         zen = inputs.zen-browser-nixos.packages.${prev.system}.default;
       })
-      (final: prev: { sbarlua = inputs.sbarlua-nixpkgs.legacyPackages.${prev.system}.sbarlua.override { lua54Packages = final.lua54Packages; }; })
     ];
   };
 }
