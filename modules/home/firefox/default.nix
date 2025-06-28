@@ -23,13 +23,6 @@ in
       description = "firefox profile into which to install";
     };
 
-    i_externally_support_creators = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      example = true;
-      description = "because what's really the difference between adblock w/o paying and piracy?";
-    };
-
     textfox = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -98,11 +91,10 @@ in
               gruvbox-dark-theme # TODO integrate with theme system
               istilldontcareaboutcookies
               # sideberry # done by textfox
-              untrap-for-youtube
-              vimium
-            ] ++ lib.optionals cfg.i_externally_support_creators [
               sponsorblock
               ublock-origin
+              untrap-for-youtube
+              vimium
             ];
             settings = {
               "uBlock0@raymondhill.net".settings = {
