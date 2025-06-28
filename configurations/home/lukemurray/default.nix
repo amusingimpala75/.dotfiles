@@ -36,6 +36,7 @@
   rices.cross.enable = true;
 
   home.packages = with pkgs; [
+    gemini-cli
     jq
     my-nvim
     slack
