@@ -29,11 +29,11 @@
       package = null; # TODO fix weird errors on macOS with ghostty managed by us (see the module for :TODO: comment)
     };
     jankyborders.enable = true;
-    sketchybar.enable = true;
+    # sketchybar.enable = true;
     spotify.enable = true;
   };
 
-  rices.winnie-farming.enable = true;
+  rices.cross.enable = true;
 
   home.packages = with pkgs; [
     jq

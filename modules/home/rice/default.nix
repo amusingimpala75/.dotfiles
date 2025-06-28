@@ -4,6 +4,7 @@
     # compat
     ./darwin.nix
     # rices
+    ./rices/cross.nix
     ./rices/grey.nix
     ./rices/solarized-light.nix
     ./rices/winnie-farming.nix

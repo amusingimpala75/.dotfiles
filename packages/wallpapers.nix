@@ -14,5 +14,23 @@ let
       hash = "sha256-v9GCbXDX0DG0gIGmumjiOf36kowC4oAfRfuKM/p8kjE=";
       curlOpts = "-A Mozilla";
     };
+    "rainworld-slugcat-nest" = {
+      url = "https://static.wikitide.net/rainworldwiki/c/c7/Survivor_intro_scene_2_%28branch%29.png";
+      hash = "";
+    };
+    "rainworld-slugcat-family-wandering" = {
+      url = "https://static.wikitide.net/rainworldwiki/9/9f/Survivor_intro_scene_4_%28walking%29.png";
+      hash = "";
+    };
+    "rainworld-switch-promo" = {
+      url = "https://static.wikitide.net/rainworldwiki/9/9c/Del-northern-rw-switch-promo.jpg";
+      hash = "";
+    };
+    "monochrome-cross" = {
+      url = "https://wallpaperaccess.com/download/minimalist-cross-4317563";
+      hash = "";
+    };
   };
-in builtins.mapAttrs (name: value: fetchurl value) wps
+in (builtins.mapAttrs (name: value: fetchurl value) wps) // {
+  "simple-cross" = ./cross_wallpaper.png;
+}
