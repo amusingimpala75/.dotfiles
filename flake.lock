@@ -639,11 +639,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1750209406,
-        "narHash": "sha256-5fgDcNhXdF8jc5amv5hahVpDoqi+A/4KvuJ4snLbDm4=",
+        "lastModified": 1751505471,
+        "narHash": "sha256-8mvUGjCzpXKLBAovBwpnLLzD9eimOHrfNKTGzIzgx48=",
         "owner": "wuz",
         "repo": "nix-darwin-browsers",
-        "rev": "723739334bc1045bbd4eb9956fd3c5699b4fecef",
+        "rev": "594bf6caed6e032e59af2d3b9ea6f7779e8040d3",
         "type": "github"
       },
       "original": {
