@@ -33,6 +33,16 @@ Line numbers are a must for programming, especially relative numbers for jumping
   :hook (prog-mode . display-line-numbers-mode))
 #+end_src
 
+Show a line at 80 chars (this helps code format) and show the dimensions of boundaries.
+#+begin_src emacs-lisp
+(use-package emacs
+  :custom
+  (fill-column 80)
+  (indicate-buffer-boundaries 'left)
+  :hook
+  (prog-mode . display-fill-column-indicator-mode))
+#+end_src
+
 In order to declutter the bottom, I need diminish
 #+begin_src emacs-lisp
 (use-package diminish
