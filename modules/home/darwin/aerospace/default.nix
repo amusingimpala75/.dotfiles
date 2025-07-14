@@ -55,49 +55,48 @@ in {
 
         mode = {
           main.binding = {
-            alt-enter = "exec-and-forget open -na Ghostty";
-            alt-slash = "layout tiles horizontal vertical";
+            ctrl-alt-cmd-enter = "exec-and-forget open -na Ghostty";
+            ctrl-alt-cmd-slash = "layout tiles horizontal vertical";
 
-            alt-cmd-h = "focus left";
-            alt-cmd-j = "focus down";
-            alt-cmd-k = "focus up";
-            alt-cmd-l = "focus right";
+            ctrl-alt-cmd-h = "focus left";
+            ctrl-alt-cmd-j = "focus down";
+            ctrl-alt-cmd-k = "focus up";
+            ctrl-alt-cmd-l = "focus right";
 
-            alt-cmd-shift-h = "move left";
-            alt-cmd-shift-j = "move down";
-            alt-cmd-shift-k = "move up";
-            alt-cmd-shift-l = "move right";
+            ctrl-alt-cmd-shift-h = "move left";
+            ctrl-alt-cmd-shift-j = "move down";
+            ctrl-alt-cmd-shift-k = "move up";
+            ctrl-alt-cmd-shift-l = "move right";
 
-            alt-cmd-shift-minus = "resize smart -50";
-            alt-cmd-shift-equal = "resize smart +50";
+            ctrl-alt-cmd-shift-minus = "resize smart -50";
+            ctrl-alt-cmd-shift-equal = "resize smart +50";
 
-            alt-cmd-1 = "workspace 1";
-            alt-cmd-2 = "workspace 2";
-            alt-cmd-3 = "workspace 3";
-            alt-cmd-4 = "workspace 4";
-            alt-cmd-5 = "workspace 5";
-            alt-cmd-6 = "workspace 6";
-            alt-cmd-7 = "workspace 7";
-            alt-cmd-8 = "workspace 8";
-            alt-cmd-9 = "workspace 9";
-            alt-cmd-0 = "workspace 0";
+            ctrl-alt-cmd-1 = "workspace 1";
+            ctrl-alt-cmd-2 = "workspace 2";
+            ctrl-alt-cmd-3 = "workspace 3";
+            ctrl-alt-cmd-4 = "workspace 4";
+            ctrl-alt-cmd-5 = "workspace 5";
+            ctrl-alt-cmd-6 = "workspace 6";
+            ctrl-alt-cmd-7 = "workspace 7";
+            ctrl-alt-cmd-8 = "workspace 8";
+            ctrl-alt-cmd-9 = "workspace 9";
 
-            alt-cmd-shift-1 = "move-node-to-workspace 1";
-            alt-cmd-shift-2 = "move-node-to-workspace 2";
-            alt-cmd-shift-3 = "move-node-to-workspace 3";
-            alt-cmd-shift-4 = "move-node-to-workspace 4";
-            alt-cmd-shift-5 = "move-node-to-workspace 5";
-            alt-cmd-shift-6 = "move-node-to-workspace 6";
-            alt-cmd-shift-7 = "move-node-to-workspace 7";
-            alt-cmd-shift-8 = "move-node-to-workspace 8";
-            alt-cmd-shift-9 = "move-node-to-workspace 9";
-            alt-cmd-shift-0 = "move-node-to-workspace 0";
+            ctrl-alt-cmd-shift-1 = "move-node-to-workspace 1";
+            ctrl-alt-cmd-shift-2 = "move-node-to-workspace 2";
+            ctrl-alt-cmd-shift-3 = "move-node-to-workspace 3";
+            ctrl-alt-cmd-shift-4 = "move-node-to-workspace 4";
+            ctrl-alt-cmd-shift-5 = "move-node-to-workspace 5";
+            ctrl-alt-cmd-shift-6 = "move-node-to-workspace 6";
+            ctrl-alt-cmd-shift-7 = "move-node-to-workspace 7";
+            ctrl-alt-cmd-shift-8 = "move-node-to-workspace 8";
+            ctrl-alt-cmd-shift-9 = "move-node-to-workspace 9";
+            ctrl-alt-cmd-shift-0 = "move-node-to-workspace 0";
 
-            alt-tab = "workspace-back-and-forth";
+            ctrl-alt-cmd-0 = "workspace-back-and-forth";
 
-            alt-shift-semicolon = "mode service";
-            alt-space = "mode launch";
-            alt-cmd-f = "macos-native-fullscreen";
+            ctrl-alt-cmd-shift-semicolon = "mode service";
+            ctrl-alt-cmd-space = "mode launch";
+            ctrl-alt-cmd-f = "macos-native-fullscreen";
           };
           service.binding = {
             esc = ["reload-config" "mode main"];
