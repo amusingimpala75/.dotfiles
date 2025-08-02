@@ -17,7 +17,7 @@ let
       config.allowUnfreePredicate = unfree-predicate;
     };
   } else {
-    stable = inputs.nixpkgs-stable-nixos {
+    stable = import inputs.nixpkgs-stable-nixos {
       system = prev.system;
       config.allowUnfreePredicate = unfree-predicate;
     };
