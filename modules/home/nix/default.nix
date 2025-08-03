@@ -30,10 +30,6 @@ in {
     home = {
       shellAliases = {
         nds = "nix develop -c $SHELL";
-        reload-hm = "nh home switch -b backup ${dotfilesDir}";
-        reload-nd = if pkgs.stdenv.isDarwin then "nh darwin switch ${dotfilesDir}" else "echo 'Did you mean reload-no?'";
-        reload-no = if pkgs.stdenv.isLinux  then "nh os switch ${dotfilesDir}" else "echo 'Did you mean reload-nd?'";
-        reload-config = if pkgs.stdenv.isLinux then "reload-no && reload-hm" else "reload-nd && reload-hm";
       };
     };
   };

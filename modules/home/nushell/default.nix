@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   cfg = config.my.nushell;
 in {
@@ -16,7 +16,6 @@ in {
       };
       configFile.source = ./config.nu;
       shellAliases = {
-        reload-config = lib.mkForce (if pkgs.stdenv.isLinux then "reload-no and reload-hm" else "reload-nd and reload-hm");
         nds = lib.mkForce "nix develop -c nu";
       };
       environmentVariables = {} // config.home.sessionVariables;

@@ -23,11 +23,5 @@
       tealdeer
       tree
     ];
-
-    home.shellAliases = {
-      ll = "ls -lah";
-      img = "chafa";
-      scc = "scc --no-cocomo";
-    };
   };
 }

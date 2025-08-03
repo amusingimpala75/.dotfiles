@@ -53,14 +53,5 @@ in {
     home.packages = [
       pkgs.github-cli
     ];
-
-    home.shellAliases = {
-      gcm = "git commit -m";
-      ga = "git add";
-      gap = "git add --patch";
-      gs = "git status";
-      gd = "git diff";
-      gl = "git log";
-    };
   };
 }
