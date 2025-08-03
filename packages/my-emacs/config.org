@@ -155,14 +155,14 @@ Use the dashboard for a nice splash screen
   (dashboard-setup-startup-hook))
 #+end_src
 
-Use the biblegateway VotD for the footer
-#+begin_src emacs-lisp
-(use-package votd
-  :ensure t
-  :after dashboard
-  :custom
-  (dashboard-footer-messages (list (votd-get-verse))))
-#+end_src
+# Use the biblegateway VotD for the footer
+# #+begin_src emacs-lisp
+# (use-package votd
+#   :ensure t
+#   :after dashboard
+#   :custom
+#   (dashboard-footer-messages (list (votd-get-verse))))
+# #+end_src
 
 ** Language Support (modes)
 *** ~fundamental-mode~ (global)
