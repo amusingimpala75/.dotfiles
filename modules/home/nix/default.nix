@@ -1,11 +1,24 @@
-{ lib, config, dotfilesDir, ... }:
+{
+  lib,
+  config,
+  dotfilesDir,
+  inputs,
+  ...
+}:
 let
   cfg = config.my.nix;
   actual-dir =
-    if lib.strings.hasPrefix "~" dotfilesDir
-    then lib.concatStrings [config.home.homeDirectory (builtins.substring 1 (-1) dotfilesDir)]
-    else dotfilesDir;
-in {
+    if lib.strings.hasPrefix "~" dotfilesDir then
+      lib.concatStrings [
+        config.home.homeDirectory
+        (builtins.substring 1 (-1) dotfilesDir)
+      ]
+    else
+      dotfilesDir;
+in
+{
+  imports = [ inputs.nix-index-database.homeModules.nix-index ];
+
   options.my.nix = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -26,6 +39,8 @@ in {
       enable = true;
       flake = actual-dir;
     };
+
+    programs.nix-index-database.comma.enable = true;
 
     home = {
       shellAliases = {
