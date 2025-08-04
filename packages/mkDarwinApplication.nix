@@ -4,7 +4,8 @@
   stdenvNoCC,
   writeText,
   ...
-}: {
+}:
+{
   package,
   exeName,
   appName ? exeName,
@@ -32,7 +33,8 @@ let
     </dict>
     </plist>
   '';
-in stdenvNoCC.mkDerivation {
+in
+stdenvNoCC.mkDerivation {
   inherit (package) name;
 
   phases = [ "installPhase" ];

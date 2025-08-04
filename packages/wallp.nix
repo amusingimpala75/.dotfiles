@@ -8,7 +8,8 @@ let
   name = "wallp";
   url = "https://github.com/LesFerch/WallP/releases/download/1.2.0/WallP.zip";
   hash = "sha256-clY/gjMwSFB6XD2WcqYxU2xTD3zuFqhrOxQx44htv/0=";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit name;
   pname = name;
 
@@ -17,7 +18,7 @@ in stdenv.mkDerivation {
     stripRoot = false;
   };
 
-  phases = [ "installPhase"];
+  phases = [ "installPhase" ];
 
   installPhase = ''
     mkdir -p $out/bin
@@ -27,6 +28,9 @@ in stdenv.mkDerivation {
 
   meta = {
     # specifically with WSL
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   };
 }

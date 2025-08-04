@@ -7,34 +7,47 @@
   ...
 }:
 let
-  inherit (builtins) attrNames fromJSON mapAttrs readDir readFile stringLength substring;
+  inherit (builtins)
+    attrNames
+    fromJSON
+    mapAttrs
+    readDir
+    readFile
+    stringLength
+    substring
+    ;
   inherit (stdenv) mkDerivation;
 
-  get-schemes = type: mkDerivation {
-    name = "schemes-json";
-    src = fetchFromGitHub {
-      owner = "tinted-theming";
-      repo = "schemes";
-      rev = "4ff7fe1cf77217393ed0981a1de314f418c28b49";
-      sha256 = "sha256-PX66lrB/aqFnr6sCQUBzpTSCbsLbC7CEt4q02D0fJ3M=»;";
+  get-schemes =
+    type:
+    mkDerivation {
+      name = "schemes-json";
+      src = fetchFromGitHub {
+        owner = "tinted-theming";
+        repo = "schemes";
+        rev = "4ff7fe1cf77217393ed0981a1de314f418c28b49";
+        sha256 = "sha256-PX66lrB/aqFnr6sCQUBzpTSCbsLbC7CEt4q02D0fJ3M=»;";
+      };
+
+      phases = [ "installPhase" ];
+
+      buildInputs = [
+        fd
+        yq-go
+      ];
+
+      installPhase = ''
+        mkdir $out
+        echo $PWD
+        ls .
+        for f in $(fd "\.yaml" $src/${type});
+        do
+        echo $f
+        yq '.palette * {"darkMode": .variant == "dark"}' -o json < $f > $out/$(basename -s .yaml $f).json
+        # yq '.palette' -o json < $f > $out/$(basename -s .yaml $f).json
+        done
+      '';
     };
-
-    phases = [ "installPhase" ];
-
-    buildInputs = [ fd yq-go ];
-
-    installPhase = ''
-      mkdir $out
-      echo $PWD
-      ls .
-      for f in $(fd "\.yaml" $src/${type});
-      do
-      echo $f
-      yq '.palette * {"darkMode": .variant == "dark"}' -o json < $f > $out/$(basename -s .yaml $f).json
-      # yq '.palette' -o json < $f > $out/$(basename -s .yaml $f).json
-      done
-    '';
-  };
 
   schemes-base16-jsons = get-schemes "base16";
   schemes-base24-jsons = get-schemes "base24";
@@ -44,12 +57,16 @@ let
 
   read-scheme = jsons: name: readFile "${jsons}/${name}.json";
 
-  scheme-attrs = jsons: name:
+  scheme-attrs =
+    jsons: name:
     let
       attrs = fromJSON (read-scheme jsons name);
     in
-      if builtins.hasAttr "base10" attrs then attrs
-      else attrs // {
+    if builtins.hasAttr "base10" attrs then
+      attrs
+    else
+      attrs
+      // {
         base10 = attrs.base00;
         base11 = attrs.base00;
         base12 = attrs.base08;
@@ -66,7 +83,8 @@ let
   strip-hashes = set: mapAttrs strip-attr-hash set;
 
   gen = jsons: lib.genAttrs (scheme-names jsons) (scheme: strip-hashes (scheme-attrs jsons scheme));
-in {
+in
+{
   base16 = gen schemes-base16-jsons;
   base24 = gen schemes-base24-jsons;
 }

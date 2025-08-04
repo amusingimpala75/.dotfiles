@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.emacs;
   stdenv = pkgs.stdenv;
-in {
+in
+{
   config = lib.mkIf (cfg.enable && stdenv.isDarwin) {
     targets.darwin.defaults."org.gnu.Emacs" = {
       AppleFontSmoothing = 0;
@@ -14,7 +20,10 @@ in {
         StandardOutPath = "/tmp/emacs-stdout";
         StandardErrorPath = "/tmp/emacs-stderr";
         Program = "${cfg.package}/bin/emacs";
-        ProgramArguments = [ "${cfg.package}/bin/emacs" "--fg-daemon" ];
+        ProgramArguments = [
+          "${cfg.package}/bin/emacs"
+          "--fg-daemon"
+        ];
         KeepAlive = true;
       };
     };

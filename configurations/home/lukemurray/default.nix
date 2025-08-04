@@ -10,11 +10,13 @@
     };
     emacs = {
       enable = true;
-      term-command = let
-        pkg = (pkgs.writeScriptBin "emacs-term" (builtins.readFile ./emacs-term.sh)).overrideAttrs(old: {
-          buildCommand = "${old.buildCommand}\n patchShebangs $out";
-        });
-      in "${pkg}/bin/emacs-term";
+      term-command =
+        let
+          pkg = (pkgs.writeScriptBin "emacs-term" (builtins.readFile ./emacs-term.sh)).overrideAttrs (old: {
+            buildCommand = "${old.buildCommand}\n patchShebangs $out";
+          });
+        in
+        "${pkg}/bin/emacs-term";
     };
     firefox.enable = true;
     games.brogue.enable = true;
@@ -35,25 +37,28 @@
 
   rices.cross.enable = true;
 
-  home.packages = with pkgs; [
-    gemini-cli
-    jq
-    my-nvim
-    slack
-    yq-go
-    zen
-    zoom-us
-  ] ++ lib.optionals pkgs.stdenv.isDarwin [
-    # Emacs implicitly calls these,
-    # which pulls up a warning from macOS
-    # if `xcode-install --select` isn't run first
-    pkgs.gcc
-    pkgs.git
-    # macOS only apps
-    pkgs.utm
-    # macOS utilities
-    pkgs.darwin.trash # TODO cross-platform
-  ];
+  home.packages =
+    with pkgs;
+    [
+      gemini-cli
+      jq
+      my-nvim
+      slack
+      yq-go
+      zen
+      zoom-us
+    ]
+    ++ lib.optionals pkgs.stdenv.isDarwin [
+      # Emacs implicitly calls these,
+      # which pulls up a warning from macOS
+      # if `xcode-install --select` isn't run first
+      pkgs.gcc
+      pkgs.git
+      # macOS only apps
+      pkgs.utm
+      # macOS utilities
+      pkgs.darwin.trash # TODO cross-platform
+    ];
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings
@@ -96,10 +101,10 @@
   };
 
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
-    restart-dock = lib.hm.dag.entryAfter ["setDarwinDefaults"] ''
+    restart-dock = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
       /usr/bin/killall Dock
     '';
-    load-settings = lib.hm.dag.entryAfter ["setDarwinDefaults"] ''
+    load-settings = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
       /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
     '';
   };

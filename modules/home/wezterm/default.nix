@@ -1,19 +1,27 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.wezterm;
-in {
+in
+{
   options.my.wezterm.enable = lib.mkEnableOption "my wezterm config";
 
   config = lib.mkIf cfg.enable {
     programs.wezterm = {
       enable = true;
-      extraConfig = builtins.readFile (pkgs.fennelToLua {
-        name = "wezterm-config";
-        src = pkgs.writeText "config.fnl" ''
-          (local config ${builtins.readFile config.rice.fennel-defaults})
-          ${builtins.readFile ./config.fnl}
-        '';
-      });
+      extraConfig = builtins.readFile (
+        pkgs.fennelToLua {
+          name = "wezterm-config";
+          src = pkgs.writeText "config.fnl" ''
+            (local config ${builtins.readFile config.rice.fennel-defaults})
+            ${builtins.readFile ./config.fnl}
+          '';
+        }
+      );
       colorSchemes = {
         my-base16 = with config.rice.theme; {
           ansi = [

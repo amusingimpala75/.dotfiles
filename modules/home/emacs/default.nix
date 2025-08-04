@@ -1,10 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.emacs;
   rice = config.rice;
 in
 {
-  imports = [ ./darwin.nix ./nixos.nix ];
+  imports = [
+    ./darwin.nix
+    ./nixos.nix
+  ];
   options.my.emacs = {
     enable = lib.mkOption {
       type = lib.types.bool;

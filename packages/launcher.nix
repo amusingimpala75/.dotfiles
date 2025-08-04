@@ -4,4 +4,7 @@
   scriptWrapper,
   ...
 }:
-scriptWrapper "launcher" [ fd fzf ]
+scriptWrapper "launcher" [
+  fd
+  fzf
+]

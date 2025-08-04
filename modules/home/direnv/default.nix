@@ -1,7 +1,8 @@
 { lib, config, ... }:
 let
   cfg = config.my.direnv;
-in {
+in
+{
   options.my.direnv = {
     enable = lib.mkOption {
       type = lib.types.bool;

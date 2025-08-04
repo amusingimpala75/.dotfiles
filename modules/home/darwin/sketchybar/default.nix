@@ -1,16 +1,24 @@
-{ config, lib, pkgs, ... }: let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
   cfg = config.my.sketchybar;
   stdenv = pkgs.stdenv;
 
-  wrapFile = drv: filename: pkgs.stdenv.mkDerivation {
-    name = drv.name;
-    src = drv;
-    phases = [ "buildPhase" ];
-    buildPhase = ''
-      mkdir -p $out
-      cp $src $out/${filename}
-    '';
-  };
+  wrapFile =
+    drv: filename:
+    pkgs.stdenv.mkDerivation {
+      name = drv.name;
+      src = drv;
+      phases = [ "buildPhase" ];
+      buildPhase = ''
+        mkdir -p $out
+        cp $src $out/${filename}
+      '';
+    };
 
   defaults = pkgs.buildFennelPackage {
     name = "fennel-defaults";
@@ -28,13 +36,13 @@
     defaults
   ]);
 
-  sketchybarrc = pkgs.writeScript "sketchybarrc"
-  ''
+  sketchybarrc = pkgs.writeScript "sketchybarrc" ''
     #!${lua}/bin/lua
     defaults = require('defaults')
     require('init')
   '';
-in {
+in
+{
   options.my.sketchybar = {
     enable = lib.mkEnableOption "my sketchybar configuration";
   };

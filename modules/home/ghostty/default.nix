@@ -1,8 +1,14 @@
-{ lib, config, pkgs, ...}:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.ghostty;
   rice = config.rice;
-in {
+in
+{
   # TODO figure out why .zshenv -> ~/.config/zsh/.zshenv -> ~/.config/zsh/.zshrc is not being sourced
   #      (ZDOTDIR is overridden by ghostty integration as /Applications/Ghostty.app/<etc>)
   imports = [ ./darwin.nix ];

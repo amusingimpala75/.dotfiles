@@ -13,7 +13,7 @@
   wsl.startMenuLaunchers = true;
 
   environment.sessionVariables = {
-    TERM="wezterm";
+    TERM = "wezterm";
   };
   environment.systemPackages = [ pkgs.wezterm ];
   environment.wordlist.enable = true;

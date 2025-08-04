@@ -69,9 +69,8 @@ let
     ];
   };
 
-  texlive-package = if stable != null
-  then stable.texlive.combined.scheme-full
-  else texlive.combined.scheme-full;
+  texlive-package =
+    if stable != null then stable.texlive.combined.scheme-full else texlive.combined.scheme-full;
 
   deps = symlinkJoin {
     name = "emacs30-path-additions";

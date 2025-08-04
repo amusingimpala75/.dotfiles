@@ -13,11 +13,18 @@ stdenv.mkDerivation {
   inherit version;
   pname = "Ghostty";
 
-  outputs = [ "out" "terminfo" "shell_integration" ];
+  outputs = [
+    "out"
+    "terminfo"
+    "shell_integration"
+  ];
 
   buildInputs = [ _7zz ];
   sourceRoot = ".";
-  phases = [ "unpackPhase" "installPhase" ];
+  phases = [
+    "unpackPhase"
+    "installPhase"
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -30,9 +37,10 @@ stdenv.mkDerivation {
 
   postInstall = ''
     terminfo_src=${
-      if stdenv.hostPlatform.isDarwin
-      then ''"$out/Applications/Ghostty.app/Contents/Resources/terminfo"''
-      else "$out/share/terminfo"
+      if stdenv.hostPlatform.isDarwin then
+        ''"$out/Applications/Ghostty.app/Contents/Resources/terminfo"''
+      else
+        "$out/share/terminfo"
     }
 
     mkdir -p "$out/nix-support"

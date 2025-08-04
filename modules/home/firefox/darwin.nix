@@ -1,7 +1,13 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.firefox;
-in {
+in
+{
   options.my.firefox.default = lib.mkOption {
     type = lib.types.bool;
     default = cfg.enable;

@@ -1,7 +1,8 @@
 { config, lib, ... }:
 let
   cfg = config.my.bat;
-in {
+in
+{
   options.my.bat = {
     enable = lib.mkEnableOption "my bat configuration";
   };

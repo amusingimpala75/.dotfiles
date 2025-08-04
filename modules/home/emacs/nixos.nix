@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.emacs;
   stdenv = pkgs.stdenv;
-in {
+in
+{
   config = lib.mkIf (cfg.enable && stdenv.isLinux) {
     services.emacs = lib.mkIf cfg.service {
       enable = true;

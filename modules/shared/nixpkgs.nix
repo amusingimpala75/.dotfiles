@@ -1,28 +1,43 @@
-{ inputs, lib, root, self, ... }:
+{
+  inputs,
+  lib,
+  root,
+  self,
+  ...
+}:
 let
-  unfree-predicate = pkg: builtins.elem (lib.getName pkg) [
-    "dwarf-fortress"
-    "gaoptout" # Google Analytics Opt-Out Firefox Addon
-    "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
-    "modrinth-app-unwrapped"
-    "slack"
-    "spacefox-theme"
-    "spotify"
-    "untrap-for-youtube"
-    "zoom"
-  ];
-  nixpkgs-stable-overlay = (final: prev: if prev.stdenv.isDarwin then {
-    stable = import inputs.nixpkgs-stable-darwin {
-      system = prev.system;
-      config.allowUnfreePredicate = unfree-predicate;
-    };
-  } else {
-    stable = import inputs.nixpkgs-stable-nixos {
-      system = prev.system;
-      config.allowUnfreePredicate = unfree-predicate;
-    };
-  });
-in {
+  unfree-predicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "dwarf-fortress"
+      "gaoptout" # Google Analytics Opt-Out Firefox Addon
+      "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
+      "modrinth-app-unwrapped"
+      "slack"
+      "spacefox-theme"
+      "spotify"
+      "untrap-for-youtube"
+      "zoom"
+    ];
+  nixpkgs-stable-overlay = (
+    final: prev:
+    if prev.stdenv.isDarwin then
+      {
+        stable = import inputs.nixpkgs-stable-darwin {
+          system = prev.system;
+          config.allowUnfreePredicate = unfree-predicate;
+        };
+      }
+    else
+      {
+        stable = import inputs.nixpkgs-stable-nixos {
+          system = prev.system;
+          config.allowUnfreePredicate = unfree-predicate;
+        };
+      }
+  );
+in
+{
   config.nixpkgs = {
     config.allowUnfreePredicate = unfree-predicate;
     overlays = [
@@ -36,11 +51,17 @@ in {
       inputs.nur.overlays.default
       (import "${root}/overlays")
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
-      (final: prev: if prev.stdenv.isDarwin then {
-        zen = inputs.zen-browser-darwin.packages.${prev.system}.default;
-      } else {
-        zen = inputs.zen-browser-nixos.packages.${prev.system}.default;
-      })
+      (
+        final: prev:
+        if prev.stdenv.isDarwin then
+          {
+            zen = inputs.zen-browser-darwin.packages.${prev.system}.default;
+          }
+        else
+          {
+            zen = inputs.zen-browser-nixos.packages.${prev.system}.default;
+          }
+      )
     ];
   };
 }

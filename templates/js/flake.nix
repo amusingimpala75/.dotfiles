@@ -5,18 +5,21 @@
     devshell.url = "github:numtide/devshell";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
-  flake-parts.lib.mkFlake { inherit inputs; } {
-    imports = [ inputs.devshell.flakeModule ];
-    systems = inputs.nixpkgs.lib.systems.flakeExposed;
-    perSystem = { pkgs, ... }: {
-      devshells.default = {
-        motd = "";
-        packages = with pkgs; [
-          bun
-          typescript-language-server
-        ];
-      };
+  outputs =
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [ inputs.devshell.flakeModule ];
+      systems = inputs.nixpkgs.lib.systems.flakeExposed;
+      perSystem =
+        { pkgs, ... }:
+        {
+          devshells.default = {
+            motd = "";
+            packages = with pkgs; [
+              bun
+              typescript-language-server
+            ];
+          };
+        };
     };
-  };
 }

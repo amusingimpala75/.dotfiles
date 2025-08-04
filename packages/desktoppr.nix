@@ -9,7 +9,8 @@ let
   name = "desktoppr";
   url = "https://github.com/scriptingosx/desktoppr/releases/download/v0.5/desktoppr-0.5-218.zip";
   hash = "sha256-JHnQS4ZL0GC4shBcsKtmPOSFBY6zLSV/IAFRb4+A++Q=";
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit name;
   pname = name;
 

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options.rices.winnie-farming.enable = lib.mkEnableOption "Winnie the Pooh farming rice";
 

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options.my.games = {
     brogue = {
@@ -21,14 +26,17 @@
   };
 
   config = {
-    home.packages = (lib.optionals config.my.games.brogue.enable [
-      config.my.games.brogue.package
-    ]) ++ (lib.optionals config.my.games.dwarf-fortress.enable [
-      (pkgs.dwarf-fortress-full.override {
-        theme = config.my.games.dwarf-fortress.theme;
-      })
-    ]) ++ (lib.optionals config.my.games.modrinth.enable [
-      pkgs.stable.modrinth-app
-    ]);
+    home.packages =
+      (lib.optionals config.my.games.brogue.enable [
+        config.my.games.brogue.package
+      ])
+      ++ (lib.optionals config.my.games.dwarf-fortress.enable [
+        (pkgs.dwarf-fortress-full.override {
+          theme = config.my.games.dwarf-fortress.theme;
+        })
+      ])
+      ++ (lib.optionals config.my.games.modrinth.enable [
+        pkgs.stable.modrinth-app
+      ]);
   };
 }

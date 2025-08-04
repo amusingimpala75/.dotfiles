@@ -5,18 +5,21 @@
     devshell.url = "github:numtide/devshell";
   };
 
-  outputs = inputs@{ flake-parts, ... }:
+  outputs =
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [ inputs.devshell.flakeModule ];
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
-      perSystem = { config, pkgs, ... }: {
-        devshells.default = {
-          motd = "";
-          packages = with pkgs; [
-            jdt-language-server
-            zulu17
-          ];
+      perSystem =
+        { config, pkgs, ... }:
+        {
+          devshells.default = {
+            motd = "";
+            packages = with pkgs; [
+              jdt-language-server
+              zulu17
+            ];
+          };
         };
-      };
     };
 }

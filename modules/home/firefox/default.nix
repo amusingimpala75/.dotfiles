@@ -1,4 +1,10 @@
-{ lib, config, pkgs, inputs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.my.firefox;
 in
@@ -81,38 +87,36 @@ in
         };
         extensions = {
           force = true;
-          packages =
-            with pkgs.nur.repos.rycee.firefox-addons;
-            [
-              darkreader
-              enhanced-github
-              gaoptout
-              github-file-icons
-              gruvbox-dark-theme # TODO integrate with theme system
-              istilldontcareaboutcookies
-              # sideberry # done by textfox
-              sponsorblock
-              ublock-origin
-              untrap-for-youtube
-              vimium
-            ];
-            settings = {
-              "uBlock0@raymondhill.net".settings = {
-                selectedFilterLists = [
-                  "user-filters"
-                  "ublock-filters"
-                  "ublock-badware"
-                  "ublock-privacy"
-                  "ublock-unbreak"
-                  "ublock-quick-fixes"
-                  "easylist"
-                  "easyprivacy"
-                  "urlhaus-1"
-                  "plowe-0"
-                ];
-                user-filters = builtins.readFile ./ublock-filters.txt;
-              };
+          packages = with pkgs.nur.repos.rycee.firefox-addons; [
+            darkreader
+            enhanced-github
+            gaoptout
+            github-file-icons
+            gruvbox-dark-theme # TODO integrate with theme system
+            istilldontcareaboutcookies
+            # sideberry # done by textfox
+            sponsorblock
+            ublock-origin
+            untrap-for-youtube
+            vimium
+          ];
+          settings = {
+            "uBlock0@raymondhill.net".settings = {
+              selectedFilterLists = [
+                "user-filters"
+                "ublock-filters"
+                "ublock-badware"
+                "ublock-privacy"
+                "ublock-unbreak"
+                "ublock-quick-fixes"
+                "easylist"
+                "easyprivacy"
+                "urlhaus-1"
+                "plowe-0"
+              ];
+              user-filters = builtins.readFile ./ublock-filters.txt;
             };
+          };
         };
       };
     };

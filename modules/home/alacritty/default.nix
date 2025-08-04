@@ -1,15 +1,21 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.alacritty;
   rice = config.rice;
-in {
+in
+{
   options.my.alacritty = {
     enable = lib.mkEnableOption "alacritty config";
   };
 
   config = lib.mkIf cfg.enable {
     home.sessionVariables = {
-      TERM="alacritty";
+      TERM = "alacritty";
     };
     programs.alacritty = {
       enable = true;
@@ -35,27 +41,43 @@ in {
           style = "Regular";
         };
 
-        colors = let
-          red = "#${rice.base08}";
-          green = "#${rice.theme.base0B}";
-          yellow = "#${rice.theme.base0A}";
-          cyan = "#${rice.theme.base0C}";
-          blue = "#${rice.theme.base0D}";
-          magenta = "#${rice.theme.base0E}";
-        in {
-          primary.foreground = "#${rice.theme.base06}";
-          primary.background = "#${rice.theme.base00}";
-          normal = {
-            inherit red green yellow cyan blue magenta;
-            black = "#${rice.theme.base00}";
-            white = "#${rice.theme.base06}";
+        colors =
+          let
+            red = "#${rice.base08}";
+            green = "#${rice.theme.base0B}";
+            yellow = "#${rice.theme.base0A}";
+            cyan = "#${rice.theme.base0C}";
+            blue = "#${rice.theme.base0D}";
+            magenta = "#${rice.theme.base0E}";
+          in
+          {
+            primary.foreground = "#${rice.theme.base06}";
+            primary.background = "#${rice.theme.base00}";
+            normal = {
+              inherit
+                red
+                green
+                yellow
+                cyan
+                blue
+                magenta
+                ;
+              black = "#${rice.theme.base00}";
+              white = "#${rice.theme.base06}";
+            };
+            bright = {
+              inherit
+                red
+                green
+                yellow
+                cyan
+                blue
+                magenta
+                ;
+              black = "#${rice.theme.base03}";
+              white = "#${rice.theme.base07}";
+            };
           };
-          bright = {
-            inherit red green yellow cyan blue magenta;
-            black = "#${rice.theme.base03}";
-            white = "#${rice.theme.base07}";
-          };
-        };
       };
     };
   };

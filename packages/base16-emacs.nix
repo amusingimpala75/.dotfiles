@@ -3,7 +3,8 @@
   writeText,
   ...
 }:
-theme: emacsPackages.trivialBuild {
+theme:
+emacsPackages.trivialBuild {
   pname = "my-base16-theme";
   version = "0.1.0";
   src = writeText "my-base16-theme.el" ''

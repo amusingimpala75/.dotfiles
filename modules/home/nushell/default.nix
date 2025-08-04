@@ -1,7 +1,8 @@
 { config, lib, ... }:
 let
   cfg = config.my.nushell;
-in {
+in
+{
   options.my.nushell = {
     enable = lib.mkEnableOption "enable nushell";
   };
@@ -18,7 +19,7 @@ in {
       shellAliases = {
         nds = lib.mkForce "nix develop -c nu";
       };
-      environmentVariables = {} // config.home.sessionVariables;
+      environmentVariables = { } // config.home.sessionVariables;
     };
   };
 }

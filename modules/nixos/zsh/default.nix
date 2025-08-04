@@ -1,7 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.zsh;
-in {
+in
+{
   options.my.zsh = {
     enable = lib.mkEnableOption "my zsh configuration";
     default = lib.mkOption {

@@ -1,7 +1,14 @@
-{ lib, config, pkgs, inputs, ...}:
+{
+  lib,
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
   cfg = config.my.spotify;
-in {
+in
+{
   imports = [ inputs.spicetify.homeManagerModules.default ];
 
   options.my.spotify = {

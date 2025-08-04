@@ -6,7 +6,7 @@
 }:
 name: deps:
 let
-  script = (writeScriptBin name (builtins.readFile ./${name}.sh)).overrideAttrs(old: {
+  script = (writeScriptBin name (builtins.readFile ./${name}.sh)).overrideAttrs (old: {
     buildCommand = "${old.buildCommand}\n patchShebangs $out";
   });
 in

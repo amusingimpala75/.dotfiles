@@ -1,7 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   rice-name = "solarized-light";
-in {
+in
+{
   options.rices.${rice-name}.enable = lib.mkEnableOption "${rice-name} rice";
 
   config = lib.mkIf config.rices.${rice-name}.enable {
