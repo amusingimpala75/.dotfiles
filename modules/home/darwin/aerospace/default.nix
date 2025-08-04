@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.aerospace;
   rice = config.rice;
@@ -11,7 +16,8 @@ let
   ghostty_and = "${pkgs.ghostty_and}/bin/ghostty_and";
   launcher = "${pkgs.my.launcher}/bin/launcher";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
-in {
+in
+{
   options.my.aerospace = {
     enable = lib.mkEnableOption "my aerospace config";
   };
@@ -25,7 +31,7 @@ in {
         exec-on-workspace-change = [
           "${bash}"
           "-c"
-          "${sketchybar} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"
+          "${sketchybar} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE & /Users/lukemurray/projects/desktop_shell/bring-shell.sh $AEROSPACE_FOCUSED_WORKSPACE"
         ];
         start-at-login = true;
         enable-normalization-flatten-containers = true;
@@ -39,19 +45,21 @@ in {
 
         on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
 
-        gaps = let
-          inner = rice.gaps.inner * 2;
-          outer = rice.gaps.outer;
-          outer-top = rice.gaps.outer + rice.bar.height + rice.gaps.outer;
-          outer-bottom = rice.gaps.outer - 1;
-        in {
-          inner.horizontal = inner;
-          inner.vertical = inner;
-          outer.left = outer;
-          outer.right = outer;
-          outer.top = outer-top;
-          outer.bottom = outer-bottom;
-        };
+        gaps =
+          let
+            inner = rice.gaps.inner * 2;
+            outer = rice.gaps.outer;
+            outer-top = rice.gaps.outer + rice.bar.height + rice.gaps.outer;
+            outer-bottom = rice.gaps.outer - 1;
+          in
+          {
+            inner.horizontal = inner;
+            inner.vertical = inner;
+            outer.left = outer * 3;
+            outer.right = outer;
+            outer.top = outer-top;
+            outer.bottom = outer-bottom;
+          };
 
         mode = {
           main.binding = {
@@ -99,26 +107,71 @@ in {
             ctrl-alt-cmd-f = "macos-native-fullscreen";
           };
           service.binding = {
-            esc = ["reload-config" "mode main"];
-            r = ["flatten-workspace-tree" "mode main"]; # reset layout
-            f = ["layout floating tiling" "mode main"]; # Toggle between floating and tiling layout
-            backspace = ["close-all-windows-but-current" "mode main"];
+            esc = [
+              "reload-config"
+              "mode main"
+            ];
+            r = [
+              "flatten-workspace-tree"
+              "mode main"
+            ]; # reset layout
+            f = [
+              "layout floating tiling"
+              "mode main"
+            ]; # Toggle between floating and tiling layout
+            backspace = [
+              "close-all-windows-but-current"
+              "mode main"
+            ];
 
-            alt-shift-h = ["join-with left" "mode main"];
-            alt-shift-j = ["join-with down" "mode main"];
-            alt-shift-k = ["join-with up" "mode main"];
-            alt-shift-l = ["join-with right" "mode main"];
+            alt-shift-h = [
+              "join-with left"
+              "mode main"
+            ];
+            alt-shift-j = [
+              "join-with down"
+              "mode main"
+            ];
+            alt-shift-k = [
+              "join-with up"
+              "mode main"
+            ];
+            alt-shift-l = [
+              "join-with right"
+              "mode main"
+            ];
           };
           launch.binding = {
             esc = ''mode main'';
             # :TODO: there has to be a better way to express this
-            e = [''exec-and-forget ${config.my.emacs.package}/bin/${config.my.emacs.gui-command}'' ''mode main''];
-            m = [''exec-and-forget ${ghostty_and} "${float_and} ${btop}"'' ''mode main''];
-            x = [''exec-and-forget ${ghostty_and} "${float_and} ${launcher}"'' ''mode main''];
-            f = [''exec-and-forget open ~/'' ''mode main''];
-            s = [''exec-and-forget open "x-apple.systempreferences:"'' ''mode main''];
-            p = [''exec-and-forget open /System/Applications/Passwords.app'' ''mode main''];
-            r = [''exec-and-forget ${ghostty_and} "${float_and} zsh -ic reload-hm" --wait-after-command'' ''mode main''];
+            e = [
+              ''exec-and-forget ${config.my.emacs.package}/bin/${config.my.emacs.gui-command}''
+              ''mode main''
+            ];
+            m = [
+              ''exec-and-forget ${ghostty_and} "${float_and} ${btop}"''
+              ''mode main''
+            ];
+            x = [
+              ''exec-and-forget ${ghostty_and} "${float_and} ${launcher}"''
+              ''mode main''
+            ];
+            f = [
+              ''exec-and-forget open ~/''
+              ''mode main''
+            ];
+            s = [
+              ''exec-and-forget open "x-apple.systempreferences:"''
+              ''mode main''
+            ];
+            p = [
+              ''exec-and-forget open /System/Applications/Passwords.app''
+              ''mode main''
+            ];
+            r = [
+              ''exec-and-forget ${ghostty_and} "${float_and} zsh -ic reload-hm" --wait-after-command''
+              ''mode main''
+            ];
           };
         };
         on-window-detected = [
@@ -142,12 +195,18 @@ in {
             "if".window-title-regex-substring = "Brogue";
             run = "layout floating";
           }
+          {
+            "if".window-title-regex-substring = "My Shell";
+            run = "layout floating";
+          }
         ];
       };
     };
 
-    home.activation."aerospace" = lib.hm.dag.entryAfter [ "setupLaunchAgents" "onFilesChange" "installPackages"] ''
-      ${aerospace} reload-config
-    '';
+    home.activation."aerospace" =
+      lib.hm.dag.entryAfter [ "setupLaunchAgents" "onFilesChange" "installPackages" ]
+        ''
+          ${aerospace} reload-config
+        '';
   };
 }

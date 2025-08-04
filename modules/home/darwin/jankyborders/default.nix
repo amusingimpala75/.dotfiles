@@ -1,9 +1,20 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.my.jankyborders;
   stdenv = pkgs.stdenv;
-  inherit (config.rice.border) active inactive width radius;
-in {
+  inherit (config.rice.border)
+    active
+    inactive
+    width
+    radius
+    ;
+in
+{
   options.my.jankyborders = {
     enable = lib.mkEnableOption "my janky borders configuration";
   };
@@ -19,6 +30,7 @@ in {
           "active_color=0xff${toString active}"
           "inactive_color=0xff${toString inactive}"
           "width=${toString width}"
+          "blacklist=desktop_shell"
         ];
         KeepAlive = true;
       };
