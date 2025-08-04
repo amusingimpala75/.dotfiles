@@ -1,6 +1,11 @@
-{ config, lib, pkgs, ... }:
 {
-  options.rices.cross.enable = lib.mkEnableOption "Winnie the Pooh farming rice";
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  options.rices.cross.enable = lib.mkEnableOption "Monochrome cross rice";
 
   config = lib.mkIf config.rices.cross.enable {
     rice = rec {
