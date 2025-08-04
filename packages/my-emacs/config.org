@@ -237,7 +237,7 @@ Since this is an emacs configuration after all, we use nix-mode
   :ensure t
   :hook
   (nix-mode . eglot-ensure)
-  (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-mode-format nil t)))
+  (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-format-buffer nil t)))
   :config
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
