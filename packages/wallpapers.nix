@@ -1,4 +1,5 @@
 {
+  callPackage,
   fetchurl,
 
   ...
@@ -31,6 +32,14 @@ let
       hash = "";
     };
   };
-in (builtins.mapAttrs (name: value: fetchurl value) wps) // {
+  fetch-mtg = callPackage ./mtg-wallpaper.nix { };
+in
+(builtins.mapAttrs (name: value: fetchurl value) wps)
+// {
   "simple-cross" = ./cross_wallpaper.png;
+  "bakersbane-duo" = fetch-mtg {
+    set = "blb";
+    number = "163";
+    hash = "sha256-/42c/XC5UNOVkSQcEv4IrrGqPikMqB5xoGqs83hvOnY=";
+  };
 }
