@@ -19,23 +19,18 @@ let
       "untrap-for-youtube"
       "zoom"
     ];
-  nixpkgs-stable-overlay = (
-    final: prev:
-    if prev.stdenv.isDarwin then
-      {
-        stable = import inputs.nixpkgs-stable-darwin {
-          system = prev.system;
-          config.allowUnfreePredicate = unfree-predicate;
-        };
-      }
-    else
-      {
-        stable = import inputs.nixpkgs-stable-nixos {
-          system = prev.system;
-          config.allowUnfreePredicate = unfree-predicate;
-        };
-      }
-  );
+
+  import-nixpkgs =
+    np: final: prev:
+    import np {
+      system = prev.system;
+      config.allowUnfreePredicate = unfree-predicate;
+    };
+  nixpkgs-stable-overlay = final: prev: {
+    stable =
+      import-nixpkgs inputs."nixpkgs-stable-${if prev.stdenv.isDarwin then "darwin" else "nixos"}" final
+        prev;
+  };
 in
 {
   config.nixpkgs = {
@@ -51,17 +46,12 @@ in
       inputs.nur.overlays.default
       (import "${root}/overlays")
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
-      (
-        final: prev:
-        if prev.stdenv.isDarwin then
-          {
-            zen = inputs.zen-browser-darwin.packages.${prev.system}.default;
-          }
-        else
-          {
-            zen = inputs.zen-browser-nixos.packages.${prev.system}.default;
-          }
-      )
+      (final: prev: {
+        zen =
+          inputs."zen-browser-${
+            if prev.stdenv.isDarwin then "darwin" else "nixos"
+          }".packages.${prev.system}.default;
+      })
     ];
   };
 }
