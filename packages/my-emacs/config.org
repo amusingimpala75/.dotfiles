@@ -879,12 +879,6 @@ Also because why not
   (setq zone-programs [zone-matrix]))
 #+end_src
 
-*** Normie mode
-Custom mode I wrote to have "normal" keybinds in emacs
-#+begin_src emacs-lisp
-(use-package normie-mode)
-#+end_src
-
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
