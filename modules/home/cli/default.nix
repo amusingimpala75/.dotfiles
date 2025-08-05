@@ -27,5 +27,11 @@
       tealdeer
       tree
     ];
+
+    programs.zoxide.enable = true;
+    programs.eza = {
+      enable = true;
+      icons = "always";
+    };
   };
 }
