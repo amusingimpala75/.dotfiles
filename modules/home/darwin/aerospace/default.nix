@@ -16,6 +16,7 @@ let
   ghostty_and = "${pkgs.ghostty_and}/bin/ghostty_and";
   launcher = "${pkgs.my.launcher}/bin/launcher";
   sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
+  new-ghostty = "${pkgs.my.new-ghostty-window}/bin/new-ghostty-window";
 in
 {
   options.my.aerospace = {
@@ -63,7 +64,7 @@ in
 
         mode = {
           main.binding = {
-            ctrl-alt-cmd-enter = "exec-and-forget open -na Ghostty";
+            ctrl-alt-cmd-enter = "exec-and-forget ${new-ghostty}";
             ctrl-alt-cmd-slash = "layout tiles horizontal vertical";
 
             ctrl-alt-cmd-h = "focus left";
