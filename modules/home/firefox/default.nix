@@ -72,6 +72,20 @@ in
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@np" ];
             };
+            Scryfall = {
+              urls = [
+                {
+                  template = "https://scryfall.com/search";
+                  params = [
+                    {
+                      name = "q";
+                      value = "{searchTerms}";
+                    }
+                  ];
+                }
+              ];
+              definedAliases = [ "@scry" ];
+            };
           };
         };
         settings = {
