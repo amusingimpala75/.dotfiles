@@ -5,7 +5,7 @@
   my = {
     aerospace.enable = true;
     cli = {
-      defaultShell = "${pkgs.nushell}/bin/nu";
+      defaultShell = "zsh";
       enable = true;
     };
     emacs = {

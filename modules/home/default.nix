@@ -11,14 +11,16 @@ in
     ./direnv
     ./emacs
     ./firefox
+    # ./fish
     ./games
     ./ghostty
     ./git
     ./nix
-    ./nushell
+    # ./nushell
     ./rice
     ../shared
     ./spotify
+    ./starship
     ./wezterm
     ./wsl
     ./zsh
