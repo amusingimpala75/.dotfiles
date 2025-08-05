@@ -38,6 +38,7 @@ in
     overlays = [
       inputs.alacritty-theme.overlays.default
       inputs.bible.overlays.default
+      (final: prev: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final prev; })
       inputs.emacs-overlay.overlays.default
       (import "${root}/overlays/macos-bin.nix")
       nixpkgs-stable-overlay

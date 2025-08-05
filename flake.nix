@@ -5,6 +5,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-bleeding.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable-darwin.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
     nixpkgs-stable-nixos.url = "github:NixOS/nixpkgs/nixos-25.05";
 

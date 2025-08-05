@@ -39,6 +39,7 @@ in
 
   config = lib.mkIf cfg.enable {
     programs.firefox = {
+      package = pkgs.bleeding.firefox;
       enable = true;
       profiles.${cfg.profile} = {
         id = 0;
