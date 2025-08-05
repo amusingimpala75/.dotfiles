@@ -275,6 +275,7 @@
               packages = with pkgs; [
                 fennel
                 fennel-ls
+                nixfmt-tree
               ];
             };
 
@@ -282,6 +283,8 @@
               inherit system;
               modules = [ ./configurations/nixvim/nixvim ];
             };
+
+            formatter = pkgs.nixfmt-tree;
           };
       }
     );
