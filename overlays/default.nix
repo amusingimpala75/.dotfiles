@@ -8,6 +8,7 @@ final: prev: {
   };
   desktoppr = final.callPackage ../packages/desktoppr.nix { };
   wallp = final.callPackage ../packages/wallp.nix { };
+  infat = final.callPackage ../packages/infat.nix { };
 
   buildFennelPackage = final.callPackage ../packages/buildFennelPackage.nix { };
   fennelToLua = final.callPackage ../packages/fennelToLua.nix { };

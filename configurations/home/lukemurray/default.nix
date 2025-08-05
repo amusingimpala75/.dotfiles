@@ -1,4 +1,9 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   home.username = "lukemurray";
 
@@ -35,11 +40,23 @@
     spotify.enable = true;
   };
 
+  infat = {
+    enable = true;
+    associations = {
+      # the discard is fine since the package is installed anyways
+      "${builtins.unsafeDiscardStringContext config.my.emacs.package}/Applications/Emacs.app" = [
+        ".yaml"
+      ];
+    };
+  };
+
   rices.cross.enable = true;
 
   home.packages =
     with pkgs;
     [
+      infat
+
       gemini-cli
       jq
       my-nvim
