@@ -841,9 +841,7 @@ Gotta get those nice looking SVG tags
 #+begin_src emacs-lisp
 (use-package hideshow
   :diminish hs-minor-mode
-  :hook (prog-mode . hs-minor-mode)
-  :bind (:map prog-mode-map
-         ("C-x h" . hs-toggle-hiding)))
+  :hook (prog-mode . hs-minor-mode))
 #+end_src
 *** Version Control
 #+begin_src emacs-lisp
