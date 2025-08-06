@@ -11,6 +11,12 @@
     rice = rec {
       theme = pkgs.my.schemes.base16.default-dark;
 
+      emacs = {
+        theme-package = pkgs.emacsPackages.miasma-theme;
+        theme-file-name = "miasma-theme";
+        theme-name = "miasma";
+      };
+
       opacity = 0.9;
 
       font = {
