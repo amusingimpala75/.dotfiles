@@ -16,7 +16,7 @@ let
       "slack"
       "spacefox-theme"
       "spotify"
-      "untrap-for-youtube"
+      "youtube-recommended-videos"
       "zoom"
     ];
 

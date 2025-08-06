@@ -112,8 +112,8 @@ in
             # sideberry # done by textfox
             sponsorblock
             ublock-origin
-            untrap-for-youtube
             vimium
+            youtube-recommended-videos # unhook
           ];
           settings = {
             "uBlock0@raymondhill.net".settings = {
