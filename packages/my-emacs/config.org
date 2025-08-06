@@ -876,6 +876,15 @@ Also because why not
   (setq zone-programs [zone-matrix]))
 #+end_src
 
+*** PDF-Tools
+Improvements over the stock docview
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install nil t))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
