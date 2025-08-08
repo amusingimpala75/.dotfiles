@@ -890,6 +890,18 @@ Structed editing in non-lisp languages is quite useful
 #+begin_src emacs-lisp
 (use-package combobulate)
 #+end_src
+
+*** Biome
+So I can check the weather for the day in Emacs ;)
+#+begin_src emacs-lisp
+(use-package biome
+  :ensure t
+  :config
+  (defun my/biome-from-osm ()
+    (interactive)
+    (add-to-list 'biome-query-coords (cons (read-from-minibuffer "Location Name: ") (seq-subseq osm--pin 0 2)))))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
