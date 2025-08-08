@@ -885,6 +885,11 @@ Improvements over the stock docview
   (pdf-tools-install nil t))
 #+end_src
 
+*** Combobulate
+Structed editing in non-lisp languages is quite useful
+#+begin_src emacs-lisp
+(use-package combobulate)
+#+end_src
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
