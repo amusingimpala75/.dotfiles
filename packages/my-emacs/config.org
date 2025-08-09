@@ -660,7 +660,15 @@ Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
   (savehist-mode 1))
 
 (use-package consult
-  :ensure t)
+  :ensure t
+  :custom
+  (consult-async-refresh-delay 0)
+  (consult-async-min-input 1)
+  :bind (("C-x p f" . consult-fd)
+         ("C-x p g" . consult-ripgrep)
+         ("C-x b" . consult-buffer)
+         ("C-x p b" . consult-project-buffer)
+         ("M-g g" . consult-goto-line)))
 #+end_src
 
 Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
@@ -908,6 +916,14 @@ If Eat isn't working on macOS (as in, the formatting is all off), you probably n
 #+begin_src emacs-lisp
 (use-package eat
   :ensure t)
+#+end_src
+
+
+*** Recentf
+Keep track of recently opened files
+#+begin_src emacs-lisp
+(use-package recentf
+  :custom (recentf-mode t))
 #+end_src
 
 * Direnv
