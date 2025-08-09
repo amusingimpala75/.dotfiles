@@ -685,7 +685,7 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   (defun my/cape-capf-set ()
     (interactive)
     (setq-local completion-at-point-functions
-                (list
+                (list #'cape-file
                  (cond ((equal major-mode #'org-mode) my/org-capf)
                        ((or (equal major-mode #'emacs-lisp-mode)
                             (equal major-mode #'lisp-interaction-mode)) my/elisp-capf)
