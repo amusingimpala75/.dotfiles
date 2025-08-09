@@ -56,6 +56,9 @@ in
         export PROMPT='%n@%U%m%u''${_PROMPT_ENV}> '
         export RPROMPT="%F{green}%~%f"
 
+        [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+          source "$EAT_SHELL_INTEGRATION_DIR/zsh"
+
         ${pkgs.bible.asv}/bin/asv random
       '';
     };

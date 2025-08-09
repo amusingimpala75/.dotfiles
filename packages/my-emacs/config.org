@@ -902,6 +902,13 @@ So I can check the weather for the day in Emacs ;)
     (add-to-list 'biome-query-coords (cons (read-from-minibuffer "Location Name: ") (seq-subseq osm--pin 0 2)))))
 #+end_src
 
+*** Eat
+If Eat isn't working on macOS (as in, the formatting is all off), you probably need to run =M-x eat-compile-terminfo=. I could not figure out how to get that to work as part of a nix derivation, maybe once macOS switces to ncurses >= 6.2?
+#+begin_src emacs-lisp
+(use-package eat
+  :ensure t)
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
@@ -911,4 +918,4 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
   :config
   (advice-add 'Man-completion-table :around #'envrc-propagate-environment))
 #+end_src
-# TODO: eat, treesit-utils, go/other prog modes, custom modeline, flymake, dape, golden-ratio, dimmer, gptel, webkit
+# TODO: treesit-utils, other prog modes, custom modeline, flymake, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs, webkit
