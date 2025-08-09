@@ -741,6 +741,7 @@ eldoc for inline documentation
   :diminish eldoc-mode)
 (use-package eldoc-box
   :ensure t
+  :after eglot
   :bind (:map eglot-mode-map ("C-c C-e" . 'eldoc-box-help-at-point)))
 #+end_src
 
