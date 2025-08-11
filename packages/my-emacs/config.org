@@ -930,6 +930,18 @@ Keep track of recently opened files
   :custom (recentf-mode t))
 #+end_src
 
+*** exec-path-from-shell
+This fixes the path for executables installed with nix, etc.
+Only needed on macOS and linux, or if launched as a daemon
+#+begin_src emacs-lisp
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (or (daemonp)
+            (memq window-system '(mac ns x)))
+    (exec-path-from-shell-initialize)))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
