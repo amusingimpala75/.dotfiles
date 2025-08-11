@@ -625,7 +625,11 @@ produces
 *** Swift
 #+begin_src emacs-lisp
 (use-package swift-mode
-  :ensure t)
+  :ensure t
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(swift-mode . ("sourcekit-lsp")))))
 #+end_src
 
 ** Completion
