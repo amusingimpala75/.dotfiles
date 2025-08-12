@@ -794,6 +794,40 @@ Eradio allows listening to internet radio in Emacs.
   (dired-sidebar-theme 'vscode))
 #+end_src
 
+*** Open Streetmap Viewer
+Also because why not
+#+begin_src emacs-lisp
+(use-package osm
+  :ensure t)
+#+end_src
+
+*** PDF-Tools
+Improvements over the stock docview
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :ensure t
+  :config
+  (pdf-tools-install nil t))
+#+end_src
+
+*** Biome
+So I can check the weather for the day in Emacs ;)
+#+begin_src emacs-lisp
+(use-package biome
+  :ensure t
+  :config
+  (defun my/biome-from-osm ()
+    (interactive)
+    (add-to-list 'biome-query-coords (cons (read-from-minibuffer "Location Name: ") (seq-subseq osm--pin 0 2)))))
+#+end_src
+
+*** Eat
+If Eat isn't working on macOS (as in, the formatting is all off), you probably need to run =M-x eat-compile-terminfo=. I could not figure out how to get that to work as part of a nix derivation, maybe once macOS switces to ncurses >= 6.2?
+#+begin_src emacs-lisp
+(use-package eat
+  :ensure t)
+#+end_src
+
 ** Miscellaneous
 Remove the annoying files Emacs dumps all over the system.
 Also, I've been burned one too many times by accidentally opening a massive file with =font-lock=
@@ -881,13 +915,6 @@ Because why not
   :ensure t)
 #+end_src
 
-*** Open Streetmap Viewer
-Also because why not
-#+begin_src emacs-lisp
-(use-package osm
-  :ensure t)
-#+end_src
-
 *** Zone
 #+begin_src emacs-lisp
 (use-package zone-matrix
@@ -899,39 +926,11 @@ Also because why not
   (setq zone-programs [zone-matrix]))
 #+end_src
 
-*** PDF-Tools
-Improvements over the stock docview
-#+begin_src emacs-lisp
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install nil t))
-#+end_src
-
 *** Combobulate
 Structed editing in non-lisp languages is quite useful
 #+begin_src emacs-lisp
 (use-package combobulate)
 #+end_src
-
-*** Biome
-So I can check the weather for the day in Emacs ;)
-#+begin_src emacs-lisp
-(use-package biome
-  :ensure t
-  :config
-  (defun my/biome-from-osm ()
-    (interactive)
-    (add-to-list 'biome-query-coords (cons (read-from-minibuffer "Location Name: ") (seq-subseq osm--pin 0 2)))))
-#+end_src
-
-*** Eat
-If Eat isn't working on macOS (as in, the formatting is all off), you probably need to run =M-x eat-compile-terminfo=. I could not figure out how to get that to work as part of a nix derivation, maybe once macOS switces to ncurses >= 6.2?
-#+begin_src emacs-lisp
-(use-package eat
-  :ensure t)
-#+end_src
-
 
 *** Recentf
 Keep track of recently opened files
