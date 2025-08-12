@@ -3,9 +3,11 @@
   emacs,
   emacsPackagesFor,
   ghostscript,
+  mpv,
   stable ? null,
   texlive,
   vlc,
+  yt-dlp,
 
   # builders
   emacsWithPackagesFromUsePackage,
@@ -80,7 +82,9 @@ let
     paths = [
       texlive-package
       ghostscript
+      mpv
       vlc
+      yt-dlp
     ];
   };
 in

@@ -768,6 +768,13 @@ Eradio allows listening to internet radio in Emacs.
   (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128"))))
 #+end_src
 
+*** Yeetube
+#+begin_src emacs-lisp
+(use-package yeetube
+  :ensure t)
+
+#+end_src
+
 *** Dired
 #+begin_src emacs-lisp
 (use-package vscode-icon
