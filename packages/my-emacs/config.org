@@ -765,7 +765,8 @@ Eradio allows listening to internet radio in Emacs.
 (use-package eradio
   :ensure t
   :custom
-  (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128"))))
+  (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128")))
+  (eradio-player '("mpv" "--no-video" "--no-terminal")))
 #+end_src
 
 *** Yeetube

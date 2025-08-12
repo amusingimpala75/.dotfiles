@@ -6,7 +6,6 @@
   mpv,
   stable ? null,
   texlive,
-  vlc,
   yt-dlp,
 
   # builders
@@ -83,7 +82,6 @@ let
       texlive-package
       ghostscript
       mpv
-      vlc
       yt-dlp
     ];
   };
