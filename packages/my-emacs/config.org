@@ -20,9 +20,10 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 (setq initial-buffer-choice t)
 
 (use-package emacs
-  :config
-  (unless (and (eq 'system-type 'darwin) (display-graphic-p))
-    (menu-bar-mode -1)))
+  :custom
+  (menu-bar-mode (if (eq system-type 'darwin)
+                     t
+                   -1)))
 #+end_src
 
 Line numbers are a must for programming, especially relative numbers for jumping quickly
@@ -106,8 +107,6 @@ I also like a transparent background (still waiting on alpha-background on mac)
                              `(alpha-background . ,(max 0 (- my/opacity 5)))
                            `(alpha . ,(min 100 (+ my/opacity 5)))))
 (use-package frame
-  :bind
-  ("C-z" . nil)
   :custom
   (default-frame-alist `(,my/alpha-setting
                          (ns-transparent-titlebar . t)
@@ -128,14 +127,6 @@ Pull from the user configuration for the font family/size
   ;; But org-export or nix or something is not happy (unrecognized token)
   (unless (eq 'system-type 'darwin)
     (set-fontset-font t nil "Noto Sans CJK" nil 'append)))
-#+end_src
-
-I also like to make it easy to modify the font size, bound to `C--` and `C-=`
-#+begin_src emacs-lisp
-(use-package face-remap
-  :bind
-  ("C--" . text-scale-decrease)
-  ("C-=" . text-scale-increase))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -709,11 +700,14 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   (prog-mode . corfu-mode)
   (corfu-mode . corfu-popupinfo-mode))
 
+;; The days of this are numbered (emacs 31
+;; fixes terminal child frames
 (use-package corfu-terminal
   :ensure t
-  :init
-  (unless (display-graphic-p)
-    (corfu-terminal-mode +1)))
+  :custom
+  (corfu-terminal-mode (if (display-graphic-p)
+                           nil
+                         +1)))
 
 ;; :TODO: fix suggestion in org mode at least not being anything other than a simple dict autocomplete (abbrev not showing?)
 (use-package completion-preview
