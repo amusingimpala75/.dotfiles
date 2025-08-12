@@ -773,6 +773,9 @@ Eradio allows listening to internet radio in Emacs.
 (use-package vscode-icon
   :ensure t)
 
+(use-package dired
+  :custom (dired-use-ls-dired (not (eq system-type 'darwin))))
+
 (use-package dired-sidebar
   :ensure t
   :after vscode-icon
