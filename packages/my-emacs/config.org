@@ -309,8 +309,14 @@ Since this is an emacs configuration after all, we use nix-mode
 (use-package org
   :defer 5
   :hook
-   (org-mode . variable-pitch-mode)
-   (org-mode . visual-line-mode)
+  (org-mode . variable-pitch-mode)
+  (org-mode . visual-line-mode)
+  (org-mode . (lambda ()
+                (setq-local electric-pair-inhibit-predicate
+                            (lambda (c)
+                              (if (char-equal c ?\<)
+                                  t
+                                (electric-pair-default-inhibit c))))))
   :custom-face
   (org-block ((t (:inherit fixed-pitch))))
   (org-table ((t (:inherit fixed-pitch))))
@@ -701,7 +707,7 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   (corfu-mode . corfu-popupinfo-mode))
 
 ;; The days of this are numbered (emacs 31
-;; fixes terminal child frames
+;; fixes terminal child frames)
 (use-package corfu-terminal
   :ensure t
   :custom
@@ -729,8 +735,9 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
 
 Auto-completion of matching parenthesis is really useful, although it can get in the way sometimes (ie. TODO fix this or not in all prog-modes)
 #+begin_src emacs-lisp
-(use-package electric-pair
-  :hook (prog-mode . electric-pair-mode))
+(use-package elec-pair
+  :custom
+  (electric-pair-mode t))
 #+end_src
 
 Avy to help with jumping around text
