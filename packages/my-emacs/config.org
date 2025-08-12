@@ -771,8 +771,10 @@ Eradio allows listening to internet radio in Emacs.
 *** Yeetube
 #+begin_src emacs-lisp
 (use-package yeetube
-  :ensure t)
-
+  :ensure t
+  :custom
+  (yeetube-mpv-video-quality "1080")
+  (yeetube-mpv-additional-flags "--hwdec=yes"))
 #+end_src
 
 *** Dired
