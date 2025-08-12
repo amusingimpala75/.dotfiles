@@ -948,10 +948,9 @@ Only needed on macOS and linux, or if launched as a daemon
   :config
   ;; This way we can preserve our linkage to e.g. VLC
   (let ((nix-store-exec-path (seq-filter (lambda (item) (string-prefix-p "/nix/store" item)) exec-path)))
-    (message "%s" nix-store-exec-path)
     (exec-path-from-shell-initialize)
     (setq exec-path (append nix-store-exec-path exec-path))
-    (append exec-path nix-store-exec-path)))
+    (setenv "PATH" (string-join (cons (getenv "PATH") nix-store-exec-path) ":"))))
 #+end_src
 
 * Direnv
@@ -959,6 +958,7 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
 #+begin_src emacs-lisp
 (use-package envrc
   :ensure t
+  :after exec-path-from-shell
   :hook (after-init . envrc-global-mode)
   :config
   (advice-add 'Man-completion-table :around #'envrc-propagate-environment))
