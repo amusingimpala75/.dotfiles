@@ -273,6 +273,7 @@
             devshells.default = {
               motd = "";
               packages = with pkgs; [
+                nixd
                 fennel
                 fennel-ls
                 nixfmt-tree

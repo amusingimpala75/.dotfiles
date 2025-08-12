@@ -3,8 +3,6 @@
   emacs,
   emacsPackagesFor,
   ghostscript,
-  nixd,
-  nixfmt-rfc-style,
   stable ? null,
   texlive,
   vlc,
@@ -80,8 +78,6 @@ let
   deps = symlinkJoin {
     name = "emacs30-path-additions";
     paths = [
-      nixd
-      nixfmt-rfc-style
       texlive-package
       ghostscript
       vlc

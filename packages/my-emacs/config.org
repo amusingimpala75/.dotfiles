@@ -7,7 +7,6 @@ Lexical Bindings, and ensure we can use :bind:
 ;;; -*- lexical-binding: t -*-
 (require 'bind-key)
 (require 'nix-settings)
-(add-to-list 'exec-path "~/.nix-profile/bin")
 #+end_src
 
 ** UI
@@ -940,9 +939,12 @@ Only needed on macOS and linux, or if launched as a daemon
 (use-package exec-path-from-shell
   :ensure t
   :config
-  (when (or (daemonp)
-            (memq window-system '(mac ns x)))
-    (exec-path-from-shell-initialize)))
+  ;; This way we can preserve our linkage to e.g. VLC
+  (let ((nix-store-exec-path (seq-filter (lambda (item) (string-prefix-p "/nix/store" item)) exec-path)))
+    (message "%s" nix-store-exec-path)
+    (exec-path-from-shell-initialize)
+    (setq exec-path (append nix-store-exec-path exec-path))
+    (append exec-path nix-store-exec-path)))
 #+end_src
 
 * Direnv
