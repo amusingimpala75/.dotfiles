@@ -7,6 +7,9 @@ Lexical Bindings, and ensure we can use :bind:
 ;;; -*- lexical-binding: t -*-
 (require 'bind-key)
 (require 'nix-settings)
+
+(define-prefix-command 'my/applications nil "Applications")
+(bind-key "C-x C-a" 'my/applications)
 #+end_src
 
 ** UI
@@ -764,6 +767,9 @@ Eradio allows listening to internet radio in Emacs.
 #+begin_src emacs-lisp
 (use-package eradio
   :ensure t
+  :bind (("C-x C-a r p" . eradio-play)
+         ("C-x C-a r t" . eradio-toggle)
+         ("C-x C-a r s" . eradio-stop))
   :custom
   (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128")))
   (eradio-player '("mpv" "--no-video" "--no-terminal")))
@@ -773,6 +779,7 @@ Eradio allows listening to internet radio in Emacs.
 #+begin_src emacs-lisp
 (use-package yeetube
   :ensure t
+  :bind (("C-x C-a y" . yeetube-search))
   :custom
   (yeetube-mpv-video-quality "1080")
   (yeetube-mpv-additional-flags "--hwdec=yes"))
@@ -801,7 +808,8 @@ Eradio allows listening to internet radio in Emacs.
 Also because why not
 #+begin_src emacs-lisp
 (use-package osm
-  :ensure t)
+  :ensure t
+  :bind (("C-x C-a o" . osm)))
 #+end_src
 
 *** PDF-Tools
@@ -818,6 +826,7 @@ So I can check the weather for the day in Emacs ;)
 #+begin_src emacs-lisp
 (use-package biome
   :ensure t
+  :bind (("C-x C-a b" . biome))
   :config
   (defun my/biome-from-osm ()
     (interactive)
@@ -828,7 +837,8 @@ So I can check the weather for the day in Emacs ;)
 If Eat isn't working on macOS (as in, the formatting is all off), you probably need to run =M-x eat-compile-terminfo=. I could not figure out how to get that to work as part of a nix derivation, maybe once macOS switces to ncurses >= 6.2?
 #+begin_src emacs-lisp
 (use-package eat
-  :ensure t)
+  :ensure t
+  :bind (("C-x C-a  e" . eat)))
 #+end_src
 
 ** Miscellaneous
