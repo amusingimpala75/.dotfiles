@@ -55,8 +55,6 @@
   home.packages =
     with pkgs;
     [
-      infat
-
       gemini-cli
       jq
       my-nvim

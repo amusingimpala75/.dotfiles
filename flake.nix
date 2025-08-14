@@ -59,6 +59,9 @@
 
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -277,6 +280,7 @@
                 fennel
                 fennel-ls
                 nixfmt-tree
+                sops
               ];
             };
 

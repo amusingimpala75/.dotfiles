@@ -1,0 +1,7 @@
+keys:
+  - &amusingimpala_personal age164xnjhm9448rg0jqvt67sxkfhafl77e76u0429x36fpnww4srdhqzksw6q
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini|el)$
+    key_groups:
+    - age:
+      - *amusingimpala_personal

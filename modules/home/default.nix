@@ -19,6 +19,7 @@ in
     # ./nushell
     ./rice
     ../shared
+    ./sops
     ./spotify
     ./starship
     ./wezterm
