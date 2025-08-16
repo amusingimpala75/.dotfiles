@@ -10,6 +10,13 @@ Lexical Bindings, and ensure we can use :bind:
 
 (define-prefix-command 'my/applications nil "Applications")
 (bind-key "C-x C-a" 'my/applications)
+
+(defun my/user-secret-else (file else)
+  (if (file-exists-p file)
+      (with-temp-buffer
+        (insert-file-contents file)
+        (read (current-buffer)))
+    else))
 #+end_src
 
 ** UI
@@ -767,18 +774,31 @@ eldoc for inline documentation
 #+end_src
 
 ** Apps
-*** Eradio
-Eradio allows listening to internet radio in Emacs.
-# TODO broken?
+*** EMMS
 #+begin_src emacs-lisp
-(use-package eradio
+(defvar my/radio-channel-location "~/.config/sops-nix/secrets/emacs-radio-channels.el")
+
+(defun my/radio-play ()
+  (interactive)
+  (let* ((my/radio-channels (my/user-secret-else my/radio-channel-location nil))
+         (choice (completing-read "Station:" (seq-map (lambda (pair) (car pair)) my/radio-channels)))
+         (association (assoc choice my/radio-channels)))
+    (message "playing %s" choice)
+    (emms-play-url (if association
+                       (cdr association)
+                     choice))))
+
+(use-package emms
   :ensure t
-  :bind (("C-x C-a r p" . eradio-play)
-         ("C-x C-a r t" . eradio-toggle)
-         ("C-x C-a r s" . eradio-stop))
+  :bind (("C-x C-a p e" . emms)
+         ("C-x C-a p p" . emms-start)
+         ("C-x C-a p s" . emms-stop)
+         ("C-x C-a p r" . my/radio-play))
   :custom
-  (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128")))
-  (eradio-player '("mpv" "--no-video" "--no-terminal")))
+  (emms-player-list '(emms-player-mpv))
+  :config
+  (require 'emms-setup)
+  (emms-minimalistic))
 #+end_src
 
 *** Yeetube
@@ -787,8 +807,9 @@ Eradio allows listening to internet radio in Emacs.
   :ensure t
   :bind (("C-x C-a y" . yeetube-search))
   :custom
-  (yeetube-mpv-video-quality "1080")
-  (yeetube-mpv-additional-flags "--hwdec=yes"))
+  (yeetube-mpv-additional-flags " --hwdec=yes")
+  :config
+  (setq yeetube-mpv-video-quality "1080"))
 #+end_src
 
 *** Dired
@@ -850,13 +871,6 @@ If Eat isn't working on macOS (as in, the formatting is all off), you probably n
 *** Gnus
 I use the builtin Gnus for RSS feeds, but I will probably expand to email as well at some point
 #+begin_src emacs-lisp
-(defun my/user-secret-else (file else)
-  (if (file-exists-p file)
-      (with-temp-buffer
-        (insert-file-contents file)
-        (read (current-buffer)))
-    else))
-
 (defun my/subscribe-feed-url (method url)
   (gnus-browse-foreign-server (list method url))
   (with-current-buffer "*Gnus Browse Server*"
@@ -892,6 +906,13 @@ I use the builtin Gnus for RSS feeds, but I will probably expand to email as wel
         gnus-tmp-group
       (cdr mapped))))
 
+(defun my/select-and-play-url ()
+  (interactive)
+  (let ((urls (gnus-collect-urls)))
+    (cond ((length< urls 1) (message "no URLs found"))
+          ((length= urls 1) (emms-play-url (car urls)))
+          ((length> urls 1) (emms-play-url (completing-read "URLs: " urls))))))
+
 (use-package gnus
   :custom
   (gnus-group-line-format "%M%S%p%P%5y:%B%(%uG%)\n")
@@ -900,7 +921,9 @@ I use the builtin Gnus for RSS feeds, but I will probably expand to email as wel
                       (gnus-article-sort-functions '((not gnus-article-sort-by-date)))
                       (gnus-show-threads nil))))
   (gnus-permanently-visible-groups "\\(nnnrss\\|nnatom\\)+.*")
-  :bind (("C-x C-a g" . gnus))
+  :bind (("C-x C-a g" . gnus)
+         :map gnus-article-mode-map
+         ("C-c C-p" . my/select-and-play-url))
   :hook (gnus-setup-news . my/add-missing-feeds))
 #+end_src
 

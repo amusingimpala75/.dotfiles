@@ -24,5 +24,10 @@
       sopsFile = ../../../secrets/emacs-feeds.el;
       path = "%r/emacs-feeds.el";
     };
+    secrets."emacs-radio-channels.el" = {
+      format = "binary";
+      sopsFile = ../../../secrets/emacs-radio-channels.el;
+      path = "%r/emacs-radio-channels.el";
+    };
   };
 }
