@@ -803,9 +803,28 @@ eldoc for inline documentation
 
 *** Yeetube
 #+begin_src emacs-lisp
+(defun my/get-channel-id (url)
+  (with-current-buffer (url-retrieve-synchronously url)
+    (search-forward "channelId")
+    (search-forward "\"")
+    (search-forward "\"")
+    (set-mark (point))
+    (search-forward "\"")
+    (backward-char)
+    (buffer-substring (region-beginning) (region-end))))
+
+(defun my/yeetube-channel-rss-at-point ()
+  (interactive)
+  (search-forward "ago")
+  (let ((url (format "www.youtube.com/feeds/videos.xml?channel_id=%s" (my/get-channel-id (yeetube-get-url)))))
+    (when (y-or-n-p (format "Copy to kill ring? %s: " url))
+      (kill-new url))))
+
 (use-package yeetube
   :ensure t
-  :bind (("C-x C-a y" . yeetube-search))
+  :bind (("C-x C-a y" . yeetube-search)
+         :map yeetube-mode-map
+         ("C-c C-c" . my/yeetube-channel-rss-at-point))
   :custom
   (yeetube-mpv-additional-flags " --hwdec=yes")
   :config
@@ -913,6 +932,12 @@ I use the builtin Gnus for RSS feeds, but I will probably expand to email as wel
           ((length= urls 1) (emms-play-url (car urls)))
           ((length> urls 1) (emms-play-url (completing-read "URLs: " urls))))))
 
+(defun my/rss-youtube-play ()
+  (interactive)
+  (require 'yeetube)
+  (string-match "<yt:video:[[:alnum:]]\\([[:alnum:]]*@\\)[[:alnum:]]*.nnatom>" (buffer-string))
+  (apply yeetube-play-function (format "https://www.youtube.com/watch?v=%s" (match-string 1)) nil))
+
 (use-package gnus
   :custom
   (gnus-group-line-format "%M%S%p%P%5y:%B%(%uG%)\n")
@@ -923,7 +948,8 @@ I use the builtin Gnus for RSS feeds, but I will probably expand to email as wel
   (gnus-permanently-visible-groups "\\(nnnrss\\|nnatom\\)+.*")
   :bind (("C-x C-a g" . gnus)
          :map gnus-article-mode-map
-         ("C-c C-p" . my/select-and-play-url))
+         ("C-c C-p" . my/select-and-play-url)
+         ("C-c C-y" . my/rss-youtube-play))
   :hook (gnus-setup-news . my/add-missing-feeds))
 #+end_src
 

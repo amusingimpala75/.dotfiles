@@ -1,5 +1,6 @@
 {
   # pkgs
+  bleeding ? null,
   emacs,
   emacsPackagesFor,
   ghostscript,
@@ -86,13 +87,15 @@ let
   texlive-package =
     if stable != null then stable.texlive.combined.scheme-full else texlive.combined.scheme-full;
 
+  yt-dlp-package = if bleeding != null then bleeding.yt-dlp else yt-dlp;
+
   deps = symlinkJoin {
     name = "emacs30-path-additions";
     paths = [
       texlive-package
       ghostscript
       mpv
-      yt-dlp
+      yt-dlp-package
     ];
   };
 in
