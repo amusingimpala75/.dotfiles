@@ -25,6 +25,7 @@
     };
     firefox.enable = true;
     games.brogue.enable = true;
+    games.brogue.terminal = true;
     games.modrinth.enable = true;
     git = {
       enable = true;

@@ -378,6 +378,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-configurable-brogue-ce": {
+      "locked": {
+        "lastModified": 1755541535,
+        "narHash": "sha256-LsjUpC2oG+dVSBFtBPyfnWsQBP5uglA6y+kAqBscsn8=",
+        "owner": "amusingimpala75",
+        "repo": "nixpkgs",
+        "rev": "0d11da3bc2f4f3e31002f113ebb1ad878b54fcd8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "amusingimpala75",
+        "ref": "brogue-ce-new-configuration",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1748740939,
@@ -534,6 +550,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "nixpkgs-bleeding": "nixpkgs-bleeding",
+        "nixpkgs-configurable-brogue-ce": "nixpkgs-configurable-brogue-ce",
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nixvim": "nixvim",

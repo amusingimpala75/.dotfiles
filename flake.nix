@@ -62,6 +62,9 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # TODO: remove once PR is merged
+    nixpkgs-configurable-brogue-ce.url = "github:amusingimpala75/nixpkgs/brogue-ce-new-configuration";
   };
 
   outputs =

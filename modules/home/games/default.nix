@@ -8,9 +8,20 @@
   options.my.games = {
     brogue = {
       enable = lib.mkEnableOption "use brogue";
+      terminal = lib.mkEnableOption "terminal support for Brogue";
+      graphics = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        example = false;
+        description = "graphics support for Brogue";
+      };
       package = lib.mkOption {
         type = lib.types.package;
-        default = if pkgs.stdenv.isDarwin then pkgs.brogue-ce-darwin else pkgs.brogue-ce;
+        default = pkgs.brogue-ce.override {
+          terminal = config.my.games.brogue.terminal;
+          graphics = config.my.games.brogue.graphics;
+        };
+        description = "package to use for brogue";
       };
     };
     dwarf-fortress = {

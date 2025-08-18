@@ -39,6 +39,7 @@ in
       inputs.alacritty-theme.overlays.default
       inputs.bible.overlays.default
       (final: prev: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final prev; })
+      (final: prev: { brogue-ce = (import-nixpkgs inputs.nixpkgs-configurable-brogue-ce final prev).brogue-ce; })
       inputs.emacs-overlay.overlays.default
       (import "${root}/overlays/macos-bin.nix")
       nixpkgs-stable-overlay
