@@ -826,7 +826,7 @@ eldoc for inline documentation
          :map yeetube-mode-map
          ("C-c C-c" . my/yeetube-channel-rss-at-point))
   :custom
-  (yeetube-mpv-additional-flags " --hwdec=yes")
+  (yeetube-mpv-additional-flags '("--hwdec=yes"))
   :config
   (setq yeetube-mpv-video-quality "1080"))
 #+end_src

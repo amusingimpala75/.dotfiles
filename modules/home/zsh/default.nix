@@ -28,7 +28,7 @@ in
 
     programs.zsh = {
       enable = true;
-      dotDir = ".config/zsh";
+      dotDir = "${config.home.homeDirectory}/.config/zsh";
       autosuggestion = {
         enable = true;
         highlight = "fg=#${cfg.inline-suggestion-color},bold,underline";
