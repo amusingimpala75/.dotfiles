@@ -59,6 +59,7 @@
       gemini-cli
       jq
       my-nvim
+      ntfy-sh
       slack
       yq-go
       zen
