@@ -12,9 +12,9 @@
       theme = pkgs.my.schemes.base16.default-dark;
 
       emacs = {
-        theme-package = pkgs.emacsPackages.miasma-theme;
-        theme-file-name = "miasma-theme";
-        theme-name = "miasma";
+        theme-package = pkgs.emacsPackages.ef-themes;
+        theme-file-name = "ef-themes";
+        theme-name = "ef-arbutus";
       };
 
       opacity = 0.9;
