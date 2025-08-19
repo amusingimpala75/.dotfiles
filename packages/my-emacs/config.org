@@ -1015,6 +1015,17 @@ Always use utf-8 when possible. Also, move to trash rather than deleting
   :custom (delete-by-moving-to-trash t))
 #+end_src
 
+IBuffer for improved buffer management
+#+begin_src emacs-lisp
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer)
+  :custom (ibuffer-auto-mode t))
+
+(use-package ibuffer-vc
+  :ensure t
+  :bind (:map ibuffer-mode-map ("/ V" . ibuffer-vc-set-filter-groups-by-vc-root)))
+#+end_src
+
 Never use tabs; always spaces. Also, always force DWIM if possible
 #+begin_src emacs-lisp
 (use-package simple
