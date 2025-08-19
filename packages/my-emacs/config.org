@@ -318,6 +318,7 @@ Since this is an emacs configuration after all, we use nix-mode
 #+begin_src emacs-lisp
 (use-package org
   :defer 5
+  :diminish org-indent-mode
   :hook
   (org-mode . variable-pitch-mode)
   (org-mode . visual-line-mode)
@@ -342,22 +343,32 @@ Since this is an emacs configuration after all, we use nix-mode
   :custom
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
+  (org-startup-indented t)
+  (org-hide-emphasis-markers t)
   :config
   (add-to-list 'org-modules 'org-tempo)
   (my/add-LaTeX-snippets org-mode-abbrev-table))
+
+(diminish 'buffer-face-mode)
 #+end_src
 
 Org-modern just makes things look nicer
 #+begin_src emacs-lisp
 (use-package org-modern
   :ensure t
+  :custom
+  (org-modern-star 'replace)
   :hook (org-mode . org-modern-mode))
+
+(use-package org-modern-indent
+  :hook (org-modern-mode . org-modern-indent-mode))
 #+end_src
 
 #+begin_src emacs-lisp
 (use-package org-present
   :ensure t)
 #+end_src
+
 *** Java
 Configure java to use jdtls/eglot
 # TODO make this a (use-package java-mode ...) or (use-package cc-mode ...). I cannot for the life of me get those to work.

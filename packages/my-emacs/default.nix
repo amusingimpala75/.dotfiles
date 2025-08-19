@@ -81,6 +81,16 @@ let
           hash = "sha256-rm5bquIsdY8Nj7l8B2nxu7tpNszNlN1zwjBA09yvpCs=";
         };
       })
+      (epkgs.trivialBuild {
+        pname = "org-modern-indent";
+        version = "git+2025-4-12";
+        src = fetchFromGitHub {
+          owner = "jdtsmith";
+          repo = "org-modern-indent";
+          rev = "9973bd3b91e4733a3edd1fca232208c837c05473";
+          hash = "sha256-st3338Jk9kZ5BLEPRJZhjqdncMpLoWNwp60ZwKEObyU=";
+        };
+      })
     ];
   };
 
