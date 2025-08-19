@@ -150,6 +150,15 @@ Pull from the user configuration for the font family/size
                                        "===" "!==")))
 #+end_src
 
+*** Glasses Mode
+Camel case can be a bit painful, so we're trying =glasses-mode= to help with that
+#+begin_src emacs-lisp
+(use-package glasses
+  :hook (prog-mode . glasses-mode)
+  :diminish
+  :custom (glasses-uncapitalize-p t))
+#+end_src
+
 *** Dashboard
 Use the dashboard for a nice splash screen
 #+begin_src emacs-lisp
