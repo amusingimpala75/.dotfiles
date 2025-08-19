@@ -998,11 +998,12 @@ Visual Undo to visualize the undo tree
   :bind ("C-?" . vundo))
 #+end_src
 
-Always use utf-8 when possible
+Always use utf-8 when possible. Also, move to trash rather than deleting
 #+begin_src emacs-lisp
 (use-package emacs
   :config
-  (set-default-coding-systems 'utf-8))
+  (set-default-coding-systems 'utf-8)
+  :custom (delete-by-moving-to-trash t))
 #+end_src
 
 Never use tabs; always spaces. Also, always force DWIM if possible
@@ -1081,7 +1082,8 @@ Structed editing in non-lisp languages is quite useful
 Keep track of recently opened files
 #+begin_src emacs-lisp
 (use-package recentf
-  :custom (recentf-mode t))
+  :custom (recentf-mode t)
+  :bind ("C-x C-r" . recentf))
 #+end_src
 
 *** exec-path-from-shell
