@@ -45,7 +45,7 @@ let
           (defvar my/opacity (truncate ${builtins.toString (opacity * 100)}))
 
           (require '${theme-file-name})
-          (load-theme '${theme-name} t)
+          (defvar my/theme '${theme-name})
 
           (provide 'nix-settings)
         '';

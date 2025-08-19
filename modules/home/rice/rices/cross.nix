@@ -14,7 +14,7 @@
       emacs = {
         theme-package = pkgs.emacsPackages.ef-themes;
         theme-file-name = "ef-themes";
-        theme-name = "ef-arbutus";
+        theme-name = "ef-elea-dark";
       };
 
       opacity = 0.9;

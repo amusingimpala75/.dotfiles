@@ -105,9 +105,18 @@ Additionally, truncate text off the edge of the screen unless in a text mode
 #+end_src
 
 *** Theme
-I use base16-based themes in Nix, which is automatically generated from user preferences
+Theming is controlled by nix-settings, often base16 generated
 #+begin_src emacs-lisp
 ;; Snippet moved into nix-settings.el as part of the system config
+#+end_src
+
+Just to be sure, we also install the ef-themes
+#+begin_src emacs-lisp
+(use-package ef-themes
+  :ensure t
+  :custom
+  (ef-themes-mixed-fonts t)
+  (ef-themes-to-toggle '(ef-maris-light ef-maris-dark)))
 #+end_src
 
 I also like a transparent background (still waiting on alpha-background on mac)
@@ -1109,5 +1118,10 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
   :hook (after-init . envrc-global-mode)
   :config
   (advice-add 'Man-completion-table :around #'envrc-propagate-environment))
+#+end_src
+
+Also theming is borked if loaded before the end
+#+begin_src emacs-lisp
+(load-theme my/theme t)
 #+end_src
 # TODO: treesit-utils, other prog modes, custom modeline, flymake, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs, webkit
