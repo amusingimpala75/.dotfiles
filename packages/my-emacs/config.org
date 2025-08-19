@@ -33,7 +33,8 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
   :custom
   (menu-bar-mode (if (eq system-type 'darwin)
                      t
-                   -1)))
+                   -1))
+  (xterm-mouse-mode t))
 #+end_src
 
 Line numbers are a must for programming, especially relative numbers for jumping quickly
@@ -92,7 +93,8 @@ The frame really needs to scroll better.
   :custom
   ;(scroll-margin 2)
   (scroll-conservatively 101)
-  (pixel-scroll-precision-mode t))
+  (pixel-scroll-precision-mode t)
+  (frame-resize-pixelwise t))
 #+end_src
 
 Additionally, truncate text off the edge of the screen unless in a text mode
@@ -751,15 +753,6 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   (prog-mode . corfu-mode)
   (corfu-mode . corfu-popupinfo-mode))
 
-;; The days of this are numbered (emacs 31
-;; fixes terminal child frames)
-(use-package corfu-terminal
-  :ensure t
-  :custom
-  (corfu-terminal-mode (if (display-graphic-p)
-                           nil
-                         +1)))
-
 ;; :TODO: fix suggestion in org mode at least not being anything other than a simple dict autocomplete (abbrev not showing?)
 (use-package completion-preview
   :diminish completion-preview-mode
@@ -1029,11 +1022,19 @@ IBuffer for improved buffer management
 Never use tabs; always spaces. Also, always force DWIM if possible
 #+begin_src emacs-lisp
 (use-package simple
-  :custom (indent-tabs-mode nil)
+  :custom
+  (indent-tabs-mode nil)
+  (kill-region-dwim 'emacs-word)
   :bind
   ("M-u" . upcase-dwim)
   ("M-l" . downcase-dwim)
   ("M-c" . capitalize-dwim))
+#+end_src
+
+Delete the region if selected when typing
+#+begin_src emacs-lisp
+(use-package delsel
+  :custom (delete-selection-mode t))
 #+end_src
 
 Indent guides to check indentation
@@ -1042,7 +1043,6 @@ Indent guides to check indentation
   :ensure t
   :hook (prog-mode . indent-bars-mode)
   :custom
-  (indent-bars-prefer-character t)
   (indent-bars-ts-support t)
   (indent-bars-color '(highlight :blend 0.6))
   (indent-bars-highlight-current-depth '(:face default :blend 1.0))
