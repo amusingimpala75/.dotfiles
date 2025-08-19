@@ -54,6 +54,19 @@ let
       )
     ) grouped
   );
+
+  infat-config-reset = format.generate "infat-config-reset" (
+    builtins.mapAttrs (
+      name: val:
+      builtins.listToAttrs (
+        lib.map (value: {
+            name = clean-name value.name;
+            value = "TextEdit";
+          }
+        ) val
+      )
+    ) grouped
+  );
 in
 {
   options.infat = {
@@ -70,5 +83,8 @@ in
     };
   };
 
-  config.home.file."test-infat.toml".source = infat-config;
+  config.home.activation.infat-set-associations = lib.mkIf (pkgs.stdenv.isDarwin && config.infat.enable) (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${pkgs.infat}/bin/infat -c ${infat-config-reset}
+    ${pkgs.infat}/bin/infat -c ${infat-config}
+  '');
 }

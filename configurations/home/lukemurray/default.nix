@@ -46,6 +46,7 @@
     associations = {
       # the discard is fine since the package is installed anyways
       "${builtins.unsafeDiscardStringContext config.my.emacs.package}/Applications/Emacs.app" = [
+        ".org"
         ".yaml"
       ];
     };
@@ -64,6 +65,8 @@
       yq-go
       zen
       zoom-us
+
+      infat
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin [
       # Emacs implicitly calls these,
