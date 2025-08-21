@@ -66,6 +66,10 @@ let
     if stable != null then stable.texlive.combined.scheme-full else texlive.combined.scheme-full;
 
   yt-dlp-package = if bleeding != null then bleeding.yt-dlp else yt-dlp;
+  # this is only necessary since we're already pulling yt-dlp as bleeding;
+  # there is no reason to then pull mpv as unstable as
+  # that then pulls in yt-dlp as stable as well, extraneous extra packages
+  mpv-package = if bleeding != null then bleeding.mpv else mpv;
 
   deps = symlinkJoin {
     name = "emacs30-path-additions";
@@ -73,7 +77,7 @@ let
       texlive-package
       ghostscript
       mathjax-node-cli
-      mpv
+      mpv-package
       yt-dlp-package
     ];
   };
