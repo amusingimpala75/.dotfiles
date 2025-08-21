@@ -396,16 +396,16 @@
     },
     "nixpkgs-darwin-xwidgets": {
       "locked": {
-        "lastModified": 1755648187,
-        "narHash": "sha256-LCPpeXqLReF76Sn0TZTiywmgSvSWwdU1F74LxEd5zX8=",
-        "owner": "amusingimpala75",
+        "lastModified": 1755778866,
+        "narHash": "sha256-lOnv4l//fjPO4G30XzgXqiVI/gUy/IivSwWFUfLK49k=",
+        "owner": "tani",
         "repo": "nixpkgs",
-        "rev": "fea0fe2ca5bfe04272bf8c214a58c48160f4ef2d",
+        "rev": "04b5ad74308fc67c8935fd9d0b074a889bf28a54",
         "type": "github"
       },
       "original": {
-        "owner": "amusingimpala75",
-        "ref": "emacs-xwidgets-fix-darwin",
+        "owner": "tani",
+        "ref": "emacs-xwidgets-darwin",
         "repo": "nixpkgs",
         "type": "github"
       }

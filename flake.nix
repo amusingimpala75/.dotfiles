@@ -67,7 +67,7 @@
     nixpkgs-configurable-brogue-ce.url = "github:amusingimpala75/nixpkgs/brogue-ce-new-configuration";
 
     # TODO: remove once PR is merged
-    nixpkgs-darwin-xwidgets.url = "github:amusingimpala75/nixpkgs/emacs-xwidgets-fix-darwin";
+    nixpkgs-darwin-xwidgets.url = "github:tani/nixpkgs/emacs-xwidgets-darwin";
   };
 
   outputs =
