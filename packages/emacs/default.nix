@@ -4,6 +4,7 @@
   emacs,
   emacsPackagesFor,
   ghostscript,
+  mathjax-node-cli,
   mpv,
   stable ? null,
   texlive,
@@ -71,6 +72,7 @@ let
     paths = [
       texlive-package
       ghostscript
+      mathjax-node-cli
       mpv
       yt-dlp-package
     ];
