@@ -28,7 +28,9 @@ in
         font-family-variable = rice.font.family.variable-pitch;
         opacity = rice.opacity;
         inherit (rice.emacs) theme-package theme-file-name theme-name;
-        emacs = pkgs.emacs-git;
+        emacs = pkgs.emacs-git.override {
+          withXwidgets = true;
+        };
       };
       example = pkgs.emacs;
       description = "package for emacs to use";
