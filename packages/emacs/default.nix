@@ -27,6 +27,9 @@
   ...
 }:
 let
+  getPackage = path: (import path) {
+    inherit emacs emacsPackagesFor fetchFromGitHub;
+  };
   pkg = emacsWithPackagesFromUsePackage {
     package = emacs;
     alwaysTangle = true;
@@ -51,46 +54,10 @@ let
         '';
         packageRequires = [ theme-package ];
       })
-      (epkgs.trivialBuild {
-        pname = "zone-matrix";
-        version = "git+2023-12-21";
-        src = fetchFromGitHub {
-          owner = "twitchy-ears";
-          repo = "zone-matrix";
-          rev = "508e2fa6f1d9b69752c1629f76349bdd102f40d1";
-          hash = "sha256-uQQviKTvZfWcdovfxy/jF60onFEJYcp98nDrtDt2CGA=";
-        };
-      })
-      (epkgs.trivialBuild {
-        pname = "combobulate";
-        version = "git+2025-6-20";
-        src = fetchFromGitHub {
-          owner = "mickeynp";
-          repo = "combobulate";
-          rev = "17c71802eed2df1a6b25199784806da6763fb90c";
-          hash = "sha256-m+06WLfHkdlMkLzP+fah3YN3rHG0H8t/iWEDSrct25E=";
-        };
-      })
-      (epkgs.trivialBuild {
-        pname = "nnnrss";
-        version = "git+2025-3-9";
-        src = fetchFromGitHub {
-          owner = "jjbarr";
-          repo = "nnnrss";
-          rev = "941f89277fabd44dd03eb654e183553c86ba35c8";
-          hash = "sha256-rm5bquIsdY8Nj7l8B2nxu7tpNszNlN1zwjBA09yvpCs=";
-        };
-      })
-      (epkgs.trivialBuild {
-        pname = "org-modern-indent";
-        version = "git+2025-4-12";
-        src = fetchFromGitHub {
-          owner = "jdtsmith";
-          repo = "org-modern-indent";
-          rev = "9973bd3b91e4733a3edd1fca232208c837c05473";
-          hash = "sha256-st3338Jk9kZ5BLEPRJZhjqdncMpLoWNwp60ZwKEObyU=";
-        };
-      })
+      (getPackage ./zone-matrix.nix)
+      (getPackage ./combobulate.nix)
+      (getPackage ./nnnrss.nix)
+      (getPackage ./org-modern-indent.nix)
     ];
   };
 

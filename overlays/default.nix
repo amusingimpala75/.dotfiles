@@ -14,7 +14,7 @@ final: prev: {
   fennelToLua = final.callPackage ../packages/fennelToLua.nix { };
   mkDarwinApplication = final.callPackage ../packages/mkDarwinApplication.nix { };
 
-  my.emacs = final.callPackage ../packages/my-emacs { };
+  my.emacs = final.callPackage ../packages/emacs { };
   my.launcher = final.callPackage ../packages/launcher.nix { };
   my.install = final.callPackage ../packages/install.nix { };
 
