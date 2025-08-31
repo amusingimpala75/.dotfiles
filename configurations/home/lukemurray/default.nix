@@ -61,10 +61,8 @@
       jq
       my-nvim
       ntfy-sh
-      slack
       yq-go
       zen
-      zoom-us
 
       infat
     ]
