@@ -29,7 +29,7 @@ in
         opacity = rice.opacity;
         inherit (rice.emacs) theme-package theme-file-name theme-name;
         emacs = pkgs.emacs-git.override {
-          withXwidgets = true;
+          withXwidgets = (builtins.getEnv "WSL_DISTRO_NAME") != "";
         };
       };
       example = pkgs.emacs;
