@@ -52,6 +52,9 @@ Show a line at 80 chars (this helps code format) and show the dimensions of boun
   (indicate-buffer-boundaries 'left)
   :hook
   (prog-mode . display-fill-column-indicator-mode))
+
+(use-package writeroom-mode
+  :ensure t)
 #+end_src
 
 In order to declutter the bottom, I need diminish
