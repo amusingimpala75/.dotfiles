@@ -6,9 +6,12 @@
   ghostscript,
   mathjax-node-cli,
   mpv,
+  pandoc,
   stable ? null,
   texlive,
+  unzip,
   yt-dlp,
+  zip,
 
   # builders
   emacsWithPackagesFromUsePackage,
@@ -78,7 +81,10 @@ let
       ghostscript
       mathjax-node-cli
       mpv-package
+      pandoc
+      unzip
       yt-dlp-package
+      zip
     ];
   };
 in

@@ -393,6 +393,27 @@ Org-modern just makes things look nicer
   :ensure t)
 #+end_src
 
+org-export to docx via latex and pandoc
+#+begin_src emacs-lisp
+(defun my/pandoc-latex-to-docx (texfile &optional snippet)
+  (let ((infile (shell-quote-argument texfile))
+        (outfile (shell-quote-argument (format "%s.docx" (substring texfile 0 -4)))))
+    (shell-command (format "pandoc %s -o %s" infile outfile))))
+
+(defun my/org-latex-export-to-docx (&optional async subtreep visible-only body-only ext-plist)
+  (interactive)
+  (let ((outfile (org-export-output-file-name ".tex" subtreep)))
+    (org-export-to-file 'latex outfile
+      async subtreep visible-only body-only ext-plist
+      #'my/pandoc-latex-to-docx)))
+
+(with-eval-after-load 'org
+  (org-export-define-derived-backend 'docx 'latex
+				     :menu-entry
+				     '(?l 1
+					  ((?d "As LaTeX file (Docx)" my/org-latex-export-to-docx)))))
+#+end_src
+
 *** Java
 Configure java to use jdtls/eglot
 # TODO make this a (use-package java-mode ...) or (use-package cc-mode ...). I cannot for the life of me get those to work.
