@@ -194,6 +194,29 @@ Use the biblegateway VotD for the footer
   (dashboard-footer-messages (list (bible-gateway-get-verse))))
 #+end_src
 
+** LSP, DAP, Treesitter, Flymake
+Fixes stupid bug where the line height changes ever-so-slightly on macOS
+#+begin_src emacs-lisp
+(use-package eglot
+  :custom
+  (eglot-code-action-indicator "*"))
+#+end_src
+
+# DAP TODO
+
+Configure treesitter to use maximum font locking
+#+begin_src emacs-lisp
+(use-package treesit
+  :custom (treesit-font-lock-level 4))
+#+end_src
+
+Inline diagnostics is helpful
+#+begin_src emacs-lisp
+(use-package flymake
+  :custom
+  (flymake-show-diagnostics-at-end-of-line t))
+#+end_src
+
 ** Language Support (modes)
 *** ~fundamental-mode~ (global)
 **** Snippets
@@ -482,6 +505,7 @@ public class [Class name from file name] {
   (rust-mode-treesitter-derive t)
   (rust-format-on-save t)
   :config
+  (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
   (my/add-fundamental-snippets rust-mode-abbrev-table)
   (my/add-fundamental-snippets rust-ts-mode-abbrev-table))
 #+end_src
@@ -1100,6 +1124,7 @@ Gotta get those nice looking SVG tags
   :diminish hs-minor-mode
   :hook (prog-mode . hs-minor-mode))
 #+end_src
+
 *** Version Control
 #+begin_src emacs-lisp
 (use-package vc-git
@@ -1169,4 +1194,4 @@ Also theming is borked if loaded before the end
 #+begin_src emacs-lisp
 (load-theme my/theme t)
 #+end_src
-# TODO: treesit-utils, other prog modes, custom modeline, flymake, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs, webkit
+# TODO: treesit-utils, other prog modes, custom modeline, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs
