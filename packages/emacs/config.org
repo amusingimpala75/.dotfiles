@@ -410,7 +410,7 @@ org-export to docx via latex and pandoc
       async subtreep visible-only body-only ext-plist
       #'my/pandoc-latex-to-docx)))
 
-(with-eval-after-load 'org
+(with-eval-after-load 'ox
   (org-export-define-derived-backend 'docx 'latex
 				     :menu-entry
 				     '(?l 1
