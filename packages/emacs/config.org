@@ -933,8 +933,14 @@ So I can check the weather for the day in Emacs ;)
 If Eat isn't working on macOS (as in, the formatting is all off), you probably need to run =M-x eat-compile-terminfo=. I could not figure out how to get that to work as part of a nix derivation, maybe once macOS switces to ncurses >= 6.2?
 #+begin_src emacs-lisp
 (use-package eat
-  :ensure t
-  :bind (("C-x C-a  e" . eat)))
+  :ensure t)
+#+end_src
+
+I wrote a custom =toggleterm= package that can popup and hide an eat buffer (could be configured for other shells)
+#+begin_src emacs-lisp
+(use-package toggleterm
+  :defer nil
+  :bind ("C-x C-a t" . toggleterm-dwim))
 #+end_src
 
 *** Gnus

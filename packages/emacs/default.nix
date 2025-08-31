@@ -21,6 +21,8 @@
   symlinkJoin,
   writeText,
 
+  lib,
+
   # configuration options
   font-size ? 16,
   font-family-fixed ? "Iosevka",
@@ -33,7 +35,7 @@
 }:
 let
   getPackage = path: (import path) {
-    inherit emacs emacsPackagesFor fetchFromGitHub;
+    inherit emacs emacsPackagesFor fetchFromGitHub lib;
   };
   pkg = emacsWithPackagesFromUsePackage {
     package = emacs;
@@ -63,6 +65,7 @@ let
       (getPackage ./combobulate.nix)
       (getPackage ./nnnrss.nix)
       (getPackage ./org-modern-indent.nix)
+      (getPackage ./toggleterm.nix)
     ];
   };
 
