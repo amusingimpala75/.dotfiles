@@ -7,6 +7,7 @@
   mathjax-node-cli,
   mpv,
   pandoc,
+  R,
   stable ? null,
   texlive,
   unzip,
@@ -82,6 +83,7 @@ let
       mathjax-node-cli
       mpv-package
       pandoc
+      R
       unzip
       yt-dlp-package
       zip
