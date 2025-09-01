@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -62,7 +63,6 @@
       my-nvim
       ntfy-sh
       yq-go
-      zen
 
       infat
     ]
@@ -77,6 +77,9 @@
       # macOS utilities
       pkgs.darwin.trash # TODO cross-platform
     ];
+
+  imports = [ inputs.zen-browser.homeModules.beta ];
+  programs.zen-browser.enable = true;
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings

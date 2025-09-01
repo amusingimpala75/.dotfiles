@@ -49,12 +49,6 @@ in
       inputs.nur.overlays.default
       (import "${root}/overlays")
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
-      (final: prev: {
-        zen =
-          inputs."zen-browser-${
-            if prev.stdenv.isDarwin then "darwin" else "nixos"
-          }".packages.${prev.system}.default;
-      })
     ];
   };
 }
