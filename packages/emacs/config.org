@@ -390,7 +390,10 @@ Since this is an emacs configuration after all, we use nix-mode
   (org-hide-emphasis-markers t)
   :config
   (add-to-list 'org-modules 'org-tempo)
-  (my/add-LaTeX-snippets org-mode-abbrev-table))
+  (my/add-LaTeX-snippets org-mode-abbrev-table)
+  (org-babel-do-load-languages 'org-babel-load-languages '((python . t)
+                                                           (R . t)
+                                                           (jupyter . t))))
 
 (diminish 'buffer-face-mode)
 #+end_src
@@ -431,6 +434,12 @@ org-export to docx via latex and pandoc
 				     :menu-entry
 				     '(?l 1
 					  ((?d "As LaTeX file (Docx)" my/org-latex-export-to-docx)))))
+#+end_src
+
+Allow jupyter in org files
+#+begin_src emacs-lisp
+(use-package jupyter
+  :ensure t)
 #+end_src
 
 *** Java

@@ -7,6 +7,7 @@
   mathjax-node-cli,
   mpv,
   pandoc,
+  python3,
   R,
   stable ? null,
   texlive,
@@ -86,6 +87,11 @@ let
       mathjax-node-cli
       mpv-package
       pandoc
+      (python3.withPackages (pp: [
+        pp.jupyter
+        pp.matplotlib
+        pp.pandas
+      ]))
       R
       unzip
       yt-dlp-package
