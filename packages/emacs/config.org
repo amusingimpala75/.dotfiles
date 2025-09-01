@@ -37,13 +37,6 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
   (xterm-mouse-mode t))
 #+end_src
 
-Line numbers are a must for programming, especially relative numbers for jumping quickly
-#+begin_src emacs-lisp
-(use-package display-line-numbers
-  :custom (display-line-numbers-type 'relative)
-  :hook (prog-mode . display-line-numbers-mode))
-#+end_src
-
 Show a line at 80 chars (this helps code format) and show the dimensions of boundaries.
 #+begin_src emacs-lisp
 (use-package emacs
