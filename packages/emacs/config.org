@@ -436,10 +436,20 @@ org-export to docx via latex and pandoc
 					  ((?d "As LaTeX file (Docx)" my/org-latex-export-to-docx)))))
 #+end_src
 
-Allow jupyter in org files
+Allow jupyter in org files, and easily format an HTML result block
 #+begin_src emacs-lisp
 (use-package jupyter
   :ensure t)
+
+(defun my/babel-render-export ()
+  (interactive)
+  (org-mark-element)
+  (next-line 2)
+  (org-beginning-of-line)
+  (exchange-point-and-mark)
+  (previous-line 3)
+  (org-end-of-line)
+  (shr-render-region (mark) (point)))
 #+end_src
 
 *** Java
