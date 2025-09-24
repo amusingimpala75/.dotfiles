@@ -7,7 +7,7 @@
   mathjax-node-cli,
   mpv,
   pandoc,
-  python3,
+  python312,
   R,
   stable ? null,
   texlive,
@@ -87,10 +87,12 @@ let
       mathjax-node-cli
       mpv-package
       pandoc
-      (python3.withPackages (pp: [
+      (python312.withPackages (pp: [
         pp.jupyter
         pp.matplotlib
         pp.pandas
+        pp.scikit-learn
+        pp.tensorflow
       ]))
       R
       unzip
