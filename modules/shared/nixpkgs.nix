@@ -9,6 +9,7 @@ let
   unfree-predicate =
     pkg:
     builtins.elem (lib.getName pkg) [
+      "copilot-language-server"
       "dwarf-fortress"
       "gaoptout" # Google Analytics Opt-Out Firefox Addon
       "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?

@@ -1137,6 +1137,13 @@ Gotta get those nice looking SVG tags
   :hook (prog-mode . hs-minor-mode))
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package copilot
+  :ensure t
+  :bind
+  ("C-<tab>" . copilot-accept-completion))
+#+end_src
+
 *** Version Control
 #+begin_src emacs-lisp
 (use-package vc-git
