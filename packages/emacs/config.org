@@ -417,7 +417,10 @@ Since this is an emacs configuration after all, we use nix-mode
   (my/add-LaTeX-snippets org-mode-abbrev-table)
   (org-babel-do-load-languages 'org-babel-load-languages '((python . t)
                                                            (R . t)
-                                                           (jupyter . t))))
+                                                           (jupyter . t)))
+  (defun my/count-words-buffer ()
+    (interactive)
+    (message "%d" (count-words (point-min) (point-max) nil))))
 
 (diminish 'buffer-face-mode)
 #+end_src
