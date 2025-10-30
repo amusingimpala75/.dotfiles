@@ -175,10 +175,14 @@ Use the dashboard for a nice splash screen
 (use-package dashboard
   :ensure t
   :custom
-  (initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name)))
   (dashboard-center-content t)
+  :hook
+  (after-init-hook . dashboard-refresh-buffer)
+  :bind
+  ("C-x C-a d" . dashboard-refresh-buffer)
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))))
 #+end_src
 
 Use the biblegateway VotD for the footer
