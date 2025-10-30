@@ -700,7 +700,6 @@ produces
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 (use-package python
   :after treesit
-  :hook (python-ts-mode  . eglot-ensure)
   :config
   (my/add-python-snippets python-mode-abbrev-table)
   (my/add-python-snippets python-ts-mode-abbrev-table))
