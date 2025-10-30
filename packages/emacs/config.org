@@ -1237,6 +1237,7 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
 
 Also theming is borked if loaded before the end
 #+begin_src emacs-lisp
-(load-theme my/theme t)
+;; (load-theme my/theme t)
+(load-theme 'ef-elea-dark t)
 #+end_src
 # TODO: treesit-utils, other prog modes, custom modeline, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs
