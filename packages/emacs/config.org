@@ -765,6 +765,23 @@ produces
   :ensure t)
 #+end_src
 
+*** Ada
+#+begin_src emacs-lisp
+(use-package ada-ts-mode
+  :ensure t)
+#+end_src
+
+*** HTML
+#+begin_src emacs-lisp
+(add-to-list 'major-mode-remap-alist '(html-mode . html-ts-mode))
+#+end_src
+
+*** ESS
+#+begin_src emacs-lisp
+(use-package ess
+  :ensure t)
+#+end_src
+
 ** Completion
 Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
 # TODO: embark
