@@ -1224,6 +1224,14 @@ Only needed on macOS and linux, or if launched as a daemon
     (setenv "PATH" (string-join (cons (getenv "PATH") nix-store-exec-path) ":"))))
 #+end_src
 
+*** Outline modes
+#+begin_src emacs-lisp
+(use-package outline
+  :diminish (outline-minor-mode)
+  :hook (prog-mode . outline-minor-mode)
+  :bind ("C-<iso-lefttab>" . outline-cycle))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
