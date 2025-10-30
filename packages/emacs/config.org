@@ -163,7 +163,10 @@ Camel case can be a bit painful, so we're trying =glasses-mode= to help with tha
 (use-package glasses
   :hook (prog-mode . glasses-mode)
   :diminish
-  :custom (glasses-uncapitalize-p t))
+  :custom
+  (glasses-uncapitalize-p t)
+  (glasses-separator "-")
+  (glasses-separate-parentheses-p nil))
 #+end_src
 
 *** Dashboard
