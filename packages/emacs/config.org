@@ -310,9 +310,17 @@ Since this is an emacs configuration after all, we use nix-mode
 \LaTeX is a necessary component for document editing
 **** Snippets
 #+begin_src emacs-lisp
+(define-skeleton LaTeX-skeleton-begin
+  "Insert begin and end tags"
+  '(setq str (skeleton-read "Type: "))
+  > "\\begin{" str "}" \n
+  > \n
+  > "\\end{" str "}")
+
 (defun my/add-LaTeX-snippets (table)
   (my/add-fundamental-snippets table)
-  (define-abbrev table "ria" "\\rightarrow" nil 1))
+  (define-abbrev table "ria" "\\rightarrow" nil 1)
+  (my/add-skeleton-abbrevs table '(("begin" . LaTeX-skeleton-begin))))
 #+end_src
 
 **** config
