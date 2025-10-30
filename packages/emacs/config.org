@@ -273,6 +273,15 @@ Actually add the snippets
                                    ("heading" . fundamental-skeleton-heading))))
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package lisp
+  :bind ("M-\"" . my/insert-quote)
+  :init
+  (defun my/insert-quote (&optional arg)
+    (interactive "P")
+    (insert-pair arg ?\" ?\")))
+#+end_src
+
 *** Markdown
 While many READMEs are in Markdown, this is actually here so that Eldoc (and thus corfu-popupinfo) renders docstrings correctly
 #+begin_src emacs-lisp
