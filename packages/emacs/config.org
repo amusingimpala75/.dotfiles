@@ -1185,6 +1185,11 @@ Gotta get those nice looking SVG tags
   :ensure t
   :bind
   ("C-<tab>" . copilot-accept-completion))
+
+(use-package copilot-chat
+  :ensure t
+  :bind
+  ("C-x C-a c" . copilot-chat))
 #+end_src
 
 *** Version Control
