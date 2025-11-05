@@ -166,6 +166,7 @@ Camel case can be a bit painful, so we're trying =glasses-mode= to help with tha
   :custom
   (glasses-uncapitalize-p t)
   (glasses-separator "-")
+  (glasses-original-separator "-")
   (glasses-separate-parentheses-p nil))
 #+end_src
 
