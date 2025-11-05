@@ -181,9 +181,12 @@ Use the dashboard for a nice splash screen
   (after-init-hook . dashboard-refresh-buffer)
   :bind
   ("C-x C-a d" . dashboard-refresh-buffer)
+  (:map dashboard-mode-map
+   ("n" . dashboard-next-line)
+   ("p" . dashboard-previous-line))
   :config
   (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name))))
+  (setq initial-buffer-choice (lambda () (dashboard-refresh-buffer))))
 #+end_src
 
 Use the biblegateway VotD for the footer
