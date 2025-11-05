@@ -93,6 +93,7 @@ let
         pp.pandas
         pp.scikit-learn
         pp.tensorflow
+        pp.seaborn
       ]))
       R
       unzip
