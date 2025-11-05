@@ -5,30 +5,12 @@
   ...
 }:
 let
-  cfg = config.my.git;
+  cfg = config.my.vcs;
 in
 {
-  options = {
-    my.git = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        example = true;
-        description = "Enable custom git configuration";
-      };
-      email = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        example = "foo@bar.com";
-        description = "Email to use for git";
-      };
-      username = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        example = "johndoe";
-        description = "Git username";
-      };
-    };
-  };
-  config = lib.mkIf cfg.enable {
+  options.my.vcs.git = lib.mkEnableOption "custom git configuration";
+
+  config = lib.mkIf cfg.git {
     programs.git = {
       delta.enable = true;
       enable = true;

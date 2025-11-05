@@ -9,8 +9,9 @@
     games = {
       brogue.enable = true;
     };
-    git = {
-      enable = true;
+    vcs = {
+      git = true;
+      jujutsu = true;
       email = "69653100+amusingimpala75@users.noreply.github.com";
       username = "amusingimpala75";
     };

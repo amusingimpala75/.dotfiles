@@ -28,8 +28,9 @@
     games.brogue.enable = true;
     games.brogue.terminal = true;
     games.modrinth.enable = true;
-    git = {
-      enable = true;
+    vcs = {
+      git = true;
+      jujutsu = true;
       email = "69653100+amusingimpala75@users.noreply.github.com";
       username = "amusingimpala75";
     };

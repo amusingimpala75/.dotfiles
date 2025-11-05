@@ -14,7 +14,6 @@ in
     # ./fish
     ./games
     ./ghostty
-    ./git
     ./nix
     # ./nushell
     ./rice
@@ -22,6 +21,7 @@ in
     ./sops
     ./spotify
     ./starship
+    ./vcs
     ./wezterm
     ./wsl
     ./zsh
