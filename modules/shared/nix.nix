@@ -30,13 +30,9 @@ in
       automatic = true;
       options = "--delete-older-than 30d";
     }
-    // (lib.optionalAttrs isNixOS {
+    // (lib.optionalAttrs (isNixOS || isHomeManager) {
       persistent = true;
       dates = "weekly";
-    })
-    // (lib.optionalAttrs isHomeManager {
-      persistent = true;
-      frequency = "weekly";
     })
     // (lib.optionalAttrs isNixDarwin {
       interval = {
