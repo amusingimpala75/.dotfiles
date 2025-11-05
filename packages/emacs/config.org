@@ -382,7 +382,8 @@ Since this is an emacs configuration after all, we use nix-mode
 
 (use-package org-latex-impatient
   :ensure t
-  :hook (org-mode . org-latex-impatient-mode))
+; :hook (org-mode . org-latex-impatient-mode)
+  )
 #+end_src
 
 *** Org Mode
