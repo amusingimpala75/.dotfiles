@@ -84,52 +84,54 @@
           inputs.nixvim.flakeModules.default
         ];
         flake = {
-          darwinConfigurations = {
-            Lukes-MacBook-Air = inputs.nix-darwin.lib.darwinSystem {
-              system = "aarch64-darwin";
-              specialArgs = { inherit inputs root self; }; # :TODO: maybe should just be = inputs;
+          darwinConfigurations = let
+            darwinSystem = { platform, configuration }: inputs.nix-darwin.lib.darwinSystem {
+              system = platform;
+              specialArgs = { inherit inputs root self; };
               modules = [
-                ./configurations/darwin/Lukes-MacBook-Air
+                ./configurations/darwin/${configuration}
                 ./modules/darwin
               ];
             };
-            Lukes-Virtual-Machine = inputs.nix-darwin.lib.darwinSystem {
-              system = "aarch64-darwin";
-              specialArgs = { inherit inputs root self; }; # :TODO: maybe should just be = inputs;
-              modules = [
-                ./configurations/darwin/Lukes-MacBook-Air
-                ./modules/darwin
-              ];
+          in {
+            Lukes-MacBook-Air = darwinSystem {
+              platform = "aarch64-darwin";
+              configuration = "Lukes-MacBook-Air";
+            };
+            Lukes-Virtual-Machine = darwinSystem {
+              platform = "aarch64-darwin";              
+              configuration = "Lukes-MacBook-Air";
             };
           };
 
-          nixosConfigurations = {
-            wsl-nix = inputs.nixpkgs.lib.nixosSystem {
-              system = "x86_64-linux";
+          nixosConfigurations = let
+            nixosSystem = { platform, configuration }: inputs.nixpkgs.lib.nixosSystem {
+              system = platform;
               specialArgs = { inherit inputs root self; };
               modules = [
-                ./configurations/nixos/wsl-nix
+                ./configurations/nixos/${configuration}
                 ./modules/nixos
               ];
             };
-            glorfindel = inputs.nixpkgs.lib.nixosSystem {
-              system = "x86_64-linux";
-              specialArgs = { inherit inputs root self; };
-              modules = [
-                ./configurations/nixos/glorfindel
-                ./modules/nixos
-              ];
+          in {
+            wsl-nix = nixosSystem {
+              platform = "x86_64-linux";
+              configuration = "wsl-nix";
+            };
+            glorfindel = nixosSystem {
+              platform = "x86_64-linux";
+              configuration = "glorfindel";
             };
           };
 
           # :TODO: genericize pkgs calls
-          homeConfigurations = {
-            lukemurray = withSystem "aarch64-darwin" (
+          homeConfigurations = let
+            homeSystem = { platform, configuration }: withSystem platform (
               { pkgs, ... }:
               inputs.home-manager.lib.homeManagerConfiguration {
                 inherit pkgs;
                 modules = [
-                  ./configurations/home/lukemurray
+                  ./configurations/home/${configuration}
                   ./modules/home
                 ];
                 extraSpecialArgs = {
@@ -142,44 +144,21 @@
                 };
               }
             );
+          in {
+            lukemurray = homeSystem {
+              platform = "aarch64-darwin";
+              configuration = "lukemurray";
+            };
 
-            "lukemurray@glorfindel" = withSystem "x86_64-linux" (
-              { pkgs, ... }:
-              inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [
-                  ./configurations/home/lukemurray
-                  ./modules/home
-                ];
-                extraSpecialArgs = {
-                  inherit
-                    dotfilesDir
-                    inputs
-                    root
-                    self
-                    ;
-                };
-              }
-            );
+            "lukemurray@glorfindel" = homeSystem {
+              platform = "x86_64-linux";
+              configuration = "lukemurray";
+            };
 
-            murrayle23 = withSystem "x86_64-linux" (
-              { pkgs, ... }:
-              inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [
-                  ./configurations/home/murrayle23
-                  ./modules/home
-                ];
-                extraSpecialArgs = {
-                  inherit
-                    dotfilesDir
-                    inputs
-                    root
-                    self
-                    ;
-                };
-              }
-            );
+            murrayle23 = homeSystem {
+              platform = "x86_64-linux";
+              configuration = "murrayle23";
+            };
           };
 
           # :TODO: broken?
