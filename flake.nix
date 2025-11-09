@@ -30,9 +30,8 @@
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
     alacritty-theme.inputs.flake-parts.follows = "flake-parts";
 
-    textfox.url = "github:amusingimpala75/textfox/fix-nur"; # TODO back to adriankarlen when PR merged
+    textfox.url = "github:adriankarlen/textfox";
     textfox.inputs.nixpkgs.follows = "nixpkgs";
-    textfox.inputs.nur.follows = "nur";
 
     spicetify.url = "github:Gerg-L/spicetify-nix";
     spicetify.inputs.nixpkgs.follows = "nixpkgs";
