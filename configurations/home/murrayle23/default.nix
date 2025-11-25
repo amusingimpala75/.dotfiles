@@ -18,7 +18,7 @@
     wezterm.enable = true;
   };
 
-  rices.grey.enable = true;
+  rices.gruvbox.enable = true;
 
   wsl.wallpaper.enable = true;
   wsl.username = "MURRAYLE23";
