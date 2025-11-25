@@ -87,15 +87,6 @@ let
       mathjax-node-cli
       mpv-package
       pandoc
-      (python312.withPackages (pp: [
-        pp.jupyter
-        pp.matplotlib
-        pp.pandas
-        pp.scikit-learn
-        pp.tensorflow
-        pp.seaborn
-      ]))
-      R
       unzip
       yt-dlp-package
       zip
