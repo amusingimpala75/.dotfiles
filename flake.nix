@@ -43,9 +43,6 @@
     nix-wallpaper.url = "github:lunik1/nix-wallpaper";
     nix-wallpaper.inputs.nixpkgs.follows = "nixpkgs";
 
-    devshell.url = "github:numtide/devshell";
-    devshell.inputs.nixpkgs.follows = "nixpkgs";
-
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
     zen-browser.inputs.home-manager.follows = "home-manager";
@@ -80,7 +77,6 @@
       {
         imports = [
           inputs.home-manager.flakeModules.home-manager
-          inputs.devshell.flakeModule
           inputs.nixvim.flakeModules.default
         ];
         flake = {
@@ -252,8 +248,7 @@
               nvim = pkgs.my-nvim;
             };
 
-            devshells.default = {
-              motd = "";
+            devShells.default = pkgs.mkShell {
               packages = with pkgs; [
                 nixd
                 fennel
