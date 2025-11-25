@@ -64,100 +64,37 @@
   outputs =
     inputs@{ flake-parts, ... }:
     let
-      dotfilesDir = "~/.dotfiles";
       root = ./.;
     in
     flake-parts.lib.mkFlake { inherit inputs; } (
       {
         lib,
         self,
-        withSystem,
         ...
       }:
       {
+        _module.args.root = root;
         imports = [
           inputs.home-manager.flakeModules.home-manager
           inputs.nixvim.flakeModules.default
+          (import ./modules/flake/autowire.nix)
         ];
-        flake =
-          let
-            darwins = builtins.readDir ./configurations/darwin;
-            nixoses = builtins.readDir ./configurations/nixos;
-            homes = builtins.readDir ./configurations/home;
-          in
-          {
-            darwinConfigurations = builtins.mapAttrs (
-              name: _:
-              inputs.nix-darwin.lib.darwinSystem {
-                specialArgs = { inherit inputs root self; };
-                modules = [
-                  ./configurations/darwin/${name}
-                  ./modules/darwin
-                ];
-              }
-            ) darwins;
-
-            nixosConfigurations = builtins.mapAttrs (
-              name: _:
-              inputs.nixpkgs.lib.nixosSystem {
-                specialArgs = { inherit inputs root self; };
-                modules = [
-                  ./configurations/nixos/${name}
-                  ./modules/nixos
-                ];
-              }
-            ) nixoses;
-
-            # :TODO: genericize pkgs calls
-            homeConfigurations =
-              let
-                homeSystem =
-                  { platform, configuration }:
-                  withSystem platform (
-                    { pkgs, ... }:
-                    inputs.home-manager.lib.homeManagerConfiguration {
-                      inherit pkgs;
-                      modules = [
-                        ./configurations/home/${configuration}
-                        ./modules/home
-                      ];
-                      extraSpecialArgs = {
-                        inherit
-                          dotfilesDir
-                          inputs
-                          root
-                          self
-                          ;
-                      };
-                    }
-                  );
-              in
-              {
-                lukemurray = homeSystem {
-                  platform = "aarch64-darwin";
-                  configuration = "lukemurray";
-                };
-
-                "lukemurray@glorfindel" = homeSystem {
-                  platform = "x86_64-linux";
-                  configuration = "lukemurray";
-                };
-
-                murrayle23 = homeSystem {
-                  platform = "x86_64-linux";
-                  configuration = "murrayle23";
-                };
-              };
-
-            overlays = {
-              default = import ./overlays;
-            };
-
-            templates = builtins.mapAttrs (name: _: {
-              path = ./templates/${name};
-              description = (import ./templates/${name}/flake.nix).description;
-            }) (builtins.readDir ./templates);
+        flake = {
+          overlays = {
+            default = import ./overlays;
           };
+        };
+
+        autowire = {
+          apps.enable = true;
+          configurations = {
+            darwin.enable = true;
+            home.enable = true;
+            nixos.enable = true;
+            nixvim.enable = true;
+          };
+          templates.enable = true;
+        };
 
         nixvim = {
           # We have to manually override with pname and description
@@ -193,12 +130,6 @@
                 overlays = shared-nixpkgs-config.overlays;
               };
 
-            apps = builtins.mapAttrs (name: pkg: {
-              type = "app";
-              program = "${pkg}/bin/${pkg.pname}";
-              meta.description = pkg.meta.description;
-            }) self'.packages;
-
             packages = {
               default = self'.packages.install;
 
@@ -216,11 +147,6 @@
                 nixfmt-tree
                 sops
               ];
-            };
-
-            nixvimConfigurations.nixvim = inputs.nixvim.lib.evalNixvim {
-              inherit system;
-              modules = [ ./configurations/nixvim/nixvim ];
             };
 
             formatter = pkgs.nixfmt-tree;

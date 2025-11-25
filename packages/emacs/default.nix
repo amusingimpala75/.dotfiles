@@ -7,8 +7,6 @@
   mathjax-node-cli,
   mpv,
   pandoc,
-  python312,
-  R,
   stable ? null,
   texlive,
   unzip,
@@ -101,7 +99,7 @@ let
   };
 in
 symlinkJoin {
-  pname = pkg.name;
+  pname = "emacs-with-packages";
   version = emacs.version;
   paths = [ pkg ];
   buildInputs = [ makeWrapper ];

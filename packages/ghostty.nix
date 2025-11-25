@@ -64,5 +64,6 @@ stdenv.mkDerivation {
   meta = {
     description = "Ghostty is a fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration.";
     homepage = "https://ghostty.org";
+    platforms = lib.platforms.darwin;
   };
 }
