@@ -24,7 +24,7 @@ let
   import-nixpkgs =
     np: final: prev:
     import np {
-      system = prev.system;
+      system = prev.stdenv.hostPlatform.system;
       config.allowUnfreePredicate = unfree-predicate;
     };
   nixpkgs-stable-overlay = final: prev: {
@@ -45,10 +45,10 @@ in
       (import "${root}/overlays/macos-bin.nix")
       nixpkgs-stable-overlay
       ((import "${root}/overlays/nixvim.nix") self)
-      (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${prev.system}.default; })
+      (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default; })
       inputs.nur.overlays.default
       (import "${root}/overlays")
-      (final: prev: { spicetify = inputs.spicetify.legacyPackages.${prev.system}; })
+      (final: prev: { spicetify = inputs.spicetify.legacyPackages.${final.stdenv.hostPlatform.system}; })
     ];
   };
 }

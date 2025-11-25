@@ -12,7 +12,6 @@ in
 
   config = lib.mkIf cfg.git {
     programs.git = {
-      delta.enable = true;
       enable = true;
       ignores = [
         "*~"
@@ -20,9 +19,7 @@ in
         ".direnv"
         ".envrc"
       ];
-      userEmail = lib.mkIf (cfg.email != null) cfg.email;
-      userName = lib.mkIf (cfg.username != null) cfg.username;
-      extraConfig = {
+      settings = {
         branch.sort = "-committerdate";
         column.ui = "auto";
         commit.verbose = true;
@@ -33,7 +30,16 @@ in
         help.autocorrect = "prompt";
         init.defaultBranch = "master";
         tag.sort = "version:refname";
+        user = {
+          email = lib.mkIf (cfg.email != null) cfg.email;
+          name = lib.mkIf (cfg.username != null) cfg.username;
+        };
       };
+    };
+
+    programs.delta = {
+      enable = true;
+      enableGitIntegration = true;
     };
 
     programs.git-credential-oauth.enable = true;

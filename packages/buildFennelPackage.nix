@@ -1,14 +1,13 @@
 {
   lua54Packages,
   stdenv,
-  fennel,
   ...
 }:
 drvArgs:
 lua54Packages.toLuaModule (
   (stdenv.mkDerivation drvArgs).overrideAttrs (
     final: prev: {
-      buildInputs = [ fennel ];
+      buildInputs = [ lua54Packages.fennel ];
       phases = [ "buildPhase" ];
       buildPhase = ''
         for file in $( find $src -type f -name "*.fnl" ); do
