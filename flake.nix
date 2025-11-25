@@ -79,46 +79,26 @@
           inputs.home-manager.flakeModules.home-manager
           inputs.nixvim.flakeModules.default
         ];
-        flake = {
-          darwinConfigurations = let
-            darwinSystem = { platform, configuration }: inputs.nix-darwin.lib.darwinSystem {
-              system = platform;
-              specialArgs = { inherit inputs root self; };
-              modules = [
-                ./configurations/darwin/${configuration}
-                ./modules/darwin
-              ];
-            };
-          in {
-            Lukes-MacBook-Air = darwinSystem {
-              platform = "aarch64-darwin";
-              configuration = "Lukes-MacBook-Air";
-            };
-            Lukes-Virtual-Machine = darwinSystem {
-              platform = "aarch64-darwin";              
-              configuration = "Lukes-MacBook-Air";
-            };
-          };
+        flake = let
+          darwins = builtins.readDir ./configurations/darwin;
+          nixoses = builtins.readDir ./configurations/nixos;
+          homes = builtins.readDir ./configurations/home;
+        in {
+          darwinConfigurations = builtins.mapAttrs (name: _: inputs.nix-darwin.lib.darwinSystem {
+            specialArgs = { inherit inputs root self; };
+            modules = [
+              ./configurations/darwin/${name}
+              ./modules/darwin
+            ];
+          }) darwins;
 
-          nixosConfigurations = let
-            nixosSystem = { platform, configuration }: inputs.nixpkgs.lib.nixosSystem {
-              system = platform;
-              specialArgs = { inherit inputs root self; };
-              modules = [
-                ./configurations/nixos/${configuration}
-                ./modules/nixos
-              ];
-            };
-          in {
-            wsl-nix = nixosSystem {
-              platform = "x86_64-linux";
-              configuration = "wsl-nix";
-            };
-            glorfindel = nixosSystem {
-              platform = "x86_64-linux";
-              configuration = "glorfindel";
-            };
-          };
+          nixosConfigurations = builtins.mapAttrs (name: _: inputs.nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs root self; };
+            modules = [
+              ./configurations/nixos/${name}
+              ./modules/nixos
+            ];
+          }) nixoses;
 
           # :TODO: genericize pkgs calls
           homeConfigurations = let
@@ -157,42 +137,20 @@
             };
           };
 
-          # :TODO: broken?
-          # nixvim =
-          #   packages.enable = true;
-          #   checks.enable = true;
-          # ;
-
           overlays = {
             default = import ./overlays;
           };
 
-          templates = {
-            c = {
-              path = ./templates/c;
-              description = "basic C flake with gcc and clang (for clangd)";
-            };
-            java = {
-              path = ./templates/java;
-              description = "basic java 17 flake with jdtls";
-            };
-            js = {
-              path = ./templates/js;
-              description = "basic JS flake with typescript-language-server";
-            };
-            python-basic = {
-              path = ./templates/python-basic;
-              description = "basic python flake for homeworks";
-            };
-            rust = {
-              path = ./templates/rust;
-              description = "basic rust flake with cargo, rust-analyzer, rustc, and rustfmt";
-            };
-            zig = {
-              path = ./templates/zig;
-              description = "basic zig flake with zls";
-            };
-          };
+          templates = builtins.mapAttrs (name: _: {
+            path = ./templates/${name};
+            description = (import ./templates/${name}/flake.nix).description;
+          }) (builtins.readDir ./templates);
+        };
+
+        nixvim = {
+          # We have to manually override with pname and description
+          packages.enable = false;
+          checks.enable = true;
         };
 
         systems = lib.systems.flakeExposed;
@@ -223,21 +181,11 @@
                 overlays = shared-nixpkgs-config.overlays;
               };
 
-            apps =
-              let
-                mkAppPackage = name: {
-                  type = "app";
-                  program = "${self'.packages.${name}}/bin/${name}";
-                };
-              in
-              {
-                default = self'.apps.install;
-
-                emacs = mkAppPackage "emacs";
-                install = mkAppPackage "install";
-                launcher = mkAppPackage "launcher";
-                nixvim = mkAppPackage "nvim";
-              };
+            apps = builtins.mapAttrs (name: pkg: {
+              type = "app";
+              program = "${pkg}/bin/${pkg.pname}";
+              meta.description = pkg.meta.description;
+            }) self'.packages;
 
             packages = {
               default = self'.packages.install;
@@ -245,7 +193,7 @@
               emacs = pkgs.my.emacs;
               install = pkgs.my.install;
               launcher = pkgs.my.launcher;
-              nvim = pkgs.my-nvim;
+              nixvim = pkgs.my-nvim;
             };
 
             devShells.default = pkgs.mkShell {

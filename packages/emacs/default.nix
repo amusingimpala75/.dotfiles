@@ -103,11 +103,14 @@ let
   };
 in
 symlinkJoin {
-  inherit (pkg) name;
+  pname = pkg.name;
+  version = emacs.version;
   paths = [ pkg ];
   buildInputs = [ makeWrapper ];
   postBuild = ''
     wrapProgram $out/bin/emacs --prefix PATH : ${deps}/bin
     wrapProgram $out/bin/emacsclient --prefix PATH: ${deps}/bin
   '';
+
+  meta.description = "My custom emacs config";
 }

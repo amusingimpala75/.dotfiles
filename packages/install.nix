@@ -4,5 +4,7 @@
   ...
 }:
 (scriptWrapper "install" [ ]).overrideAttrs (prev: {
-  postBuild = prev.postBuild ++ " --set DOTDIR ${dotdir}";
-})
+  postBuild = (if prev ? "postBuild" then prev.postBuild else "") + " --set DOTDIR ${dotdir}";
+}) // {
+  meta.description = "Installation script for my dotfiles";
+}

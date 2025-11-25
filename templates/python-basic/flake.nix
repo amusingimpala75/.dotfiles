@@ -1,42 +1,24 @@
 {
-  description = "Description for the project";
+  description = "Basic python flake";
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    devshell.url = "github:numtide/devshell";
   };
 
   outputs =
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ inputs.devshell.flakeModule ];
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
+      systems = inputs.nixpkgs.lib.systems.flakeExposed;
       perSystem =
-        { ... }:
+        { pkgs, ... }:
         {
-          devshells.default =
-            { pkgs, ... }:
-            {
-              packages = [
-                pkgs.python3.withPackages
-                (
-                  p:
-                  (with p; [
-                    python-lsp-server
-                    pylsp-rope
-                    pylsp-mypy
-                    python-lsp-ruff
-                  ])
-                )
-              ];
-              motd = "";
-            };
+          devShells.default = pkgs.mkShell {
+            packages = with pkgs; [
+              python3
+              pyright
+            ];
+          };
         };
     };
 }

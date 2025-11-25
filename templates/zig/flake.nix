@@ -1,25 +1,19 @@
 {
+  description = "Basic zig flake (zig+zls)";
+
   inputs = {
-    nixpkgs.url = "nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    devshell.url = "github:numtide/devshell";
   };
 
   outputs =
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ inputs.devshell.flakeModule ];
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
       perSystem =
+        { pkgs, ... }:
         {
-          config,
-          pkgs,
-          system,
-          ...
-        }:
-        {
-          devshells.default = {
-            motd = "";
+          devShells.default = pkgs.mkShell {
             packages = with pkgs; [
               zig
               zls

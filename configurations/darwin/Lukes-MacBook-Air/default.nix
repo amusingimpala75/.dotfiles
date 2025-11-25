@@ -1,5 +1,7 @@
 { pkgs, ... }:
 {
+  nixpkgs.hostPlatform = "aarch64-darwin";
+
   environment.shells = with pkgs; [
     zsh
   ];

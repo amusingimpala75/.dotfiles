@@ -8,6 +8,8 @@
 { pkgs, ... }:
 
 {
+  nixpkgs.hostPlatform = "x86_64-linux";
+
   wsl.enable = true;
   wsl.defaultUser = "murrayle23";
   wsl.startMenuLaunchers = true;
