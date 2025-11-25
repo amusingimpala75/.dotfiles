@@ -6,7 +6,8 @@
 }:
 let
   epkgs = emacsPackagesFor emacs;
-in epkgs.trivialBuild {
+in
+epkgs.trivialBuild {
   pname = "nnnrss";
   version = "git+2025-3-9";
   src = fetchFromGitHub {

@@ -6,7 +6,8 @@
 }:
 let
   epkgs = emacsPackagesFor emacs;
-in epkgs.trivialBuild {
+in
+epkgs.trivialBuild {
   pname = "combobulate";
   version = "git+2025-6-20";
   src = fetchFromGitHub {

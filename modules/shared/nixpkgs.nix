@@ -45,7 +45,9 @@ in
       (import "${root}/overlays/macos-bin.nix")
       nixpkgs-stable-overlay
       ((import "${root}/overlays/nixvim.nix") self)
-      (final: prev: { nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default; })
+      (final: prev: {
+        nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default;
+      })
       inputs.nur.overlays.default
       (import "${root}/overlays")
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${final.stdenv.hostPlatform.system}; })

@@ -35,9 +35,16 @@
   ...
 }:
 let
-  getPackage = path: (import path) {
-    inherit emacs emacsPackagesFor fetchFromGitHub lib;
-  };
+  getPackage =
+    path:
+    (import path) {
+      inherit
+        emacs
+        emacsPackagesFor
+        fetchFromGitHub
+        lib
+        ;
+    };
   pkg = emacsWithPackagesFromUsePackage {
     package = emacs;
     alwaysTangle = true;

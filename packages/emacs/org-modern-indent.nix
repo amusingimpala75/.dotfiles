@@ -6,7 +6,8 @@
 }:
 let
   epkgs = emacsPackagesFor emacs;
-in epkgs.trivialBuild {
+in
+epkgs.trivialBuild {
   pname = "org-modern-indent";
   version = "git+2025-4-12";
   src = fetchFromGitHub {

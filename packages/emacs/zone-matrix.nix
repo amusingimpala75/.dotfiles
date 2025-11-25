@@ -2,11 +2,12 @@
   emacs,
   emacsPackagesFor,
   fetchFromGitHub,
-   ...
+  ...
 }:
 let
   epkgs = emacsPackagesFor emacs;
-in epkgs.trivialBuild {
+in
+epkgs.trivialBuild {
   pname = "zone-matrix";
   version = "git+2023-12-21";
   src = fetchFromGitHub {

@@ -60,10 +60,9 @@ let
       name: val:
       builtins.listToAttrs (
         lib.map (value: {
-            name = clean-name value.name;
-            value = "TextEdit";
-          }
-        ) val
+          name = clean-name value.name;
+          value = "TextEdit";
+        }) val
       )
     ) grouped
   );
@@ -83,8 +82,12 @@ in
     };
   };
 
-  config.home.activation.infat-set-associations = lib.mkIf (pkgs.stdenv.isDarwin && config.infat.enable) (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    ${pkgs.infat}/bin/infat -c ${infat-config-reset}
-    ${pkgs.infat}/bin/infat -c ${infat-config}
-  '');
+  config.home.activation.infat-set-associations =
+    lib.mkIf (pkgs.stdenv.isDarwin && config.infat.enable)
+      (
+        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          ${pkgs.infat}/bin/infat -c ${infat-config-reset}
+          ${pkgs.infat}/bin/infat -c ${infat-config}
+        ''
+      );
 }

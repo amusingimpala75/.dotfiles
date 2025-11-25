@@ -79,73 +79,85 @@
           inputs.home-manager.flakeModules.home-manager
           inputs.nixvim.flakeModules.default
         ];
-        flake = let
-          darwins = builtins.readDir ./configurations/darwin;
-          nixoses = builtins.readDir ./configurations/nixos;
-          homes = builtins.readDir ./configurations/home;
-        in {
-          darwinConfigurations = builtins.mapAttrs (name: _: inputs.nix-darwin.lib.darwinSystem {
-            specialArgs = { inherit inputs root self; };
-            modules = [
-              ./configurations/darwin/${name}
-              ./modules/darwin
-            ];
-          }) darwins;
-
-          nixosConfigurations = builtins.mapAttrs (name: _: inputs.nixpkgs.lib.nixosSystem {
-            specialArgs = { inherit inputs root self; };
-            modules = [
-              ./configurations/nixos/${name}
-              ./modules/nixos
-            ];
-          }) nixoses;
-
-          # :TODO: genericize pkgs calls
-          homeConfigurations = let
-            homeSystem = { platform, configuration }: withSystem platform (
-              { pkgs, ... }:
-              inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
+        flake =
+          let
+            darwins = builtins.readDir ./configurations/darwin;
+            nixoses = builtins.readDir ./configurations/nixos;
+            homes = builtins.readDir ./configurations/home;
+          in
+          {
+            darwinConfigurations = builtins.mapAttrs (
+              name: _:
+              inputs.nix-darwin.lib.darwinSystem {
+                specialArgs = { inherit inputs root self; };
                 modules = [
-                  ./configurations/home/${configuration}
-                  ./modules/home
+                  ./configurations/darwin/${name}
+                  ./modules/darwin
                 ];
-                extraSpecialArgs = {
-                  inherit
-                    dotfilesDir
-                    inputs
-                    root
-                    self
-                    ;
-                };
               }
-            );
-          in {
-            lukemurray = homeSystem {
-              platform = "aarch64-darwin";
-              configuration = "lukemurray";
+            ) darwins;
+
+            nixosConfigurations = builtins.mapAttrs (
+              name: _:
+              inputs.nixpkgs.lib.nixosSystem {
+                specialArgs = { inherit inputs root self; };
+                modules = [
+                  ./configurations/nixos/${name}
+                  ./modules/nixos
+                ];
+              }
+            ) nixoses;
+
+            # :TODO: genericize pkgs calls
+            homeConfigurations =
+              let
+                homeSystem =
+                  { platform, configuration }:
+                  withSystem platform (
+                    { pkgs, ... }:
+                    inputs.home-manager.lib.homeManagerConfiguration {
+                      inherit pkgs;
+                      modules = [
+                        ./configurations/home/${configuration}
+                        ./modules/home
+                      ];
+                      extraSpecialArgs = {
+                        inherit
+                          dotfilesDir
+                          inputs
+                          root
+                          self
+                          ;
+                      };
+                    }
+                  );
+              in
+              {
+                lukemurray = homeSystem {
+                  platform = "aarch64-darwin";
+                  configuration = "lukemurray";
+                };
+
+                "lukemurray@glorfindel" = homeSystem {
+                  platform = "x86_64-linux";
+                  configuration = "lukemurray";
+                };
+
+                murrayle23 = homeSystem {
+                  platform = "x86_64-linux";
+                  configuration = "murrayle23";
+                };
+              };
+
+            overlays = {
+              default = import ./overlays;
             };
 
-            "lukemurray@glorfindel" = homeSystem {
-              platform = "x86_64-linux";
-              configuration = "lukemurray";
-            };
-
-            murrayle23 = homeSystem {
-              platform = "x86_64-linux";
-              configuration = "murrayle23";
-            };
+            templates = builtins.mapAttrs (name: _: {
+              path = ./templates/${name};
+              description = (import ./templates/${name}/flake.nix).description;
+            }) (builtins.readDir ./templates);
           };
-
-          overlays = {
-            default = import ./overlays;
-          };
-
-          templates = builtins.mapAttrs (name: _: {
-            path = ./templates/${name};
-            description = (import ./templates/${name}/flake.nix).description;
-          }) (builtins.readDir ./templates);
-        };
 
         nixvim = {
           # We have to manually override with pname and description

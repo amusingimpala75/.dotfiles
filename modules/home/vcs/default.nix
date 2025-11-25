@@ -8,7 +8,10 @@ let
   cfg = config.my.vcs;
 in
 {
-  imports = [ ./jujutsu.nix ./git.nix ];
+  imports = [
+    ./jujutsu.nix
+    ./git.nix
+  ];
 
   options.my.vcs = {
     email = lib.mkOption {
