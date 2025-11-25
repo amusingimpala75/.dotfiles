@@ -1198,6 +1198,13 @@ Gotta get those nice looking SVG tags
   ("C-x C-a c" . copilot-chat))
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package project
+  :custom
+  (project-mode-line t)
+  (project-mode-line-format '(" [" (:eval (substring (project-mode-line-format) 1)) "]")))
+#+end_src
+
 *** Version Control
 #+begin_src emacs-lisp
 (use-package vc-git
