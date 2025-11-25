@@ -5,13 +5,13 @@
   ...
 }:
 let
-  name = "wallp";
+  pname = "WallP.exe";
+  version = "1.2.0";
   url = "https://github.com/LesFerch/WallP/releases/download/1.2.0/WallP.zip";
   hash = "sha256-clY/gjMwSFB6XD2WcqYxU2xTD3zuFqhrOxQx44htv/0=";
 in
 stdenv.mkDerivation {
-  inherit name;
-  pname = name;
+  inherit pname version;
 
   src = fetchzip {
     inherit url hash;

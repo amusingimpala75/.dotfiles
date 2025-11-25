@@ -20,9 +20,8 @@
 
   rices.gruvbox.enable = true;
 
-  wsl.wallpaper.enable = true;
   wsl.username = "MURRAYLE23";
-  wsl.wezterm.enable = true;
+  wsl.wallp.enable = true;
 
   home.packages = [
     pkgs.noto-fonts-color-emoji
