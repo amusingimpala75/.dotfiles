@@ -1,0 +1,12 @@
+#+TITLE: Dotfiles
+#+AUTHOR: AmusingImpala75
+#+DATE: 11/25/2025
+#+OPTIONS: toc:nil
+
+* Dotfiles
+These are my dotfiles for NixOS, home-manager, Nix-darwin, and WSL, and thus also contains my glorious Emacs config. It may even include my homelab in the near future. I currently don't have any photos (I know, lame. Maybe in the future). Feel free to use any part you wish (blah blah licensed under MIT and all that stuff).
+
+** Notable Features:
+- Autowiring of configurations, apps, and templates so one can simply make a folder and starting putting stuff in it and rather than first remembering (or C-c C-v -ing) the magic incantation to get it to work. I hope to expose this as a flakeModule in the near future.
+- Interface for configuring Windows applications through WSL. I hope to expose this as a homeManagerModule in the near future. I still have to decide if I'm going to add support for installing stuff with scoop or just manually vendoring it (probably the latter; custom =wsl.packages= here we come)
+- Crappy interface for ricing (it's lowkey kinda awful and I should just move to Stylix)
