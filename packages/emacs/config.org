@@ -96,7 +96,9 @@ The frame really needs to scroll better.
   ;(scroll-margin 2)
   (scroll-conservatively 101)
   (pixel-scroll-precision-mode t)
-  (frame-resize-pixelwise t))
+  (frame-resize-pixelwise t)
+  (scroll-preserve-screen-position t)
+  (scroll-error-top-bottom t))
 #+end_src
 
 Additionally, truncate text off the edge of the screen unless in a text mode
@@ -438,7 +440,11 @@ Since this is an emacs configuration after all, we use nix-mode
                                                            (shell . t)))
   (defun my/count-words-buffer ()
     (interactive)
-    (message "%d" (count-words (point-min) (point-max) nil))))
+    (let ((start (if (region-active-p) (min (mark) (point))
+                   (point-min)))
+          (end (if (region-active-p) (max (mark) (point))
+                 (point-max))))
+      (message "%d" (count-words start end nil)))))
 
 (diminish 'buffer-face-mode)
 #+end_src
@@ -840,7 +846,8 @@ Vertico, Marginalia, Consult, and Orderless for the minibuffer completion system
          ("C-x p g" . consult-ripgrep)
          ("C-x b" . consult-buffer)
          ("C-x p b" . consult-project-buffer)
-         ("M-g g" . consult-goto-line)))
+         ("M-g g" . consult-goto-line)
+         ("M-y" . consult-yank-pop)))
 #+end_src
 
 Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
@@ -1112,10 +1119,10 @@ Also, I've been burned one too many times by accidentally opening a massive file
 #+begin_src emacs-lisp
 (defun my/find-file-massive-basic ()
   "If a file is large, remove features to not freeze."
-  (when (> (buffer-size) (* 256 1024))
+  (when (and (> (buffer-size) (* 256 1024)) (derived-mode-p 'text-mode))
     (setq buffer-read-only t)
     (buffer-disable-undo)
-    (fundamental-mode)))
+    (text-mode)))
 (use-package files
   :hook (find-file . my/find-file-massive-basic)
   :custom
@@ -1129,6 +1136,11 @@ Visual Undo to visualize the undo tree
 (use-package vundo
   :ensure t
   :bind ("C-?" . vundo))
+
+(use-package undo-fu-session
+  :ensure t
+  :custom
+  (undo-fu-session-global-mode t))
 #+end_src
 
 Always use utf-8 when possible. Also, move to trash rather than deleting
@@ -1214,7 +1226,7 @@ Gotta get those nice looking SVG tags
 (use-package project
   :custom
   (project-mode-line t)
-  (project-mode-line-format '(" [" (:eval (substring (project-mode-line-format) 1)) "]")))
+  (project-mode-line-format '(" [" (:eval (if (project-current) (substring (project-mode-line-format) 1) "")) "]")))
 #+end_src
 
 *** Version Control
@@ -1277,6 +1289,29 @@ Only needed on macOS and linux, or if launched as a daemon
   :diminish (outline-minor-mode)
   :hook (prog-mode . outline-minor-mode)
   :bind ("C-<iso-lefttab>" . outline-cycle))
+#+end_src
+
+*** Compile-mode
+#+begin_src emacs-lisp
+(use-package ansi-color
+  :functions my/colorize-buffer
+  :init
+  (defun my/colorize-buffer ()
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region (point-min) (point-max)))))
+
+(use-package compile
+  :hook (compilation-filter . my/colorize-buffer)
+  :custom
+  (compilation-scroll-output t))
+#+end_src
+
+*** Show-paren-mode
+#+begin_src emacs-lisp
+(use-package paren
+  :custom
+  (show-paren-mode t)
+  (show-paren-style 'expression))
 #+end_src
 
 *** Mouse
