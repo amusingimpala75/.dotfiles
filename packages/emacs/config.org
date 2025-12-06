@@ -118,9 +118,15 @@ Just to be sure, we also install the ef-themes
 #+begin_src emacs-lisp
 (use-package ef-themes
   :ensure t
+  :demand t
   :custom
   (ef-themes-mixed-fonts t)
-  (ef-themes-to-toggle '(ef-maris-light ef-maris-dark)))
+  (ef-themes-to-toggle '(ef-elea-light ef-elea-dark))
+  (ef-themes-common-palette-overrides '((bg-region bg-main)))
+  :hook
+  (ef-themes-after-load-theme . (lambda ()
+                                  (set-face-attribute 'region nil :inverse-video t)
+                                  (set-face-attribute 'region nil :extend nil))))
 #+end_src
 
 I also like a transparent background (still waiting on alpha-background on mac)
@@ -1296,6 +1302,6 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
 Also theming is borked if loaded before the end
 #+begin_src emacs-lisp
 ;; (load-theme my/theme t)
-(load-theme 'ef-elea-dark t)
+(modus-themes-load-theme 'ef-elea-dark)
 #+end_src
 # TODO: treesit-utils, other prog modes, custom modeline, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs
