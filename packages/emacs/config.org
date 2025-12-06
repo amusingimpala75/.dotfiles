@@ -33,8 +33,14 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
   :custom
   (menu-bar-mode (if (eq system-type 'darwin)
                      t
-                   -1))
-  (xterm-mouse-mode t))
+                   -1)))
+
+(use-package xt-mouse
+  :config
+  (add-hook 'after-make-frame-functions (lambda (frame)
+                                          (xterm-mouse-mode t)))
+  (add-hook 'delete-frame-functions (lambda (frame)
+                                      (xterm-mouse-mode -1))))
 #+end_src
 
 Show a line at 80 chars (this helps code format) and show the dimensions of boundaries.
@@ -1265,6 +1271,14 @@ Only needed on macOS and linux, or if launched as a daemon
   :diminish (outline-minor-mode)
   :hook (prog-mode . outline-minor-mode)
   :bind ("C-<iso-lefttab>" . outline-cycle))
+#+end_src
+
+*** Mouse
+#+begin_src emacs-lisp
+(use-package mwheel
+  :custom
+  (mouse-wheel-tilt-scroll t)
+  (mouse-wheel-flip-direction t))
 #+end_src
 
 * Direnv
