@@ -6,6 +6,7 @@
   ghostscript,
   mathjax-node-cli,
   mpv,
+  mupdf,
   pandoc,
   python3,
   R,
@@ -18,7 +19,11 @@
   # builders
   emacsWithPackagesFromUsePackage,
   fetchFromGitHub,
+  fetchFromGitea,
+  gcc,
+  gnumake,
   makeWrapper,
+  pkg-config,
   symlinkJoin,
   writeText,
 
@@ -42,7 +47,12 @@ let
         emacs
         emacsPackagesFor
         fetchFromGitHub
+        fetchFromGitea
         lib
+        pkg-config
+        gcc
+        mupdf
+        gnumake
         ;
     };
   pkg = emacsWithPackagesFromUsePackage {
@@ -74,6 +84,8 @@ let
       (getPackage ./nnnrss.nix)
       (getPackage ./org-modern-indent.nix)
       (getPackage ./toggleterm.nix)
+      (getPackage ./reader.nix)
+      (getPackage ./page-view.nix)
     ];
   };
 

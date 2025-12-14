@@ -17,6 +17,13 @@ Lexical Bindings, and ensure we can use :bind:
         (insert-file-contents file)
         (read (current-buffer)))
     else))
+
+;; (use-package benchmark-init
+;;   :ensure t
+;;   :demand t
+;;   :hook (after-init . benchmark-init/deactivate)
+;;   :init
+;;   (benchmark-init/activate))
 #+end_src
 
 ** UI
@@ -51,9 +58,6 @@ Show a line at 80 chars (this helps code format) and show the dimensions of boun
   (indicate-buffer-boundaries 'left)
   :hook
   (prog-mode . display-fill-column-indicator-mode))
-
-(use-package writeroom-mode
-  :ensure t)
 #+end_src
 
 In order to declutter the bottom, I need diminish
@@ -216,6 +220,7 @@ Use the biblegateway VotD for the footer
 Fixes stupid bug where the line height changes ever-so-slightly on macOS
 #+begin_src emacs-lisp
 (use-package eglot
+  :defer t
   :custom
   (eglot-code-action-indicator "*"))
 #+end_src
@@ -231,6 +236,7 @@ Configure treesitter to use maximum font locking
 Inline diagnostics is helpful
 #+begin_src emacs-lisp
 (use-package flymake
+  :defer t
   :custom
   (flymake-show-diagnostics-at-end-of-line t))
 #+end_src
@@ -1235,6 +1241,9 @@ Gotta get those nice looking SVG tags
   :config
   ;; I really just need to be able to use ¯\_(ツ)_/¯
   (my/add-fundamental-snippets vc-git-log-edit-mode-abbrev-table))
+
+(use-package vc-jj
+  :ensure t)
 #+end_src
 
 *** Fireplace
