@@ -27,7 +27,7 @@
     firefox.enable = true;
     games.brogue.enable = true;
     games.brogue.terminal = true;
-    games.modrinth.enable = true;
+    games.minecraft.cli.enable = true;
     vcs = {
       git = true;
       jujutsu = true;
@@ -40,7 +40,7 @@
     };
     jankyborders.enable = true;
     # sketchybar.enable = true;
-    spotify.enable = true;
+    # spotify.enable = true;
   };
 
   infat = {

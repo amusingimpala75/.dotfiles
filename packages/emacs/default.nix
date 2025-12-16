@@ -6,7 +6,7 @@
   ghostscript,
   mathjax-node-cli,
   mpv,
-  mupdf,
+  mupdf-headless,
   pandoc,
   python3,
   R,
@@ -28,6 +28,7 @@
   writeText,
 
   lib,
+  stdenv,
 
   # configuration options
   font-size ? 16,
@@ -48,11 +49,12 @@ let
         emacsPackagesFor
         fetchFromGitHub
         fetchFromGitea
-        lib
-        pkg-config
         gcc
-        mupdf
         gnumake
+        lib
+        mupdf-headless
+        pkg-config
+        stdenv
         ;
     };
   pkg = emacsWithPackagesFromUsePackage {

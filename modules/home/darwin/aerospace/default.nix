@@ -27,14 +27,14 @@ in
     programs.aerospace = {
       enable = true;
 
-      userSettings = {
+      launchd.enable = true;
+      settings = {
         after-startup-command = [ "exec-and-forget ${sketchybar}" ];
         exec-on-workspace-change = [
           "${bash}"
           "-c"
           "${sketchybar} --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE & /Users/lukemurray/projects/desktop_shell/bring-shell.sh $AEROSPACE_FOCUSED_WORKSPACE"
         ];
-        start-at-login = true;
         enable-normalization-flatten-containers = true;
         enable-normalization-opposite-orientation-for-nested-containers = true;
 

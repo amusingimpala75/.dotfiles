@@ -8,7 +8,7 @@
 
   options.wsl = {
     enable = (lib.mkEnableOption "if this is WSL") // {
-      default = "" == (builtins.getEnv "WSL_DISTRO_NAME");
+      default = "" != (builtins.getEnv "WSL_DISTRO_NAME");
     };
     username = lib.mkOption {
       type = lib.types.str;

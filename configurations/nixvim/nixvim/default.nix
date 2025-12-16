@@ -10,7 +10,6 @@
     comment.enable = true;
 
     gitgutter.enable = true;
-    gitgutter.grepPackage = pkgs.ripgrep;
     indent-blankline.enable = true;
 
     neoscroll.enable = true;

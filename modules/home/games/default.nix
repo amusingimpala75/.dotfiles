@@ -31,6 +31,24 @@
         default = pkgs.dwarf-fortress-packages.themes.spacefox;
       };
     };
+    minecraft = {
+      gui = {
+        enable = lib.mkEnableOption "use GUI launcher for Minecraft";
+        package = lib.mkOption {
+          type = lib.types.package;
+          default = pkgs.stable.modrinth-app;
+          description = "package to install";
+        };
+      };
+      cli = {
+        enable = lib.mkEnableOption "use CLI launcher for Minecraft";
+        packages = lib.mkOption {
+          type = lib.types.listOf lib.types.package;
+          default = [ pkgs.ferium pkgs.portablemc ];
+          description = "packages for CLI Minecraft";
+        };
+      };
+    };
     modrinth = {
       enable = lib.mkEnableOption "use the Modrinth minecraft launcher";
     };
@@ -46,8 +64,8 @@
           theme = config.my.games.dwarf-fortress.theme;
         })
       ])
-      ++ (lib.optionals config.my.games.modrinth.enable [
-        pkgs.stable.modrinth-app
-      ]);
+      ++ (lib.optionals config.my.games.minecraft.gui.enable [
+        config.my.games.minecraft.gui.package
+      ]) ++ (lib.optionals config.my.games.minecraft.cli.enable config.my.games.minecraft.cli.packages);
   };
 }

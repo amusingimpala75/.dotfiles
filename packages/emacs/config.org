@@ -44,9 +44,9 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 
 (use-package xt-mouse
   :config
-  (add-hook 'after-make-frame-functions (lambda (frame)
+  (add-hook 'after-make-frame-functions (lambda (_)
                                           (xterm-mouse-mode t)))
-  (add-hook 'delete-frame-functions (lambda (frame)
+  (add-hook 'delete-frame-functions (lambda (_)
                                       (xterm-mouse-mode -1))))
 #+end_src
 
@@ -125,6 +125,7 @@ Just to be sure, we also install the ef-themes
 (use-package ef-themes
   :ensure t
   :demand t
+  :defer nil
   :custom
   (ef-themes-mixed-fonts t)
   (ef-themes-to-toggle '(ef-elea-light ef-elea-dark))
@@ -221,6 +222,7 @@ Fixes stupid bug where the line height changes ever-so-slightly on macOS
 #+begin_src emacs-lisp
 (use-package eglot
   :defer t
+  :functions eglot-completion-at-point
   :custom
   (eglot-code-action-indicator "*"))
 #+end_src
@@ -242,6 +244,12 @@ Inline diagnostics is helpful
 #+end_src
 
 ** Language Support (modes)
+Make sure skeleton stuff is available
+#+begin_src emacs-lisp
+(use-package skeleton
+  :defines skeleton-positions)
+#+end_src
+
 *** ~fundamental-mode~ (global)
 **** Snippets
 ***** Indent snippet
@@ -350,6 +358,8 @@ Since this is an emacs configuration after all, we use nix-mode
 **** config
 #+begin_src emacs-lisp
 ;; I don't like this hackiness, but latex/auctex/tex loading is weird
+(use-package latex
+  :defines LaTeX-mode-abbrev-table)
 (use-package tex
   :ensure auctex
   :custom
@@ -376,7 +386,10 @@ Since this is an emacs configuration after all, we use nix-mode
   :custom
   (preview-scale 1.4)
   (preview-auto-cache-preamble nil)
-  :config
+  :functions
+  my/text-scale-adjust-latex-previews
+  my/text-scale--resize-fragment
+  :init
   (defun my/text-scale-adjust-latex-previews ()
     (dolist (ov (overlays-in (point-min) (point-max)))
       (if (eq (overlay-get ov 'category)
@@ -387,6 +400,7 @@ Since this is an emacs configuration after all, we use nix-mode
 				   (plist-put
 				    (cdr (overlay-get ov 'display))
 				    :scale (+ 1.0 (* 0.5 text-scale-mode-amount))))))
+  :config
   (add-hook 'LaTeX-mode-hook (lambda ()
 			       (add-hook 'text-scale-mode-hook #'my/text-scale-adjust-latex-previews))))
 
@@ -417,7 +431,7 @@ Since this is an emacs configuration after all, we use nix-mode
   (org-mode . (lambda ()
                 (setq-local electric-pair-inhibit-predicate
                             (lambda (c)
-                              (if (char-equal c ?\<)
+                              (if (char-equal c ?\<) ;; > just to get this to shut up
                                   t
                                 (electric-pair-default-inhibit c))))))
   :custom-face
@@ -437,6 +451,13 @@ Since this is an emacs configuration after all, we use nix-mode
   (org-src-preserve-indentation t)
   (org-startup-indented t)
   (org-hide-emphasis-markers t)
+  :functions
+  org-beginning-of-line
+  org-end-of-line
+  org-export-define-derived-backend
+  org-export-output-file-name
+  org-export-to-file
+  org-mark-element
   :config
   (add-to-list 'org-modules 'org-tempo)
   (my/add-LaTeX-snippets org-mode-abbrev-table)
@@ -474,7 +495,7 @@ Org-modern just makes things look nicer
 
 org-export to docx via latex and pandoc
 #+begin_src emacs-lisp
-(defun my/pandoc-latex-to-docx (texfile &optional snippet)
+(defun my/pandoc-latex-to-docx (texfile &optional _)
   (let ((infile (shell-quote-argument texfile))
         (outfile (shell-quote-argument (format "%s.docx" (substring texfile 0 -4)))))
     (shell-command (format "pandoc %s -o %s" infile outfile))))
@@ -501,10 +522,10 @@ Allow jupyter in org files, and easily format an HTML result block
 (defun my/babel-render-export ()
   (interactive)
   (org-mark-element)
-  (next-line 2)
+  (forward-line 2)
   (org-beginning-of-line)
   (exchange-point-and-mark)
-  (previous-line 3)
+  (forward-line -3)
   (org-end-of-line)
   (shr-render-region (mark) (point)))
 #+end_src
@@ -553,6 +574,9 @@ public class [Class name from file name] {
   (my/add-fundamental-snippets table)
   (my/add-skeleton-abbrevs table '(("defmain" . java-skeleton-def-main)
                                    ("pr" . java-skeleton-println))))
+
+(use-package cc-mode
+  :defines java-mode-abbrev-table)
 (with-eval-after-load 'cc-mode
   (add-hook 'java-mode-hook 'eglot-ensure)
   (my/add-java-snippets java-mode-abbrev-table))
@@ -566,6 +590,8 @@ public class [Class name from file name] {
 
 *** Rust
 #+begin_src emacs-lisp
+(use-package rust-ts-mode
+  :defines rust-ts-mode-abbrev-table)
 (use-package rust-mode
   :after treesit
   :ensure t
@@ -862,10 +888,10 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   :ensure t
   :after corfu
   :init
-  (setq my/eglot-capf (cape-capf-super #'eglot-completion-at-point #'cape-abbrev)
-        my/elisp-capf (cape-capf-super #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point)
-        my/org-capf (cape-capf-super #'cape-abbrev #'cape-elisp-block)
-        my/generic-capf (cape-capf-super #'cape-abbrev))
+  (defvar my/eglot-capf (cape-capf-super #'eglot-completion-at-point #'cape-abbrev))
+  (defvar my/elisp-capf (cape-capf-super #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point))
+  (defvar my/org-capf (cape-capf-super #'cape-abbrev #'cape-elisp-block))
+  (defvar my/generic-capf (cape-capf-super #'cape-abbrev))
 
   (defun my/cape-capf-set ()
     (interactive)
@@ -912,6 +938,7 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
 Auto-completion of matching parenthesis is really useful, although it can get in the way sometimes (ie. TODO fix this or not in all prog-modes)
 #+begin_src emacs-lisp
 (use-package elec-pair
+  :functions electric-pair-default-inhibit
   :custom
   (electric-pair-mode t))
 #+end_src
@@ -985,6 +1012,7 @@ eldoc for inline documentation
   :bind (("C-x C-a y" . yeetube-search)
          :map yeetube-mode-map
          ("C-c C-c" . my/yeetube-channel-rss-at-point))
+  :functions yeetube-get-url
   :custom
   (yeetube-mpv-additional-flags '("--hwdec=yes"))
   :config
@@ -1056,6 +1084,16 @@ I wrote a custom =toggleterm= package that can popup and hide an eat buffer (cou
 *** Gnus
 I use the builtin Gnus for RSS feeds, but I will probably expand to email as well at some point
 #+begin_src emacs-lisp
+(use-package gnus
+  :defines
+  gnus-newsrc-alist
+  gnus-tmp-group
+  :functions
+  gnus-collect-urls
+  gnus-browse-exit
+  gnus-browse-toggle-subscription-at-point
+  gnus-browse-foreign-server)
+
 (defun my/subscribe-feed-url (method url)
   (gnus-browse-foreign-server (list method url))
   (with-current-buffer "*Gnus Browse Server*"
@@ -1084,7 +1122,7 @@ I use the builtin Gnus for RSS feeds, but I will probably expand to email as wel
 ;; I don't really like the qualified name,
 ;; and the non-qualified name isn't as
 ;; easily customizable
-(defun gnus-user-format-function-G (arg)
+(defun gnus-user-format-function-G (_)
   (let* ((url-and-method (nth 0 (string-split gnus-tmp-group ":")))
          (mapped (assoc url-and-method (my/user-secret-else my/feeds-file nil))))
     (if (null mapped)
@@ -1284,6 +1322,8 @@ Only needed on macOS and linux, or if launched as a daemon
 #+begin_src emacs-lisp
 (use-package exec-path-from-shell
   :ensure t
+  :custom
+  (exec-path-from-shell-arguments nil)
   :config
   ;; This way we can preserve our linkage to e.g. VLC
   (let ((nix-store-exec-path (seq-filter (lambda (item) (string-prefix-p "/nix/store" item)) exec-path)))
@@ -1303,7 +1343,9 @@ Only needed on macOS and linux, or if launched as a daemon
 *** Compile-mode
 #+begin_src emacs-lisp
 (use-package ansi-color
-  :functions my/colorize-buffer
+  :functions
+  my/colorize-buffer
+  ansi-color-apply-on-region
   :init
   (defun my/colorize-buffer ()
     (let ((inhibit-read-only t))
@@ -1338,6 +1380,7 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
   :ensure t
   :after exec-path-from-shell
   :hook (after-init . envrc-global-mode)
+  :functions envrc-propagate-environment
   :config
   (advice-add 'Man-completion-table :around #'envrc-propagate-environment)
   (advice-add 'sql-sqlite :around #'envrc-propagate-environment))
@@ -1346,6 +1389,6 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
 Also theming is borked if loaded before the end
 #+begin_src emacs-lisp
 ;; (load-theme my/theme t)
-(modus-themes-load-theme 'ef-elea-dark)
+(ef-themes-load-theme 'ef-elea-dark)
 #+end_src
 # TODO: treesit-utils, other prog modes, custom modeline, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs
