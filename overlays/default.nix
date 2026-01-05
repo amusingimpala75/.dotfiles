@@ -15,7 +15,6 @@ final: prev: {
   mkDarwinApplication = final.callPackage ../packages/mkDarwinApplication.nix { };
 
   my.emacs = final.callPackage ../packages/emacs { };
-  my.launcher = final.callPackage ../packages/launcher.nix { };
   my.install = final.callPackage ../packages/install.nix { };
 
   scriptWrapper = final.callPackage ../packages/scriptWrapper.nix { };

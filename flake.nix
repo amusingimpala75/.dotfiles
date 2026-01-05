@@ -131,7 +131,6 @@
 
               emacs = pkgs.my.emacs;
               install = pkgs.my.install;
-              launcher = pkgs.my.launcher;
               nixvim = pkgs.my-nvim;
             };
 
