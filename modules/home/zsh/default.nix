@@ -39,7 +39,7 @@ in
         if direnv status | grep -q "Loaded RC";
         then
         _PROMPT_ENV=" (direnv)";
-        elif echo "$PATH" | grep -q "/nix/store";
+        elif echo "''${PATH%:*}" | grep -q "/nix/store"; # Change PATH%:* because Ghostty will add its entry onto the path, as the last item
         then
         if [[ -z "$IN_NIX_SHELL" ]]
         then

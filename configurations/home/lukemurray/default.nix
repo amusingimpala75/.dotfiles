@@ -34,13 +34,9 @@
       email = "69653100+amusingimpala75@users.noreply.github.com";
       username = "amusingimpala75";
     };
-    ghostty = {
-      enable = true;
-      package = null; # TODO fix weird errors on macOS with ghostty managed by us (see the module for :TODO: comment)
-    };
+    ghostty.enable = true;
     jankyborders.enable = true;
-    # sketchybar.enable = true;
-    # spotify.enable = true;
+    spotify.enable = true;
   };
 
   infat = {
@@ -143,7 +139,7 @@
     "/System/Applications/System Settings.app"
     "~/Applications/Home Manager Apps/Firefox.app"
     "~/Applications/Home Manager Apps/Emacs.app"
-    "/Applications/Ghostty.app" # :TODO: still need to fix package
+    "~/Applications/Home Manager Apps/Ghostty.app"
     "/System/Applications/iPhone Mirroring.app"
     "~/Downloads"
   ];
