@@ -1,7 +1,8 @@
 {
-  lib,
   config,
   inputs,
+  lib,
+  pkgs,
   ...
 }:
 let
@@ -44,6 +45,9 @@ in
       shellAliases = {
         nds = "nix develop -c $SHELL";
       };
+      packages = [
+        pkgs.nix-tree
+      ];
     };
   };
 }

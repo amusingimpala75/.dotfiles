@@ -138,7 +138,9 @@ in
 
     textfox = lib.mkIf cfg.textfox {
       enable = true;
-      inherit (cfg) profile;
+      profiles = [
+        cfg.profile
+      ];
     };
   };
 }
