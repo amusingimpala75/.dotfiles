@@ -11,7 +11,6 @@
 
     nur.url = "github:nix-community/NUR";
     nur.inputs.nixpkgs.follows = "nixpkgs";
-    nur.inputs.flake-parts.follows = "flake-parts";
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
@@ -28,7 +27,6 @@
 
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
-    alacritty-theme.inputs.flake-parts.follows = "flake-parts";
 
     textfox.url = "github:adriankarlen/textfox";
     textfox.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +36,6 @@
 
     bible.url = "github:amusingimpala75/bible.sh";
     bible.inputs.nixpkgs.follows = "nixpkgs";
-    bible.inputs.flake-parts.follows = "flake-parts";
 
     nix-wallpaper.url = "github:lunik1/nix-wallpaper";
     nix-wallpaper.inputs.nixpkgs.follows = "nixpkgs";
@@ -49,7 +46,6 @@
 
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
-    nixvim.inputs.flake-parts.follows = "flake-parts";
 
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -57,8 +53,8 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # TODO: remove once PR is merged
-    nixpkgs-darwin-xwidgets.url = "github:tani/nixpkgs/emacs-xwidgets-darwin";
+    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

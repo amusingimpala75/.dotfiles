@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -10,6 +11,8 @@ let
     item: "${dockutil} --add \"${item}\"" + (if item == "" then "--type spacer" else "");
 in
 {
+  imports = [ inputs.mac-app-util.homeManagerModules.default ];
+
   options.my.darwin.dock.items = lib.mkOption {
     type = lib.types.nullOr (lib.types.listOf lib.types.str);
     default = null;

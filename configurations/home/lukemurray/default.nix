@@ -133,7 +133,6 @@
 
   my.darwin.dock.items = [
     # Finder
-    "/System/Applications/Launchpad.app"
     "/System/Applications/Messages.app"
     "/System/Applications/Mail.app"
     "/System/Applications/Maps.app"
