@@ -44,7 +44,10 @@
         enable = lib.mkEnableOption "use CLI launcher for Minecraft";
         packages = lib.mkOption {
           type = lib.types.listOf lib.types.package;
-          default = [ pkgs.ferium pkgs.portablemc ];
+          default = [
+            pkgs.ferium
+            pkgs.portablemc
+          ];
           description = "packages for CLI Minecraft";
         };
       };
@@ -66,6 +69,7 @@
       ])
       ++ (lib.optionals config.my.games.minecraft.gui.enable [
         config.my.games.minecraft.gui.package
-      ]) ++ (lib.optionals config.my.games.minecraft.cli.enable config.my.games.minecraft.cli.packages);
+      ])
+      ++ (lib.optionals config.my.games.minecraft.cli.enable config.my.games.minecraft.cli.packages);
   };
 }

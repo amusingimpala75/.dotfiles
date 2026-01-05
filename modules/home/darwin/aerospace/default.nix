@@ -15,24 +15,30 @@ let
   ghostty_and = "${pkgs.ghostty_and}/bin/ghostty_and";
   new-ghostty = "${pkgs.my.new-ghostty-window}/bin/new-ghostty-window";
 
-  back-main = builtins.mapAttrs (k: v: [
-    v
-    ''mode main''
-  ]);
+  back-main = builtins.mapAttrs (
+    k: v: [
+      v
+      ''mode main''
+    ]
+  );
 
-  exec-back-main = builtins.mapAttrs (k: v: [
-    ''exec-and-forget ${v} ''
-    ''mode main''
-  ]);
+  exec-back-main = builtins.mapAttrs (
+    k: v: [
+      ''exec-and-forget ${v} ''
+      ''mode main''
+    ]
+  );
 
-  gen-keybinds = attrs: keybind: command: lib.mapAttrs' (k: v: {
-    name = "${keybind}-${k}";
-    value = "${command} ${v}";
-  }) attrs;
+  gen-keybinds =
+    attrs: keybind: command:
+    lib.mapAttrs' (k: v: {
+      name = "${keybind}-${k}";
+      value = "${command} ${v}";
+    }) attrs;
 
-  gen-workspaces = gen-keybinds (lib.genAttrs
-    (builtins.map builtins.toString (lib.range 1 9))
-    (s: s));
+  gen-workspaces = gen-keybinds (
+    lib.genAttrs (builtins.map builtins.toString (lib.range 1 9)) (s: s)
+  );
 
   gen-vim-directions = gen-keybinds {
     h = "left";
@@ -97,16 +103,21 @@ in
           // (gen-workspaces "ctrl-alt-cmd-shift" "move-node-to-workspace")
           // (gen-vim-directions "ctrl-alt-cmd" "focus")
           // (gen-vim-directions "ctrl-alt-cmd-shift" "move");
-          service.binding = {}
-          // back-main ({
-            esc = "reload-config";
-            r = "flatten-workspace-tree";
-            f = "layout floating tiling";
-            backspace = "close-all-windows-but-current";
-          } // (gen-vim-directions "alt-shift" "join-with"));
+          service.binding =
+            { }
+            // back-main (
+              {
+                esc = "reload-config";
+                r = "flatten-workspace-tree";
+                f = "layout floating tiling";
+                backspace = "close-all-windows-but-current";
+              }
+              // (gen-vim-directions "alt-shift" "join-with")
+            );
           launch.binding = {
             esc = ''mode main'';
-          } // exec-back-main {
+          }
+          // exec-back-main {
             e = ''${config.my.emacs.package}/bin/${config.my.emacs.gui-command} '';
             m = ''${ghostty_and} "${float_and} ${btop}"'';
             f = ''open ~/'';
@@ -115,16 +126,19 @@ in
             r = ''${ghostty_and} "${float_and} zsh -ic reload-hm" --wait-after-command '';
           };
         };
-        on-window-detected = builtins.map (name: {
-          "if".window-title-regex-substring = name;
-          run = "layout floating";
-        }) [
-          "System Monitor"
-          "OriAndTheWillOfTheWisps"
-          "Dwarf Fortress"
-          "Brogue"
-          "My Shell"
-        ];
+        on-window-detected =
+          builtins.map
+            (name: {
+              "if".window-title-regex-substring = name;
+              run = "layout floating";
+            })
+            [
+              "System Monitor"
+              "OriAndTheWillOfTheWisps"
+              "Dwarf Fortress"
+              "Brogue"
+              "My Shell"
+            ];
       };
     };
 
