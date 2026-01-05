@@ -81,8 +81,6 @@ let
         '';
         packageRequires = [ theme-package ];
       })
-      (getPackage ./zone-matrix.nix)
-      (getPackage ./combobulate.nix)
       (getPackage ./nnnrss.nix)
       (getPackage ./org-modern-indent.nix)
       (getPackage ./toggleterm.nix)
@@ -116,7 +114,7 @@ let
       # doesn't just throw an error if jupyter isn't
       # present when we don't actually need jupyter
       # and we're just trying to export the file
-      (python3.withPackages (pp: [ pp.jupyter]))
+      (python3.withPackages (pp: [ pp.jupyter ]))
       R
     ];
   };

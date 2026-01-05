@@ -23,7 +23,7 @@ let
     name = "emacs-reader-core";
     buildFlags = [ "CC=cc" ];
     nativeBuildInputs = [ pkg-config ];
-    buildInputs = [ mupdf-headless ];    
+    buildInputs = [ mupdf-headless ];
     installPhase = ''
       runHook preInstall
 

@@ -176,19 +176,6 @@ Pull from the user configuration for the font family/size
                                        "===" "!==")))
 #+end_src
 
-*** Glasses Mode
-Camel case can be a bit painful, so we're trying =glasses-mode= to help with that
-#+begin_src emacs-lisp
-(use-package glasses
-  :hook (prog-mode . glasses-mode)
-  :diminish
-  :custom
-  (glasses-uncapitalize-p t)
-  (glasses-separator "-")
-  (glasses-original-separator "-")
-  (glasses-separate-parentheses-p nil))
-#+end_src
-
 *** Dashboard
 Use the dashboard for a nice splash screen
 #+begin_src emacs-lisp
@@ -224,15 +211,22 @@ Fixes stupid bug where the line height changes ever-so-slightly on macOS
   :defer t
   :functions eglot-completion-at-point
   :custom
-  (eglot-code-action-indicator "*"))
+  (eglot-code-action-indicator "*")
+  (eglot-semantic-tokens-mode t))
 #+end_src
 
-# DAP TODO
+#+begin_src emacs-lisp
+(use-package dape
+  :ensure t
+  :defer t)
+#+end_src
 
 Configure treesitter to use maximum font locking
 #+begin_src emacs-lisp
 (use-package treesit
-  :custom (treesit-font-lock-level 4))
+  :custom
+  (treesit-font-lock-level 4)
+  (treesit-enabled-modes t))
 #+end_src
 
 Inline diagnostics is helpful
@@ -379,45 +373,6 @@ Since this is an emacs configuration after all, we use nix-mode
   (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook)
   :config
   (my/add-LaTeX-snippets LaTeX-mode-abbrev-table))
-
-;; TODO hook when \) to do preview-at-point a few chars back
-(use-package preview
-  :hook (LaTeX-mode . LaTeX-preview-setup)
-  :custom
-  (preview-scale 1.4)
-  (preview-auto-cache-preamble nil)
-  :functions
-  my/text-scale-adjust-latex-previews
-  my/text-scale--resize-fragment
-  :init
-  (defun my/text-scale-adjust-latex-previews ()
-    (dolist (ov (overlays-in (point-min) (point-max)))
-      (if (eq (overlay-get ov 'category)
-	      'preview-overlay)
-	  (my/text-scale--resize-fragment ov))))
-  (defun my/text-scale--resize-fragment (ov)
-    (overlay-put ov 'display (cons 'image
-				   (plist-put
-				    (cdr (overlay-get ov 'display))
-				    :scale (+ 1.0 (* 0.5 text-scale-mode-amount))))))
-  :config
-  (add-hook 'LaTeX-mode-hook (lambda ()
-			       (add-hook 'text-scale-mode-hook #'my/text-scale-adjust-latex-previews))))
-
-(use-package preview-dvisvgm
-  :after preview
-  :ensure t
-  :custom
-  (preview-image-type 'dvisvgm))
-
-(use-package latex-preview-pane
-  :ensure t
-  :hook (LaTeX-mode . latex-preview-pane-mode))
-
-(use-package org-latex-impatient
-  :ensure t
-; :hook (org-mode . org-latex-impatient-mode)
-  )
 #+end_src
 
 *** Org Mode
@@ -486,11 +441,6 @@ Org-modern just makes things look nicer
 
 (use-package org-modern-indent
   :hook (org-modern-mode . org-modern-indent-mode))
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package org-present
-  :ensure t)
 #+end_src
 
 org-export to docx via latex and pandoc
@@ -590,28 +540,28 @@ public class [Class name from file name] {
 
 *** Rust
 #+begin_src emacs-lisp
-(use-package rust-ts-mode
-  :defines rust-ts-mode-abbrev-table)
 (use-package rust-mode
   :after treesit
   :ensure t
-  :hook (rust-ts-mode . eglot-ensure)
   :custom
   (rust-mode-treesitter-derive t)
-  (rust-format-on-save t)
+  (rust-format-on-save t))
+(use-package rustic
+  :ensure t
+  :after rust-mode
+  :hook (rustic-mode . eglot-ensure)
+  :custom
+  (rustic-lsp-setup-p nil)
   :config
-  (add-to-list 'major-mode-remap-alist '(rust-mode . rust-ts-mode))
-  (my/add-fundamental-snippets rust-mode-abbrev-table)
-  (my/add-fundamental-snippets rust-ts-mode-abbrev-table))
+  (my/add-fundamental-snippets rustic-mode-abbrev-table))
 #+end_src
 
 *** Lua
 #+begin_src emacs-lisp
-(use-package lua-mode
-  :ensure t
-  :hook (lua-mode . eglot-ensure)
+(use-package lua-ts-mode
+  :hook (lua-ts-mode . eglot-ensure)
   :config
-  (my/add-fundamental-snippets lua-mode-abbrev-table))
+  (my/add-fundamental-snippets lua-ts-mode-abbrev-table))
 #+end_src
 
 *** Zig
@@ -710,6 +660,7 @@ produces
   :hook (c-ts-mode . eglot-ensure)
   :custom
   (c-ts-mode-indent-offset 4)
+  (c-ts-mode-enable-doxygen t)
   :config
   (my/add-c-snippets c-ts-mode-abbrev-table))
 #+end_src
@@ -815,12 +766,6 @@ produces
                  '(swift-mode . ("sourcekit-lsp")))))
 #+end_src
 
-*** YAML
-#+begin_src emacs-lisp
-(use-package yaml-mode
-  :ensure t)
-#+end_src
-
 *** Ada
 #+begin_src emacs-lisp
 (use-package ada-ts-mode
@@ -836,6 +781,13 @@ produces
 #+begin_src emacs-lisp
 (use-package ess
   :ensure t)
+#+end_src
+
+*** Emacs Lisp
+#+begin_src emacs-lisp
+(use-package elisp-mode
+  :custom
+  (elisp-fontify-semantically t))
 #+end_src
 
 ** Completion
@@ -1036,14 +988,12 @@ eldoc for inline documentation
                                   (auto-revert-mode))))
   :custom
   (dired-sidebar-theme 'vscode))
-#+end_src
 
-*** Open Streetmap Viewer
-Also because why not
-#+begin_src emacs-lisp
-(use-package osm
+(use-package dired-preview
   :ensure t
-  :bind (("C-x C-a o" . osm)))
+  :custom
+  (dired-preview-global-mode t)
+  (dired-preview-delay 0.1))
 #+end_src
 
 *** PDF-Tools
@@ -1053,18 +1003,12 @@ Improvements over the stock docview
   :ensure t
   :config
   (pdf-tools-install nil t))
-#+end_src
+  #+end_src
 
-*** Biome
-So I can check the weather for the day in Emacs ;)
+*** Page View
+View org documents as a series of pages
 #+begin_src emacs-lisp
-(use-package biome
-  :ensure t
-  :bind (("C-x C-a b" . biome))
-  :config
-  (defun my/biome-from-osm ()
-    (interactive)
-    (add-to-list 'biome-query-coords (cons (read-from-minibuffer "Location Name: ") (seq-subseq osm--pin 0 2)))))
+(use-package page-view)
 #+end_src
 
 *** Eat
@@ -1236,22 +1180,11 @@ Indent guides to check indentation
   (indent-bars-treesitter-scope '((python function_definition class_definition for_statement if_statement with_statement while_statement))))
 #+end_src
 
-Gotta get those nice looking SVG tags
-#+begin_src emacs-lisp
-;; TODO resolve why loading causes problems for dasboard and dired-sidebar
-(use-package svg-tag-mode
-  :ensure t
-  :custom
-  ;(global-svg-tag-mode t)
-  (svg-tag-tags '((":TODO:" . ((lambda (tag)
-                                 (svg-tag-make "TODO" :face 'org-tag
-                                               :radius 4 :inverse t :margin 0)))))))
-#+end_src
-
 #+begin_src emacs-lisp
 (use-package hideshow
   :diminish hs-minor-mode
-  :hook (prog-mode . hs-minor-mode))
+  :hook (prog-mode . hs-minor-mode)
+  :custom (hs-show-indicators t))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -1284,36 +1217,20 @@ Gotta get those nice looking SVG tags
   :ensure t)
 #+end_src
 
-*** Fireplace
-Because why not
-#+begin_src emacs-lisp
-(use-package fireplace
-  :ensure t)
-#+end_src
-
-*** Zone
-#+begin_src emacs-lisp
-(use-package zone-matrix
-  :demand t
-  :custom
-  (zmx-unicode-mode t)
-  :config
-  ;; For some reason this will not work in the :custom block ¯\_(ツ)_/¯
-  (setq zone-programs [zone-matrix]))
-#+end_src
-
-*** Combobulate
-Structed editing in non-lisp languages is quite useful
-#+begin_src emacs-lisp
-(use-package combobulate)
-#+end_src
-
 *** Recentf
 Keep track of recently opened files
 #+begin_src emacs-lisp
 (use-package recentf
   :custom (recentf-mode t)
   :bind ("C-x C-r" . recentf))
+#+end_src
+
+Return to the same spot when opening again
+#+begin_src emacs-lisp
+(use-package saveplace
+  :custom
+  (save-place-mode t)
+  (save-place-autosave-interval 3.0))
 #+end_src
 
 *** exec-path-from-shell
@@ -1373,6 +1290,22 @@ Only needed on macOS and linux, or if launched as a daemon
   (mouse-wheel-flip-direction t))
 #+end_src
 
+*** EditorConfig
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :custom (editorconfig-mode t)
+  :diminish editorconfig-mode)
+#+end_src
+
+*** Ace Window
+better window navigation
+#+begin_src emacs-lisp
+(use-package ace-window
+  :ensure t
+  :bind
+  ("M-o" . ace-window))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
@@ -1391,4 +1324,4 @@ Also theming is borked if loaded before the end
 ;; (load-theme my/theme t)
 (ef-themes-load-theme 'ef-elea-dark)
 #+end_src
-# TODO: treesit-utils, other prog modes, custom modeline, dape, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs
+# TODO: treesit-utils, other prog modes, custom modeline, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs
