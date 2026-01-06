@@ -429,6 +429,14 @@ Since this is an emacs configuration after all, we use nix-mode
       (message "%d" (count-words start end nil)))))
 
 (diminish 'buffer-face-mode)
+
+(use-package org-latex-preview
+  :defer t
+  :custom
+  (org-latex-preview-mode-display-live t)
+  (org-latex-preview-mode-update-delay 0.2)
+  :config
+  (setcdr (assoc "pdflatex" org-latex-preview-compiler-command-map) (executable-find "latex")))
 #+end_src
 
 Org-modern just makes things look nicer

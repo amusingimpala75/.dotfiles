@@ -6,7 +6,6 @@
   ghostscript,
   mathjax-node-cli,
   mpv,
-  mupdf-headless,
   pandoc,
   python3,
   R,
@@ -18,17 +17,9 @@
 
   # builders
   emacsWithPackagesFromUsePackage,
-  fetchFromGitHub,
-  fetchFromGitea,
-  gcc,
-  gnumake,
   makeWrapper,
-  pkg-config,
   symlinkJoin,
   writeText,
-
-  lib,
-  stdenv,
 
   # configuration options
   font-size ? 16,
@@ -41,22 +32,6 @@
   ...
 }:
 let
-  getPackage =
-    path:
-    (import path) {
-      inherit
-        emacs
-        emacsPackagesFor
-        fetchFromGitHub
-        fetchFromGitea
-        gcc
-        gnumake
-        lib
-        mupdf-headless
-        pkg-config
-        stdenv
-        ;
-    };
   pkg = emacsWithPackagesFromUsePackage {
     package = emacs;
     alwaysTangle = true;
@@ -81,12 +56,15 @@ let
         '';
         packageRequires = [ theme-package ];
       })
-      (getPackage ./nnnrss.nix)
-      (getPackage ./org-modern-indent.nix)
-      (getPackage ./toggleterm.nix)
-      (getPackage ./reader.nix)
-      (getPackage ./page-view.nix)
+      epkgs.nnnrss
+      epkgs.org-modern-indent
+      epkgs.toggleterm
+      epkgs.reader
+      epkgs.page-view
     ];
+    override = epkgs: {
+      org = epkgs.org-karthik;
+    };
   };
 
   texlive-package =

@@ -41,6 +41,7 @@ in
       inputs.bible.overlays.default
       (final: prev: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final prev; })
       inputs.emacs-overlay.overlays.default
+      (import "${root}/overlays/emacs-packages.nix")
       (import "${root}/overlays/macos-bin.nix")
       nixpkgs-stable-overlay
       ((import "${root}/overlays/nixvim.nix") self)
