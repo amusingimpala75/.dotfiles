@@ -27,7 +27,7 @@
     firefox.enable = true;
     games.brogue.enable = true;
     games.brogue.terminal = true;
-    games.minecraft.cli.enable = true;
+    games.minecraft.gui.enable = true;
     vcs = {
       git = true;
       jujutsu = true;

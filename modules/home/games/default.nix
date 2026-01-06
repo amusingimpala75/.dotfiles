@@ -36,7 +36,7 @@
         enable = lib.mkEnableOption "use GUI launcher for Minecraft";
         package = lib.mkOption {
           type = lib.types.package;
-          default = pkgs.stable.modrinth-app;
+          default = pkgs.stable.prismlauncher;
           description = "package to install";
         };
       };
@@ -46,6 +46,7 @@
           type = lib.types.listOf lib.types.package;
           default = [
             pkgs.ferium
+            pkgs.mrpack-install
             pkgs.portablemc
           ];
           description = "packages for CLI Minecraft";
