@@ -432,9 +432,12 @@ Since this is an emacs configuration after all, we use nix-mode
 
 (use-package org-latex-preview
   :defer t
+  :after org
+  :hook
+  (org-mode . org-latex-preview-mode)
   :custom
   (org-latex-preview-mode-display-live t)
-  (org-latex-preview-mode-update-delay 0.2)
+  (org-latex-preview-mode-update-delay 0.1)
   :config
   (setcdr (assoc "pdflatex" org-latex-preview-compiler-command-map) (executable-find "latex")))
 #+end_src
@@ -465,7 +468,7 @@ org-export to docx via latex and pandoc
       async subtreep visible-only body-only ext-plist
       #'my/pandoc-latex-to-docx)))
 
-(with-eval-after-load 'ox
+(with-eval-after-load 'ox-latex
   (org-export-define-derived-backend 'docx 'latex
 				     :menu-entry
 				     '(?l 1
