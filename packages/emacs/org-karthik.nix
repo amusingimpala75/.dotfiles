@@ -1,14 +1,13 @@
 {
-  emacs,
-  emacsPackagesFor,
   fetchgit,
+  org,
+  trivialBuild,
   ...
 }:
 let
-  epkgs = emacsPackagesFor emacs;
   version = "git+2026-01-05";
 
-  autoloaded-src = epkgs.trivialBuild {
+  autoloaded-src = trivialBuild {
     inherit version;
     src = fetchgit {
       url = "https://code.tecosaur.net/tec/org-mode";
@@ -25,9 +24,8 @@ let
     '';
   };
 in
-epkgs.trivialBuild {
+trivialBuild {
   inherit version;
   pname = "org-karthik";
   src = autoloaded-src;
-  packageRequires = epkgs.org.packageRequires;
 }

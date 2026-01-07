@@ -1,8 +1,7 @@
 {
-  emacs,
-  emacsPackagesFor,
   fetchFromGitea,
   lib,
+  melpaBuild,
   stdenv,
 
   pkg-config,
@@ -10,7 +9,6 @@
   ...
 }:
 let
-  epkgs = emacsPackagesFor emacs;
   src = fetchFromGitea {
     domain = "codeberg.org";
     owner = "divyaranjan";
@@ -34,9 +32,9 @@ let
     patches = [ ./0001-remove-pkg-config-disabling-block-just-always-use-it.patch ];
   };
 in
-(epkgs.melpaBuild {
+melpaBuild {
   pname = "reader";
   version = "20251208";
   inherit src;
   files = ''(:defaults "${lib.getLib core}/lib/render-core.*")'';
-})
+}

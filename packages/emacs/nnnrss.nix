@@ -1,13 +1,9 @@
 {
-  emacs,
-  emacsPackagesFor,
   fetchFromGitHub,
+  trivialBuild,
   ...
 }:
-let
-  epkgs = emacsPackagesFor emacs;
-in
-epkgs.trivialBuild {
+trivialBuild {
   pname = "nnnrss";
   version = "git+2025-3-9";
   src = fetchFromGitHub {
