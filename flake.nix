@@ -72,9 +72,12 @@
           inputs.nixvim.flakeModules.default
           (import ./modules/flake/autowire.nix)
         ];
+
         flake = {
           overlays = {
-            default = import ./overlays;
+            nixvim = final: prev: {
+              my-nvim = self.nixvimConfigurations.${final.stdenv.hostPlatform.system}.nixvim.config.build.package;
+            };
           };
         };
 
@@ -86,6 +89,7 @@
             nixos.enable = true;
             nixvim.enable = true;
           };
+          overlays.enable = true;
           templates.enable = true;
         };
 

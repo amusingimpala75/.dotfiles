@@ -50,6 +50,14 @@
         };
       };
     };
+    overlays = {
+      enable = lib.mkEnableOption "autowire overlays";
+      path = lib.mkOption {
+        description = "path from which to autowire overlays";
+        default = "${root}/overlays";
+        type = lib.types.path;
+      };
+    };
     templates = {
       enable = lib.mkEnableOption "autowire templates";
       path = lib.mkOption {
@@ -86,6 +94,13 @@
             ];
           }
         ) (builtins.readDir "${config.autowire.configurations.nixos.path}")
+      );
+
+      overlays = lib.mkIf config.autowire.overlays.enable (
+        lib.mapAttrs' (name: _: {
+          name = lib.removeSuffix ".nix" name;
+          value = import "${config.autowire.overlays.path}/${name}";
+        }) (builtins.readDir "${config.autowire.overlays.path}")
       );
 
       templates = lib.mkIf config.autowire.templates.enable (

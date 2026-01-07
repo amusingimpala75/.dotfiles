@@ -1,7 +1,6 @@
 {
   inputs,
   lib,
-  root,
   self,
   ...
 }:
@@ -40,16 +39,16 @@ in
       inputs.alacritty-theme.overlays.default
       inputs.bible.overlays.default
       (final: prev: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final prev; })
+      self.overlays.default
       inputs.emacs-overlay.overlays.default
-      (import "${root}/overlays/emacs-packages.nix")
-      (import "${root}/overlays/macos-bin.nix")
+      self.overlays.emacs-packages
+      self.overlays.macos-bin
       nixpkgs-stable-overlay
-      ((import "${root}/overlays/nixvim.nix") self)
+      self.overlays.nixvim
       (final: prev: {
         nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default;
       })
       inputs.nur.overlays.default
-      (import "${root}/overlays")
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${final.stdenv.hostPlatform.system}; })
     ];
   };
