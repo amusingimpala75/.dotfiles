@@ -27,7 +27,9 @@ in
           + (lib.concatStringsSep "\n" (map add-dock-item config.my.darwin.dock.items))
         )
       );
-    targets.darwin.copyApps.enable = true;
-    targets.darwin.linkApps.enable = false;
+    targets.darwin = lib.mkIf pkgs.stdenv.isDarwin {
+      copyApps.enable = true;
+      linkApps.enable = false;
+    };
   };
 }

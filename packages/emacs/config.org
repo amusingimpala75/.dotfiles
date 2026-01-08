@@ -40,7 +40,7 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
   :custom
   (menu-bar-mode (if (eq system-type 'darwin)
                      t
-                   -1)))
+                   nil)))
 
 (use-package xt-mouse
   :config
@@ -1189,6 +1189,14 @@ Indent guides to check indentation
   (indent-bars-color '(highlight :blend 0.6))
   (indent-bars-highlight-current-depth '(:face default :blend 1.0))
   (indent-bars-treesitter-scope '((python function_definition class_definition for_statement if_statement with_statement while_statement))))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package sqlite-mode
+  :bind
+  ( :map sqlite-mode-map
+    ("n" . next-line)
+    ("p" . previous-line)))
 #+end_src
 
 #+begin_src emacs-lisp
