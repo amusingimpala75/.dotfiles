@@ -549,6 +549,20 @@ public class [Class name from file name] {
   (my/add-java-snippets java-ts-mode-abbrev-table))
 #+end_src
 
+*** Scala
+#+begin_src emacs-lisp
+(use-package scala-mode
+  :ensure t
+  :after eglot
+  :interpreter ("scala" . scala-mode)
+  :hook
+  (scala-mode . (lambda ()
+                  (setq-local eglot-ignored-server-capabilities '(:documentOnTypeFormattingProvider)))) ; Because it would freeze each time for no reason
+  (scala-mode . eglot-ensure))
+(use-package sbt-mode
+  :ensure t)
+#+end_src
+
 *** Rust
 #+begin_src emacs-lisp
 (use-package rust-mode
