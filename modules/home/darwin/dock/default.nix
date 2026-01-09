@@ -18,15 +18,15 @@ in
 
   config = {
     home.activation.set-dock =
-    lib.mkIf (pkgs.stdenv.isDarwin && (config.my.darwin.dock.items != null))
-      (
-        lib.hm.dag.entryAfter [ "writeBoundary" ] (
-          ''
-            ${dockutil} --remove all
-          ''
-          + (lib.concatStringsSep "\n" (map add-dock-item config.my.darwin.dock.items))
-        )
-      );
+      lib.mkIf (pkgs.stdenv.isDarwin && (config.my.darwin.dock.items != null))
+        (
+          lib.hm.dag.entryAfter [ "writeBoundary" ] (
+            ''
+              ${dockutil} --remove all
+            ''
+            + (lib.concatStringsSep "\n" (map add-dock-item config.my.darwin.dock.items))
+          )
+        );
     targets.darwin = lib.mkIf pkgs.stdenv.isDarwin {
       copyApps.enable = true;
       linkApps.enable = false;

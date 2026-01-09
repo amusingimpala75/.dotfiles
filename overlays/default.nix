@@ -9,7 +9,9 @@ final: prev: {
   wallp = final.callPackage ../packages/wallp.nix { };
   infat = final.callPackage ../packages/infat.nix { };
 
-  mrpack-install = prev.mrpack-install.overrideAttrs (prev: { doCheck = !final.stdenv.isDarwin; });
+  mrpack-install = prev.mrpack-install.overrideAttrs (prev: {
+    doCheck = !final.stdenv.isDarwin;
+  });
 
   buildFennelPackage = final.callPackage ../packages/buildFennelPackage.nix { };
   fennelToLua = final.callPackage ../packages/fennelToLua.nix { };

@@ -20,6 +20,7 @@ in
         };
         fsmonitor.backend = "watchman";
         working-copy.eol-conversion = "input";
+        ui.default-command = "log";
       };
     };
   };
