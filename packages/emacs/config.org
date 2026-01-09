@@ -1207,18 +1207,6 @@ Indent guides to check indentation
 #+end_src
 
 #+begin_src emacs-lisp
-(use-package copilot
-  :ensure t
-  :bind
-  ("C-<tab>" . copilot-accept-completion))
-
-(use-package copilot-chat
-  :ensure t
-  :bind
-  ("C-x C-a c" . copilot-chat))
-#+end_src
-
-#+begin_src emacs-lisp
 (use-package project
   :custom
   (project-mode-line t)
