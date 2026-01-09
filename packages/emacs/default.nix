@@ -12,6 +12,7 @@
   stable ? null,
   texlive,
   unzip,
+  vimPlugins,
   yt-dlp,
   zip,
 
@@ -38,16 +39,25 @@ let
     defaultInitFile = true;
     config = ./config.org;
     extraEmacsPackages = epkgs: [
-      epkgs.treesit-grammars.with-all-grammars
+      (epkgs.treesit-grammars.with-grammars (
+        p:
+        # This line is the same as with-all-grammars
+        (builtins.attrValues p)
+        # This line allows us to copy any of the nvim parsers
+        # that (for some reason) aren't exposed normally
+        ++ (map (s: vimPlugins.nvim-treesitter-parsers."${s}".origGrammar) [
+          "doxygen"
+        ])
+      ))
       (epkgs.trivialBuild {
         pname = "nix-settings";
         version = "0.1.0";
         src = writeText "nix-settings.el" ''
           (defvar my/font-family-fixed-pitch "${font-family-fixed}")
           (defvar my/font-family-variable-pitch "${font-family-variable}")
-          (defvar my/font-size ${builtins.toString font-size})
+          (defvar my/font-size ${toString font-size})
 
-          (defvar my/opacity (truncate ${builtins.toString (opacity * 100)}))
+          (defvar my/opacity (truncate ${toString (opacity * 100)}))
 
           (require '${theme-file-name})
           (defvar my/theme '${theme-name})
