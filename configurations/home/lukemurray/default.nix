@@ -37,6 +37,7 @@
     ghostty.enable = true;
     jankyborders.enable = true;
     spotify.enable = true;
+    opencode.enable = true;
   };
 
   infat = {
@@ -55,7 +56,6 @@
   home.packages =
     with pkgs;
     [
-      gemini-cli
       jq
       my-nvim
       ntfy-sh

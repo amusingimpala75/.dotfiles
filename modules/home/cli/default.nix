@@ -5,6 +5,8 @@
   ...
 }:
 {
+  imports = [ ./opencode.nix ];
+
   options.my.cli.enable = lib.mkEnableOption "my cli configuration";
 
   options.my.cli.defaultShell = lib.mkOption {

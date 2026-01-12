@@ -20,6 +20,7 @@
 
   config.sops = {
     age.keyFile = config.my.sops.age-key;
+    defaultSopsFile = ../../../secrets/secrets.yaml;
     secrets."emacs-feeds.el" = {
       format = "binary";
       sopsFile = ../../../secrets/emacs-feeds.el;
