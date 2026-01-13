@@ -1,5 +1,6 @@
 {
   # pkgs
+  aspellWithDicts,
   bleeding ? null,
   emacs,
   emacsPackagesFor,
@@ -89,11 +90,12 @@ let
   deps = symlinkJoin {
     name = "emacs30-path-additions";
     paths = [
-      texlive-package
+      (aspellWithDicts (dicts: [ dicts.en ]))
       ghostscript
       mathjax-node-cli
       mpv-package
       pandoc
+      texlive-package
       unzip
       yt-dlp-package
       zip

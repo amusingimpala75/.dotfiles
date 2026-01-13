@@ -1308,6 +1308,17 @@ better window navigation
   ("M-o" . ace-window))
 #+end_src
 
+*** Spelling
+#+begin_src emacs-lisp
+(use-package ispell
+  :custom
+  (ispell-program-name "aspell"))
+
+(use-package flyspell
+  :custom
+  (flyspell-default-dictionary "en"))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
