@@ -1,7 +1,9 @@
 keys:
   - &amusingimpala_personal age164xnjhm9448rg0jqvt67sxkfhafl77e76u0429x36fpnww4srdhqzksw6q
+  - &murrayle23_school age1nkt8rkq55seacu9fr2ze5nsqqvgxzhhuwd4a05j888t35mux048qusnra5
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini|el)$
     key_groups:
     - age:
       - *amusingimpala_personal
+      - *murrayle23_school

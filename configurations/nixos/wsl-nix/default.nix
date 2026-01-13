@@ -14,6 +14,8 @@
   wsl.defaultUser = "murrayle23";
   wsl.startMenuLaunchers = true;
 
+  programs.ssh.startAgent = true;
+
   environment.sessionVariables = {
     TERM = "wezterm";
   };
