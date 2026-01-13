@@ -12,7 +12,7 @@
     programs.opencode = {
       enable = true;
       settings = {
-        model = "mistralai/devstral-2512:free";
+        model = "openrouter/mistralai/devstral-2512:free";
         autoupdate = "notify";
         theme = "system";
         enabled_providers = [ "openrouter" ];

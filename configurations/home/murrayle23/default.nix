@@ -9,6 +9,7 @@
     games = {
       brogue.enable = true;
     };
+    opencode.enable = true;
     vcs = {
       git = true;
       jujutsu = true;
