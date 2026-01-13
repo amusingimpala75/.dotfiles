@@ -15,8 +15,10 @@
         {
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
-              metals
               sbt
+              scalafmt
+              javaPackages.compiler.temurin-bin.jdk-21
+              metals
             ];
           };
         };

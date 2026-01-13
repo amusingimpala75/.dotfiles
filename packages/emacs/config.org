@@ -212,7 +212,9 @@ Fixes stupid bug where the line height changes ever-so-slightly on macOS
   :functions eglot-completion-at-point
   :custom
   (eglot-code-action-indicator "*")
-  (eglot-semantic-tokens-mode t))
+  (eglot-semantic-tokens-mode t)
+  :hook
+  ((c-ts-mode fennel-mode go-ts-mode haskell-mode nix-mode java-ts-mode js-ts-mode lua-ts-mode rustic-mode scala-mode) . eglot-ensure))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -323,9 +325,6 @@ Since this is an emacs configuration after all, we use nix-mode
 #+begin_src emacs-lisp
 (use-package nix-mode
   :ensure t
-  :hook
-  (nix-mode . eglot-ensure)
-  (nix-mode . (lambda () (add-hook 'before-save-hook 'nix-format-buffer nil t)))
   :config
   (with-eval-after-load 'eglot
     (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
@@ -536,15 +535,7 @@ public class [Class name from file name] {
   (my/add-skeleton-abbrevs table '(("defmain" . java-skeleton-def-main)
                                    ("pr" . java-skeleton-println))))
 
-(use-package cc-mode
-  :defines java-mode-abbrev-table)
-(with-eval-after-load 'cc-mode
-  (add-hook 'java-mode-hook 'eglot-ensure)
-  (my/add-java-snippets java-mode-abbrev-table))
-
 (use-package java-ts-mode
-  :after treesit
-  :hook (java-ts-mode . eglot-ensure)
   :config
   (my/add-java-snippets java-ts-mode-abbrev-table))
 #+end_src
@@ -553,12 +544,14 @@ public class [Class name from file name] {
 #+begin_src emacs-lisp
 (use-package scala-mode
   :ensure t
-  :after eglot
-  :interpreter ("scala" . scala-mode)
   :hook
   (scala-mode . (lambda ()
                   (setq-local eglot-ignored-server-capabilities '(:documentOnTypeFormattingProvider)))) ; Because it would freeze each time for no reason
-  (scala-mode . eglot-ensure))
+  (scala-mode . (lambda ()
+                  (setq prettify-symbols-alist scala-prettify-symbols-alist)
+                  (prettify-symbols-mode)))
+  :config
+  (add-to-list 'project-vc-extra-root-markers "build.sbt"))
 (use-package sbt-mode
   :ensure t)
 #+end_src
@@ -566,7 +559,6 @@ public class [Class name from file name] {
 *** Rust
 #+begin_src emacs-lisp
 (use-package rust-mode
-  :after treesit
   :ensure t
   :custom
   (rust-mode-treesitter-derive t)
@@ -574,7 +566,6 @@ public class [Class name from file name] {
 (use-package rustic
   :ensure t
   :after rust-mode
-  :hook (rustic-mode . eglot-ensure)
   :custom
   (rustic-lsp-setup-p nil)
   :config
@@ -584,7 +575,6 @@ public class [Class name from file name] {
 *** Lua
 #+begin_src emacs-lisp
 (use-package lua-ts-mode
-  :hook (lua-ts-mode . eglot-ensure)
   :config
   (my/add-fundamental-snippets lua-ts-mode-abbrev-table))
 #+end_src
@@ -594,7 +584,6 @@ public class [Class name from file name] {
 (use-package zig-mode
   :ensure t
   :diminish zig-format-on-save-mode
-  :hook (zig-mode . eglot-ensure)
   :config
   (my/add-fundamental-snippets zig-mode-abbrev-table))
 #+end_src
@@ -681,8 +670,6 @@ produces
   (my/add-c-snippets c-mode-abbrev-table))
 
 (use-package c-ts-mode
-  :after treesit
-  :hook (c-ts-mode . eglot-ensure)
   :custom
   (c-ts-mode-indent-offset 4)
   (c-ts-mode-enable-doxygen t)
@@ -734,7 +721,6 @@ produces
 
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 (use-package python
-  :after treesit
   :config
   (my/add-python-snippets python-mode-abbrev-table)
   (my/add-python-snippets python-ts-mode-abbrev-table))
@@ -744,8 +730,6 @@ produces
 #+begin_src emacs-lisp
 (add-to-list 'major-mode-remap-alist '(javascript-mode . js-ts-mode))
 (use-package js
-  :after treesit
-  :hook (js-ts-mode . eglot-ensure)
   :config
   (my/add-fundamental-snippets js-mode-abbrev-table)
   (my/add-fundamental-snippets js-ts-mode-abbrev-table))
@@ -756,7 +740,6 @@ produces
 (use-package fennel-mode
   :ensure t
   :mode ("\\.fnl\\'" . fennel-mode)
-  :hook (fennel-mode . eglot-ensure)
   :config
   (my/add-fundamental-snippets fennel-mode-abbrev-table))
 #+end_src
@@ -770,15 +753,13 @@ produces
 *** Go
 #+begin_src emacs-lisp
 (use-package go-ts-mode
-  :defer 1
-  :hook (go-ts-mode . eglot-ensure))
+  :defer 1)
 #+end_src
 
 *** Haskell
 #+begin_src emacs-lisp
 (use-package haskell-mode
-  :ensure t
-  :hook (haskell-mode . eglot-ensure))
+  :ensure t)
 #+end_src
 
 *** Swift
