@@ -22,5 +22,7 @@
 
     sops.secrets.openrouter_api_key = { };
     sops.templates.openrouter_api_key.content = ''${config.sops.placeholder.openrouter_api_key}'';
+
+    home.sessionVariables.OPENCODE_DISABLE_LSP_DOWNLOAD = "true";
   };
 }
