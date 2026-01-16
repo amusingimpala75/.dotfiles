@@ -11,11 +11,12 @@
       aggressiveResize = true;
       clock24 = true;
       enable = true;
+      extraConfig = ''
+        set -g status off
+      '';
       historyLimit = 50000;
-      mouse = true;
-      newSession = true;
       secureSocket = true;
-      terminal = "screen-256color";
+      terminal = "xterm-direct";
     };
   };
 }
