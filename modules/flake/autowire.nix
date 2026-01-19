@@ -116,7 +116,7 @@
       {
         apps = builtins.mapAttrs (name: pkg: {
           type = "app";
-          program = "${pkg}/bin/${pkg.pname}";
+          program = lib.getExe pkg;
           meta.description = pkg.meta.description;
         }) self'.packages;
 

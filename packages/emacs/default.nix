@@ -119,5 +119,8 @@ symlinkJoin {
     wrapProgram $out/bin/emacsclient --prefix PATH: ${deps}/bin
   '';
 
-  meta.description = "My custom emacs config";
+  meta = {
+    description = "My custom emacs config";
+    mainProgram = "emacs";
+  };
 }

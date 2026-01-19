@@ -21,4 +21,7 @@
     toggleterm.enable = true;
     web-devicons.enable = true;
   };
+  extraPlugins = with pkgs.vimPlugins; [
+    vim-airline-themes
+  ];
 }
