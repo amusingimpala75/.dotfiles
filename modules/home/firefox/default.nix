@@ -108,7 +108,6 @@ in
             gaoptout
             github-file-icons
             gruvbox-dark-theme # TODO integrate with theme system
-            istilldontcareaboutcookies
             # sideberry # done by textfox
             sponsorblock
             ublock-origin
@@ -118,16 +117,24 @@ in
           settings = {
             "uBlock0@raymondhill.net".settings = {
               selectedFilterLists = [
-                "user-filters"
-                "ublock-filters"
-                "ublock-badware"
-                "ublock-privacy"
-                "ublock-unbreak"
-                "ublock-quick-fixes"
                 "easylist"
+                "easylist-annoyances"
+                "easylist-newsletters"
+                "easylist-notifications"
                 "easyprivacy"
-                "urlhaus-1"
+                "fanboy-cookiemonster"
+                "fanboy-social"
+                "fanboy-thirdparty_social"
                 "plowe-0"
+                "ublock-annoyances"
+                "ublock-badware"
+                "ublock-cookies-easylist"
+                "ublock-filters"
+                "ublock-privacy"
+                "ublock-quick-fixes"
+                "ublock-unbreak"
+                "urlhaus-1"
+                "user-filters"
               ];
               user-filters = builtins.readFile ./ublock-filters.txt;
             };
