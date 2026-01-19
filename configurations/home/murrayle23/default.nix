@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   home.username = "murrayle23";
 
@@ -20,6 +20,7 @@
   };
 
   rices.gruvbox.enable = true;
+  rice.font.size = lib.mkForce 20;
 
   wsl.username = "MURRAYLE23";
   wsl.wallp.enable = true;

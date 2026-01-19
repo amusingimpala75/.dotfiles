@@ -26,6 +26,7 @@
     home.packages = with pkgs; [
       (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
       chafa
+      killall
       scc
       tree
     ];

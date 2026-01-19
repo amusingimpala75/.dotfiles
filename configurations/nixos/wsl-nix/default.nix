@@ -25,6 +25,7 @@
   my.zsh.enable = true;
 
   networking.hostName = "wsl-nix";
+  time.timeZone = "America/New_York";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
