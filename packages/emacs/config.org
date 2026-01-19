@@ -490,6 +490,13 @@ Allow jupyter in org files, and easily format an HTML result block
   (shr-render-region (mark) (point)))
 #+end_src
 
+Font-locking in code blocks for export
+#+begin_src emacs-lisp
+(use-package engrave-faces
+  :ensure t
+  :custom (org-latex-src-block-backend 'engraved))
+#+end_src
+
 *** Java
 Configure java to use jdtls/eglot
 # TODO make this a (use-package java-mode ...) or (use-package cc-mode ...). I cannot for the life of me get those to work.
@@ -1007,6 +1014,8 @@ Improvements over the stock docview
 #+begin_src emacs-lisp
 (use-package pdf-tools
   :ensure t
+  :hook
+  (pdf-view-mode . pdf-view-roll-minor-mode)
   :config
   (pdf-tools-install nil t))
   #+end_src
