@@ -40,6 +40,8 @@
     opencode.enable = true;
   };
 
+  programs.tmux.terminal = lib.mkForce "xterm-ghostty";
+
   infat = {
     enable = true;
     associations = {

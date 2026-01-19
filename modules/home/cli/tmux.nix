@@ -16,6 +16,7 @@
       '';
       historyLimit = 50000;
       secureSocket = true;
+      shortcut = "q";
       terminal = "xterm-direct";
     };
   };
