@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 {
@@ -11,6 +12,7 @@
   config = lib.mkIf config.my.opencode.enable {
     programs.opencode = {
       enable = true;
+      package = pkgs.bleeding.opencode;
       settings = {
         model = "openrouter/mistralai/devstral-2512:free";
         autoupdate = "notify";
