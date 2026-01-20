@@ -955,18 +955,35 @@ eldoc for inline documentation
   :ensure t)
 
 (use-package dired
-  :custom (dired-use-ls-dired (not (eq system-type 'darwin)))
-  :hook dired-hide-details-mode)
+  :functions
+  dired-hide-details-mode
+  :custom
+  (dired-use-ls-dired (not (eq system-type 'darwin)))
+  :hook
+  (dired-mode . (lambda ()
+                  (unless (my/dired-sidebar-bufferp)
+                    (setq-local dired-hide-details-preserved-columns '(1 3 5 6 7 8))
+                    (dired-hide-details-mode))))
+  (dired-mode . (lambda ()
+                  (unless (my/dired-sidebar-bufferp)
+                    (add-hook 'dired-after-readin-hook 'dired-sidebar-tui-dired-display nil t)))))
 
 (use-package dired-sidebar
   :ensure t
   :after vscode-icon
   :bind ("C-x C-d" . dired-sidebar-toggle-sidebar)
-  :hook (dired-sidebar-mode . (lambda ()
-                                (unless (file-remote-p default-directory)
-                                  (auto-revert-mode))))
+  :functions
+  dired-sidebar-tui-dired-display
+  dired-sidebar-buffer
+  :hook
+  (dired-sidebar-mode . (lambda ()
+                          (unless (file-remote-p default-directory)
+                            (auto-revert-mode))))
   :custom
-  (dired-sidebar-theme 'vscode))
+  (dired-sidebar-theme 'vscode)
+  :preface
+  (defun my/dired-sidebar-bufferp ()
+    (eq (current-buffer) (dired-sidebar-buffer))))
 
 (use-package dired-preview
   :ensure t
