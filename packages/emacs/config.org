@@ -1204,13 +1204,6 @@ Indent guides to check indentation
 #+end_src
 
 #+begin_src emacs-lisp
-(use-package hideshow
-  :diminish hs-minor-mode
-  :hook (prog-mode . hs-minor-mode)
-  :custom (hs-show-indicators t))
-#+end_src
-
-#+begin_src emacs-lisp
 (use-package project
   :custom
   (project-mode-line t)
@@ -1260,12 +1253,30 @@ Only needed on macOS and linux, or if launched as a daemon
     (setenv "PATH" (string-join (cons (getenv "PATH") nix-store-exec-path) ":"))))
 #+end_src
 
-*** Outline modes
+*** Outline/Folding modes
 #+begin_src emacs-lisp
+(use-package hideshow
+  :diminish hs-minor-mode
+  :hook (prog-mode . hs-minor-mode)
+  :custom (hs-show-indicators t))
+
 (use-package outline
-  :diminish (outline-minor-mode)
-  :hook (prog-mode . outline-minor-mode)
-  :bind ("C-<iso-lefttab>" . outline-cycle))
+  :diminish (outline-minor-mode))
+
+(use-package outline-indent
+  :ensure t
+  :custom
+  (outline-indent-ellipsis " ▼"))
+
+(use-package treesit-fold
+  :ensure t
+  :custom
+  (global-treesit-fold-mode t)
+  (global-treesit-fold-indicators-mode t))
+
+(use-package kirigami
+  :ensure t
+  :bind ("C-<iso-lefttab>" . kirigami-toggle-fold))
 #+end_src
 
 *** Compile-mode
