@@ -34,8 +34,6 @@ I really don't want the scroll bar or the tool bar, nor is the startup screen ne
 (use-package tool-bar
   :custom (tool-bar-mode nil))
 
-(setq initial-buffer-choice t)
-
 (use-package emacs
   :custom
   (menu-bar-mode (if (eq system-type 'darwin)
@@ -55,9 +53,9 @@ Show a line at 80 chars (this helps code format) and show the dimensions of boun
 (use-package emacs
   :custom
   (fill-column 80)
-  (indicate-buffer-boundaries 'left)
-  :hook
-  (prog-mode . display-fill-column-indicator-mode))
+  (indicate-buffer-boundaries 'left))
+(use-package display-fill-column-indicator
+  :hook prog-mode)
 #+end_src
 
 In order to declutter the bottom, I need diminish
@@ -109,7 +107,7 @@ Additionally, truncate text off the edge of the screen unless in a text mode
 #+begin_src emacs-lisp
 (use-package emacs
   :custom (truncate-lines t))
-(use-package text-mode
+(use-package simple
   :diminish visual-line-mode
   :hook (text-mode . visual-line-mode))
 #+end_src
@@ -124,8 +122,6 @@ Just to be sure, we also install the ef-themes
 #+begin_src emacs-lisp
 (use-package ef-themes
   :ensure t
-  :demand t
-  :defer nil
   :custom
   (ef-themes-mixed-fonts t)
   (ef-themes-to-toggle '(ef-elea-light ef-elea-dark))
@@ -138,11 +134,12 @@ Just to be sure, we also install the ef-themes
 
 I also like a transparent background (still waiting on alpha-background on mac)
 #+begin_src emacs-lisp
-;; Update if macOS ever supports alpha-background
-(defvar my/alpha-setting (if (string-match-p "PGTK" system-configuration-features)
-                             `(alpha-background . ,(max 0 (- my/opacity 5)))
-                           `(alpha . ,(min 100 (+ my/opacity 5)))))
 (use-package frame
+  :preface
+  ;; Update if macOS ever supports alpha-background
+  (defvar my/alpha-setting (if (string-match-p "PGTK" system-configuration-features)
+                               `(alpha-background . ,(max 0 (- my/opacity 5)))
+                             `(alpha . ,(min 100 (+ my/opacity 5)))))
   :custom
   (default-frame-alist `(,my/alpha-setting
                          (ns-transparent-titlebar . t)
@@ -183,16 +180,16 @@ Use the dashboard for a nice splash screen
   :ensure t
   :custom
   (dashboard-center-content t)
+  (initial-buffer-choice (lambda () (dashboard-refresh-buffer)))
   :hook
   (after-init-hook . dashboard-refresh-buffer)
   :bind
   ("C-x C-a d" . dashboard-refresh-buffer)
-  (:map dashboard-mode-map
-   ("n" . dashboard-next-line)
-   ("p" . dashboard-previous-line))
+  ( :map dashboard-mode-map
+    ("n" . dashboard-next-line)
+    ("p" . dashboard-previous-line))
   :config
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (dashboard-refresh-buffer))))
+  (dashboard-setup-startup-hook))
 #+end_src
 
 Use the biblegateway VotD for the footer
@@ -200,8 +197,7 @@ Use the biblegateway VotD for the footer
 (use-package bible-gateway
   :ensure t
   :after dashboard
-  :custom
-  (dashboard-footer-messages (list (bible-gateway-get-verse))))
+  :custom (dashboard-footer-messages (list (bible-gateway-get-verse))))
 #+end_src
 
 ** LSP, DAP, Treesitter, Flymake
@@ -226,6 +222,8 @@ Fixes stupid bug where the line height changes ever-so-slightly on macOS
 Configure treesitter to use maximum font locking
 #+begin_src emacs-lisp
 (use-package treesit
+  :functions
+  treesit-node-at
   :custom
   (treesit-font-lock-level 4)
   (treesit-enabled-modes t))
@@ -235,15 +233,13 @@ Inline diagnostics is helpful
 #+begin_src emacs-lisp
 (use-package flymake
   :defer t
-  :custom
-  (flymake-show-diagnostics-at-end-of-line t))
+  :custom (flymake-show-diagnostics-at-end-of-line t))
 #+end_src
 
 ** Language Support (modes)
 Make sure skeleton stuff is available
 #+begin_src emacs-lisp
-(use-package skeleton
-  :defines skeleton-positions)
+(use-package skeleton :defines skeleton-positions)
 #+end_src
 
 *** ~fundamental-mode~ (global)
@@ -304,7 +300,7 @@ Actually add the snippets
 #+begin_src emacs-lisp
 (use-package lisp
   :bind ("M-\"" . my/insert-quote)
-  :init
+  :preface
   (defun my/insert-quote (&optional arg)
     (interactive "P")
     (insert-pair arg ?\" ?\")))
@@ -326,8 +322,6 @@ Since this is an emacs configuration after all, we use nix-mode
 (use-package nix-mode
   :ensure t
   :config
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs '(nix-mode . ("nixd"))))
   (my/add-fundamental-snippets nix-mode-abbrev-table))
 #+end_src
 
@@ -348,32 +342,6 @@ Since this is an emacs configuration after all, we use nix-mode
   (my/add-skeleton-abbrevs table '(("begin" . LaTeX-skeleton-begin))))
 #+end_src
 
-**** config
-#+begin_src emacs-lisp
-;; I don't like this hackiness, but latex/auctex/tex loading is weird
-(use-package latex
-  :defines LaTeX-mode-abbrev-table)
-(use-package tex
-  :ensure auctex
-  :custom
-  (TeX-auto-save t)
-  (TeX-parse-self t)
-  (TeX-master t)
-  (reftex-plug-into-AUCTeX t)
-  (TeX-save-query nil)
-  :hook
-  (LaTeX-mode . visual-line-mode)
-  (LaTeX-mode . flyspell-mode)
-  (LaTeX-mode . LaTeX-math-mode)
-  (LaTeX-mode . turn-on-reftex)
-  :init
-  (defun my/add-latex-preview-save-hook ()
-    (add-hook 'after-save-hook 'preview-buffer nil t))
-  (add-hook 'LaTeX-mode-hook 'my/add-latex-preview-save-hook)
-  :config
-  (my/add-LaTeX-snippets LaTeX-mode-abbrev-table))
-#+end_src
-
 *** Org Mode
 #+begin_src emacs-lisp
 (use-package org
@@ -383,11 +351,11 @@ Since this is an emacs configuration after all, we use nix-mode
   (org-mode . variable-pitch-mode)
   (org-mode . visual-line-mode)
   (org-mode . (lambda ()
-                (setq-local electric-pair-inhibit-predicate
-                            (lambda (c)
-                              (if (char-equal c ?\<) ;; > just to get this to shut up
-                                  t
-                                (electric-pair-default-inhibit c))))))
+                 (setq-local electric-pair-inhibit-predicate
+                             (lambda (c)
+                               (if (char-equal c ?\<) ;; > just to get this to shut up
+                                   t
+                                 (electric-pair-default-inhibit c))))))
   :custom-face
   (org-block ((t (:inherit fixed-pitch))))
   (org-table ((t (:inherit fixed-pitch))))
@@ -419,6 +387,7 @@ Since this is an emacs configuration after all, we use nix-mode
                                                            (R . t)
                                                            (jupyter . t)
                                                            (shell . t)))
+  :preface
   (defun my/count-words-buffer ()
     (interactive)
     (let ((start (if (region-active-p) (min (mark) (point))
@@ -432,12 +401,12 @@ Since this is an emacs configuration after all, we use nix-mode
 (use-package org-latex-preview
   :defer t
   :after org
-  :hook
-  (org-mode . org-latex-preview-mode)
+  :hook org-mode
   :custom
   (org-latex-preview-mode-display-live t)
   (org-latex-preview-mode-update-delay 0.1)
   :config
+  ;; Fix latex on emacs path but not zsh path
   (setcdr (assoc "pdflatex" org-latex-preview-compiler-command-map) (executable-find "latex")))
 #+end_src
 
@@ -447,47 +416,47 @@ Org-modern just makes things look nicer
   :ensure t
   :custom
   (org-modern-star 'replace)
-  :hook (org-mode . org-modern-mode))
+  :hook org-mode)
 
 (use-package org-modern-indent
-  :hook (org-modern-mode . org-modern-indent-mode))
+  :hook org-modern-mode)
 #+end_src
 
 org-export to docx via latex and pandoc
 #+begin_src emacs-lisp
-(defun my/pandoc-latex-to-docx (texfile &optional _)
-  (let ((infile (shell-quote-argument texfile))
-        (outfile (shell-quote-argument (format "%s.docx" (substring texfile 0 -4)))))
-    (shell-command (format "pandoc %s -o %s" infile outfile))))
-
-(defun my/org-latex-export-to-docx (&optional async subtreep visible-only body-only ext-plist)
-  (interactive)
-  (let ((outfile (org-export-output-file-name ".tex" subtreep)))
-    (org-export-to-file 'latex outfile
-      async subtreep visible-only body-only ext-plist
-      #'my/pandoc-latex-to-docx)))
-
-(with-eval-after-load 'ox-latex
+(use-package ox-latex
+  :preface
+  (defun my/pandoc-latex-to-docx (texfile &optional _)
+    (let ((infile (shell-quote-argument texfile))
+          (outfile (shell-quote-argument (format "%s.docx" (substring texfile 0 -4)))))
+      (shell-command (format "pandoc %s -o %s" infile outfile))))
+  (defun my/org-latex-export-to-docx (&optional async subtreep visible-only body-only ext-plist)
+    (interactive)
+    (let ((outfile (org-export-output-file-name ".tex" subtreep)))
+      (org-export-to-file 'latex outfile
+        async subtreep visible-only body-only ext-plist
+        #'my/pandoc-latex-to-docx)))
+  :config
   (org-export-define-derived-backend 'docx 'latex
-				     :menu-entry
-				     '(?l 1
-					  ((?d "As LaTeX file (Docx)" my/org-latex-export-to-docx)))))
+    :menu-entry
+    '(?l 1
+	 ((?d "As LaTeX file (Docx)" my/org-latex-export-to-docx)))))
 #+end_src
 
 Allow jupyter in org files, and easily format an HTML result block
 #+begin_src emacs-lisp
 (use-package jupyter
-  :ensure t)
-
-(defun my/babel-render-export ()
-  (interactive)
-  (org-mark-element)
-  (forward-line 2)
-  (org-beginning-of-line)
-  (exchange-point-and-mark)
-  (forward-line -3)
-  (org-end-of-line)
-  (shr-render-region (mark) (point)))
+  :ensure t
+  :preface
+  (defun my/babel-render-export ()
+    (interactive)
+    (org-mark-element)
+    (forward-line 2)
+    (org-beginning-of-line)
+    (exchange-point-and-mark)
+    (forward-line -3)
+    (org-end-of-line)
+    (shr-render-region (mark) (point))))
 #+end_src
 
 Font-locking in code blocks for export
@@ -553,10 +522,10 @@ public class [Class name from file name] {
   :ensure t
   :hook
   (scala-mode . (lambda ()
-                  (setq-local eglot-ignored-server-capabilities '(:documentOnTypeFormattingProvider)))) ; Because it would freeze each time for no reason
+                   (setq-local eglot-ignored-server-capabilities '(:documentOnTypeFormattingProvider)))) ; Because it would freeze each time for no reason
   (scala-mode . (lambda ()
-                  (setq prettify-symbols-alist scala-prettify-symbols-alist)
-                  (prettify-symbols-mode)))
+                   (setq prettify-symbols-alist scala-prettify-symbols-alist)
+                   (prettify-symbols-mode)))
   :config
   (add-to-list 'project-vc-extra-root-markers "build.sbt"))
 (use-package sbt-mode
@@ -573,8 +542,7 @@ public class [Class name from file name] {
 (use-package rustic
   :ensure t
   :after rust-mode
-  :custom
-  (rustic-lsp-setup-p nil)
+  :custom (rustic-lsp-setup-p nil)
   :config
   (my/add-fundamental-snippets rustic-mode-abbrev-table))
 #+end_src
@@ -669,13 +637,6 @@ produces
                                    ("doxyheader" . c-skeleton-doxy-header)
                                    ("doxyfn" . c-skeleton-doxy-fn))))
 
-;; For whatever reason, putting this in the use-package block doesn't immediately run
-;; this when .c files are loaded, just when M-x c-ts-mode is executed
-(add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
-(use-package cc-mode
-  :config
-  (my/add-c-snippets c-mode-abbrev-table))
-
 (use-package c-ts-mode
   :custom
   (c-ts-mode-indent-offset 4)
@@ -726,19 +687,15 @@ produces
   (my/add-skeleton-abbrevs table '(("dfunc" . python-skeleton-doc-func)
                                    ("mainf" . python-skeleton-main-fn))))
 
-(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 (use-package python
   :config
-  (my/add-python-snippets python-mode-abbrev-table)
   (my/add-python-snippets python-ts-mode-abbrev-table))
 #+end_src
 
 *** JavaScript
 #+begin_src emacs-lisp
-(add-to-list 'major-mode-remap-alist '(javascript-mode . js-ts-mode))
 (use-package js
   :config
-  (my/add-fundamental-snippets js-mode-abbrev-table)
   (my/add-fundamental-snippets js-ts-mode-abbrev-table))
 #+end_src
 
@@ -755,12 +712,6 @@ produces
 #+begin_src emacs-lisp
 (use-package just-ts-mode
   :ensure t)
-#+end_src
-
-*** Go
-#+begin_src emacs-lisp
-(use-package go-ts-mode
-  :defer 1)
 #+end_src
 
 *** Haskell
@@ -785,17 +736,19 @@ produces
   :ensure t)
 #+end_src
 
-*** HTML
-#+begin_src emacs-lisp
-(add-to-list 'major-mode-remap-alist '(html-mode . html-ts-mode))
-#+end_src
-
 *** ESS
 #+begin_src emacs-lisp
 (use-package ess
   :ensure t
+  :custom
+  (ess-indent-offset 2)
   :config
   (treesit-parser-create 'r)
+  :defines
+  ess-r-mode-map
+  :functions
+  ess-eval-region
+  :preface
   (defun my/ess-eval-top-level-expression (&optional vis)
     (interactive "P")
     (let ((current (treesit-node-at (point))))
@@ -889,20 +842,20 @@ Corfu and completion preview for in-buffer completion, with kind-icon for svgs.
   (global-corfu-mode t)
   (corfu-cycle t)
   (corfu-popupinfo-delay '(0.5 . 0.5))
-  :hook
-  (prog-mode . corfu-mode)
-  (corfu-mode . corfu-popupinfo-mode))
+  :hook prog-mode)
+(use-package corfu-popupinfo
+  :after corfu
+  :hook corfu-mode)
 
 ;; :TODO: fix suggestion in org mode at least not being anything other than a simple dict autocomplete (abbrev not showing?)
 (use-package completion-preview
   :diminish completion-preview-mode
-  :hook ((corfu-mode . completion-preview-mode)
-         (org-mode . my/completion-preview-add-org))
+  :hook corfu-mode
   :custom (completion-preview-minimum-symbol-length 2)
-  :init
-  (defun my/completion-preview-add-org ()
-    (setq-local completion-preview-commands
-                (append completion-preview-commands '(org-self-insert-command org-delete-backward-char)))))
+  :config
+  (setq completion-preview-commands
+        (append completion-preview-commands
+                '(org-self-insert-command org-delete-backward-char))))
 
 (use-package kind-icon
   :ensure t
@@ -933,7 +886,8 @@ eldoc for inline documentation
 (use-package eldoc-box
   :ensure t
   :after eglot
-  :bind (:map eglot-mode-map ("C-c C-e" . 'eldoc-box-help-at-point)))
+  :bind ( :map eglot-mode-map
+          ("C-c C-e" . 'eldoc-box-help-at-point)))
 #+end_src
 
 ** Apps
@@ -1001,7 +955,8 @@ eldoc for inline documentation
   :ensure t)
 
 (use-package dired
-  :custom (dired-use-ls-dired (not (eq system-type 'darwin))))
+  :custom (dired-use-ls-dired (not (eq system-type 'darwin)))
+  :hook dired-hide-details-mode)
 
 (use-package dired-sidebar
   :ensure t
@@ -1131,13 +1086,14 @@ I use the builtin Gnus for RSS feeds, but I will probably expand to email as wel
 Remove the annoying files Emacs dumps all over the system.
 Also, I've been burned one too many times by accidentally opening a massive file with =font-lock=
 #+begin_src emacs-lisp
-(defun my/find-file-massive-basic ()
-  "If a file is large, remove features to not freeze."
-  (when (and (> (buffer-size) (* 256 1024)) (derived-mode-p 'text-mode))
-    (setq buffer-read-only t)
-    (buffer-disable-undo)
-    (text-mode)))
 (use-package files
+  :preface
+  (defun my/find-file-massive-basic ()
+    "If a file is large, remove features to not freeze."
+    (when (and (> (buffer-size) (* 256 1024)) (derived-mode-p 'text-mode)) ;; <
+      (setq buffer-read-only t)
+      (buffer-disable-undo)
+      (text-mode)))
   :hook (find-file . my/find-file-massive-basic)
   :custom
   (backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
@@ -1153,8 +1109,7 @@ Visual Undo to visualize the undo tree
 
 (use-package undo-fu-session
   :ensure t
-  :custom
-  (undo-fu-session-global-mode t))
+  :custom (undo-fu-session-global-mode t))
 #+end_src
 
 Always use utf-8 when possible. Also, move to trash rather than deleting
@@ -1173,7 +1128,8 @@ IBuffer for improved buffer management
 
 (use-package ibuffer-vc
   :ensure t
-  :bind (:map ibuffer-mode-map ("/ V" . ibuffer-vc-set-filter-groups-by-vc-root)))
+  :bind ( :map ibuffer-mode-map
+          ("/ V" . ibuffer-vc-set-filter-groups-by-vc-root)))
 #+end_src
 
 Never use tabs; always spaces. Also, always force DWIM if possible
@@ -1198,7 +1154,7 @@ Indent guides to check indentation
 #+begin_src emacs-lisp
 (use-package indent-bars
   :ensure t
-  :hook (prog-mode . indent-bars-mode)
+  :hook prog-mode
   :custom
   (indent-bars-ts-support t)
   (indent-bars-color '(highlight :blend 0.6))
@@ -1294,9 +1250,8 @@ Only needed on macOS and linux, or if launched as a daemon
 #+begin_src emacs-lisp
 (use-package ansi-color
   :functions
-  my/colorize-buffer
   ansi-color-apply-on-region
-  :init
+  :preface
   (defun my/colorize-buffer ()
     (let ((inhibit-read-only t))
       (ansi-color-apply-on-region (point-min) (point-max)))))
@@ -1366,6 +1321,7 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
 Also theming is borked if loaded before the end
 #+begin_src emacs-lisp
 ;; (load-theme my/theme t)
+(require 'ef-themes)
 (ef-themes-load-theme 'ef-elea-dark)
 #+end_src
 # TODO: treesit-utils, other prog modes, custom modeline, golden-ratio, dimmer, gptel/claude-code-ide/aidermacs
