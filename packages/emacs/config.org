@@ -527,8 +527,15 @@ public class [Class name from file name] {
                    (setq prettify-symbols-alist scala-prettify-symbols-alist)
                    (prettify-symbols-mode)))
   :config
-  (add-to-list 'project-vc-extra-root-markers "build.sbt"))
+  (add-to-list 'project-vc-extra-root-markers "build.sbt")
+  :bind
+  ( :map scala-mode-map
+    ("C-c C-r" . sbt-do-run)
+    ("C-c C-t" . sbt-do-test)))
 (use-package sbt-mode
+  :functions
+  sbt-do-run
+  sbt-do-test
   :ensure t)
 #+end_src
 
