@@ -569,6 +569,22 @@
         "type": "github"
       }
     },
+    "opencode-ralph": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767744507,
+        "narHash": "sha256-HIxrpiyLwPhUarqL8KxFmPHL/Cp4IkNF4eAiz+PGiSg=",
+        "owner": "rot13maxi",
+        "repo": "opencode-ralph",
+        "rev": "d8f58ffc3c0f37349b784dbbcd7dd517da038e35",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rot13maxi",
+        "repo": "opencode-ralph",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -610,6 +626,7 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nixvim": "nixvim",
         "nur": "nur",
+        "opencode-ralph": "opencode-ralph",
         "sops-nix": "sops-nix",
         "spicetify": "spicetify",
         "textfox": "textfox",

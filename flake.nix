@@ -55,6 +55,9 @@
 
     direnv-instant.url = "github:Mic92/direnv-instant";
     direnv-instant.inputs.nixpkgs.follows = "nixpkgs";
+
+    opencode-ralph.url = "github:rot13maxi/opencode-ralph";
+    opencode-ralph.flake = false;
   };
 
   outputs =
