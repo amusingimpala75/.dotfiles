@@ -10,6 +10,7 @@
   pandoc,
   python3,
   R,
+  scala-cli,
   stable ? null,
   texlive,
   unzip,
@@ -69,6 +70,7 @@ let
       })
       epkgs.nnnrss
       epkgs.org-modern-indent
+      epkgs.scala-cli-repl
       epkgs.toggleterm
       epkgs.reader
       epkgs.page-view
@@ -95,6 +97,7 @@ let
       mathjax-node-cli
       mpv-package
       pandoc
+      scala-cli
       texlive-package
       unzip
       yt-dlp-package

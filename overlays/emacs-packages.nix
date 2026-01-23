@@ -9,6 +9,7 @@ final: prev: {
         reader = efinal.callPackage ../packages/emacs/reader.nix { };
         page-view = efinal.callPackage ../packages/emacs/page-view.nix { };
         org-karthik = efinal.callPackage ../packages/emacs/org-karthik.nix { };
+        scala-cli-repl = efinal.callPackage ../packages/emacs/scala-cli-repl.nix { };
       }
     ));
 }

@@ -386,7 +386,8 @@ Since this is an emacs configuration after all, we use nix-mode
   (org-babel-do-load-languages 'org-babel-load-languages '((python . t)
                                                            (R . t)
                                                            (jupyter . t)
-                                                           (shell . t)))
+                                                           (shell . t)
+                                                           (scala-cli . t)))
   :preface
   (defun my/count-words-buffer ()
     (interactive)
@@ -537,6 +538,8 @@ public class [Class name from file name] {
   sbt-do-run
   sbt-do-test
   :ensure t)
+(use-package scala-cli-repl
+  :custom (ob-scala-cli-default-params '(:scala-version "3.0.0")))
 #+end_src
 
 *** Rust
