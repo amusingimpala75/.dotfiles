@@ -4,14 +4,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Repositories</title>
+    <title>repos</title>
     <link rel="stylesheet" href="/smol.css" />
+    <link rel="stylesheet" href="/main.css" />
+    <link rel="stylesheet" href="/vars.css" />
+    <style>
+      :root {
+          --grey: #888;
+      }
+    </style>
   </head>
   <body class="container">
     <header>
       <h1 class="text-xl">Repos</h1>
     </header>
-
     <main class="group">
       {{#repos}}
       <div class="group-h">
@@ -20,8 +26,9 @@
       </div>
       {{/repos}}
     </main>
+    <hr>
     <footer>
-      built for <a href="pgit">pgit</a> and modelled after <a href="https://git.erock.io">git.erock.io</a>
+      built for <a href="https://pgit.pico.sh">pgit</a> and modelled after <a href="https://git.erock.io">git.erock.io</a>
     </footer>
   </body>
 </html>

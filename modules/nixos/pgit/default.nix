@@ -100,7 +100,15 @@ in
         pname = "pgit-${v.name}";
         version = "0";
         src = v.source;
-        nativeBuildInputs = [ pkgs.git pkgs.pgit ];
+        nativeBuildInputs = [ pkgs.git (pkgs.pgit.overrideAttrs (old: {
+          version = "git+01-24-2026";
+          src = pkgs.fetchFromGitHub {
+            owner = "picosh";
+            repo = "pgit";
+            rev = "c251930645ab9ce98fe48d4839c7d0563ff004be";
+            hash = "sha256-H2y22WotM2UmUXHJvgC1XR5i0pOKQIQRX9tALD47SCE=";
+          };
+        })) ];
         phases = [ "unpackPhase" "buildPhase" ];
         buildPhase = ''
           pgit --out $out/"${v.name}" \
@@ -125,6 +133,8 @@ in
       })];
       postBuild = ''
         find $out -name smol.css -exec cp "{}" $out/smol.css \;
+        find $out -name main.css -exec cp "{}" $out/main.css \;
+        find $out -name vars.css -exec cp "{}" $out/vars.css \;
       '';
     };
   };
