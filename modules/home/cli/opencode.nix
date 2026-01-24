@@ -13,7 +13,7 @@
   config = lib.mkIf config.my.opencode.enable {
     programs.opencode = {
       enable = true;
-      package = pkgs.bleeding.opencode;
+      package = pkgs.opencode;
       settings = {
         model = "openrouter/mistralai/devstral-2512:free";
         autoupdate = false;
