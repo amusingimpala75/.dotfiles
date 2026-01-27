@@ -58,6 +58,11 @@
 
     opencode-ralph.url = "github:rot13maxi/opencode-ralph";
     opencode-ralph.flake = false;
+
+    oh-my-opencode-vendor.url = "github:murlakatam/nixos?dir=overlays";
+    oh-my-opencode-vendor.flake = false;
+    oh-my-opencode.url = "github:code-yeongyu/oh-my-opencode";
+    oh-my-opencode.flake = false;
   };
 
   outputs =
@@ -90,6 +95,11 @@
                       mainProgram = "nvim";
                     };
                   });
+            };
+            oh-my-opencode = (import "${inputs.oh-my-opencode-vendor}/oh-my-opencode-overlay.nix") {
+              inputs = {
+                ohMyOpencodeSrc = inputs.oh-my-opencode;
+              };
             };
           };
         };

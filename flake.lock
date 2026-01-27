@@ -569,6 +569,40 @@
         "type": "github"
       }
     },
+    "oh-my-opencode": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769530849,
+        "narHash": "sha256-Zni/jJBKDNOgQ/zVBC2bEGBkEpPDsDdn4CEDV7+P1yc=",
+        "owner": "code-yeongyu",
+        "repo": "oh-my-opencode",
+        "rev": "8dff875929b7770f476e8ce9bf887b31f1fd090a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "code-yeongyu",
+        "repo": "oh-my-opencode",
+        "type": "github"
+      }
+    },
+    "oh-my-opencode-vendor": {
+      "flake": false,
+      "locked": {
+        "dir": "overlays",
+        "lastModified": 1769513798,
+        "narHash": "sha256-GMSfj3qejpjshpepRqpKQd3fpCdZ4nKn77T8wfVRQzk=",
+        "owner": "murlakatam",
+        "repo": "nixos",
+        "rev": "db03fea4e41eb8404a7ca965b17fabdf32491cc8",
+        "type": "github"
+      },
+      "original": {
+        "dir": "overlays",
+        "owner": "murlakatam",
+        "repo": "nixos",
+        "type": "github"
+      }
+    },
     "opencode-ralph": {
       "flake": false,
       "locked": {
@@ -626,6 +660,8 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nixvim": "nixvim",
         "nur": "nur",
+        "oh-my-opencode": "oh-my-opencode",
+        "oh-my-opencode-vendor": "oh-my-opencode-vendor",
         "opencode-ralph": "opencode-ralph",
         "sops-nix": "sops-nix",
         "spicetify": "spicetify",

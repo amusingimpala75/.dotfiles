@@ -15,11 +15,14 @@
       enable = true;
       package = pkgs.opencode;
       settings = {
-        model = "openrouter/mistralai/devstral-2512:free";
+        model = "github-copilot/grok-code-fast-1";
         autoupdate = false;
         theme = "system";
-        enabled_providers = [ "openrouter" ];
+        enabled_providers = [ "openrouter" "github-copilot" ];
         provider.openrouter.options.apiKey = "{file:${config.sops.templates.openrouter_api_key.path}}";
+        plugin = [
+          "file://${pkgs.oh-my-opencode}/share/oh-my-opencode/dist/index.js"
+        ];
       };
     };
 
@@ -32,6 +35,20 @@
       "${inputs.opencode-ralph}/command/ralph-help.md";
     xdg.configFile."opencode/command/ralph-loop.md".source =
       "${inputs.opencode-ralph}/command/ralph-loop.md";
+
+    xdg.configFile."opencode/oh-my-opencode.json".text = builtins.toJSON {
+      "$schema" = "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json";
+      agents = {
+        "Sisyphus" = { model = "github-copilot/grok-code-fast-1"; };
+        "oracle" = { model = "github-copilot/grok-code-fast-1"; };
+        "librarian" = { model = "github-copilot/grok-code-fast-1"; };
+        "explore" = { model = "github-copilot/grok-code-fast-1"; };
+        "multimodal-looker" = { model = "github-copilot/grok-code-fast-1"; };
+        "Prometheus" = { model = "github-copilot/grok-code-fast-1"; };
+        "Metis" = { model = "github-copilot/grok-code-fast-1"; };
+        "Momus" = { model = "github-copilot/grok-code-fast-1"; };
+      };
+    };
 
     sops.secrets.openrouter_api_key = { };
     sops.templates.openrouter_api_key.content = "${config.sops.placeholder.openrouter_api_key}";

@@ -49,6 +49,7 @@ in
         nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default;
       })
       inputs.nur.overlays.default
+      self.overlays.oh-my-opencode
       (final: prev: { spicetify = inputs.spicetify.legacyPackages.${final.stdenv.hostPlatform.system}; })
     ];
   };
