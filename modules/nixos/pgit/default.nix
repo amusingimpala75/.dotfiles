@@ -33,55 +33,63 @@ in
     };
     repos = lib.mkOption {
       default = { };
-      type = lib.types.listOf (lib.types.submodule ({ config, ... }: {
-        options = {
-          name = lib.mkOption {
-            type = lib.types.str;
-            example = "my-repo";
-            description = "name of the repository";
-          };
-          root = lib.mkOption {
-            type = lib.types.str;
-            example = "/my-repo/";
-            default = "/${config.name}/";
-            description = "relative url of root directory";
-          };
-          revs = lib.mkOption {
-            type = lib.types.listOf lib.types.str;
-            default = [ "HEAD" ];
-            example = [ "HEAD" "v1.1.0" ];
-            description = "revisions to generate";
-          };
-          url = lib.mkOption {
-            type = lib.types.str;
-            default = "${config'.services.pgit.homeUrl}${config.root}.git";
-            example = "https://github.com/myuser/myrepo.git";
-          };
-          description = lib.mkOption {
-            type = lib.types.lines;
-            description = "Description of the project";
-          };
-          cloneRev = lib.mkOption {
-            type = lib.types.str;
-            example = "v1";
-            description = "revision to clone for pgit (probably latest)";
-          };
-          cloneHash = lib.mkOption {
-            type = lib.types.str;
-            example = "sha256-...";
-            description = "hash of cloned project";
-          };
-          source = lib.mkOption {
-            # type = ?
-            default = pkgs.fetchgit {
-              url = config.url;
-              rev = config.cloneRev;
-              hash = config.cloneHash;
-              deepClone = true;
+      type = lib.types.listOf (
+        lib.types.submodule (
+          { config, ... }:
+          {
+            options = {
+              name = lib.mkOption {
+                type = lib.types.str;
+                example = "my-repo";
+                description = "name of the repository";
+              };
+              root = lib.mkOption {
+                type = lib.types.str;
+                example = "/my-repo/";
+                default = "/${config.name}/";
+                description = "relative url of root directory";
+              };
+              revs = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                default = [ "HEAD" ];
+                example = [
+                  "HEAD"
+                  "v1.1.0"
+                ];
+                description = "revisions to generate";
+              };
+              url = lib.mkOption {
+                type = lib.types.str;
+                default = "${config'.services.pgit.homeUrl}${config.root}.git";
+                example = "https://github.com/myuser/myrepo.git";
+              };
+              description = lib.mkOption {
+                type = lib.types.lines;
+                description = "Description of the project";
+              };
+              cloneRev = lib.mkOption {
+                type = lib.types.str;
+                example = "v1";
+                description = "revision to clone for pgit (probably latest)";
+              };
+              cloneHash = lib.mkOption {
+                type = lib.types.str;
+                example = "sha256-...";
+                description = "hash of cloned project";
+              };
+              source = lib.mkOption {
+                # type = ?
+                default = pkgs.fetchgit {
+                  url = config.url;
+                  rev = config.cloneRev;
+                  hash = config.cloneHash;
+                  deepClone = true;
+                };
+              };
             };
-          };
-        };
-      }));
+          }
+        )
+      );
       example = {
         dotfiles = {
           name = "dotfiles";
@@ -96,41 +104,53 @@ in
   config = lib.mkIf config.services.pgit.enable {
     environment.etc."pgit".source = pkgs.symlinkJoin {
       name = "pgit-repos";
-      paths = (lib.map (v: pkgs.stdenv.mkDerivation {
-        pname = "pgit-${v.name}";
-        version = "0";
-        src = v.source;
-        nativeBuildInputs = [ pkgs.git (pkgs.pgit.overrideAttrs (old: {
-          version = "git+01-24-2026";
-          src = pkgs.fetchFromGitHub {
-            owner = "picosh";
-            repo = "pgit";
-            rev = "c251930645ab9ce98fe48d4839c7d0563ff004be";
-            hash = "sha256-H2y22WotM2UmUXHJvgC1XR5i0pOKQIQRX9tALD47SCE=";
-          };
-        })) ];
-        phases = [ "unpackPhase" "buildPhase" ];
-        buildPhase = ''
-          pgit --out $out/"${v.name}" \
-               --root-relative "${v.root}" \
-               --home-url "${config.services.pgit.homeUrl}" \
-               --theme "${config.services.pgit.theme}" \
-               --label "${v.name}" \
-               --clone-url "${v.url}" \
-               --desc "${v.description}" \
-               --revs "${lib.join "," v.revs}"
-        '';
-      }) config.services.pgit.repos)
-      ++ [(pkgs.stdenv.mkDerivation {
-        pname = "pgit-index";
-        version = "0";
-        nativeBuildInputs = [ pkgs.mustache-go ];
-        phases = [ "buildPhase" ];
-        buildPhase = ''
-          mkdir -p $out
-          mustache ${config.services.pgit.index} < ${mustacheRepositories} > $out/index.html
-        '';
-      })];
+      paths =
+        (lib.map (
+          v:
+          pkgs.stdenv.mkDerivation {
+            pname = "pgit-${v.name}";
+            version = "0";
+            src = v.source;
+            nativeBuildInputs = [
+              pkgs.git
+              (pkgs.pgit.overrideAttrs (old: {
+                version = "git+01-24-2026";
+                src = pkgs.fetchFromGitHub {
+                  owner = "picosh";
+                  repo = "pgit";
+                  rev = "c251930645ab9ce98fe48d4839c7d0563ff004be";
+                  hash = "sha256-H2y22WotM2UmUXHJvgC1XR5i0pOKQIQRX9tALD47SCE=";
+                };
+              }))
+            ];
+            phases = [
+              "unpackPhase"
+              "buildPhase"
+            ];
+            buildPhase = ''
+              pgit --out $out/"${v.name}" \
+                   --root-relative "${v.root}" \
+                   --home-url "${config.services.pgit.homeUrl}" \
+                   --theme "${config.services.pgit.theme}" \
+                   --label "${v.name}" \
+                   --clone-url "${v.url}" \
+                   --desc "${v.description}" \
+                   --revs "${lib.join "," v.revs}"
+            '';
+          }
+        ) config.services.pgit.repos)
+        ++ [
+          (pkgs.stdenv.mkDerivation {
+            pname = "pgit-index";
+            version = "0";
+            nativeBuildInputs = [ pkgs.mustache-go ];
+            phases = [ "buildPhase" ];
+            buildPhase = ''
+              mkdir -p $out
+              mustache ${config.services.pgit.index} < ${mustacheRepositories} > $out/index.html
+            '';
+          })
+        ];
       postBuild = ''
         find $out -name smol.css -exec cp "{}" $out/smol.css \;
         find $out -name main.css -exec cp "{}" $out/main.css \;

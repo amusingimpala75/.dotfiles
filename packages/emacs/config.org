@@ -1340,7 +1340,8 @@ Apparently this is supposed to be the last thing ever hooked to ensure proper fu
   :functions envrc-propagate-environment
   :config
   (advice-add 'Man-completion-table :around #'envrc-propagate-environment)
-  (advice-add 'sql-sqlite :around #'envrc-propagate-environment))
+  (advice-add 'sql-sqlite :around #'envrc-propagate-environment)
+  (advice-add 'my/org-latex-export-to-docx :around #'envrc-propagate-environment))
 #+end_src
 
 Also theming is borked if loaded before the end

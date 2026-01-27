@@ -18,14 +18,14 @@ let
   back-main = builtins.mapAttrs (
     k: v: [
       v
-      ''mode main''
+      "mode main"
     ]
   );
 
   exec-back-main = builtins.mapAttrs (
     k: v: [
-      ''exec-and-forget ${v} ''
-      ''mode main''
+      "exec-and-forget ${v} "
+      "mode main"
     ]
   );
 
@@ -115,14 +115,14 @@ in
               // (gen-vim-directions "alt-shift" "join-with")
             );
           launch.binding = {
-            esc = ''mode main'';
+            esc = "mode main";
           }
           // exec-back-main {
-            e = ''${config.my.emacs.package}/bin/${config.my.emacs.gui-command} '';
+            e = "${config.my.emacs.package}/bin/${config.my.emacs.gui-command} ";
             m = ''${ghostty_and} "${float_and} ${btop}"'';
-            f = ''open ~/'';
+            f = "open ~/";
             s = ''open "x-apple.systempreferences:"'';
-            p = ''open /System/Applications/Passwords.app/'';
+            p = "open /System/Applications/Passwords.app/";
             r = ''${ghostty_and} "${float_and} zsh -ic reload-hm" --wait-after-command '';
           };
         };

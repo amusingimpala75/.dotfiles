@@ -15,5 +15,9 @@ trivialBuild {
     rev = "a6e91851d8617ab340b5cc8bdbd7b93fd89a2316";
     hash = "sha256-XWdu4rvoubCNZH3v+cfeWLy0IPxElyPQ4AqdrSZkjaM=";
   };
-  packageRequires = [ s scala-mode xterm-color ];
+  packageRequires = [
+    s
+    scala-mode
+    xterm-color
+  ];
 }
