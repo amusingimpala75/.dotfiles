@@ -39,14 +39,14 @@
     xdg.configFile."opencode/oh-my-opencode.json".text = builtins.toJSON {
       "$schema" = "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json";
       agents = {
-        "Sisyphus" = { model = "github-copilot/grok-code-fast-1"; };
-        "oracle" = { model = "github-copilot/grok-code-fast-1"; };
+        "Sisyphus" = { model = "github-copilot/claude-opus-4.5"; };
+        "oracle" = { model = "github-copilot/gpt-5.2"; };
         "librarian" = { model = "github-copilot/grok-code-fast-1"; };
-        "explore" = { model = "github-copilot/grok-code-fast-1"; };
-        "multimodal-looker" = { model = "github-copilot/grok-code-fast-1"; };
-        "Prometheus" = { model = "github-copilot/grok-code-fast-1"; };
-        "Metis" = { model = "github-copilot/grok-code-fast-1"; };
-        "Momus" = { model = "github-copilot/grok-code-fast-1"; };
+        "explore" = { model = "github-copilot/gpt-5-mini"; };
+        "multimodal-looker" = { model = "github-copilot/gemini-3-flash"; };
+        "Prometheus" = { model = "github-copilot/claude-opus-4.5"; };
+        "Metis" = { model = "github-copilot/claude-sonnet-4.5"; };
+        "Momus" = { model = "github-copilot/claude-sonnet-4.5"; };
       };
     };
 
