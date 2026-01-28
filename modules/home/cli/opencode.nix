@@ -21,7 +21,7 @@
         enabled_providers = [ "openrouter" "github-copilot" ];
         provider.openrouter.options.apiKey = "{file:${config.sops.templates.openrouter_api_key.path}}";
         plugin = [
-          "file://${pkgs.oh-my-opencode}/share/oh-my-opencode/dist/index.js"
+          "oh-my-opencode@v3.1.6"
         ];
       };
     };
