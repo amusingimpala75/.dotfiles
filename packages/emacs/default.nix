@@ -80,8 +80,15 @@ let
     };
   };
 
-  texlive-package =
-    if stable != null then stable.texlive.combined.scheme-full else texlive.combined.scheme-full;
+  texlive-base = if stable != null then stable.texlive else texlive;
+
+  texlive-package = texlive-base.combine {
+    inherit (texlive-base)
+      scheme-medium
+      mylatexformat preview    # for latex preview
+      capt-of                  # for tikz automata
+      ;
+  };
 
   yt-dlp-package = if bleeding != null then bleeding.yt-dlp else yt-dlp;
   # this is only necessary since we're already pulling yt-dlp as bleeding;
