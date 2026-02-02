@@ -1,7 +1,6 @@
 {
   # pkgs
   aspellWithDicts,
-  bleeding ? null,
   emacs,
   emacsPackagesFor,
   ghostscript,
@@ -15,7 +14,6 @@
   texlive,
   unzip,
   vimPlugins,
-  yt-dlp,
   zip,
 
   # builders
@@ -90,24 +88,17 @@ let
       ;
   };
 
-  yt-dlp-package = if bleeding != null then bleeding.yt-dlp else yt-dlp;
-  # this is only necessary since we're already pulling yt-dlp as bleeding;
-  # there is no reason to then pull mpv as unstable as
-  # that then pulls in yt-dlp as stable as well, extraneous extra packages
-  mpv-package = if bleeding != null then bleeding.mpv else mpv;
-
   deps = symlinkJoin {
     name = "emacs30-path-additions";
     paths = [
       (aspellWithDicts (dicts: [ dicts.en ]))
       ghostscript
       mathjax-node-cli
-      mpv-package
+      mpv
       pandoc
       scala-cli
       texlive-package
       unzip
-      yt-dlp-package
       zip
 
       # There has to be a way so that ob-jupyter
