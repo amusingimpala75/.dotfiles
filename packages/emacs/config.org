@@ -306,6 +306,14 @@ Actually add the snippets
     (insert-pair arg ?\" ?\")))
 #+end_src
 
+*** prog-mode
+#+begin_src emacs-lisp
+(use-package prog-mode
+  :bind
+  ( :map prog-mode-map
+    ("S-<return>" . comment-indent-new-line)))
+#+end_src
+
 *** Markdown
 While many READMEs are in Markdown, this is actually here so that Eldoc (and thus corfu-popupinfo) renders docstrings correctly
 #+begin_src emacs-lisp
