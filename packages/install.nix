@@ -3,12 +3,11 @@
   dotdir ? "~/.dotfiles",
   ...
 }:
-(scriptWrapper "install" [ ]).overrideAttrs (prev: {
-  postBuild = (if prev ? "postBuild" then prev.postBuild else "") + " --set DOTDIR ${dotdir}";
-})
-// {
-  meta = {
+(scriptWrapper {
+  path = ./install.sh;
+  extraMeta = {
     description = "Installation script for my dotfiles";
-    mainProgram = "install";
   };
-}
+}).overrideAttrs(prev: {
+  postBuild = (if prev ? "postBuild" then prev.postBuild else "") + "--set DOTDIR ${dotdir}";
+})

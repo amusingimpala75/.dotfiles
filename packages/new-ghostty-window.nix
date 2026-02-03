@@ -4,8 +4,10 @@
   scriptWrapper,
   ...
 }:
-(scriptWrapper "new-ghostty-window" [ ripgrep ]).overrideAttrs (old: {
-  meta = {
+scriptWrapper {
+  path = ./new-ghostty-window.sh;
+  deps = [ ripgrep ];
+  extraMeta = {
     platforms = lib.platforms.darwin;
   };
-})
+}

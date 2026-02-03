@@ -1,6 +1,14 @@
 {
   aerospace,
   scriptWrapper,
+
+  lib,
   ...
 }:
-scriptWrapper "float_and" [ aerospace ]
+scriptWrapper {
+  path = ./float_and.sh;
+  extraMeta = {
+    platforms = lib.platforms.darwin;
+  };
+  deps = [ aerospace ];
+}
