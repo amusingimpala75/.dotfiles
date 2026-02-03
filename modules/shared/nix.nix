@@ -15,12 +15,11 @@ in
   config.nix = {
     settings = {
       experimental-features = [
-        "nix-command"
         "flakes"
+        "nix-command"
+        "pipe-operators"
       ];
       flake-registry = "";
-      # } // lib.optionalAttrs (!isHomeManager) {
-      #   sandbox = true;
     };
     package = pkgs.nixVersions.nix_2_28;
     registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
