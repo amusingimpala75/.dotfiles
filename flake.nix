@@ -66,6 +66,7 @@
       flakeModules = {
         autowire = import ./modules/flake/autowire.nix;
         modules = import ./modules/flake/modules.nix;
+        nix = import ./modules/flake/nix.nix;
         nixpkgs = import ./modules/flake/nixpkgs.nix;
         nixvim = import ./modules/flake/nixvim.nix;
       };
@@ -78,6 +79,7 @@
       {
         _module.args.root = ./.;
         imports = [
+          inputs.flake-parts.flakeModules.modules
           inputs.nix-darwin.flakeModules.default
           inputs.home-manager.flakeModules.home-manager
           inputs.nixvim.flakeModules.default

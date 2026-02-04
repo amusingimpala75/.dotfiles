@@ -17,7 +17,6 @@ in
     ./nix
     # ./nushell
     ./rice
-    ../shared/nix.nix
     ./sops
     ./spotify
     ./starship

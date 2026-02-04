@@ -5,7 +5,7 @@
 let
   darwinModules = config.flake.modules.darwin or { };
   genericModules = config.flake.modules.generic or { };
-  homeModules = config.flake.modules.home or { };
+  homeModules = config.flake.modules.homeManager or { };
   nixosModules = config.flake.modules.nixos or { };
 in
 {
