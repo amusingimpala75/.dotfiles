@@ -28,6 +28,7 @@
       chafa
       killall
       scc
+      sd
       tree
     ];
 
