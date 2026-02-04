@@ -5,6 +5,8 @@
   ];
   home.username = "murrayle23";
 
+  programs.nix-index.enable = lib.mkForce false;
+
   my = {
     cli.enable = true;
     emacs.enable = true;
