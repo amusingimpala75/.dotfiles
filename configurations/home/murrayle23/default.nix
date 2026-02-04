@@ -1,5 +1,8 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, self, ... }:
 {
+  imports = with self.modules.homeManager; [
+    pi
+  ];
   home.username = "murrayle23";
 
   my = {

@@ -58,6 +58,10 @@
 
     opencode-ralph.url = "github:rot13maxi/opencode-ralph";
     opencode-ralph.flake = false;
+
+    # TODO not necessary after pi in nixpkgs
+    llm-agents.url = "github:numtide/llm-agents.nix";
+    llm-agents.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -69,6 +73,7 @@
         nix = import ./modules/flake/nix.nix;
         nixpkgs = import ./modules/flake/nixpkgs.nix;
         nixvim = import ./modules/flake/nixvim.nix;
+        pi = import ./modules/flake/pi.nix;
       };
     in
     flake-parts.lib.mkFlake { inherit inputs; } (
