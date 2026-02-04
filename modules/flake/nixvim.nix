@@ -19,7 +19,9 @@
     checks.enable = true;
   };
 
-  perSystem = { pkgs, ... }: {
-    packages.nixvim = pkgs.my-nvim;
-  };
+  perSystem =
+    { pkgs, ... }:
+    {
+      packages.nixvim = pkgs.my-nvim;
+    };
 }

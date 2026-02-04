@@ -29,19 +29,27 @@ let
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
     self.overlays.nixvim
-    (final: _: { nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default; })
+    (final: _: {
+      nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default;
+    })
     inputs.nur.overlays.default
     (final: _: { spicetify = inputs.spicetify.legacyPackages.${final.stdenv.hostPlatform.system}; })
-    (final: _: { stable = import-nixpkgs (if final.stdenv.isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos) final.stdenv.hostPlatform.system; })
+    (final: _: {
+      stable = import-nixpkgs (
+        if final.stdenv.isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos
+      ) final.stdenv.hostPlatform.system;
+    })
   ];
 
   overlays = additive-overlays ++ override-overlays;
 
-  import-nixpkgs = np: system: import np {
-    inherit system;
-    config.allowUnfreePredicate = unfree-predicate;
-    overlays = override-overlays;
-  };
+  import-nixpkgs =
+    np: system:
+    import np {
+      inherit system;
+      config.allowUnfreePredicate = unfree-predicate;
+      overlays = override-overlays;
+    };
 
   config = {
     nixpkgs = {
@@ -54,10 +62,12 @@ in
   flake.modules.generic.nixpkgs = {
     inherit config;
   };
-  perSystem = { system, ... }: {
-    _module.args.pkgs = import inputs.nixpkgs {
-      inherit system;
-      inherit (config.nixpkgs) config overlays;
+  perSystem =
+    { system, ... }:
+    {
+      _module.args.pkgs = import inputs.nixpkgs {
+        inherit system;
+        inherit (config.nixpkgs) config overlays;
+      };
     };
-  };
 }

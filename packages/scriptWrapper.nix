@@ -8,24 +8,29 @@
 }:
 {
   path,
-  name ? path
+  name ?
+    path
     # Strip leading directories
     |> baseNameOf
-    # Remove suffix 
+    # Remove suffix
     |> lib.removeSuffix ".sh",
-  deps ? [],
-  extraMeta ? {},
+  deps ? [ ],
+  extraMeta ? { },
 }:
 let
-  script = path
+  script =
+    path
     |> builtins.readFile
     |> writeScriptBin name
-    |> (drv: drv.overrideAttrs (old: {
-      buildCommand = ''
-        ${old.buildCommand}
-        patchShebangs $out
-      '';
-    }));
+    |> (
+      drv:
+      drv.overrideAttrs (old: {
+        buildCommand = ''
+          ${old.buildCommand}
+          patchShebangs $out
+        '';
+      })
+    );
 in
 symlinkJoin {
   pname = name;
@@ -36,5 +41,6 @@ symlinkJoin {
   meta = {
     mainProgram = name;
     description = "wrapped shell script";
-  } // extraMeta;
+  }
+  // extraMeta;
 }

@@ -83,8 +83,9 @@ let
   texlive-package = texlive-base.combine {
     inherit (texlive-base)
       scheme-medium
-      mylatexformat preview    # for latex preview
-      capt-of                  # for tikz automata
+      mylatexformat
+      preview # for latex preview
+      capt-of # for tikz automata
       ;
   };
 

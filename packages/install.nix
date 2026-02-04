@@ -8,6 +8,7 @@
   extraMeta = {
     description = "Installation script for my dotfiles";
   };
-}).overrideAttrs(prev: {
-  postBuild = (if prev ? "postBuild" then prev.postBuild else "") + "--set DOTDIR ${dotdir}";
-})
+}).overrideAttrs
+  (prev: {
+    postBuild = (if prev ? "postBuild" then prev.postBuild else "") + "--set DOTDIR ${dotdir}";
+  })

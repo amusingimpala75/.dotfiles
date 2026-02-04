@@ -81,7 +81,8 @@
           inputs.nix-darwin.flakeModules.default
           inputs.home-manager.flakeModules.home-manager
           inputs.nixvim.flakeModules.default
-        ] ++ (builtins.attrValues flakeModules);
+        ]
+        ++ (builtins.attrValues flakeModules);
 
         flake = {
           inherit flakeModules;
