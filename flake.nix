@@ -63,35 +63,28 @@
   outputs =
     inputs@{ flake-parts, ... }:
     let
-      root = ./.;
+      flakeModules = {
+        autowire = import ./modules/flake/autowire.nix;
+        modules = import ./modules/flake/modules.nix;
+        nixpkgs = import ./modules/flake/nixpkgs.nix;
+        nixvim = import ./modules/flake/nixvim.nix;
+      };
     in
     flake-parts.lib.mkFlake { inherit inputs; } (
       {
         lib,
-        self,
         ...
       }:
       {
-        _module.args.root = root;
+        _module.args.root = ./.;
         imports = [
+          inputs.nix-darwin.flakeModules.default
           inputs.home-manager.flakeModules.home-manager
           inputs.nixvim.flakeModules.default
-          (import ./modules/flake/autowire.nix)
-        ];
+        ] ++ (builtins.attrValues flakeModules);
 
         flake = {
-          overlays = {
-            nixvim = final: prev: {
-              my-nvim =
-                self.nixvimConfigurations.${final.stdenv.hostPlatform.system}.nixvim.config.build.package.overrideAttrs
-                  (old: {
-                    meta = old.meta // {
-                      description = "my neovim configuration";
-                      mainProgram = "nvim";
-                    };
-                  });
-            };
-          };
+          inherit flakeModules;
         };
 
         autowire = {
@@ -106,46 +99,19 @@
           templates.enable = true;
         };
 
-        nixvim = {
-          # We have to manually override with pname and description
-          packages.enable = false;
-          checks.enable = true;
-        };
-
         systems = lib.systems.flakeExposed;
         perSystem =
           {
             self',
-            lib,
             pkgs,
-            system,
             ...
           }:
           {
-            _module.args.pkgs =
-              let
-                shared-nixpkgs-config =
-                  ((import modules/shared/nixpkgs.nix) {
-                    inherit
-                      inputs
-                      lib
-                      root
-                      self
-                      ;
-                  }).config.nixpkgs;
-              in
-              import inputs.nixpkgs {
-                inherit system;
-                config = shared-nixpkgs-config.config;
-                overlays = shared-nixpkgs-config.overlays;
-              };
-
             packages = {
               default = self'.packages.install;
 
               emacs = pkgs.my.emacs;
               install = pkgs.my.install;
-              nixvim = pkgs.my-nvim;
             };
 
             devShells.default = pkgs.mkShell {

@@ -3,7 +3,7 @@
   imports = [
     inputs.nixos-wsl.nixosModules.default
     ./pgit
-    ../shared
+    ../shared/nix.nix
     ./zsh
   ];
 }

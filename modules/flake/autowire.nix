@@ -78,6 +78,7 @@
             modules = [
               "${config.autowire.configurations.darwin.path}/${name}"
               "${root}/modules/darwin"
+              config.flake.modules.generic.nixpkgs
             ];
           }
         ) (builtins.readDir "${config.autowire.configurations.darwin.path}")
@@ -91,6 +92,7 @@
             modules = [
               "${config.autowire.configurations.nixos.path}/${name}"
               "${root}/modules/nixos"
+              config.flake.modules.generic.nixpkgs
             ];
           }
         ) (builtins.readDir "${config.autowire.configurations.nixos.path}")
@@ -128,6 +130,7 @@
               modules = [
                 "${config.autowire.configurations.home.path}/${name}"
                 "${root}/modules/home"
+                config.flake.modules.generic.nixpkgs
               ];
               extraSpecialArgs = { inherit inputs root self; };
             }
