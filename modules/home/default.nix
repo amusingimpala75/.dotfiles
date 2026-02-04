@@ -1,9 +1,12 @@
-{ pkgs, config, ... }:
+{ config, pkgs, self, ... }:
 let
   stdenv = pkgs.stdenv;
 in
 {
-  imports = [
+  imports = with self.modules.homeManager; with self.modules.generic; [
+    nixpkgs
+    nix
+
     ./alacritty
     ./bat
     ./cli
