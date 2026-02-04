@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 let
@@ -14,13 +13,14 @@ in
     programs.jujutsu = {
       enable = true;
       settings = {
+        fsmonitor.backend = "watchman";
+        revsets.log = "all()";
+        ui.default-command = "log";
         user = {
           name = lib.mkIf (cfg.username != null) cfg.username;
           email = lib.mkIf (cfg.email != null) cfg.email;
         };
-        fsmonitor.backend = "watchman";
         working-copy.eol-conversion = "input";
-        ui.default-command = "log";
       };
     };
   };
