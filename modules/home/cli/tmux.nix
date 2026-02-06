@@ -15,6 +15,7 @@
         set -g status off
       '';
       historyLimit = 50000;
+      newSession = true;
       secureSocket = true;
       shortcut = "q";
       terminal = "xterm-direct";

@@ -38,7 +38,7 @@ in
         (lib.mkBefore ''
           if [ -z "$TMUX" ]
           then
-            tmux
+            tmux a -t 0
             exit
           fi
         '')
