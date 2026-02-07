@@ -20,7 +20,6 @@
     my.bat.enable = true;
     my.direnv.enable = true;
     my.nix.enable = true;
-    my.tmux.enable = true;
     my.zsh.enable = true;
 
     home.packages = with pkgs; [

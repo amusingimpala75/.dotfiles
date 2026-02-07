@@ -8,7 +8,6 @@
 {
   imports = with self.modules.homeManager; [
     pi
-    zen
   ];
 
   home.username = "lukemurray";
@@ -41,8 +40,9 @@
     };
     ghostty.enable = true;
     jankyborders.enable = true;
-    spotify.enable = true;
   };
+
+  programs.nix-index.enable = false;
 
   programs.tmux.terminal = lib.mkForce "xterm-ghostty";
 
@@ -63,7 +63,6 @@
     with pkgs;
     [
       jq
-      my-nvim
       ntfy-sh
       yq-go
 
@@ -76,8 +75,6 @@
       # if `xcode-install --select` isn't run first
       gcc
       git
-      # macOS only apps
-      utm
       # macOS utilities
       darwin.trash # TODO cross-platform
       # Casks

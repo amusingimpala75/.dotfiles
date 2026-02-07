@@ -20,11 +20,8 @@ in
   config = lib.mkIf cfg.enable {
     programs.direnv = {
       enable = true;
-      enableBashIntegration = false;
-      enableZshIntegration = false;
       nix-direnv.enable = true;
       silent = true;
     };
-    programs.direnv-instant.enable = true;
   };
 }
