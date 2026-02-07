@@ -1,11 +1,16 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
+  self,
   ...
 }:
 {
+  imports = with self.modules.homeManager; [
+    pi
+    zen
+  ];
+
   home.username = "lukemurray";
 
   my = {
@@ -37,7 +42,6 @@
     ghostty.enable = true;
     jankyborders.enable = true;
     spotify.enable = true;
-    opencode.enable = true;
   };
 
   programs.tmux.terminal = lib.mkForce "xterm-ghostty";
@@ -76,9 +80,6 @@
       # macOS utilities
       pkgs.darwin.trash # TODO cross-platform
     ];
-
-  imports = [ inputs.zen-browser.homeModules.beta ];
-  programs.zen-browser.enable = true;
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings

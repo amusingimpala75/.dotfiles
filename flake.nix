@@ -74,6 +74,7 @@
         nixpkgs = import ./modules/flake/nixpkgs.nix;
         nixvim = import ./modules/flake/nixvim.nix;
         pi = import ./modules/flake/pi.nix;
+        zen = import ./modules/flake/zenbrowser.nix;
       };
     in
     flake-parts.lib.mkFlake { inherit inputs; } (
