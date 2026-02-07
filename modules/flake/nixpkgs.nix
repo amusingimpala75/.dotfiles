@@ -25,6 +25,8 @@ let
     inputs.alacritty-theme.overlays.default
     inputs.bible.overlays.default
     (final: _: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system; })
+    inputs.brew-nix.overlays.default
+    self.overlays.brew-hashes
     self.overlays.default
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages

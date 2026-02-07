@@ -81,6 +81,48 @@
         "type": "github"
       }
     },
+    "brew-api": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770494676,
+        "narHash": "sha256-uKlT2P/iBnIvgmMFm4pKJTp6QRwen9I0CIANq66WdKk=",
+        "owner": "BatteredBunny",
+        "repo": "brew-api",
+        "rev": "76c2506e8fd0fdce467d3b8a7153a83a90507def",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BatteredBunny",
+        "repo": "brew-api",
+        "type": "github"
+      }
+    },
+    "brew-nix": {
+      "inputs": {
+        "brew-api": [
+          "brew-api"
+        ],
+        "nix-darwin": [
+          "nix-darwin"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1764779851,
+        "narHash": "sha256-7WrgeIYBEuFG7DZtS8dio0y9nvRHf3otk7oqsPIoECs=",
+        "owner": "BatteredBunny",
+        "repo": "brew-nix",
+        "rev": "b314426c17667bcebd73ed7e57ecae2bac9755cf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BatteredBunny",
+        "repo": "brew-nix",
+        "type": "github"
+      }
+    },
     "direnv-instant": {
       "inputs": {
         "flake-parts": "flake-parts_3",
@@ -656,6 +698,8 @@
       "inputs": {
         "alacritty-theme": "alacritty-theme",
         "bible": "bible",
+        "brew-api": "brew-api",
+        "brew-nix": "brew-nix",
         "direnv-instant": "direnv-instant",
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts_4",
