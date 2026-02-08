@@ -75,6 +75,8 @@
       # if `xcode-install --select` isn't run first
       gcc
       git
+      # macOS Apps
+      orbstack
       # macOS utilities
       darwin.trash # TODO cross-platform
       # Casks

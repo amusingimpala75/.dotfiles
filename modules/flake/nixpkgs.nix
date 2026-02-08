@@ -13,6 +13,7 @@ let
       "gaoptout" # Google Analytics Opt-Out Firefox Addon
       "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
       "modrinth-app-unwrapped"
+      "orbstack"
       "slack"
       "spacefox-theme"
       "spotify"
