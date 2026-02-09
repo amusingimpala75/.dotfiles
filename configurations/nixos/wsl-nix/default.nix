@@ -5,7 +5,7 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ pkgs, ... }:
+{ ... }:
 
 {
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -16,10 +16,7 @@
 
   programs.ssh.startAgent = true;
 
-  environment.sessionVariables = {
-    TERM = "wezterm";
-  };
-  environment.systemPackages = [ pkgs.wezterm ];
+  environment.sessionVariables.TERM = "alacritty-direct";
   environment.wordlist.enable = true;
 
   my.zsh.enable = true;
