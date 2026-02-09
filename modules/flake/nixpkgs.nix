@@ -31,6 +31,7 @@ let
     self.overlays.default
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
+    (final: _: { jj-spr = inputs.jj-spr.packages.${final.stdenv.hostPlatform.system}.default; })
     self.overlays.nixvim
     (final: _: {
       nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default;

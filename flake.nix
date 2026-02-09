@@ -71,6 +71,9 @@
       nix-darwin.follows = "nix-darwin";
       nixpkgs.follows = "nixpkgs";
     };
+
+    jj-spr.url = "github:LucioFranco/jj-spr";
+    jj-spr.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

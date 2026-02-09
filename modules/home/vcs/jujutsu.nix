@@ -1,6 +1,7 @@
 {
-  lib,
   config,
+  lib,
+  pkgs,
   ...
 }:
 let
@@ -13,6 +14,7 @@ in
     programs.jujutsu = {
       enable = true;
       settings = {
+        aliases.spr = [ "util" "exec" "--" "jj-spr" ];
         fsmonitor.backend = "watchman";
         revsets.log = "all()";
         ui.default-command = "log";
@@ -23,5 +25,6 @@ in
         working-copy.eol-conversion = "input";
       };
     };
+    home.packages = [ pkgs.jj-spr ];
   };
 }

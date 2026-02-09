@@ -29,6 +29,7 @@ in
         };
         help.autocorrect = "prompt";
         init.defaultBranch = "master";
+        push.autoSetupRemote = true;
         tag.sort = "version:refname";
         user = {
           email = lib.mkIf (cfg.email != null) cfg.email;
