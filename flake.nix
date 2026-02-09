@@ -82,7 +82,7 @@
         nix = import ./modules/flake/nix.nix;
         nixpkgs = import ./modules/flake/nixpkgs.nix;
         nixvim = import ./modules/flake/nixvim.nix;
-        pi = import ./modules/flake/pi.nix;
+        pi = import ./modules/flake/pi;
         zen = import ./modules/flake/zenbrowser.nix;
       };
     in
