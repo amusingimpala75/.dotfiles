@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   self,
   ...
 }:
@@ -61,21 +62,29 @@
           defaultProvider = "github-copilot";
           defaultModel = "claude-sonnet-4.5";
           defaultThinkingLevel = "medium";
-          extensions = [
-            "${inputs.pi-extensions}/permission-gate.ts"
-            "${inputs.pi-extensions}/protected-paths.ts"
-            "${inputs.pi-extensions}/confirm-destructive"
-            "${inputs.pi-extensions}/dirty-repo-guard.ts"
-            "${inputs.pi-extensions}/tools.ts"
-            (let
-              pkg = pkgs.buildNpmPackage {
-                pname = "pi-sandbox";
-                version = "git";
-                src = "${inputs.pi-extensions}/sandbox";
-                npmDepsHash = "sha256-eJbT63DS557JrRE/dLLVITtZIHYsCxlowRJHIkSGKTc=";
-              };
-            in "${pkg}/lib/node_modules")
-          ];
+          extensions =
+            let
+              fileExtension = name: "${inputs.pi-extensions}/${name}.ts";
+              complexExtension = name: hash:
+                let pkg = pkgs.buildNpmPackage {
+                      pname = "pi-${name}";
+                      version = "git";
+                      src = "${inputs.pi-extensions}/${name}";
+                      npmDepsHash = hash;
+                    };
+                in "${pkg}/lib/node_modules";
+              officialExtension = args:
+                if builtins.isString args
+                then fileExtension args
+                else complexExtension args.name args.hash;
+            in map officialExtension [
+              "permission-gate"
+              "protected-paths"
+              "confirm-destructive"
+              "dirty-repo-guard"
+              "tools"
+              { name = "sandbox"; hash = "sha256-eJbT63DS557JrRE/dLLVITtZIHYsCxlowRJHIkSGKTc="; }
+            ];
         };
       };
       home.packages = with pkgs; [ ripgrep bubblewrap socat ];
