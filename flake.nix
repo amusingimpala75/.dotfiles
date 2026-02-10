@@ -74,6 +74,9 @@
 
     jj-spr.url = "github:LucioFranco/jj-spr";
     jj-spr.inputs.nixpkgs.follows = "nixpkgs";
+
+    pi-extensions.url = "github:badlogic/pi-mono?shallow=1&dir=packages/coding-agent/examples/extensions";
+    pi-extensions.flake = false;
   };
 
   outputs =
@@ -81,7 +84,6 @@
     let
       flakeModules = {
         autowire = import ./modules/flake/autowire.nix;
-        modules = import ./modules/flake/modules.nix;
         nix = import ./modules/flake/nix.nix;
         nixpkgs = import ./modules/flake/nixpkgs.nix;
         nixvim = import ./modules/flake/nixvim.nix;

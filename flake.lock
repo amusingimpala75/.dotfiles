@@ -811,6 +811,24 @@
         "type": "github"
       }
     },
+    "pi-extensions": {
+      "flake": false,
+      "locked": {
+        "dir": "packages/coding-agent/examples/extensions",
+        "lastModified": 1770592648,
+        "narHash": "sha256-8L3JFUowwjcK35byKwZWk40+NcendlBeUK16C23b4+M=",
+        "owner": "badlogic",
+        "repo": "pi-mono",
+        "rev": "fdcd9ab783104285764a4b770c39b7811be5f570",
+        "type": "github"
+      },
+      "original": {
+        "dir": "packages/coding-agent/examples/extensions",
+        "owner": "badlogic",
+        "repo": "pi-mono",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -857,6 +875,7 @@
         "nixvim": "nixvim",
         "nur": "nur",
         "opencode-ralph": "opencode-ralph",
+        "pi-extensions": "pi-extensions",
         "sops-nix": "sops-nix",
         "spicetify": "spicetify",
         "textfox": "textfox",
