@@ -1309,6 +1309,13 @@ better window navigation
   (flyspell-default-dictionary "en"))
 #+end_src
 
+*** Pi coding agent
+#+begin_src emacs-lisp
+(use-package pi-coding-agent
+  :ensure t
+  :init (defalias 'pi 'pi-coding-agent))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp

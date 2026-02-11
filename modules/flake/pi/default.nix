@@ -78,15 +78,22 @@
                 then fileExtension args
                 else complexExtension args.name args.hash;
             in map officialExtension [
-              "permission-gate"
-              "protected-paths"
+              "commands"
               "confirm-destructive"
               "dirty-repo-guard"
+              "doom-overlay/index"
+              "permission-gate"
+              "protected-paths"
+              # Currently this just junks up the current directory with a bunch
+              # of files and doesn't clear them when done bruh
+              # It also requires ripgrep, bubblewrap, and socat on linux
+              # { name = "sandbox"; hash = "sha256-eJbT63DS557JrRE/dLLVITtZIHYsCxlowRJHIkSGKTc="; }
+              "shutdown-command"
+              "status-line"
+              "titlebar-spinner"
               "tools"
-              { name = "sandbox"; hash = "sha256-eJbT63DS557JrRE/dLLVITtZIHYsCxlowRJHIkSGKTc="; }
             ];
         };
       };
-      home.packages = with pkgs; [ ripgrep bubblewrap socat ];
     };
 }

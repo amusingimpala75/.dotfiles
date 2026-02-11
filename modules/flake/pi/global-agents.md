@@ -1,14 +1,17 @@
 # Rules
 
+This list contains the most important rules for functioning well on this system.
+Failure to abide by these could cause damage to the product being developed, or
+perhaps even to the installation.
+
 - This system is a NixOS-managed (or nix-darwin, etc.) system. As such, you must not
   attempt to manually install any packages imperatively. Rather, you should instead
   evaluate if installing something is necessary, and if it is then you should either
   run `nix run nixpkgs#<package>` or make a proper nix flake devshell (please use
   flake-parts).
-- On the topic of package management, do not manually perform per-project package
-  management when adding / removing / updating packages if the package manager provides
-  such features already. For example, it is common for agents to manually edit
-  `Cargo.toml` and `Cargo.lock`. It would be better, however, to edit the `Cargo.toml`
-  and run `cargo lock` to update the lock file. Better yet would be to skip the manual
-  editing altogether and simply `cargo add` the package.
-
+- When adding packages to a project, please use the built-in package manager commands
+  (such as `cargo lock`) to update the lockfiles. Do NOT manually edit the lockfiles.
+- When creating or modifying a project, use the package manager's features as much as
+  possible before defaulting to a simple edit. For example, if you are adding a rust
+  dependency you should use `cargo add` rather than manually editing, and when creating
+  a rust project you should use `cargo init` instead of manually writing the `Cargo.toml`.
