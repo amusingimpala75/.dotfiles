@@ -65,6 +65,7 @@
       jq
       ntfy-sh
       yq-go
+      play-audio
 
       infat
       wireshark
@@ -79,6 +80,10 @@
       orbstack
       # macOS utilities
       darwin.trash # TODO cross-platform
+      brightness
+      unquarantine
+      screen-saver
+      run-ntfy-when-done
       # Casks
       brewCasks."8bitdo-ultimate-software-v2"
       brewCasks.balenaetcher

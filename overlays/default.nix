@@ -8,6 +8,11 @@ final: prev: {
   desktoppr = final.callPackage ../packages/desktoppr.nix { };
   wallp = final.callPackage ../packages/wallp.nix { };
   infat = final.callPackage ../packages/infat.nix { };
+  brightness = final.callPackage ../packages/brightness.nix { };
+  unquarantine = final.callPackage ../packages/unquarantine.nix { };
+  screen-saver = final.callPackage ../packages/screen-saver.nix { };
+  run-ntfy-when-done = final.callPackage ../packages/run-ntfy-when-done.nix { };
+  play-audio = final.callPackage ../packages/play-audio.nix { };
 
   mrpack-install = prev.mrpack-install.overrideAttrs (prev: {
     doCheck = !final.stdenv.isDarwin;
