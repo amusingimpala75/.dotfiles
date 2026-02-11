@@ -75,6 +75,7 @@ in
 
         ${pkgs.bible.asv}/bin/asv random
       '';
+      syntaxHighlighting.enable = true;
     };
   };
 }
