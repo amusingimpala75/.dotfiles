@@ -25,7 +25,8 @@
   wsl.username = "MURRAYLE23";
   wsl.wallp.enable = true;
 
-  home.packages = [
-    pkgs.noto-fonts-color-emoji
+  home.packages = with pkgs; [
+    noto-fonts-color-emoji
+    get-win-sid
   ];
 }

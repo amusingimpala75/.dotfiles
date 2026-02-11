@@ -13,6 +13,7 @@ final: prev: {
   screen-saver = final.callPackage ../packages/screen-saver.nix { };
   run-ntfy-when-done = final.callPackage ../packages/run-ntfy-when-done.nix { };
   play-audio = final.callPackage ../packages/play-audio.nix { };
+  get-win-sid = final.callPackage ../packages/get-win-sid.nix { };
 
   mrpack-install = prev.mrpack-install.overrideAttrs (prev: {
     doCheck = !final.stdenv.isDarwin;
