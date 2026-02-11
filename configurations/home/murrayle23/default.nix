@@ -8,11 +8,9 @@
   my = {
     cli.enable = true;
     emacs.enable = true;
-    firefox.enable = true;
     games = {
       brogue.enable = true;
     };
-    opencode.enable = true;
     vcs = {
       git = true;
       jujutsu = true;
