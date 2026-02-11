@@ -42,8 +42,6 @@
     jankyborders.enable = true;
   };
 
-  programs.nix-index.enable = false;
-
   programs.tmux.terminal = lib.mkForce "xterm-ghostty";
 
   infat = {

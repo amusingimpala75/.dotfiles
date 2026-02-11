@@ -22,6 +22,7 @@ in
     dotfilesDir = lib.mkOption {
       type = lib.types.str;
       default = "~/.dotfiles";
+      example = "~/git/dotfiles";
       description = "path to dotfiles";
     };
   };
@@ -39,6 +40,7 @@ in
           cfg.dotfilesDir;
     };
 
+    programs.nix-index.enable = false;
     programs.nix-index-database.comma.enable = true;
 
     home = {
