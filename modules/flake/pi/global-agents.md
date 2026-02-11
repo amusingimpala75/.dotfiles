@@ -11,6 +11,8 @@ perhaps even to the installation.
   flake-parts).
 - When adding packages to a project, please use the built-in package manager commands
   (such as `cargo lock`) to update the lockfiles. Do NOT manually edit the lockfiles.
+  Also, NEVER gitignore lock files, they are very important for maintaining the
+  reproducibility of the system.
 - When creating or modifying a project, use the package manager's features as much as
   possible before defaulting to a simple edit. For example, if you are adding a rust
   dependency you should use `cargo add` rather than manually editing, and when creating
