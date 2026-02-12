@@ -27,7 +27,6 @@ final: prev: {
   my.emacs = final.callPackage ../packages/emacs { };
   my.install = final.callPackage ../packages/install.nix { };
 
-  scriptWrapper = final.callPackage ../packages/scriptWrapper.nix { };
   float_and = final.callPackage ../packages/float_and.nix { };
   ghostty_and = final.callPackage ../packages/ghostty_and.nix { };
 

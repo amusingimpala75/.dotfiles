@@ -1,12 +1,11 @@
 {
   ffmpeg,
-  scriptWrapper,
+  writeShellApplication,
   ...
 }:
-scriptWrapper {
-  path = ./play-audio.sh;
-  deps = [ ffmpeg ];
-  extraMeta = {
-    description = "play an audio track (possibly looping) with ffmpeg";
-  };
+writeShellApplication {
+  name = "play-audio";
+  text = builtins.readFile ./play-audio.sh;
+  runtimeInputs = [ ffmpeg ];
+  meta.description = "play an audio track (possibly looping) with ffmpeg";
 }

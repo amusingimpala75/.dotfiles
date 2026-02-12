@@ -1,13 +1,12 @@
 {
   lib,
   ripgrep,
-  scriptWrapper,
+  writeShellApplication,
   ...
 }:
-scriptWrapper {
-  path = ./new-ghostty-window.sh;
-  deps = [ ripgrep ];
-  extraMeta = {
-    platforms = lib.platforms.darwin;
-  };
+writeShellApplication {
+  name = "new-ghostty-window";
+  text = builtins.readFile ./new-ghostty-window.sh;
+  meta.platforms = lib.platforms.darwin;
+  runtimeInputs = [ ripgrep ];
 }

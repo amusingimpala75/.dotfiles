@@ -1,12 +1,11 @@
 {
   lib,
-  scriptWrapper,
+  writeShellApplication,
   ...
 }:
-scriptWrapper {
-  path = ./set-appearance.sh;
-  extraMeta = {
-    description = "set light or dark mode for macOS";
-    platforms = lib.platforms.darwin;
-  };
+writeShellApplication {
+  name = "set-appearance";
+  text = builtins.readFile ./set-appearance.sh;
+  meta.description = "set light or dark mode for macOS";
+  meta.platforms = lib.platforms.darwin;
 }

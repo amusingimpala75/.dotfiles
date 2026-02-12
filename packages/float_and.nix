@@ -1,14 +1,16 @@
 {
   aerospace,
-  scriptWrapper,
-
   lib,
+  writeShellApplication,
   ...
 }:
-scriptWrapper {
-  path = ./float_and.sh;
-  extraMeta = {
-    platforms = lib.platforms.darwin;
-  };
-  deps = [ aerospace ];
+writeShellApplication {
+  name = "float_and";
+  text = ''
+  aerospace floating
+  $@
+  '';
+  meta.platforms = lib.platforms.darwin;
+  runtimeInputs = [ aerospace ];
 }
+

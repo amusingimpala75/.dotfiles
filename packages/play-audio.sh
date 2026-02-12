@@ -14,7 +14,7 @@ then
     LOOP=1
 fi
 
-for _ in $(seq 1 $LOOP)
+for _ in $(seq 1 "$LOOP")
 do
     ffplay -v 0 -nodisp -autoexit "$FILE"
 done

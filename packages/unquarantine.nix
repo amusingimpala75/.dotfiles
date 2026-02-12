@@ -1,12 +1,11 @@
 {
   lib,
-  scriptWrapper,
+  writeShellApplication,
   ...
 }:
-scriptWrapper {
-  path = ./unquarantine.sh;
-  extraMeta = {
-    description = "Unquarantine downloaded files";
-    platforms = lib.platforms.darwin;
-  };
+writeShellApplication {
+  name = "unquarantine";
+  text = builtins.readFile ./unquarantine.sh;
+  meta.description = "Unquarantine downloaded files";
+  meta.platforms = lib.platforms.darwin;
 }

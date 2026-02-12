@@ -1,14 +1,11 @@
 {
-  scriptWrapper,
   dotdir ? "~/.dotfiles",
+  writeShellApplication,
   ...
 }:
-(scriptWrapper {
-  path = ./install.sh;
-  extraMeta = {
-    description = "Installation script for my dotfiles";
-  };
-}).overrideAttrs
-  (prev: {
-    postBuild = (if prev ? "postBuild" then prev.postBuild else "") + "--set DOTDIR ${dotdir}";
-  })
+writeShellApplication {
+  name = "install";
+  text = builtins.readFile ./install.sh;
+  meta.description = "Installation script for my dotfiles";
+  runtimeEnvironment.DOTDIR = dotdir;
+}

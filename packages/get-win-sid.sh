@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [ -z "$1" ]; then
+    echo "Missing Windows username"
+    exit 1
+fi
+
 USERNAME="$1"
 
 function escape_str() {
