@@ -5,7 +5,7 @@
   ...
 }:
 let
-  dockutil = "${pkgs.dockutil}/bin/dockutil";
+  dockutil = lib.getExe pkgs.dockutil;
   add-dock-item =
     item: "${dockutil} --add \"${item}\"" + (if item == "" then "--type spacer" else "");
 in

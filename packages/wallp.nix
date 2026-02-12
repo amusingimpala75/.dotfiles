@@ -1,20 +1,20 @@
 {
   fetchzip,
 
-  stdenv,
+  stdenvNoCC,
   ...
 }:
 let
-  pname = "WallP.exe";
-  version = "1.2.0";
-  url = "https://github.com/LesFerch/WallP/releases/download/1.2.0/WallP.zip";
-  hash = "sha256-clY/gjMwSFB6XD2WcqYxU2xTD3zuFqhrOxQx44htv/0=";
+  version = "1.4.1";
+  hash = "sha256-b7N0fWPH+uxNoZdD2kYcEsJxIPxl/J6rCNvIlahu4s0=";
 in
-stdenv.mkDerivation {
-  inherit pname version;
+stdenvNoCC.mkDerivation {
+  inherit version;
+  pname = "WallP.exe";
 
   src = fetchzip {
-    inherit url hash;
+    inherit hash;
+    url = "https://github.com/LesFerch/WallP/releases/download/${version}/WallP.zip";
     stripRoot = false;
   };
 
@@ -27,6 +27,8 @@ stdenv.mkDerivation {
   '';
 
   meta = {
+    mainProgram = "WallP.exe";
+    description = "Way to set wallpaper in Windows";
     # specifically with WSL
     platforms = [
       "x86_64-linux"

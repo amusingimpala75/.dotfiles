@@ -73,7 +73,7 @@ in
         [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
           source "$EAT_SHELL_INTEGRATION_DIR/zsh"
 
-        ${pkgs.bible.asv}/bin/asv random
+        ${lib.getExe pkgs.bible.asv} random
       '';
       syntaxHighlighting.enable = true;
     };

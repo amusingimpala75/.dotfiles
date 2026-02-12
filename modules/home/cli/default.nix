@@ -23,7 +23,7 @@
     my.zsh.enable = true;
 
     home.packages = with pkgs; [
-      (bible.asv.override { grepCommand = "${pkgs.ripgrep}/bin/rg"; })
+      bible.asv
       chafa
       file
       killall

@@ -54,7 +54,7 @@ in
       enable = true;
       config = rec {
         KeepAlive = true;
-        Program = "${pkgs.sketchybar}/bin/sketchybar";
+        Program = "${lib.getExe pkgs.sketchybar}";
         ProgramArguments = [
           Program
           "-c"

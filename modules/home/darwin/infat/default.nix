@@ -86,8 +86,8 @@ in
     lib.mkIf (pkgs.stdenv.isDarwin && config.infat.enable)
       (
         lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-          ${pkgs.infat}/bin/infat -c ${infat-config-reset}
-          ${pkgs.infat}/bin/infat -c ${infat-config}
+          ${lib.getExe pkgs.infat} -c ${infat-config-reset}
+          ${lib.getExe pkgs.infat} -c ${infat-config}
         ''
       );
 }

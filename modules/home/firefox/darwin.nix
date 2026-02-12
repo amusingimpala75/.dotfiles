@@ -18,7 +18,7 @@ in
   config = lib.mkIf (pkgs.stdenv.isDarwin && cfg.enable) {
     home.activation.default-browser = lib.mkIf cfg.default (
       lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        ${pkgs.defaultbrowser}/bin/defaultbrowser firefox
+        ${lib.getExe pkgs.defaultbrowser} firefox
       ''
     );
   };

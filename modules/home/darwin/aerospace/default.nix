@@ -9,11 +9,11 @@ let
   rice = config.rice;
   stdenv = pkgs.stdenv;
 
-  aerospace = "${pkgs.aerospace}/bin/aerospace";
-  btop = "${pkgs.btop}/bin/btop";
-  float_and = "${pkgs.float_and}/bin/float_and";
-  ghostty_and = "${pkgs.ghostty_and}/bin/ghostty_and";
-  new-ghostty = "${pkgs.my.new-ghostty-window}/bin/new-ghostty-window";
+  aerospace = lib.getExe pkgs.aerospace;
+  btop = lib.getExe pkgs.btop;
+  float_and = lib.getExe pkgs.float_and;
+  ghostty_and = lib.getExe pkgs.ghostty_and;
+  new-ghostty = lib.getExe pkgs.my.new-ghostty-window;
 
   back-main = builtins.mapAttrs (
     k: v: [
@@ -37,7 +37,7 @@ let
     }) attrs;
 
   gen-workspaces = gen-keybinds (
-    lib.genAttrs (builtins.map builtins.toString (lib.range 1 9)) (s: s)
+    lib.genAttrs (map toString (lib.range 1 9)) (s: s)
   );
 
   gen-vim-directions = gen-keybinds {
@@ -127,7 +127,7 @@ in
           };
         };
         on-window-detected =
-          builtins.map
+          map
             (name: {
               "if".window-title-regex-substring = name;
               run = "layout floating";

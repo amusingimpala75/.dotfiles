@@ -23,7 +23,7 @@ in
     launchd.agents."jankyborders" = {
       enable = true;
       config = rec {
-        Program = "${pkgs.jankyborders}/bin/borders";
+        Program = lib.getExe pkgs.jankyborders;
         ProgramArguments = [
           Program
           "style=${if radius == 0 then "square" else "round"}"

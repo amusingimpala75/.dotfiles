@@ -52,7 +52,7 @@ in
       #           export PROMPT='%n@%U%m%u''${_PROMPT_ENV}> '
       #           export RPROMPT="%F{green}%~%f"
 
-      #   n        ${pkgs.bible.asv}/bin/asv random
+      #           ${lib.getExe pkgs.bible.asv} random
       # '';
     };
   };

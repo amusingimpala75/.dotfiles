@@ -12,7 +12,7 @@
     home.activation.setWallpaper =
       lib.hm.dag.entryAfter [ "writeBoundary" ".nix-profile/share/wallpaper.png" ]
         ''
-          ${pkgs.wallp}/bin/WallP.exe 'C:\Users\${config.wsl.username}\.nix-profile\share\wallpaper.png'
+          ${lib.getExe pkgs.wallp} 'C:\Users\${config.wsl.username}\.nix-profile\share\wallpaper.png'
         '';
   };
 }
