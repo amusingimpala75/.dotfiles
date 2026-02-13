@@ -81,74 +81,19 @@
 
   outputs =
     inputs@{ flake-parts, ... }:
-    let
-      flakeModules = {
-        autowire = import ./modules/flake/autowire.nix;
-        nix = import ./modules/flake/nix.nix;
-        nixpkgs = import ./modules/flake/nixpkgs.nix;
-        nixvim = import ./modules/flake/nixvim.nix;
-        pi = import ./modules/flake/pi;
-        zen = import ./modules/flake/zenbrowser.nix;
-      };
-    in
-    flake-parts.lib.mkFlake { inherit inputs; } (
-      {
-        lib,
-        ...
-      }:
-      {
-        _module.args.root = ./.;
-        imports = [
-          inputs.flake-parts.flakeModules.modules
-          inputs.nix-darwin.flakeModules.default
-          inputs.home-manager.flakeModules.home-manager
-          inputs.nixvim.flakeModules.default
-        ]
-        ++ (builtins.attrValues flakeModules);
-
-        flake = {
-          inherit flakeModules;
-        };
-
-        autowire = {
-          apps.enable = true;
-          configurations = {
-            darwin.enable = true;
-            home.enable = true;
-            nixos.enable = true;
-            nixvim.enable = true;
-          };
-          overlays.enable = true;
-          templates.enable = true;
-        };
-
-        systems = lib.systems.flakeExposed;
-        perSystem =
-          {
-            self',
-            pkgs,
-            ...
-          }:
-          {
-            packages = {
-              default = self'.packages.install;
-
-              emacs = pkgs.my.emacs;
-              install = pkgs.my.install;
-            };
-
-            devShells.default = pkgs.mkShell {
-              packages = with pkgs; [
-                nixd
-                luaPackages.fennel
-                fennel-ls
-                nixfmt-tree
-                sops
-              ];
-            };
-
-            formatter = pkgs.nixfmt-tree;
-          };
-      }
-    );
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      _module.args.root = ./.;
+      imports = [
+        inputs.nix-darwin.flakeModules.default
+        inputs.home-manager.flakeModules.home-manager
+        (import ./modules/flake/autowire.nix)
+        (import ./modules/flake/default.nix)
+        (import ./modules/flake/devshell.nix)
+        (import ./modules/flake/nix.nix)
+        (import ./modules/flake/nixpkgs.nix)
+        (import ./modules/flake/nixvim.nix)
+        (import ./modules/flake/pi)
+        (import ./modules/flake/zenbrowser.nix)
+      ];
+    };
 }

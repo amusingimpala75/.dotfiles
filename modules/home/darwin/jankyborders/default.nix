@@ -15,7 +15,7 @@ in
 {
   options.my.jankyborders.enable = lib.mkEnableOption "my janky borders configuration";
 
-  config.programs.jankyborders = lib.mkIf (config.my.jankyborders.enable && pkgs.stdenv.isDarwin) {
+  config.services.jankyborders = lib.mkIf (config.my.jankyborders.enable && pkgs.stdenv.isDarwin) {
     enable = true;
     settings = {
       style = if radius == 0 then "square" else "round";

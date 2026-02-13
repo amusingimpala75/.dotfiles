@@ -86,6 +86,7 @@ let
       mylatexformat
       preview # for latex preview
       capt-of # for tikz automata
+      fvextra upquote tcolorbox pdfcol # for latex precomp
       ;
   };
 
