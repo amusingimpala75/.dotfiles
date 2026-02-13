@@ -77,20 +77,12 @@
 
     pi-extensions.url = "github:badlogic/pi-mono?shallow=1&dir=packages/coding-agent/examples/extensions";
     pi-extensions.flake = false;
+
+    import-tree.url = "github:vic/import-tree";
   };
 
   outputs =
-    inputs@{ flake-parts, ... }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [
-        (import ./modules/flake/autowire.nix)
-        (import ./modules/flake/default.nix)
-        (import ./modules/flake/devshell.nix)
-        (import ./modules/flake/nix.nix)
-        (import ./modules/flake/nixpkgs.nix)
-        (import ./modules/flake/nixvim.nix)
-        (import ./modules/flake/pi)
-        (import ./modules/flake/zenbrowser.nix)
-      ];
-    };
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; }
+      (inputs.import-tree ./modules/flake);
 }
