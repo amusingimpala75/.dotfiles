@@ -8,7 +8,6 @@ rec {
       config,
       inputs,
       lib,
-      root,
       self,
       ...
     }:
@@ -20,7 +19,7 @@ rec {
         configurations = {
           path = lib.mkOption {
             description = "path at root of configurations";
-            default = "${root}/configurations";
+            default = "${self}/configurations";
             type = lib.types.path;
           };
           darwin = {
@@ -60,7 +59,7 @@ rec {
           enable = lib.mkEnableOption "autowire overlays";
           path = lib.mkOption {
             description = "path from which to autowire overlays";
-            default = "${root}/overlays";
+            default = "${self}/overlays";
             type = lib.types.path;
           };
         };
@@ -68,7 +67,7 @@ rec {
           enable = lib.mkEnableOption "autowire templates";
           path = lib.mkOption {
             description = "path from which to autowire templates";
-            default = "${root}/templates";
+            default = "${self}/templates";
             type = lib.types.path;
           };
         };
@@ -80,10 +79,10 @@ rec {
             builtins.mapAttrs (
               name: _:
               inputs.nix-darwin.lib.darwinSystem {
-                specialArgs = { inherit inputs root self; };
+                specialArgs = { inherit inputs self; };
                 modules = [
                   "${config.autowire.configurations.darwin.path}/${name}"
-                  "${root}/modules/darwin"
+                  "${self}/modules/darwin"
                 ];
               }
             ) (builtins.readDir "${config.autowire.configurations.darwin.path}")
@@ -93,10 +92,10 @@ rec {
             builtins.mapAttrs (
               name: _:
               inputs.nixpkgs.lib.nixosSystem {
-                specialArgs = { inherit inputs root self; };
+                specialArgs = { inherit inputs self; };
                 modules = [
                   "${config.autowire.configurations.nixos.path}/${name}"
-                  "${root}/modules/nixos"
+                  "${self}/modules/nixos"
                 ];
               }
             ) (builtins.readDir "${config.autowire.configurations.nixos.path}")
@@ -133,9 +132,9 @@ rec {
                   inherit pkgs;
                   modules = [
                     "${config.autowire.configurations.home.path}/${name}"
-                    "${root}/modules/home"
+                    "${self}/modules/home"
                   ];
-                  extraSpecialArgs = { inherit inputs root self; };
+                  extraSpecialArgs = { inherit inputs self; };
                 }
               ) (builtins.readDir "${config.autowire.configurations.home.path}")
             );

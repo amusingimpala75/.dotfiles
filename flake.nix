@@ -82,10 +82,7 @@
   outputs =
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      _module.args.root = ./.;
       imports = [
-        inputs.nix-darwin.flakeModules.default
-        inputs.home-manager.flakeModules.home-manager
         (import ./modules/flake/autowire.nix)
         (import ./modules/flake/default.nix)
         (import ./modules/flake/devshell.nix)
