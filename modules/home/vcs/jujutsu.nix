@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -11,6 +12,11 @@ in
   options.my.vcs.jujutsu = lib.mkEnableOption "jujutsu configuration";
 
   config = lib.mkIf cfg.jujutsu {
+    nixpkgs.overlays = [
+      (final: _: {
+        jj-spr = inputs.jj-spr.packages.${final.stdenv.hostPlatform.system}.default;
+      })
+    ];
     programs.jujutsu = {
       enable = true;
       settings = {

@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -21,6 +22,8 @@
     my.direnv.enable = true;
     my.nix.enable = true;
     my.zsh.enable = true;
+
+    nixpkgs.overlays = [ inputs.bible.overlays.default ];
 
     home.packages = with pkgs; [
       bible.asv

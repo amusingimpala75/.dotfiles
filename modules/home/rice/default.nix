@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -139,4 +140,10 @@
       default = "my-base16";
     };
   };
+
+  config.nixpkgs.overlays = [
+    (final: _: {
+      nix-wallpaper = inputs.nix-wallpaper.packages.${final.stdenv.hostPlatform.system}.default;
+    })
+  ];
 }

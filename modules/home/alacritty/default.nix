@@ -1,7 +1,7 @@
 {
-  lib,
   config,
-  pkgs,
+  inputs,
+  lib,
   ...
 }:
 let
@@ -17,6 +17,7 @@ in
     home.sessionVariables = {
       TERM = "alacritty";
     };
+    nixpkgs.overlays = [ inputs.alacritty-theme.overlays.default ];
     programs.alacritty = {
       enable = true;
       settings = {
