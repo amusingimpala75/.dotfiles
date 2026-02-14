@@ -10,9 +10,10 @@
     {
       devShells.default = pkgs.mkShell {
         packages = with pkgs; [
-          nixd
-          luaPackages.fennel
+          bash-language-server
           fennel-ls
+          luaPackages.fennel
+          nixd
           nixfmt-tree
           sops
         ];

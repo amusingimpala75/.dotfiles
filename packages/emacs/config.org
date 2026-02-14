@@ -210,7 +210,7 @@ Fixes stupid bug where the line height changes ever-so-slightly on macOS
   (eglot-code-action-indicator "*")
   (eglot-semantic-tokens-mode t)
   :hook
-  ((c-ts-mode fennel-mode go-ts-mode haskell-mode nix-mode java-ts-mode js-ts-mode lua-ts-mode rustic-mode scala-mode) . eglot-ensure)
+  ((c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode nix-mode java-ts-mode js-ts-mode lua-ts-mode rustic-mode scala-mode) . eglot-ensure)
   :config
   ;; I don't know why eglot started
   ;; including :cancel-on-quit, but
