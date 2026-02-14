@@ -20,6 +20,8 @@ final: prev: {
     doCheck = !final.stdenv.isDarwin;
   });
 
+  cogfly = final.callPackage ../packages/cogfly.nix { };
+
   buildFennelPackage = final.callPackage ../packages/buildFennelPackage.nix { };
   fennelToLua = final.callPackage ../packages/fennelToLua.nix { };
   mkDarwinApplication = final.callPackage ../packages/mkDarwinApplication.nix { };
