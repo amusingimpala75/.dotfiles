@@ -22,7 +22,7 @@ stdenv.mkDerivation {
   meta = {
     mainProgram = "infat";
     description = "Tool for setting file associations on macOS";
-    license = lib.licenses.BlueOak100;
+    license = lib.licenses.blueOak100;
     platforms = lib.platforms.darwin;
   };
 }

@@ -7,14 +7,13 @@ fi
 
 SERVER="$1"
 shift 1
-CMD="${@}"
+CMD="${*}"
 
 screen-saver
 
-caffeinate -d $CMD
-
-if [ "$?" -eq "0" ]; then
-    ntfy send "$SERVER" "${@} succeeded"
+#shellcheck disable=SC2086
+if caffeinate -d $CMD; then
+    ntfy send "$SERVER" "$CMD succeeded"
 else
-    ntfy send "$SERVER" "${@} failed"
+    ntfy send "$SERVER" "$CMD failed"
 fi

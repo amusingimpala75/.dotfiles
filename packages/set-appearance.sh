@@ -7,12 +7,13 @@ then
 fi
 
 SCRIPT=$(cat <<EOF
-tell app "System Events" to
-    tell appearance preferences to
+tell app "System Events"
+    tell appearance preferences
         set dark mode to $1
     end tell
 end tell
-EOF)
+EOF
+)
 
 
 /usr/bin/osascript -e "$SCRIPT"
