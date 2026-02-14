@@ -4,28 +4,30 @@
   jdk25,
   lib,
   makeWrapper,
+  mkDarwinApplication,
   stdenv,
   ...
 }:
 let
   version = "1.1.2";
-  self = stdenv.mkDerivation {
-    pname = "cogfly";
-    inherit version;
 
-    src = fetchFromGitHub {
-      owner = "Nix-main";
-      repo = "Cogfly";
-      rev = version;
-      hash = "sha256-49pBeR5I4iqIaIgK5wsMQt+pCXYJOYEwjAsgp54pYJk=";
-    };
+  src = fetchFromGitHub {
+    owner = "Nix-main";
+    repo = "Cogfly";
+    rev = version;
+    hash = "sha256-49pBeR5I4iqIaIgK5wsMQt+pCXYJOYEwjAsgp54pYJk=";
+  };
+
+  pkg = stdenv.mkDerivation {
+    pname = "cogfly";
+    inherit version src;
 
     __darwinAllowLocalNetworking = true;
 
     nativeBuildInputs = [ gradle_9 jdk25 makeWrapper ];
 
     mitmCache = gradle_9.fetchDeps {
-      pkg = self;
+      inherit pkg;
       data = ./cogfly-deps.json;
     };
 
@@ -47,5 +49,11 @@ let
       license = lib.licenses.asl20;
     };
   };
+  darwin-pkg = mkDarwinApplication {
+    package = pkg;
+    exeName = "cogfly";
+    appName = "Cogfly";
+    img = "${src}/icons/icon.icns";
+  };
 in
-self
+if stdenv.isDarwin then darwin-pkg else pkg

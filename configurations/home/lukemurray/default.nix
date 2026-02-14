@@ -65,6 +65,7 @@
       ntfy-sh
       yq-go
       play-audio
+      cogfly
 
       infat
       wireshark

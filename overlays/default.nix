@@ -1,10 +1,4 @@
 final: prev: {
-  brogue-ce-darwin = final.mkDarwinApplication {
-    package = final.brogue-ce;
-    exeName = "brogue-ce";
-    appName = "Brogue";
-    img = "${final.brogue-ce}/share/icons/hicolor/256x256/apps/brogue-ce.png";
-  };
   desktoppr = final.callPackage ../packages/desktoppr.nix { };
   wallp = final.callPackage ../packages/wallp.nix { };
   infat = final.callPackage ../packages/infat.nix { };

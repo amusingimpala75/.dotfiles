@@ -19,9 +19,9 @@ let
     <plist version="1.0">
     <dict>
     <key>CFBundleExecutable</key>
-    <string>${builtins.baseNameOf executable}</string>
+    <string>${baseNameOf executable}</string>
     <key>CFBundleIconFile</key>
-    <string>shortcut.icns</string>
+    <string>${appName}</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>1.0</string>
     <key>CFBundlePackageType</key>
@@ -44,13 +44,19 @@ stdenvNoCC.mkDerivation {
     mkdir -p $out/Applications/${appName}.app/Contents/Resources
 
     echo ${img}
+    IMG_OUT=$out/Applications/${appName}.app/Contents/Resources/${appName}.icns
 
-    ${icnsify}/bin/icnsify --output $out/Applications/${appName}.app/Contents/Resources/${appName}.icns ${img}
+    case "${img}" in
+        *.icns) cp "${img}" "$IMG_OUT" ;;
+        *)      ${icnsify}/bin/icnsify --output "$IMG_OUT" ${img} ;;
+    esac
 
     ln -s ${executable} $out/Applications/${appName}.app/Contents/MacOS/${exeName}
 
     cp ${infoPlist} $out/Applications/${appName}.app/Contents/Info.plist
   '';
 
-  meta.platforms = lib.platforms.darwin;
+  meta = package.meta // {
+    platforms = lib.platforms.darwin;
+  };
 }
