@@ -26,6 +26,8 @@ stdenv.mkDerivation {
   '';
 
   meta = {
+    mainProgram = "desktoppr";
+    license = lib.licenses.asl20;
     description = "Command-line utility to set wallpaper on macOS";
     platforms = lib.platforms.darwin;
   };

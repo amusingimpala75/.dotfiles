@@ -39,6 +39,13 @@ let
     makeWrapper ${lib.getExe jdk25} $out/bin/cogfly \
       --add-flags "-jar $out/share/cogfly/Cogfly-${version}.jar"
     '';
+
+    # TODO: package app with proper macOS app
+    meta = {
+      mainProgram = "cogfly";
+      description = "Cogfly is a mod loader for Silksong";
+      license = lib.licenses.asl20;
+    };
   };
 in
 self

@@ -21,6 +21,9 @@ stdenv.mkDerivation {
   buildInputs = [ apple-sdk ];
 
   meta = {
+    description = "CLI application to set the screen brightness";
+    license = lib.licenses.bsd2;
     platforms = lib.platforms.darwin;
+    mainProgram = "brightness";
   };
 }
