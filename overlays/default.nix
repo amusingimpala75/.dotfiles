@@ -1,7 +1,5 @@
 final: prev: {
-  desktoppr = final.callPackage ../packages/desktoppr.nix { };
   wallp = final.callPackage ../packages/wallp.nix { };
-  infat = final.callPackage ../packages/infat.nix { };
   brightness = final.callPackage ../packages/brightness.nix { };
   unquarantine = final.callPackage ../packages/unquarantine.nix { };
   screen-saver = final.callPackage ../packages/screen-saver.nix { };

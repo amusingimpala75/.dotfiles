@@ -43,16 +43,20 @@
     jankyborders.enable = true;
   };
 
-  programs.tmux.terminal = lib.mkForce "xterm-ghostty";
-
-  infat = {
+  programs.infat = {
     enable = true;
-    associations = {
-      # the discard is fine since the package is installed anyways
-      "${builtins.unsafeDiscardStringContext config.my.emacs.package}/Applications/Emacs.app" = [
-        ".org"
-        ".yaml"
-      ];
+    settings = {
+      extensions = {
+        org = "Emacs";
+        yaml = "Emacs";
+        md = "Emacs";
+      };
+      schemes = {
+        mailto = "Mail";
+      };
+      types = {
+        plain-text = "Emacs";
+      };
     };
   };
 
