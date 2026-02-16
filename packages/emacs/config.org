@@ -1309,6 +1309,15 @@ better window navigation
   (flyspell-default-dictionary "en"))
 #+end_src
 
+*** Expreg
+#+begin_src emacs-lisp
+(use-package expreg
+  :ensure t
+  :bind
+  ("C-;" . expreg-expand)
+  ("C-:" . expreg-contract))
+#+end_src
+
 * Direnv
 Apparently this is supposed to be the last thing ever hooked to ensure proper functioning
 #+begin_src emacs-lisp
