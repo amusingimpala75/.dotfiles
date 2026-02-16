@@ -1,6 +1,5 @@
 {
   inputs,
-  lib,
   self,
   ...
 }:
@@ -88,7 +87,6 @@
               # of files and doesn't clear them when done bruh
               # It also requires ripgrep, bubblewrap, and socat on linux
               # { name = "sandbox"; hash = "sha256-eJbT63DS557JrRE/dLLVITtZIHYsCxlowRJHIkSGKTc="; }
-              "shutdown-command"
               "status-line"
               "titlebar-spinner"
               "tools"
