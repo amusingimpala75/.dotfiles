@@ -21,46 +21,59 @@ let
       "zoom"
     ];
 
+  bleeding = final: _: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system; };
+  stable = final: _: {
+    stable = import-nixpkgs (
+      if final.stdenv.isDarwin
+      then inputs.nixpkgs-stable-darwin
+      else inputs.nixpkgs-stable-nixos
+    ) final.stdenv.hostPlatform.system;
+  };
+
   overlays = [
-    (final: _: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system; })
+    bleeding
     self.overlays.default
-    self.overlays.linux
-    self.overlays.darwin
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
     self.overlays.nixvim
     inputs.nur.overlays.default
-    (final: _: {
-      stable = import-nixpkgs (
-        if final.stdenv.isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos
-      ) final.stdenv.hostPlatform.system;
-    })
+    stable
   ];
+
+  darwin-overlays = [
+    self.overlays.darwin
+  ];
+
+  linux-overlays = [
+    self.overlays.linux
+  ];
+
+  config = {
+    allowUnfreePredicate = unfree-predicate;
+  };
 
   import-nixpkgs =
     np: system:
     import np {
-      inherit system;
-      config.allowUnfreePredicate = unfree-predicate;
+      inherit config system;
     };
-
-  config = {
-    nixpkgs = {
-      config.allowUnfreePredicate = unfree-predicate;
-      inherit overlays;
-    };
-  };
 in
 {
   flake.modules.generic.nixpkgs = {
-    inherit config;
+    config.nixpkgs = {
+      inherit config;
+      overlays = overlays ++ darwin-overlays ++ linux-overlays;
+    };
   };
+
   perSystem =
     { system, ... }:
     {
       _module.args.pkgs = import inputs.nixpkgs {
-        inherit system;
-        inherit (config.nixpkgs) config overlays;
+        inherit config system;
+        overlays = overlays
+                   ++ (lib.optionals (lib.hasSuffix "linux" system) linux-overlays)
+                   ++ (lib.optionals (lib.hasSuffix "darwin" system) darwin-overlays);
       };
     };
 }
