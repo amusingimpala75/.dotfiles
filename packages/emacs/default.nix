@@ -68,10 +68,11 @@ let
       })
       epkgs.nnnrss
       epkgs.org-modern-indent
+      epkgs.page-view
+      epkgs.reader
       epkgs.scala-cli-repl
       epkgs.toggleterm
-      epkgs.reader
-      epkgs.page-view
+      epkgs.word-count
     ];
     override = epkgs: {
       org = epkgs.org-karthik;

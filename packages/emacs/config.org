@@ -211,7 +211,7 @@ Fixes stupid bug where the line height changes ever-so-slightly on macOS
   (eglot-semantic-tokens-mode t)
   :hook
   ((c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode nix-mode java-ts-mode js-ts-mode lua-ts-mode rustic-mode scala-mode) . eglot-ensure)
-  :config
+  :preface
   ;; I don't know why eglot started
   ;; including :cancel-on-quit, but
   ;; jsonrpc claims it doesn't exist
@@ -219,6 +219,7 @@ Fixes stupid bug where the line height changes ever-so-slightly on macOS
     (let ((server (car args))
           (kv (cdr args)))
       (cons server (map-delete kv :cancel-on-quit))))
+  :config
   (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit))
 #+end_src
 
@@ -362,9 +363,11 @@ Since this is an emacs configuration after all, we use nix-mode
 *** Org Mode
 #+begin_src emacs-lisp
 (use-package org
+  :after word-count
   :defer 5
   :diminish org-indent-mode
   :hook
+  (org-mode . word-count-mode)
   (org-mode . variable-pitch-mode)
   (org-mode . visual-line-mode)
   (org-mode . (lambda ()
@@ -404,15 +407,7 @@ Since this is an emacs configuration after all, we use nix-mode
                                                            (R . t)
                                                            (jupyter . t)
                                                            (shell . t)
-                                                           (scala-cli . t)))
-  :preface
-  (defun my/count-words-buffer ()
-    (interactive)
-    (let ((start (if (region-active-p) (min (mark) (point))
-                   (point-min)))
-          (end (if (region-active-p) (max (mark) (point))
-                 (point-max))))
-      (message "%d" (count-words start end nil)))))
+                                                           (scala-cli . t))))
 
 (diminish 'buffer-face-mode)
 
@@ -1316,6 +1311,11 @@ better window navigation
   :bind
   ("C-;" . expreg-expand)
   ("C-:" . expreg-contract))
+#+end_src
+
+*** Word Count
+#+begin_src emacs-lisp
+(use-package word-count)
 #+end_src
 
 * Direnv
