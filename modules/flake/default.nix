@@ -18,7 +18,8 @@
     {
       packages = {
         default = pkgs.local.install;
-      } // (lib.filterAttrs (_: v: lib.isDerivation v) pkgs.local);
+      }
+      // (lib.filterAttrs (_: v: lib.isDerivation v) pkgs.local);
 
       formatter = pkgs.nixfmt-tree;
     };

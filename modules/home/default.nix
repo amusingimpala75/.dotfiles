@@ -1,33 +1,41 @@
-{ config, pkgs, self, ... }:
+{
+  config,
+  pkgs,
+  self,
+  ...
+}:
 let
   stdenv = pkgs.stdenv;
 in
 {
-  imports = with self.modules.homeManager; with self.modules.generic; [
-    nixpkgs
-    nix
+  imports =
+    with self.modules.homeManager;
+    with self.modules.generic;
+    [
+      nixpkgs
+      nix
 
-    ./alacritty
-    ./bat
-    ./cli
-    ./darwin
-    ./direnv
-    ./emacs
-    ./firefox
-    # ./fish
-    ./games
-    ./ghostty
-    ./nix
-    # ./nushell
-    ./rice
-    ./sops
-    ./spotify
-    ./starship
-    ./vcs
-    ./wezterm
-    ./wsl
-    ./zsh
-  ];
+      ./alacritty
+      ./bat
+      ./cli
+      ./darwin
+      ./direnv
+      ./emacs
+      ./firefox
+      # ./fish
+      ./games
+      ./ghostty
+      ./nix
+      # ./nushell
+      ./rice
+      ./sops
+      ./spotify
+      ./starship
+      ./vcs
+      ./wezterm
+      ./wsl
+      ./zsh
+    ];
 
   config = {
     home.homeDirectory =

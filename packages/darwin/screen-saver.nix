@@ -9,4 +9,3 @@ writeShellApplication {
   meta.description = "Launch macOS Screen Saver from command line";
   meta.platforms = lib.platforms.darwin;
 }
-

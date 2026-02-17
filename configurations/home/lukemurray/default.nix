@@ -73,37 +73,40 @@
       infat
       wireshark
     ]
-    ++ lib.optionals pkgs.stdenv.isDarwin (with pkgs; [
-      # Emacs implicitly calls these,
-      # which pulls up a warning from macOS
-      # if `xcode-install --select` isn't run first
-      gcc
-      git
-      # macOS Apps
-      orbstack
-      # macOS utilities
-      darwin.trash # TODO cross-platform
-      brightness
-      unquarantine
-      screen-saver
-      run-ntfy-when-done
-      # Casks
-      brewCasks."8bitdo-ultimate-software-v2"
-      brewCasks.balenaetcher
-      # brewCasks.battle-net # failing for unknown reason
-      # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
-      brewCasks.gimp
-      brewCasks.hytale
-      brewCasks.imazing
-      brewCasks.inkscape
-      # brewCasks.jd-gui # can't find java?
-      brewCasks.minecraft
-      brewCasks.qlmarkdown
-      brewCasks.raspberry-pi-imager
-      brewCasks.steam
-      # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
-      brewCasks.ti-connect-ce
-    ]);
+    ++ lib.optionals pkgs.stdenv.isDarwin (
+      with pkgs;
+      [
+        # Emacs implicitly calls these,
+        # which pulls up a warning from macOS
+        # if `xcode-install --select` isn't run first
+        gcc
+        git
+        # macOS Apps
+        orbstack
+        # macOS utilities
+        darwin.trash # TODO cross-platform
+        brightness
+        unquarantine
+        screen-saver
+        run-ntfy-when-done
+        # Casks
+        brewCasks."8bitdo-ultimate-software-v2"
+        brewCasks.balenaetcher
+        # brewCasks.battle-net # failing for unknown reason
+        # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
+        brewCasks.gimp
+        brewCasks.hytale
+        brewCasks.imazing
+        brewCasks.inkscape
+        # brewCasks.jd-gui # can't find java?
+        brewCasks.minecraft
+        brewCasks.qlmarkdown
+        brewCasks.raspberry-pi-imager
+        brewCasks.steam
+        # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
+        brewCasks.ti-connect-ce
+      ]
+    );
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings

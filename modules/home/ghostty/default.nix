@@ -22,9 +22,7 @@ in
 
   config = lib.mkIf cfg.enable {
     programs.ghostty = {
-      package = if pkgs.stdenv.isLinux
-                then pkgs.ghostty
-                else pkgs.ghostty-bin;
+      package = if pkgs.stdenv.isLinux then pkgs.ghostty else pkgs.ghostty-bin;
       enable = true;
       settings = with rice; {
         background-opacity = "${toString opacity}";

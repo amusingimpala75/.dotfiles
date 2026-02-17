@@ -21,12 +21,12 @@ let
       "zoom"
     ];
 
-  bleeding = final: _: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system; };
+  bleeding = final: _: {
+    bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system;
+  };
   stable = final: _: {
     stable = import-nixpkgs (
-      if final.stdenv.isDarwin
-      then inputs.nixpkgs-stable-darwin
-      else inputs.nixpkgs-stable-nixos
+      if final.stdenv.isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos
     ) final.stdenv.hostPlatform.system;
   };
 
@@ -65,11 +65,13 @@ in
   flake.modules.generic.nixpkgs = {
     config.nixpkgs = {
       inherit config;
-      overlays = [ self.overlays.preface ]
-                 ++ overlays
-                 ++ darwin-overlays
-                 ++ linux-overlays
-                 ++ [ self.overlays.flatten ];
+      overlays = [
+        self.overlays.preface
+      ]
+      ++ overlays
+      ++ darwin-overlays
+      ++ linux-overlays
+      ++ [ self.overlays.flatten ];
     };
   };
 
@@ -78,11 +80,13 @@ in
     {
       _module.args.pkgs = import inputs.nixpkgs {
         inherit config system;
-        overlays = [ self.overlays.preface ]
-                   ++ overlays
-                   ++ (lib.optionals (lib.hasSuffix "linux" system) linux-overlays)
-                   ++ (lib.optionals (lib.hasSuffix "darwin" system) darwin-overlays)
-                   ++ [ self.overlays.flatten ];
+        overlays = [
+          self.overlays.preface
+        ]
+        ++ overlays
+        ++ (lib.optionals (lib.hasSuffix "linux" system) linux-overlays)
+        ++ (lib.optionals (lib.hasSuffix "darwin" system) darwin-overlays)
+        ++ [ self.overlays.flatten ];
       };
     };
 }

@@ -20,7 +20,12 @@ in
     programs.jujutsu = {
       enable = true;
       settings = {
-        aliases.spr = [ "util" "exec" "--" "jj-spr" ];
+        aliases.spr = [
+          "util"
+          "exec"
+          "--"
+          "jj-spr"
+        ];
         fsmonitor.backend = "watchman";
         revsets.log = "all()";
         ui.default-command = "log";

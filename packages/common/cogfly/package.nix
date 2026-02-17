@@ -24,7 +24,11 @@ let
 
     __darwinAllowLocalNetworking = true;
 
-    nativeBuildInputs = [ gradle_9 jdk25 makeWrapper ];
+    nativeBuildInputs = [
+      gradle_9
+      jdk25
+      makeWrapper
+    ];
 
     mitmCache = gradle_9.fetchDeps {
       inherit pkg;
@@ -36,10 +40,10 @@ let
     doCheck = true;
 
     installPhase = ''
-    mkdir -p $out/share/cogfly $out/bin
-    cp build/libs/Cogfly-${version}.jar $out/share/cogfly/
-    makeWrapper ${lib.getExe jdk25} $out/bin/cogfly \
-      --add-flags "-jar $out/share/cogfly/Cogfly-${version}.jar"
+      mkdir -p $out/share/cogfly $out/bin
+      cp build/libs/Cogfly-${version}.jar $out/share/cogfly/
+      makeWrapper ${lib.getExe jdk25} $out/bin/cogfly \
+        --add-flags "-jar $out/share/cogfly/Cogfly-${version}.jar"
     '';
 
     # TODO: package app with proper macOS app

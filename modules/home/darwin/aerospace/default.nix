@@ -36,9 +36,7 @@ let
       value = "${command} ${v}";
     }) attrs;
 
-  gen-workspaces = gen-keybinds (
-    lib.genAttrs (map toString (lib.range 1 9)) (s: s)
-  );
+  gen-workspaces = gen-keybinds (lib.genAttrs (map toString (lib.range 1 9)) (s: s));
 
   gen-vim-directions = gen-keybinds {
     h = "left";

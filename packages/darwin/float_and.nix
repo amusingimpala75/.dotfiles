@@ -7,8 +7,8 @@
 writeShellApplication {
   name = "float_and";
   text = ''
-  aerospace floating
-  "$@"
+    aerospace floating
+    "$@"
   '';
   meta = {
     description = "Float the current window and execute the following command";
@@ -16,4 +16,3 @@ writeShellApplication {
   };
   runtimeInputs = [ aerospace ];
 }
-

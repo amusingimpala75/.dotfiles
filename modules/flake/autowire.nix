@@ -3,7 +3,7 @@
 }:
 rec {
   # Reusable autowiring flake
-  flake.flakeModules.autowire = 
+  flake.flakeModules.autowire =
     {
       config,
       inputs,

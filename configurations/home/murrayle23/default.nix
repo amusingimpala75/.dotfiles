@@ -1,4 +1,9 @@
-{ lib, pkgs, self, ... }:
+{
+  lib,
+  pkgs,
+  self,
+  ...
+}:
 {
   imports = with self.modules.homeManager; [
     pi

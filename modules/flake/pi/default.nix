@@ -30,7 +30,9 @@
         settings = lib.mkOption {
           description = "settings for pi (see docs/settings.md)";
           default = null;
-          example = { defaultProvider = "openai"; };
+          example = {
+            defaultProvider = "openai";
+          };
           type = lib.types.nullOr lib.types.json;
         };
       };
@@ -41,7 +43,9 @@
         home.sessionVariables.PI_CODING_AGENT_DIR = "~/${config.programs.pi.configDir}";
 
         home.file."${config.programs.pi.configDir}/AGENTS.md".source = config.programs.pi."AGENTS.md";
-        home.file."${config.programs.pi.configDir}/settings.json".text = lib.mkIf (config.programs.pi.settings != null) (builtins.toJSON config.programs.pi.settings);
+        home.file."${config.programs.pi.configDir}/settings.json".text = lib.mkIf (
+          config.programs.pi.settings != null
+        ) (builtins.toJSON config.programs.pi.settings);
       };
     };
 
@@ -64,19 +68,21 @@
           extensions =
             let
               fileExtension = name: "${inputs.pi-extensions}/${name}.ts";
-              complexExtension = name: hash:
-                let pkg = pkgs.buildNpmPackage {
-                      pname = "pi-${name}";
-                      version = "git";
-                      src = "${inputs.pi-extensions}/${name}";
-                      npmDepsHash = hash;
-                    };
-                in "${pkg}/lib/node_modules";
-              officialExtension = args:
-                if builtins.isString args
-                then fileExtension args
-                else complexExtension args.name args.hash;
-            in map officialExtension [
+              complexExtension =
+                name: hash:
+                let
+                  pkg = pkgs.buildNpmPackage {
+                    pname = "pi-${name}";
+                    version = "git";
+                    src = "${inputs.pi-extensions}/${name}";
+                    npmDepsHash = hash;
+                  };
+                in
+                "${pkg}/lib/node_modules";
+              officialExtension =
+                args: if builtins.isString args then fileExtension args else complexExtension args.name args.hash;
+            in
+            map officialExtension [
               "commands"
               "confirm-destructive"
               "dirty-repo-guard"
