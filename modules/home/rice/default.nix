@@ -78,7 +78,7 @@
     emacs = {
       theme-package = lib.mkOption {
         description = "package to use";
-        default = pkgs.base16-generators.emacs config.rice.theme;
+        default = pkgs.mkBase16EmacsTheme config.rice.theme;
       };
       theme-file-name = lib.mkOption {
         description = "name of file to be `require'd";

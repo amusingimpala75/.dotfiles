@@ -46,7 +46,9 @@
           type = lib.types.listOf lib.types.package;
           default = [
             pkgs.ferium
-            pkgs.mrpack-install
+            (pkgs.mrpack-install.overrideAttrs (prev: {
+              doCheck = !pkgs.stdenv.isDarwin;
+            }))
             pkgs.portablemc
           ];
           description = "packages for CLI Minecraft";

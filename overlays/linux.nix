@@ -1,4 +1,7 @@
 final: prev: {
-  get-win-sid = final.callPackage ../packages/get-win-sid.nix { };
-  wallp = final.callPackage ../packages/wallp.nix { };
+  local = prev.local.overrideScope (_: _:
+    prev.lib.packagesFromDirectoryRecursive {
+      inherit (final) callPackage;
+      directory = ../packages/linux;
+    });
 }

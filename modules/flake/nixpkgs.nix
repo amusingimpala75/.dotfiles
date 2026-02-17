@@ -32,12 +32,15 @@ let
 
   overlays = [
     bleeding
-    self.overlays.default
+    stable
+
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
+
+    self.overlays.lib
+    self.overlays.common
     self.overlays.nixvim
     inputs.nur.overlays.default
-    stable
   ];
 
   darwin-overlays = [
@@ -62,7 +65,11 @@ in
   flake.modules.generic.nixpkgs = {
     config.nixpkgs = {
       inherit config;
-      overlays = overlays ++ darwin-overlays ++ linux-overlays;
+      overlays = [ self.overlays.preface ]
+                 ++ overlays
+                 ++ darwin-overlays
+                 ++ linux-overlays
+                 ++ [ self.overlays.flatten ];
     };
   };
 
@@ -71,9 +78,11 @@ in
     {
       _module.args.pkgs = import inputs.nixpkgs {
         inherit config system;
-        overlays = overlays
+        overlays = [ self.overlays.preface ]
+                   ++ overlays
                    ++ (lib.optionals (lib.hasSuffix "linux" system) linux-overlays)
-                   ++ (lib.optionals (lib.hasSuffix "darwin" system) darwin-overlays);
+                   ++ (lib.optionals (lib.hasSuffix "darwin" system) darwin-overlays)
+                   ++ [ self.overlays.flatten ];
       };
     };
 }
