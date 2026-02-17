@@ -22,7 +22,7 @@ in
     };
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.my.emacs.override {
+      default = pkgs.custom-emacs.override {
         font-size = rice.font.size;
         font-family-fixed = rice.font.family.fixed-pitch;
         font-family-variable = rice.font.family.variable-pitch;

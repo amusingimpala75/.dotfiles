@@ -12,7 +12,7 @@
     rice = rec {
       theme =
         let
-          scheme = pkgs.my.schemes.base16.grayscale-light;
+          scheme = pkgs.base1624schemes.base16.grayscale-light;
         in
         scheme
         // lib.optionalAttrs config.rices.grey.forceFg (

@@ -9,7 +9,7 @@
 
   config = lib.mkIf config.rices.cross.enable {
     rice = rec {
-      theme = pkgs.my.schemes.base16.default-dark;
+      theme = pkgs.base1624schemes.base16.default-dark;
 
       emacs = {
         theme-package = pkgs.emacsPackages.ef-themes;
@@ -43,7 +43,7 @@
         color = theme.base01;
       };
 
-      wallpaper = "${pkgs.my.wallpapers.simple-cross}";
+      wallpaper = "${pkgs.wallpapers.simple-cross}";
     };
     home.packages = [
       pkgs.iosevka-bin

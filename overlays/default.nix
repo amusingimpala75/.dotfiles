@@ -1,35 +1,23 @@
 final: prev: {
-  wallp = final.callPackage ../packages/wallp.nix { };
-  brightness = final.callPackage ../packages/brightness.nix { };
-  unquarantine = final.callPackage ../packages/unquarantine.nix { };
-  screen-saver = final.callPackage ../packages/screen-saver.nix { };
-  run-ntfy-when-done = final.callPackage ../packages/run-ntfy-when-done.nix { };
-  play-audio = final.callPackage ../packages/play-audio.nix { };
-  get-win-sid = final.callPackage ../packages/get-win-sid.nix { };
-  set-appearance = final.callPackage ../packages/set-appearance.nix { };
+  # Vendored packages
+  cogfly = final.callPackage ../packages/cogfly.nix { };
+  wallpapers = final.callPackage ../packages/wallpapers.nix { };
 
+  # Fixes
   mrpack-install = prev.mrpack-install.overrideAttrs (prev: {
     doCheck = !final.stdenv.isDarwin;
   });
 
-  cogfly = final.callPackage ../packages/cogfly.nix { };
+  # Custom Stuff
+  custom-emacs = final.callPackage ../packages/emacs { };
+  install = final.callPackage ../packages/install.nix { };
+  play-audio = final.callPackage ../packages/play-audio.nix { };
 
+  # Builders / lib functions
+  base1624schemes = prev.callPackage ../packages/lib/schemes.nix { };
   buildFennelPackage = final.callPackage ../packages/lib/buildFennelPackage.nix { };
   fennelToLua = final.callPackage ../packages/lib/fennelToLua.nix { };
-  mkDarwinApplication = final.callPackage ../packages/lib/mkDarwinApplication.nix { };
-
-  my.emacs = final.callPackage ../packages/emacs { };
-  my.install = final.callPackage ../packages/install.nix { };
-
-  float_and = final.callPackage ../packages/float_and.nix { };
-  ghostty_and = final.callPackage ../packages/ghostty_and.nix { };
-
-  # I don't think this is how things are supposed to work
-  # :TODO: move to lib?
-  my.schemes = prev.callPackage ../packages/schemes.nix { };
-  my.wallpapers = final.callPackage ../packages/wallpapers.nix { };
-  my.base16-generators.emacs = final.callPackage ../packages/lib/mkBase16EmacsTheme.nix { };
   fetchMTGWallpaper = final.callPackage ../packages/lib/fetchMTGWallpaper.nix { };
-
-  my.new-ghostty-window = final.callPackage ../packages/new-ghostty-window.nix { };
+  mkDarwinApplication = final.callPackage ../packages/lib/mkDarwinApplication.nix { };
+  base16-generators.emacs = final.callPackage ../packages/lib/mkBase16EmacsTheme.nix { };
 }

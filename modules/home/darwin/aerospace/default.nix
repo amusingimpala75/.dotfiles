@@ -13,7 +13,7 @@ let
   btop = lib.getExe pkgs.btop;
   float_and = lib.getExe pkgs.float_and;
   ghostty_and = lib.getExe pkgs.ghostty_and;
-  new-ghostty = lib.getExe pkgs.my.new-ghostty-window;
+  new-ghostty = lib.getExe pkgs.new-ghostty-window;
 
   back-main = builtins.mapAttrs (
     k: v: [

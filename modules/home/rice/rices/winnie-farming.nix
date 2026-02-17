@@ -9,7 +9,7 @@
 
   config = lib.mkIf config.rices.winnie-farming.enable {
     rice = rec {
-      theme = pkgs.my.schemes.base16.mocha;
+      theme = pkgs.base1624schemes.base16.mocha;
 
       opacity = 0.9;
 
@@ -37,7 +37,7 @@
         color = theme.base01;
       };
 
-      wallpaper = "${pkgs.my.wallpapers.winnie-the-pooh-farm}";
+      wallpaper = "${pkgs.wallpapers.winnie-the-pooh-farm}";
     };
     home.packages = [
       pkgs.iosevka-bin

@@ -1,5 +1,6 @@
 {
   fetchzip,
+  lib,
 
   stdenvNoCC,
   ...
@@ -30,9 +31,6 @@ stdenvNoCC.mkDerivation {
     mainProgram = "WallP.exe";
     description = "Way to set wallpaper in Windows";
     # specifically with WSL
-    platforms = [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
+    platforms = lib.platforms.linux;
   };
 }

@@ -25,6 +25,8 @@ let
   additive-overlays = [
     (final: _: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system; })
     self.overlays.default
+    self.overlays.linux
+    self.overlays.darwin
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
     self.overlays.nixvim

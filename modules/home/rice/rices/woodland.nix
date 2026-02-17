@@ -9,7 +9,7 @@
 
   config = lib.mkIf config.rices.woodland.enable {
     rice = rec {
-      theme = pkgs.my.schemes.base16.woodland;
+      theme = pkgs.base1624schemes.base16.woodland;
 
       opacity = 0.9;
 
@@ -36,7 +36,7 @@
         color = theme.base01;
       };
 
-      wallpaper = "${pkgs.my.wallpapers.gruv-bunny}";
+      wallpaper = "${pkgs.wallpapers.gruv-bunny}";
     };
 
     home.packages = [

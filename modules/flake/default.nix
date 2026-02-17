@@ -20,8 +20,8 @@
       packages = {
         default = self'.packages.install;
 
-        emacs = pkgs.my.emacs;
-        install = pkgs.my.install;
+        emacs = pkgs.custom-emacs;
+        install = pkgs.install;
       };
 
       formatter = pkgs.nixfmt-tree;

@@ -9,7 +9,7 @@
 
   config = lib.mkIf config.rices.gruvbox.enable {
     rice = rec {
-      theme = pkgs.my.schemes.base16.gruvbox-dark-hard;
+      theme = pkgs.base1624schemes.base16.gruvbox-dark-hard;
 
       opacity = 1.0;
 
@@ -36,7 +36,7 @@
         color = theme.base01;
       };
 
-      wallpaper = "${pkgs.my.wallpapers.gruv-bunny}";
+      wallpaper = "${pkgs.wallpapers.gruv-bunny}";
     };
 
     home.packages = [
