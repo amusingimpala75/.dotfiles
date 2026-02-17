@@ -29,6 +29,7 @@
       bible.asv
       chafa
       file
+      jaq
       killall
       scc
       sd

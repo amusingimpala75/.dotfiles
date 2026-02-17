@@ -64,9 +64,7 @@
   home.packages =
     with pkgs;
     [
-      jq
       ntfy-sh
-      yq-go
       play-audio
       cogfly
 
