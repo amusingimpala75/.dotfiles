@@ -14,9 +14,9 @@ final: prev: {
 
   cogfly = final.callPackage ../packages/cogfly.nix { };
 
-  buildFennelPackage = final.callPackage ../packages/buildFennelPackage.nix { };
-  fennelToLua = final.callPackage ../packages/fennelToLua.nix { };
-  mkDarwinApplication = final.callPackage ../packages/mkDarwinApplication.nix { };
+  buildFennelPackage = final.callPackage ../packages/lib/buildFennelPackage.nix { };
+  fennelToLua = final.callPackage ../packages/lib/fennelToLua.nix { };
+  mkDarwinApplication = final.callPackage ../packages/lib/mkDarwinApplication.nix { };
 
   my.emacs = final.callPackage ../packages/emacs { };
   my.install = final.callPackage ../packages/install.nix { };
@@ -28,7 +28,8 @@ final: prev: {
   # :TODO: move to lib?
   my.schemes = prev.callPackage ../packages/schemes.nix { };
   my.wallpapers = final.callPackage ../packages/wallpapers.nix { };
-  my.base16-generators.emacs = final.callPackage ../packages/base16-emacs.nix { };
+  my.base16-generators.emacs = final.callPackage ../packages/lib/mkBase16EmacsTheme.nix { };
+  fetchMTGWallpaper = final.callPackage ../packages/lib/fetchMTGWallpaper.nix { };
 
   my.new-ghostty-window = final.callPackage ../packages/new-ghostty-window.nix { };
 }
