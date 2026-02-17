@@ -9,8 +9,6 @@ let
   rice = config.rice;
 in
 {
-  # TODO figure out why .zshenv -> ~/.config/zsh/.zshenv -> ~/.config/zsh/.zshrc is not being sourced
-  #      (ZDOTDIR is overridden by ghostty integration as /Applications/Ghostty.app/<etc>)
   imports = [ ./darwin.nix ];
 
   options.my.ghostty = {
@@ -20,20 +18,14 @@ in
       example = true;
       description = "enable ghostty configuration";
     };
-
-    package = lib.mkOption {
-      type = lib.types.nullOr lib.types.package;
-      default = pkgs.ghostty;
-      example = null;
-      description = "package to use for ghostty";
-    };
   };
 
   config = lib.mkIf cfg.enable {
     programs.ghostty = {
-      package = cfg.package;
+      package = if pkgs.stdenv.isLinux
+                then pkgs.ghostty
+                else pkgs.ghostty-bin;
       enable = true;
-      enableZshIntegration = true; # :TODO: genericize
       settings = with rice; {
         background-opacity = "${toString opacity}";
         background-blur-radius = 10;

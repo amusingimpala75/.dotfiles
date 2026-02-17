@@ -21,8 +21,7 @@ let
       "zoom"
     ];
 
-  override-overlays = [ self.overlays.macos-bin ];
-  additive-overlays = [
+  overlays = [
     (final: _: { bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system; })
     self.overlays.default
     self.overlays.linux
@@ -38,14 +37,11 @@ let
     })
   ];
 
-  overlays = additive-overlays ++ override-overlays;
-
   import-nixpkgs =
     np: system:
     import np {
       inherit system;
       config.allowUnfreePredicate = unfree-predicate;
-      overlays = override-overlays;
     };
 
   config = {
