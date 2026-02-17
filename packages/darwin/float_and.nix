@@ -10,7 +10,10 @@ writeShellApplication {
   aerospace floating
   "$@"
   '';
-  meta.platforms = lib.platforms.darwin;
+  meta = {
+    description = "Float the current window and execute the following command";
+    platforms = lib.platforms.darwin;
+  };
   runtimeInputs = [ aerospace ];
 }
 

@@ -7,6 +7,9 @@
 writeShellApplication {
   name = "new-ghostty-window";
   text = builtins.readFile ./new-ghostty-window.sh;
-  meta.platforms = lib.platforms.darwin;
+  meta = {
+    description = "Create a new Ghostty window (NOT process) or open it if not yet open";
+    platforms = lib.platforms.darwin;
+  };
   runtimeInputs = [ ripgrep ];
 }
