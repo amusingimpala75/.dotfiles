@@ -1,5 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, self, ... }:
 {
+  imports =
+    with self.modules.darwin;
+    [
+      netbird
+    ];
+
   nixpkgs.hostPlatform = "aarch64-darwin";
 
   environment.shells = with pkgs; [
