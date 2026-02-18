@@ -44,6 +44,19 @@
 
   programs.infat = {
     enable = true;
+    package = pkgs.infat.overrideAttrs (old: rec {
+      # TODO remove once upstreamed into nixpkgs
+      src = pkgs.fetchFromGitHub {
+        owner = "philocalyst";
+        repo = "infat";
+        rev = "eed1108f042c1613a60eef4aa3bb80c44a7c86e7";
+        hash = "sha256-4R/BB6WbMjuhUeBH1/kdSSvLnQTCTBihqt5STIu5cU0=";
+      };
+      cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+        inherit src;
+        hash = "sha256-/DHku1bryv5813NC0b2vdrP3Qvj8fu7C64//A9SmbIg=";
+      };
+    });
     settings = {
       extensions = {
         org = "Emacs";
@@ -68,7 +81,6 @@
       play-audio
       cogfly
 
-      infat
       wireshark
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin (
