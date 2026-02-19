@@ -27,6 +27,7 @@
   rices.gruvbox.enable = true;
   rice.font.size = lib.mkForce 20;
 
+  wsl.enable = true;
   wsl.username = "MURRAYLE23";
   wsl.wallp.enable = true;
 

@@ -10,9 +10,7 @@
   ];
 
   options.wsl = {
-    enable = (lib.mkEnableOption "if this is WSL") // {
-      default = "" != (builtins.getEnv "WSL_DISTRO_NAME");
-    };
+    enable = lib.mkEnableOption "if this is WSL";
     username = lib.mkOption {
       type = lib.types.str;
       example = "johndoe28";
@@ -40,30 +38,30 @@
   };
 
   config = lib.mkIf config.wsl.enable {
-    home.activation = builtins.mapAttrs (
-      name: val:
-      lib.hm.dag.entryAfter [ "writeBoundary" ] (
-        ''
-          # Ensure enclosing folder exists
-          mkdir -p /mnt/c/Users/${config.wsl.username}/$(dirname ${name})
-          # Remove old copy (TODO: may want to back up to not destroy old if first time?)
-          rm -f /mnt/c/Users/${config.wsl.username}/${name}
-        ''
-        + (
-          if val.source != null then
+    home.activation.wslUserFiles =
+      config.wsl.userFile
+        |> lib.concatMapAttrsStringSep "\n" (
+          name: val:
+          let
+            path = "/mnt/c/Users/${config.wsl.username}/${name}";
+          in
             ''
-              # Copy by source
-              cp ${val.source} /mnt/c/Users/${config.wsl.username}/${name}
+              mkdir -p "$(dirname ${path})"
+              rm -f "${path}"
             ''
-          else
-            ''
-              # Copy by value
-              cat > /mnt/c/Users/${config.wsl.username}/${name} << EOF
-              ${val.text}
-              EOF
-            ''
+            + (
+              if val.source != null then
+                ''
+                  cp "${val.source}" "${path}"
+                ''
+              else
+                ''
+                  cat > "${path}" << EOF
+                  ${val.text}
+                  EOF
+                ''
+            )
         )
-      )
-    ) config.wsl.userFile;
+        |> lib.hm.dag.entryAfter [ "onFilesChange" ];
   };
 }
