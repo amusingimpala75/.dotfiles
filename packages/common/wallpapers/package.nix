@@ -30,6 +30,10 @@ let
       url = "https://wallpaperaccess.com/download/minimalist-cross-4317563";
       hash = "";
     };
+    "nord-buildings" = {
+      url = "https://raw.githubusercontent.com/linuxdotexe/nordic-wallpapers/master/wallpapers/nord_buildings.png";
+      hash = "sha256-diUciJI5D+Os/dqG7pjc5T47QYzFoWwDJjr8a0WfFlc=";
+    };
   };
 in
 (builtins.mapAttrs (name: value: fetchurl value) wps)

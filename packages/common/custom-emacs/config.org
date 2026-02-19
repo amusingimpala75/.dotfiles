@@ -175,7 +175,7 @@ Pull from the user configuration for the font family/size
   :config
   (ligature-set-ligatures 'prog-mode '("==" "!=" ">=" "<=" "->" "=>"
                                        ".." "..." "++" "+=" "::=" "__"
-                                       "===" "!==" "|>")))
+                                       "===" "!==" "|>" "[TODO]" "[FIXME]")))
 #+end_src
 
 *** Dashboard

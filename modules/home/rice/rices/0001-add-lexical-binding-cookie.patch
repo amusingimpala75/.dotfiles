@@ -1,0 +1,22 @@
+From f8aa3ff4535351d34cb963f847c2b4751df64820 Mon Sep 17 00:00:00 2001
+From: amusingimpala75 <69653100+amusingimpala75@users.noreply.github.com>
+Date: Thu, 19 Feb 2026 17:31:53 -0500
+Subject: [PATCH] add lexical binding cookie
+
+---
+ nord-theme.el | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/nord-theme.el b/nord-theme.el
+index 55d8d0d..a063dfa 100644
+--- a/nord-theme.el
++++ b/nord-theme.el
+@@ -1,4 +1,4 @@
+-;;; nord-theme.el --- An arctic, north-bluish clean and elegant theme
++;;; nord-theme.el --- An arctic, north-bluish clean and elegant theme  -*- lexical-binding: t; -*-
+ 
+ ;; Copyright (c) 2016-present Sven Greb <development@svengreb.de> (https://www.svengreb.de)
+ 
+-- 
+2.52.0
+

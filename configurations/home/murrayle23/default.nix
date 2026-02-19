@@ -24,7 +24,7 @@
     };
   };
 
-  rices.gruvbox.enable = true;
+  rices.nord.enable = true;
   rice.font.size = lib.mkForce 20;
 
   wsl.enable = true;

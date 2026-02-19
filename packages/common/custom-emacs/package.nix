@@ -53,6 +53,7 @@ let
         pname = "nix-settings";
         version = "0.1.0";
         src = writeText "nix-settings.el" ''
+          ;;; -*- lexical-binding: t; -*-
           (defvar my/font-family-fixed-pitch "${font-family-fixed}")
           (defvar my/font-family-variable-pitch "${font-family-variable}")
           (defvar my/font-size ${toString font-size})

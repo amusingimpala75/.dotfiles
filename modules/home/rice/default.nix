@@ -13,6 +13,7 @@
     ./rices/cross.nix
     ./rices/grey.nix
     ./rices/gruvbox.nix
+    ./rices/nord.nix
     ./rices/solarized-light.nix
     ./rices/winnie-farming.nix
     ./rices/woodland.nix
