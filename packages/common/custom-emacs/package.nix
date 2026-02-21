@@ -37,7 +37,7 @@ let
     package = emacs;
     alwaysTangle = true;
     defaultInitFile = true;
-    config = ./config.org;
+    config = ./init.el;
     extraEmacsPackages = epkgs: [
       (epkgs.treesit-grammars.with-grammars (
         p:

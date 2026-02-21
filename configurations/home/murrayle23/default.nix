@@ -34,5 +34,6 @@
   home.packages = with pkgs; [
     noto-fonts-color-emoji
     get-win-sid
+    play-audio
   ];
 }
