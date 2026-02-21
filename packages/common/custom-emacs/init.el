@@ -109,7 +109,8 @@
 ;; When in a text mode, don't truncate lines but wrap them
 (use-package simple
   :diminish visual-line-mode
-  :hook (text-mode . visual-line-mode)
+  ;; [TODO] is the extra org mode necessary?
+  :hook ((org-mode text-mode) . visual-line-mode)
   :custom
   ;; Please no tabs
   (indent-tabs-mode nil)
@@ -238,7 +239,8 @@
 (use-package flymake
   :defer t
   ;; Show diagnostics inline at end of line
-  :custom (flymake-show-diagnostics-at-end-of-line t))
+  :custom (flymake-show-diagnostics-at-end-of-line t)
+  :hook emacs-lisp-mode)
 
 (use-package skeleton :defines skeleton-positions)
 
@@ -321,17 +323,13 @@
   (define-abbrev table "ria" "\\rightarrow" nil 1)
   (my/add-skeleton-abbrevs table '(("begin" . LaTeX-skeleton-begin))))
 
+(use-package face-remap
+  :hook (org-mode . variable-pitch-mode))
+
 (use-package org
-  :after word-count
   :defer 5
   :diminish org-indent-mode
   :hook
-  ;; Count words in org mode by default
-  (org-mode . word-count-mode)
-  ;; Allow different line heights
-  (org-mode . variable-pitch-mode)
-  ;; Word wrap [TODO] is this necessary (extends from text-mode already)
-  (org-mode . visual-line-mode)
   ;; Fix for electric pair [TODO] remove electric pair from org-mode?
   (org-mode . (lambda ()
                 (setq-local electric-pair-inhibit-predicate
@@ -703,8 +701,7 @@
 (use-package elisp-mode
   :custom
   ;; Semantic fonitifcation is nice
-  (elisp-fontify-semantically t)
-  :hook (elisp-mode . flymake-mode))
+  (elisp-fontify-semantically t))
 
 (use-package vertico
   :ensure t
@@ -923,11 +920,11 @@
 (use-package pdf-tools
   :ensure t
   :hook
-  ;; Continuous scroll in pdf tools
-  (pdf-view-mode . pdf-view-roll-minor-mode)
   :config
   ;; Compile in the pdf tools
   (pdf-tools-install nil t))
+(use-package pdf-roll
+  :hook pdf-view-mode)
 
 ;; Offbrand pdf-tools
 (use-package page-view)
@@ -1214,7 +1211,8 @@
   ("C-;" . expreg-expand)
   ("C-:" . expreg-contract))
 
-(use-package word-count)
+(use-package word-count
+  :hook org-mode)
 
 ;; Direnv support
 (use-package envrc
