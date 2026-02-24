@@ -27,7 +27,6 @@ in
           "jj-spr"
         ];
         fsmonitor.backend = "watchman";
-        revsets.log = "all()";
         ui.default-command = "log";
         user = {
           name = lib.mkIf (cfg.username != null) cfg.username;

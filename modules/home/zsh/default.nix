@@ -53,7 +53,12 @@ in
           fi
         }
         function precmd_prompt {
-          _PROMPT_ENV=$(__git_ps1 "%s")
+          if [ -d ".jj" ]
+          then
+            _PROMPT_ENV=
+          else
+            _PROMPT_ENV=$(__git_ps1 "%s")
+          fi
           __my_zsh_set_direnv_status
           if [ ! -z "$_PROMPT_ENV" ] && [ ! -z "$__my_zsh_direnv_status" ]
           then
