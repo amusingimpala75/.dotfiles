@@ -703,6 +703,9 @@
   ;; Semantic fonitifcation is nice
   (elisp-fontify-semantically t))
 
+(use-package groovy-mode
+  :ensure t)
+
 (use-package vertico
   :ensure t
   :custom
