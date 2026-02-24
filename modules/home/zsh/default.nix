@@ -53,9 +53,9 @@ in
           fi
         }
         function precmd_prompt {
-          if [ -d ".jj" ]
+          if jj root > /dev/null 2>&1
           then
-            _PROMPT_ENV=
+            _PROMPT_ENV=[jj]
           else
             _PROMPT_ENV=$(__git_ps1 "%s")
           fi
