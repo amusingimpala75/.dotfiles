@@ -79,6 +79,9 @@
     pi-extensions.flake = false;
 
     import-tree.url = "github:vic/import-tree";
+
+    automader.url = "github:amusingimpala75/automata_grader";
+    automader.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

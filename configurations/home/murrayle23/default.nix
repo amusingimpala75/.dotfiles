@@ -1,5 +1,6 @@
 {
   lib,
+  inputs,
   pkgs,
   self,
   ...
@@ -35,5 +36,7 @@
     noto-fonts-color-emoji
     get-win-sid
     play-audio
+
+    inputs.automader.packages.${pkgs.stdenv.hostPlatform.system}.automader
   ];
 }
