@@ -412,6 +412,7 @@
 
 ;; Org modern indent
 (use-package org-modern-indent
+  :ensure t
   :hook org-modern-mode)
 
 (use-package ox-latex
@@ -512,6 +513,7 @@
   sbt-do-test
   :ensure t)
 (use-package scala-cli-repl
+  :ensure t
   ;; Pin to scala 3
   :custom (ob-scala-cli-default-params '(:scala-version "3.0.0")))
 
@@ -922,7 +924,6 @@
 
 (use-package pdf-tools
   :ensure t
-  :hook
   :config
   ;; Compile in the pdf tools
   (pdf-tools-install nil t))
@@ -930,7 +931,11 @@
   :hook pdf-view-mode)
 
 ;; Offbrand pdf-tools
-(use-package page-view)
+(use-package page-view
+  :ensure t)
+
+(use-package reader
+  :ensure t)
 
 (use-package eat
    :ensure t)
@@ -938,7 +943,11 @@
 ;; Custom popup terminal
 (use-package toggleterm
   :defer nil
+  :ensure t
   :bind ("C-x C-a t" . toggleterm-dwim))
+
+(use-package nnnrss
+  :ensure t)
 
 (use-package gnus
   :defines
@@ -1215,6 +1224,7 @@
   ("C-:" . expreg-contract))
 
 (use-package word-count
+  :ensure t
   :hook org-mode)
 
 ;; Direnv support

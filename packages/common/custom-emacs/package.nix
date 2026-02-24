@@ -67,13 +67,6 @@ let
         '';
         packageRequires = [ theme-package ];
       })
-      epkgs.nnnrss
-      epkgs.org-modern-indent
-      epkgs.page-view
-      epkgs.reader
-      epkgs.scala-cli-repl
-      epkgs.toggleterm
-      epkgs.word-count
     ];
     override = epkgs: {
       org = epkgs.org-karthik;
