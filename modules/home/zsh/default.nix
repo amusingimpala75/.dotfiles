@@ -72,7 +72,7 @@ in
         }
         add-zsh-hook precmd precmd_prompt
         setopt prompt_subst
-        export PROMPT='%n@%U%m%u''${_PROMPT_ENV}> '
+        export PROMPT='%n@%U%m%u''${_PROMPT_ENV} λ '
         export RPROMPT="%F{green}%~%f"
 
         [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \

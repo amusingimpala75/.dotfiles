@@ -771,6 +771,8 @@
     (cape-capf-super #'cape-abbrev #'cape-elisp-block))
   (defvar my/generic-capf
     (cape-capf-super #'cape-abbrev))
+  (defvar my/eshell-capf
+    (cape-capf-super #'pcomplete-completions-at-point #'cape-history))
 
   (defun my/cape-capf-set ()
     "Setup capfs depending on the mode."
@@ -779,6 +781,8 @@
                 (list #'cape-file
                       (cond ((equal major-mode #'org-mode)
                              my/org-capf)
+                            ((equal major-mode #'eshell-mode)
+                             my/eshell-capf)
                             ((or (equal major-mode #'emacs-lisp-mode)
                                  (equal major-mode #'lisp-interaction-mode))
                              my/elisp-capf)
@@ -948,13 +952,91 @@
   :ensure t)
 
 (use-package eat
-   :ensure t)
+  :ensure t)
+
+(use-package vterm
+  :ensure t)
+(use-package eshell-vterm
+  :ensure t
+  :custom
+  (eshell-vterm-mode t))
 
 ;; Custom popup terminal
 (use-package toggleterm
   :defer nil
   :ensure t
   :bind ("C-x C-a t" . toggleterm-dwim))
+
+(use-package eshell
+  :custom
+  (eshell-prompt-regexp "^[^#$\n]* [λ#] ")
+  (eshell-highlight-prompt nil)
+  (eshell-prompt-function 'my/eshell-prompt)
+  (eshell-command-aliases-list '(("clear" "clear t")))
+  (eshell-bad-command-tolerance most-positive-fixnum)
+  :preface
+  (defun eshell/z (&rest args)
+    "Jump to directory using zoxide."
+    (let* ((args-string
+            (mapconcat
+             (lambda (x)
+               (if (numberp x)
+                   (number-to-string x)
+                 x))
+             args " "))
+           (cmd (concat "zoxide query -- " args-string))
+           (results
+            (with-temp-buffer
+              (list :exit-code (call-process-shell-command cmd nil t)
+                    :target (string-trim (buffer-string)))))
+           (exit-code (plist-get results :exit-code))
+           (target (plist-get results :target)))
+      (if (not (= 0 exit-code))
+          (eshell/echo "zoxide: no match found")
+        (eshell/cd target))))
+  (defun my/eshell-prompt ()
+    "Generate my eshell prompt."
+    (propertize
+     (concat
+      (propertize
+       (user-login-name)
+       'face 'font-lock-type-face)
+      "@"
+      (propertize (system-name) 'face '(font-lock-keyword-face :underline t))
+      " "
+      (when (project-current)
+        (concat
+         (propertize
+          (file-name-base (directory-file-name (project-root (project-current))))
+          'face 'font-lock-string-face)
+         "#"))
+      (propertize
+       (file-name-base (directory-file-name (abbreviate-file-name default-directory)))
+       'face 'font-lock-string-face)
+      (propertize
+       (if (envrc--find-env-dir) " (direnv)" "")
+       'face 'font-lock-comment-face)
+      (propertize (if (not (= 0 eshell-last-command-status)) " :(" "") 'face 'error)
+      " λ "
+      )
+     'read-only t
+     'front-sticky '(font-lock-face read-only)
+     'rear-nonsticky '(font-lock-face read-only)))
+  :config
+  (dolist (command '("pi" "nh"))
+    (add-to-list 'eshell-visual-commands command))
+  (dolist (subcommands '(("jj" "diff")))
+    (add-to-list 'eshell-visual-subcommands subcommands))
+  (dolist (options '(("jj" "--editor")))
+    (add-to-list 'eshell-visual-options options)))
+
+(use-package xterm-color
+  :ensure t
+  :custom
+  (xterm-color-preserve-properties t)
+  :config
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (setenv "TERM" "xterm-256color"))
 
 (use-package nnnrss
   :ensure t)
@@ -1142,7 +1224,8 @@
   ;; This way we can preserve our linkage to e.g. VLC
   (let ((nix-store-exec-path
          (seq-filter (lambda (item)
-                       (string-prefix-p "/nix/store" item)) exec-path)))
+                       (string-prefix-p "/nix/store" item))
+                     exec-path)))
     (exec-path-from-shell-initialize)
     (setq exec-path (append nix-store-exec-path exec-path))
     (setenv "PATH"
