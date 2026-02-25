@@ -53,9 +53,6 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    direnv-instant.url = "github:Mic92/direnv-instant";
-    direnv-instant.inputs.nixpkgs.follows = "nixpkgs";
-
     opencode-ralph.url = "github:rot13maxi/opencode-ralph";
     opencode-ralph.flake = false;
 

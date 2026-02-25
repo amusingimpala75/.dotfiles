@@ -1,14 +1,12 @@
 {
   lib,
   config,
-  inputs,
   ...
 }:
 let
   cfg = config.my.direnv;
 in
 {
-  imports = [ inputs.direnv-instant.homeModules.direnv-instant ];
   options.my.direnv = {
     enable = lib.mkOption {
       type = lib.types.bool;
