@@ -44,6 +44,7 @@ in
           ];
         };
         fsmonitor.backend = "watchman";
+        git.colocate = false;
         ui.default-command = "log";
         user = {
           name = lib.mkIf (cfg.username != null) cfg.username;
