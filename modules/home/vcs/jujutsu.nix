@@ -7,18 +7,25 @@
 }:
 let
   cfg = config.my.vcs;
+  package = inputs.nixpkgs-jj37.legacyPackages.${pkgs.stdenv.hostPlatform.system}.jujutsu;
 in
 {
   options.my.vcs.jujutsu = lib.mkEnableOption "jujutsu configuration";
 
   config = lib.mkIf cfg.jujutsu {
     nixpkgs.overlays = [
-      (final: _: {
-        jj-spr = inputs.jj-spr.packages.${final.stdenv.hostPlatform.system}.default;
+      (final: prev: {
+        # Thanks for not having a proper overlay smh
+        jj-spr = inputs.jj-spr.packages.${final.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
+          nativeBuildInputs = old.nativeBuildInputs
+            |> lib.filter (pkg: pkg != prev.jujutsu)
+            |> (list: list ++ [ package ]);
+        });
       })
     ];
     programs.jujutsu = {
       enable = true;
+      inherit package;
       settings = {
         aliases.spr = [
           "util"

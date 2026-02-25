@@ -71,6 +71,7 @@
 
     jj-spr.url = "github:LucioFranco/jj-spr";
     jj-spr.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-jj37.url = "github:NixOS/nixpkgs?rev=aa290c9891fa4ebe88f8889e59633d20cc06a5f2";
 
     pi-extensions.url = "github:badlogic/pi-mono?shallow=1&dir=packages/coding-agent/examples/extensions";
     pi-extensions.flake = false;
