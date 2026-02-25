@@ -27,12 +27,22 @@ in
       enable = true;
       inherit package;
       settings = {
-        aliases.spr = [
-          "util"
-          "exec"
-          "--"
-          "jj-spr"
-        ];
+        aliases = {
+          spr = [
+            "util"
+            "exec"
+            "--"
+            "jj-spr"
+          ];
+          tug = [
+            "bookmark"
+            "move"
+            "--from"
+            "heads(::@- & bookmarks())"
+            "--to"
+            "@-"
+          ];
+        };
         fsmonitor.backend = "watchman";
         ui.default-command = "log";
         user = {
