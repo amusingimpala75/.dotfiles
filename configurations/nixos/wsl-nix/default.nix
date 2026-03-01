@@ -5,9 +5,15 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ ... }:
-
 {
+  self,
+  ...
+}:
+{
+  imports = with self.modules.nixos; [
+    dictionary
+  ];
+
   nixpkgs.hostPlatform = "x86_64-linux";
 
   wsl.enable = true;

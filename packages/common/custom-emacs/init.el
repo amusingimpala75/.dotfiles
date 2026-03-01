@@ -1215,6 +1215,9 @@
   :custom
   ;; Default to english yay
   (flyspell-default-dictionary "en"))
+(use-package dictionary
+  :custom
+  (dictionary-server "localhost"))
 
 ;; Expanding the region, treesit-based
 (use-package expreg
