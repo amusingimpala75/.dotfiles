@@ -57,6 +57,7 @@
     }:
     {
       imports = [ self.homeModules.pi ];
+      home.packages = [ pkgs.pi-acp ];
       programs.pi = {
         enable = true;
         "AGENTS.md" = ./global-agents.md;

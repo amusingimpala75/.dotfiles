@@ -45,5 +45,7 @@ in
     programs.home-manager.enable = true;
 
     news.display = "silent";
+
+    systemd.user.sessionVariables = config.home.sessionVariables;
   };
 }

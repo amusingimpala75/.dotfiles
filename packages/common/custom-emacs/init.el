@@ -1230,6 +1230,9 @@
   :ensure t
   :hook org-mode)
 
+(use-package agent-shell
+  :ensure t)
+
 ;; Direnv support
 (use-package envrc
   :ensure t
