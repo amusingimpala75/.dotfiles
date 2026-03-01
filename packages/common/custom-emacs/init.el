@@ -154,9 +154,11 @@
   (default ((t ( :family ,my/font-family-fixed-pitch
                  :height ,(* my/font-size 10)))))
   (variable-pitch ((t (:family ,my/font-family-variable-pitch))))
-  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch))))
-  ;; Make string face italic
-  (font-lock-string-face ((t (:slant italic)))))
+  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch)))))
+
+(use-package font-lock
+  :config
+  (custom-set-faces '(font-lock-string-face ((t (:slant italic))))))
 
 ;; Use ligatures, only prog-mode currently
 (use-package ligature
@@ -822,7 +824,15 @@
   :after corfu
   :custom
   ;; Add icons to the right side
-  (corfu-margin-formatters (list #'kind-icon-margin-formatter)))
+  (corfu-margin-formatters (list #'kind-icon-margin-formatter))
+  ;; Decrease the svg height. I think this is only because
+  ;; the svg height is taken from the main buffer, but
+  ;; our text-height is modified per-frame; i.e. the child
+  ;; frame for the candidates uses the smaller text size
+  ;; and thus you would (without this setting) have incorrently-
+  ;; sized rows that would overflow the window (they are there,
+  ;; you just can't read what they say)
+  (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.6 :scale 1.0 :background nil)))
 
 (use-package elec-pair
   :functions electric-pair-default-inhibit
@@ -1113,7 +1123,7 @@
   ;; Keep track of recently visited files
   (recentf-mode t)
   ;; Increase the limit
-  (recentf-max-saved-items 50)
+  (recentf-max-saved-items 200)
   :bind ("C-x C-r" . recentf))
 
 (use-package saveplace
