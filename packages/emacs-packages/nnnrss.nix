@@ -1,11 +1,11 @@
 {
   fetchFromGitHub,
-  trivialBuild,
+  melpaBuild,
   ...
 }:
-trivialBuild {
+melpaBuild {
   pname = "nnnrss";
-  version = "git+2025-3-9";
+  version = "0-unstable-2025-03-09";
   src = fetchFromGitHub {
     owner = "jjbarr";
     repo = "nnnrss";

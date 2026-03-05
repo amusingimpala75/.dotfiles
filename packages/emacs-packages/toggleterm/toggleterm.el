@@ -5,7 +5,7 @@
 ;; Author: Luke Murray <69653100+amusingimpala75@users.noreply.github.com>
 ;; Keywords: terminal
 ;; Package-Version: 20250822
-;; Package-Requires: ;; TODO
+;; Package-Requires:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the MIT License.
@@ -24,12 +24,12 @@
 (require 'project)
 
 (defgroup toggleterm nil
-  "Toggleable Terminal"
+  "Toggleable Terminal."
   :group 'external
   :prefix "toggleterm-")
 
 (defcustom toggleterm-buffer-name "*toggleterm*"
-  "Name of toggleterm buffers"
+  "Name of toggleterm buffers."
   :type 'string
   :group 'toggleterm)
 
@@ -39,7 +39,7 @@
   :group 'toggleterm)
 
 (defcustom toggleterm-frame-padding 2
-  "margin between edge of toggleterm and parent frame."
+  "Margin between edge of toggleterm and parent frame."
   :type 'integer
   :group 'toggleterm)
 
@@ -57,6 +57,7 @@
   "Frame for popping up as toggleterm.")
 
 (defun toggleterm--start-eat ()
+  "Start toggleterm with Eat."
   (with-current-buffer (eat)
     (add-hook 'eat-exit-hook (lambda (proc) (kill-current-buffer)) nil t)
     (current-buffer)))
@@ -77,14 +78,14 @@
                                             (visibility . nil)))))))
 
 (defun toggleterm--get-buffer-name (&optional directory)
-  "Get the name for the toggleterm buffer for `directory'."
+  "Get the name for the toggleterm buffer for `DIRECTORY'."
   (unless directory
     (setq directory default-directory))
   (format "%s<%s>" toggleterm-buffer-name directory))
 
 (defun toggleterm--set-frame-parameters (frame &rest params)
-  "Set the `params' for the frame.
-`params' is list of cons cells."
+  "Set the `PARAMS' for `FRAME'.
+`PARAMS' is list of cons cells."
   (dolist (cell params nil)
     (let ((attr (car cell))
           (val (cdr cell)))
@@ -101,7 +102,7 @@
     (raise-frame (frame-parameter frame 'parent-frame))))
 
 (defun toggleterm--show-term (buf)
-  "Pop-up a toggleterm for `buf'."
+  "Pop-up a toggleterm for `BUF'."
   (if (not (string-prefix-p toggleterm-buffer-name (buffer-name buf)))
       (error "`buf' was not a toggleterm buffer"))
   (let* ((parent (toggleterm--current-frame))
@@ -121,7 +122,7 @@
                                       '(visibility . t))))
 
 (defun toggleterm--start-term (&optional directory)
-  "Start a toggleterm in `directory'.
+  "Start a toggleterm in `DIRECTORY'.
 assumed to be cwd if not provided."
   (unless directory
     (setq directory default-directory))

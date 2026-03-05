@@ -1,10 +1,10 @@
 {
   lib,
-  trivialBuild,
+  melpaBuild,
   ...
 }:
-trivialBuild {
+melpaBuild {
   pname = "toggleterm";
-  version = "git+2025-8-30";
+  version = "0-unstable-2025-08-30";
   src = lib.sources.sourceByRegex ./. [ "toggleterm.el" ];
 }

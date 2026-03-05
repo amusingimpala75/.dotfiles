@@ -1,11 +1,11 @@
 {
   fetchFromGitHub,
-  trivialBuild,
+  melpaBuild,
   ...
 }:
-trivialBuild {
+melpaBuild {
   pname = "org-modern-indent";
-  version = "git+2025-4-12";
+  version = "0-unstable-2025-04-12";
   src = fetchFromGitHub {
     owner = "jdtsmith";
     repo = "org-modern-indent";

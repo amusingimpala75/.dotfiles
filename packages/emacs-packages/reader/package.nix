@@ -34,7 +34,7 @@ let
 in
 melpaBuild {
   pname = "reader";
-  version = "20251208";
+  version = "0-unstable-2025-12-08";
   inherit src;
   files = ''(:defaults "${lib.getLib core}/lib/render-core.*")'';
 }

@@ -1,14 +1,14 @@
 {
   fetchFromGitHub,
+  melpaBuild,
   s,
   scala-mode,
-  trivialBuild,
   xterm-color,
   ...
 }:
-trivialBuild {
-  pname = "scala-repl-cli";
-  version = "git+2026-01-22";
+melpaBuild {
+  pname = "scala-cli-repl";
+  version = "0-unstable-2026-01-22";
   src = fetchFromGitHub {
     owner = "ag91";
     repo = "scala-cli-repl";

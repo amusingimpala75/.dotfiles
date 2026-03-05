@@ -1,10 +1,10 @@
 {
   lib,
-  trivialBuild,
+  melpaBuild,
   ...
 }:
-trivialBuild {
+melpaBuild {
   pname = "word-count";
-  version = "git+2026-02-16";
+  version = "0-unstable-2026-02-16";
   src = lib.sources.sourceByRegex ./. [ "word-count.el" ];
 }

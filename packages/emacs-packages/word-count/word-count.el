@@ -5,7 +5,7 @@
 ;; Author: Luke Murray <69653100+amusingimpala75@users.noreply.github.com>
 ;; Keywords: terminal
 ;; Package-Version: 20260216
-;; Package-Requires: ;; TODO
+;; Package-Requires:
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the MIT License.
@@ -21,6 +21,7 @@
 ;;; Code:
 
 (defun word-count-mode-count-words-dwim ()
+  "Count word in buffer or region if active."
   (format "%d" (count-words
                 (if (region-active-p) (min (mark) (point)) (point-min))
                 (if (region-active-p) (max (mark) (point)) (point-max))

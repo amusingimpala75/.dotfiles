@@ -1,12 +1,12 @@
 {
   fetchFromGitHub,
+  melpaBuild,
   olivetti,
-  trivialBuild,
   ...
 }:
-trivialBuild {
+melpaBuild {
   pname = "page-view";
-  version = "git+2025-12-10";
+  version = "0-unstable-2025-12-10";
   src = fetchFromGitHub {
     owner = "bradmont";
     repo = "page-view";

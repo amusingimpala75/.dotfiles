@@ -1,13 +1,12 @@
 {
   fetchgit,
-  org,
-  trivialBuild,
+  melpaBuild,
   ...
 }:
 let
-  version = "git+2026-01-05";
+  version = "0-unstable-2026-01-05";
 
-  autoloaded-src = trivialBuild {
+  autoloaded-src = melpaBuild {
     inherit version;
     src = fetchgit {
       url = "https://code.tecosaur.net/tec/org-mode";
@@ -24,8 +23,8 @@ let
     '';
   };
 in
-trivialBuild {
+melpaBuild {
   inherit version;
-  pname = "org-karthik";
+  pname = "org";
   src = autoloaded-src;
 }

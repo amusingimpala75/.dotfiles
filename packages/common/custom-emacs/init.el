@@ -760,6 +760,9 @@
          ("M-g g" . consult-goto-line)
          ("M-y" . consult-yank-pop)))
 
+(use-package pcomplete
+  :functions pcomplete-completions-at-point)
+
 (use-package cape
   :ensure t
   :after corfu
@@ -976,6 +979,9 @@
   (eshell-prompt-function 'my/eshell-prompt)
   (eshell-command-aliases-list '(("clear" "clear t")))
   (eshell-bad-command-tolerance most-positive-fixnum)
+  :functions
+  eshell/cd
+  eshell/echo
   :preface
   (defun eshell/z (&rest args)
     "Jump to directory using zoxide."
@@ -1031,13 +1037,16 @@
     (add-to-list 'eshell-visual-subcommands subcommands))
   (dolist (options '(("jj" "--editor")))
     (add-to-list 'eshell-visual-options options)))
+(use-package esh-mode
+  :defines eshell-preoutput-filter-functions
+  :config
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter))
 
 (use-package xterm-color
   :ensure t
   :custom
   (xterm-color-preserve-properties t)
   :config
-  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (setenv "TERM" "xterm-256color"))
 
 (use-package nnnrss
@@ -1334,7 +1343,7 @@
   :after exec-path-from-shell
   ;; This needs to be hooked last to ensure it runs first
   :hook (after-init . envrc-global-mode)
-  :functions envrc-propagate-environment
+  :functions envrc-propagate-environment envrc--find-env-dir
   :config
   ;; Advice a few poorly acting modes
   (dolist (fn '(Man-completion-table sql-sqlite my/org-latex-export-to-docx))
