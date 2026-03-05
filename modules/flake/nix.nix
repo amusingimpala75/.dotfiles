@@ -4,61 +4,57 @@
   ...
 }:
 let
-  settings = {
-    experimental-features = [
-      "flakes"
-      "nix-command"
-      "pipe-operators"
-    ];
-    flake-registry = "";
+  common = pkgs: {
+    # nixpkgs.overlays = [ inputs.determinate-nix-cli.overlays.default ];
+    nix = {
+      gc = {
+        automatic = true;
+        options = "--delete-older-than 30d";
+      };
+      nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
+      package = inputs.determinate-nix-cli.packages.${pkgs.stdenv.hostPlatform.system}.nix-cli;
+      registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
+      settings = {
+        eval-cores = 0;
+        experimental-features = [
+          "flakes"
+          "nix-command"
+          "pipe-operators"
+        ];
+        flake-registry = "";
+      };
+    };
   };
-  registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
-  nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
 in
 {
   flake.modules.darwin.nix =
     { pkgs, ... }:
-    {
-      nix = {
-        inherit nixPath registry settings;
-        package = pkgs.nixVersions.nix_2_28;
-        gc = {
-          automatic = true;
-          options = "--delete-older-than 30d";
-          interval = {
-            Weekday = 7;
-            Hour = 3;
-            Minute = 15;
-          };
+    lib.mkMerge [
+      (common pkgs)
+      {
+        nix.gc.interval = {
+          Weekday = 7;
+          Hour = 3;
+          Minute = 15;
         };
-      };
-    };
+      }
+    ];
   flake.modules.homeManager.nix =
     { pkgs, ... }:
-    {
-      nix = {
-        inherit nixPath registry settings;
-        package = pkgs.nixVersions.nix_2_28;
-        gc = {
-          automatic = true;
-          options = "--delete-older-than 30d";
-          persistent = true;
-          dates = "weekly";
-        };
-      };
-    };
+    lib.mkMerge [
+      (common pkgs)
+      {
+        nix.gc.persistent = true;
+        nix.gc.dates = "weekly";
+      }
+    ];
   flake.modules.nixos.nix =
     { pkgs, ... }:
-    {
-      nix = {
-        inherit nixPath registry settings;
-        package = pkgs.nixVersions.nix_2_28;
-        gc = {
-          automatic = true;
-          options = "--delete-older-than 30d";
-          persistent = true;
-          dates = "weekly";
-        };
-      };
-    };
+    lib.mkMerge [
+      (common pkgs)
+      {
+        nix.gc.persistent = true;
+        nix.gc.dates = "weekly";
+      }
+    ];
 }
