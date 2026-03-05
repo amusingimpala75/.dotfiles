@@ -17,11 +17,14 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.overlays = [
-      (final: _: {
-        spicetify = inputs.spicetify.legacyPackages.${final.stdenv.hostPlatform.system};
-      })
-    ];
+    nixpkgs = {
+      allowUnfreeList = [ "spotify" ];
+      overlays = [
+        (final: _: {
+          spicetify = inputs.spicetify.legacyPackages.${final.stdenv.hostPlatform.system};
+        })
+      ];
+    };
     programs.spicetify = {
       enable = true;
       enabledExtensions = lib.mkIf cfg.adblock [ pkgs.spicetify.extensions.adblock ];

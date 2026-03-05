@@ -5,29 +5,15 @@
   ...
 }:
 let
-  unfree-predicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "copilot-language-server"
-      "dwarf-fortress"
-      "gaoptout" # Google Analytics Opt-Out Firefox Addon
-      "modrinth-app" # it for some reason has both gpl3+ and unfree redistributable?
-      "modrinth-app-unwrapped"
-      "orbstack"
-      "slack"
-      "spacefox-theme"
-      "spotify"
-      "youtube-recommended-videos"
-      "zoom"
-    ];
-
   bleeding = final: _: {
-    bleeding = import-nixpkgs inputs.nixpkgs-bleeding final.stdenv.hostPlatform.system;
+    bleeding = import inputs.nixpkgs-bleeding {
+      inherit (final.stdenv.hostPlatform) system;
+    };
   };
   stable = final: _: {
-    stable = import-nixpkgs (
+    stable = import (
       if final.stdenv.isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos
-    ) final.stdenv.hostPlatform.system;
+    ) { inherit (final.stdenv.hostPlatform) system; };
   };
 
   overlays = [
@@ -50,36 +36,33 @@ let
   linux-overlays = [
     self.overlays.linux
   ];
-
-  config = {
-    allowUnfreePredicate = unfree-predicate;
-  };
-
-  import-nixpkgs =
-    np: system:
-    import np {
-      inherit config system;
-    };
 in
 {
-  flake.modules.generic.nixpkgs = {
-    config.nixpkgs = {
-      inherit config;
-      overlays = [
-        self.overlays.preface
-      ]
-      ++ overlays
-      ++ darwin-overlays
-      ++ linux-overlays
-      ++ [ self.overlays.flatten ];
+  flake.modules.generic.nixpkgs =
+    { config, ... }:
+    {
+      options.nixpkgs.allowUnfreeList = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [ ];
+      };
+      config.nixpkgs = {
+        config.allowUnfreePredicate =
+          pkg: builtins.elem (lib.getName pkg) config.nixpkgs.allowUnfreeList;
+        overlays = [
+          self.overlays.preface
+        ]
+        ++ overlays
+        ++ darwin-overlays
+        ++ linux-overlays
+        ++ [ self.overlays.flatten ];
+      };
     };
-  };
 
   perSystem =
     { system, ... }:
     {
       _module.args.pkgs = import inputs.nixpkgs {
-        inherit config system;
+        inherit system;
         overlays = [
           self.overlays.preface
         ]

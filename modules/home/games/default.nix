@@ -55,9 +55,6 @@
         };
       };
     };
-    modrinth = {
-      enable = lib.mkEnableOption "use the Modrinth minecraft launcher";
-    };
   };
 
   config = {
@@ -74,5 +71,9 @@
         config.my.games.minecraft.gui.package
       ])
       ++ (lib.optionals config.my.games.minecraft.cli.enable config.my.games.minecraft.cli.packages);
+    nixpkgs.allowUnfreeList = lib.mkIf config.my.games.dwarf-fortress.enable [
+      "dwarf-fortress"
+      "spacefox-theme"
+    ];
   };
 }

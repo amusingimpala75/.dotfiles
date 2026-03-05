@@ -143,6 +143,11 @@ in
       };
     };
 
+    nixpkgs.allowUnfreeList = [
+      "gaoptout"
+      "youtube-recommended-videos"
+    ];
+
     textfox = lib.mkIf cfg.textfox {
       enable = true;
       profiles = [
