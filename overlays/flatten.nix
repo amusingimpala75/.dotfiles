@@ -1,1 +1,1 @@
-final: prev: prev.local
+final: prev: if (prev ? local) then prev.local else { }

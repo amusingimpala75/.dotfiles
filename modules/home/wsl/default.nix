@@ -40,28 +40,28 @@
   config = lib.mkIf config.wsl.enable {
     home.activation.wslUserFiles =
       config.wsl.userFile
-        |> lib.concatMapAttrsStringSep "\n" (
-          name: val:
-          let
-            path = "/mnt/c/Users/${config.wsl.username}/${name}";
-          in
+      |> lib.concatMapAttrsStringSep "\n" (
+        name: val:
+        let
+          path = "/mnt/c/Users/${config.wsl.username}/${name}";
+        in
+        ''
+          mkdir -p "$(dirname ${path})"
+          rm -f "${path}"
+        ''
+        + (
+          if val.source != null then
             ''
-              mkdir -p "$(dirname ${path})"
-              rm -f "${path}"
+              cp "${val.source}" "${path}"
             ''
-            + (
-              if val.source != null then
-                ''
-                  cp "${val.source}" "${path}"
-                ''
-              else
-                ''
-                  cat > "${path}" << EOF
-                  ${val.text}
-                  EOF
-                ''
-            )
+          else
+            ''
+              cat > "${path}" << EOF
+              ${val.text}
+              EOF
+            ''
         )
-        |> lib.hm.dag.entryAfter [ "onFilesChange" ];
+      )
+      |> lib.hm.dag.entryAfter [ "onFilesChange" ];
   };
 }

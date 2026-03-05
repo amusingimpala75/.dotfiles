@@ -46,8 +46,7 @@ in
         default = [ ];
       };
       config.nixpkgs = {
-        config.allowUnfreePredicate =
-          pkg: builtins.elem (lib.getName pkg) config.nixpkgs.allowUnfreeList;
+        config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) config.nixpkgs.allowUnfreeList;
         overlays = [
           self.overlays.preface
         ]

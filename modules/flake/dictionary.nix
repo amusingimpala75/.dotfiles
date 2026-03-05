@@ -2,5 +2,7 @@
   ...
 }:
 {
-  flake.modules.nixos.dictionary = { services.dictd.enable = true; };
+  flake.modules.nixos.dictionary = {
+    services.dictd.enable = true;
+  };
 }

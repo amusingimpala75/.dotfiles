@@ -1,5 +1,5 @@
 {
-  dotdir ? "~/.dotfiles",
+  dotdir ? ".dotfiles",
   writeShellApplication,
   ...
 }:

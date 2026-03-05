@@ -17,9 +17,8 @@ in
       (final: prev: {
         # Thanks for not having a proper overlay smh
         jj-spr = inputs.jj-spr.packages.${final.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-          nativeBuildInputs = old.nativeBuildInputs
-            |> lib.filter (pkg: pkg != prev.jujutsu)
-            |> (list: list ++ [ package ]);
+          nativeBuildInputs =
+            old.nativeBuildInputs |> lib.filter (pkg: pkg != prev.jujutsu) |> (list: list ++ [ package ]);
         });
       })
     ];
