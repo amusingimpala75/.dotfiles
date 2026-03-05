@@ -166,9 +166,10 @@
   :custom
   (global-ligature-mode t)
   :config
-  (ligature-set-ligatures 'prog-mode '("==" "!=" ">=" "<=" "->" "=>"
-                                       ".." "..." "++" "+=" "::=" "__"
-                                       "===" "!==" "|>" ("[" "[[:alnum:]]+]"))))
+  (ligature-set-ligatures '(prog-mode org-mode)
+                          '("==" "!=" ">=" "<=" "->" "=>"
+                            ".." "..." "++" "+=" "::=" "__"
+                            "===" "!==" "|>" ("[" "[[:alnum:]]+]"))))
 
 ;; Emacs dashboard
 (use-package dashboard
@@ -361,6 +362,7 @@
    '(org-block ((t (:inherit fixed-pitch))))
    '(org-table ((t (:inherit fixed-pitch))))
    '(org-code ((t (:inherit (shadow fixed-pitch)))))
+   '(org-verbatim ((t (:inherit fixed-pitch))))
    ;; Different font sizes for headings
    '(org-level-1 ((t (:weight bold :height 1.5))))
    '(org-level-2 ((t (:weight bold :height 1.4))))
