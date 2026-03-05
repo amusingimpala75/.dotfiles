@@ -36,6 +36,7 @@
     noto-fonts-color-emoji
     get-win-sid
     play-audio
+    wsl-open
 
     inputs.automader.packages.${pkgs.stdenv.hostPlatform.system}.automader
   ];
