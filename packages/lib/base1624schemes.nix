@@ -25,8 +25,8 @@ let
       src = fetchFromGitHub {
         owner = "tinted-theming";
         repo = "schemes";
-        rev = "4ff7fe1cf77217393ed0981a1de314f418c28b49";
-        sha256 = "sha256-PX66lrB/aqFnr6sCQUBzpTSCbsLbC7CEt4q02D0fJ3M=»;";
+        rev = "13b5b0c299982bb361039601e2d72587d6846294";
+        hash = "sha256-4eu3LqB9tPqe0Vaqxd4wkZiBbthLbpb7llcoE/p5HT0=";
       };
 
       phases = [ "installPhase" ];

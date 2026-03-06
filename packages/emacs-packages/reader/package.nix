@@ -4,24 +4,26 @@
   melpaBuild,
   stdenv,
 
+  emacs,
   pkg-config,
   mupdf-headless,
   ...
 }:
 let
+  version = "0-unstable-2026-02-17";
   src = fetchFromGitea {
     domain = "codeberg.org";
-    owner = "divyaranjan";
+    owner = "MonadicSheep";
     repo = "emacs-reader";
-    rev = "5f80aa8ed2e13772174ef2517ad75c617d44bd4e";
-    hash = "sha256-BJM69NHfq6MJJE3UG1442ttPBGBAsn3jxZcpP+LtmxQ=";
+    rev = "98c5046683e997902a83092b65cdb70ab120e000";
+    hash = "sha256-Jo8ZecM4Y22T5kc5zJzCvSywkxwcpNEtQ3HHMJNesac=";
   };
   core = stdenv.mkDerivation {
     inherit src;
     name = "emacs-reader-core";
     buildFlags = [ "CC=cc" ];
     nativeBuildInputs = [ pkg-config ];
-    buildInputs = [ mupdf-headless ];
+    buildInputs = [ mupdf-headless emacs ];
     installPhase = ''
       runHook preInstall
 
@@ -29,12 +31,10 @@ let
 
       runHook postInstall
     '';
-    patches = [ ./0001-remove-pkg-config-disabling-block-just-always-use-it.patch ];
   };
 in
 melpaBuild {
   pname = "reader";
-  version = "0-unstable-2025-12-08";
-  inherit src;
+  inherit src version;
   files = ''(:defaults "${lib.getLib core}/lib/render-core.*")'';
 }

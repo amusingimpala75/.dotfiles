@@ -1,17 +1,18 @@
 {
-  fetchgit,
+  fetchFromGitHub,
   melpaBuild,
   ...
 }:
 let
-  version = "0-unstable-2026-01-05";
+  version = "0-unstable-2026-02-05";
 
   autoloaded-src = melpaBuild {
     inherit version;
-    src = fetchgit {
-      url = "https://code.tecosaur.net/tec/org-mode";
-      rev = "f9f909681a051c73c64cc7b030aa54d70bb78f80";
-      hash = "sha256-MbXBcN6PJ1YSZCyxrg5Fng9pVY9X5FHFB+KAFwQu7zQ=";
+    src = fetchFromGitHub {
+      owner = "karthink";
+      repo = "org-mode";
+      rev = "ceffe239a6ae643fb526388d99a7816c5115166f";
+      hash = "sha256-qhXd9HO5Q+762MMZ07S+cm1gFZH+AUorziYzV02y+7Y=";
     };
     pname = "org-karthik-source";
     buildPhase = ''
