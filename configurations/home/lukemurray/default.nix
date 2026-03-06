@@ -105,7 +105,6 @@
         # brewCasks.battle-net # failing for unknown reason
         # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
         brewCasks.gimp
-        brewCasks.hytale
         brewCasks.imazing
         brewCasks.inkscape
         # brewCasks.jd-gui # can't find java?

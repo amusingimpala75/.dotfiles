@@ -95,7 +95,9 @@ let
       (aspellWithDicts (dicts: [ dicts.en ]))
       ghostscript
       mathjax-node-cli
-      mpv
+      (mpv.override {
+        youtubeSupport = false;
+      })
       pandoc
       rassumfrassum
       scala-cli

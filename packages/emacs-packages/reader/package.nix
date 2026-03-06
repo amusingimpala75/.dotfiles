@@ -31,6 +31,8 @@ let
 
       runHook postInstall
     '';
+    # Necessary on darwin (tries to use homebrew over nix for some reason)
+    patches = [ ./0001-remove-pkg-config-disabling-block-just-always-use-it.patch ];
   };
 in
 melpaBuild {
