@@ -203,16 +203,22 @@
 (use-package eglot
   :defer t
   :functions eglot-completion-at-point
+  :bind
+  ( :map eglot-mode-map
+    ("M-[" . eglot-code-actions)
+    ("M-]" . eglot-rename))
   :custom
   ;; This fixes some weird line height changes on Darwin
   (eglot-code-action-indicator "*")
   ;; Enable semantic tokens
   (eglot-semantic-tokens-mode t)
+  (eglot-stay-out-of '(imenu))
   :hook
   ;; Hook into a variety of prog modes
   (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode
      nix-mode java-ts-mode js-ts-mode
-     lua-ts-mode rustic-mode scala-mode) . eglot-ensure)
+     lua-ts-mode rustic-mode scala-mode)
+   . eglot-ensure)
   :preface
   ;; I don't know why eglot started
   ;; including :cancel-on-quit, but
@@ -760,6 +766,17 @@
          ("M-g g" . consult-goto-line)
          ("M-y" . consult-yank-pop)))
 
+(use-package embark
+  :ensure t
+  :bind
+  (("C-," . embark-act)
+   ("C-." . embark-export)))
+(use-package embark-consult
+  :ensure t)
+
+(use-package wgrep
+  :ensure t)
+
 (use-package pcomplete
   :functions pcomplete-completions-at-point)
 
@@ -949,8 +966,8 @@
 (use-package pdf-roll
   :hook pdf-view-mode)
 
-;; Offbrand pdf-tools
-(use-package page-view
+;; Nicer looking org mode editing (centered column)
+(use-package olivetti
   :ensure t)
 
 (use-package reader
@@ -1335,6 +1352,32 @@
   :hook org-mode)
 
 (use-package agent-shell
+  :ensure t)
+
+(use-package scratch
+  :ensure t
+  :preface
+  (defun my/create-scratch-buffer ()
+    (save-excursion
+      (goto-char (point-min))
+      (insert (substitute-command-keys initial-scratch-message))
+      (replace-regexp-in-region ";; " "" (point-min) (point-max))
+      (comment-region (point-min) (point-max))))
+  :hook
+  (scratch-create-buffer . my/create-scratch-buffer))
+
+(use-package persistent-scratch
+  :ensure t
+  :hook
+  (after-init . persistent-scratch-setup-default)
+  scratch-create-buffer
+  :custom
+  (pesistent-scratch-scratch-buffer-p-function
+   (lambda ()
+     (or (persistent-scratch-default-scratch-buffer-p)
+         scratch-buffer))))
+
+(use-package casual
   :ensure t)
 
 ;; Direnv support
