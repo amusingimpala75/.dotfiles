@@ -16,7 +16,8 @@
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
               python3
-              basedpyright
+              ruff
+              ty
             ];
           };
         };

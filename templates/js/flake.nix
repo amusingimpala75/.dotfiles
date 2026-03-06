@@ -17,6 +17,7 @@
             packages = with pkgs; [
               bun
               typescript
+              eslint-language-server
               typescript-language-server
             ];
           };

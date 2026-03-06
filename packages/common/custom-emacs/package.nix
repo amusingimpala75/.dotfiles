@@ -9,6 +9,7 @@
   pandoc,
   python3,
   R,
+  rassumfrassum,
   scala-cli,
   stable ? null,
   texlive,
@@ -96,6 +97,7 @@ let
       mathjax-node-cli
       mpv
       pandoc
+      rassumfrassum
       scala-cli
       texlive-package
       unzip
