@@ -64,7 +64,7 @@
         configDir = ".config/pi/agent";
         settings = {
           defaultProvider = "github-copilot";
-          defaultModel = "claude-sonnet-4.6";
+          defaultModel = "gpt-5.3-codex";
           defaultThinkingLevel = "medium";
           extensions =
             let
