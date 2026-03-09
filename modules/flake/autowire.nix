@@ -122,7 +122,7 @@ rec {
           templates = lib.mkIf config.autowire.templates.enable (
             builtins.mapAttrs (name: _: {
               path = config.autowire.templates.path + "/${name}";
-              description = (import (config.autowire.templates.path + "/${name}/flake.nix")).description;
+              inherit (import (config.autowire.templates.path + "/${name}/flake.nix")) description;
             }) (builtins.readDir config.autowire.templates.path)
           );
         };
@@ -130,7 +130,7 @@ rec {
         perSystem =
           { pkgs, self', ... }:
           {
-            apps = builtins.mapAttrs (name: pkg: {
+            apps = builtins.mapAttrs (_: pkg: {
               type = "app";
               program = lib.getExe pkg;
               meta.description = pkg.meta.description;

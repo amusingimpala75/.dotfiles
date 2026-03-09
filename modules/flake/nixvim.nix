@@ -5,7 +5,7 @@
 }:
 {
   imports = [ inputs.nixvim.flakeModules.default ];
-  flake.overlays.nixvim = final: prev: {
+  flake.overlays.nixvim = final: _: {
     my-nvim =
       self.nixvimConfigurations.${final.stdenv.hostPlatform.system}.nixvim.config.build.package.overrideAttrs
         (old: {

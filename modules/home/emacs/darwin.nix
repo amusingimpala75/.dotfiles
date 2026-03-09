@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.my.emacs;
-  stdenv = pkgs.stdenv;
+  inherit (pkgs) stdenv;
 in
 {
   config = lib.mkIf (cfg.enable && stdenv.isDarwin) {

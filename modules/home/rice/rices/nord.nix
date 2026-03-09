@@ -20,7 +20,7 @@
       };
 
       emacs = {
-        theme-package = pkgs.emacsPackages.nord-theme.overrideAttrs (old: {
+        theme-package = pkgs.emacsPackages.nord-theme.overrideAttrs (_: {
           patches = [ ./0001-add-lexical-binding-cookie.patch ];
         });
         theme-file-name = "nord-theme";

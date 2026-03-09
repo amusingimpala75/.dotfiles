@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.my.ghostty;
-  rice = config.rice;
+  inherit (config) rice;
 in
 {
   imports = [ ./darwin.nix ];

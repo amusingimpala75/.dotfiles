@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.my.emacs;
-  rice = config.rice;
+  inherit (config) rice;
 in
 {
   imports = [
@@ -26,7 +26,7 @@ in
         font-size = rice.font.size;
         font-family-fixed = rice.font.family.fixed-pitch;
         font-family-variable = rice.font.family.variable-pitch;
-        opacity = rice.opacity;
+        inherit (rice) opacity;
         inherit (rice.emacs) theme-package theme-file-name theme-name;
         emacs = pkgs.emacs-git;
       };
@@ -65,19 +65,19 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    home.packages = [
+  config.home = lib.mkIf cfg.enable {
+    packages = [
       cfg.package
     ];
 
-    home.shellAliases = lib.mkIf cfg.vi-aliases {
+    shellAliases = lib.mkIf cfg.vi-aliases {
       vim = cfg.term-command;
       vi = cfg.term-command;
       gvim = cfg.gui-command;
       gvi = cfg.gui-command;
     };
 
-    home.sessionVariables = lib.optionalAttrs cfg.editor {
+    sessionVariables = lib.optionalAttrs cfg.editor {
       EDITOR = cfg.term-command;
     };
   };

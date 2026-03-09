@@ -28,9 +28,11 @@
   rices.nord.enable = true;
   rice.font.size = lib.mkForce 20;
 
-  wsl.enable = true;
-  wsl.username = "MURRAYLE23";
-  wsl.wallp.enable = true;
+  wsl = {
+    enable = true;
+    username = "MURRAYLE23";
+    wallp.enable = true;
+  };
 
   home.packages = with pkgs; [
     noto-fonts-color-emoji

@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.my.alacritty;
-  rice = config.rice;
+  inherit (config) rice;
 in
 {
   options.my.alacritty = {
@@ -33,7 +33,7 @@ in
             x = 4;
             y = 4;
           };
-          opacity = rice.opacity;
+          inherit (rice) opacity;
           option_as_alt = "Both";
         };
         font.size = rice.font.size;

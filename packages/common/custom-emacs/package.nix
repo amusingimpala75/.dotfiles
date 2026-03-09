@@ -116,7 +116,7 @@ let
 in
 symlinkJoin {
   pname = "emacs-with-packages";
-  version = emacs.version;
+  inherit (emacs) version;
   paths = [ pkg ];
   buildInputs = [ makeWrapper ];
   postBuild = ''

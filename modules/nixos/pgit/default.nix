@@ -80,7 +80,7 @@ in
               source = lib.mkOption {
                 # type = ?
                 default = pkgs.fetchgit {
-                  url = config.url;
+                  inherit (config) url;
                   rev = config.cloneRev;
                   hash = config.cloneHash;
                   deepClone = true;
@@ -113,7 +113,7 @@ in
             src = v.source;
             nativeBuildInputs = [
               pkgs.git
-              (pkgs.pgit.overrideAttrs (old: {
+              (pkgs.pgit.overrideAttrs (_: {
                 version = "git+01-24-2026";
                 src = pkgs.fetchFromGitHub {
                   owner = "picosh";

@@ -28,20 +28,22 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.nh = lib.mkIf cfg.nh {
-      enable = true;
-      flake =
-        if lib.strings.hasPrefix "~" cfg.dotfilesDir then
-          (lib.concatStrings [
-            config.home.homeDirectory
-            (builtins.substring 1 (-1) cfg.dotfilesDir)
-          ])
-        else
-          cfg.dotfilesDir;
-    };
+    programs = {
+      nh = lib.mkIf cfg.nh {
+        enable = true;
+        flake =
+          if lib.strings.hasPrefix "~" cfg.dotfilesDir then
+            (lib.concatStrings [
+              config.home.homeDirectory
+              (builtins.substring 1 (-1) cfg.dotfilesDir)
+            ])
+          else
+            cfg.dotfilesDir;
+      };
 
-    programs.nix-index.enable = false;
-    programs.nix-index-database.comma.enable = true;
+      nix-index.enable = false;
+      nix-index-database.comma.enable = true;
+    };
 
     home = {
       shellAliases = {

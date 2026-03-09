@@ -4,7 +4,7 @@
 }:
 drvArgs:
 (stdenv.mkDerivation drvArgs).overrideAttrs (
-  final: prev: {
+  _: _: {
     buildInputs = [ lua54Packages.fennel ];
     phases = [ "buildPhase" ];
     buildPhase = ''

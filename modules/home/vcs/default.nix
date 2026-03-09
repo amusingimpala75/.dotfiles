@@ -1,12 +1,7 @@
 {
   lib,
-  config,
-  pkgs,
   ...
 }:
-let
-  cfg = config.my.vcs;
-in
 {
   imports = [
     ./jujutsu.nix

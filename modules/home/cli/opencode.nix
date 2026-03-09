@@ -29,43 +29,42 @@
       };
     };
 
-    xdg.configFile."opencode/plugin/ralph.ts".source = "${inputs.opencode-ralph}/plugin/ralph.ts";
-    # For some reason commands.<name> = inputs.<input> + "/path" doesn't link it,
-    # it assumes that is the contents itself.
-    xdg.configFile."opencode/command/cancel-ralph.md".source =
-      "${inputs.opencode-ralph}/command/cancel-ralph.md";
-    xdg.configFile."opencode/command/ralph-help.md".source =
-      "${inputs.opencode-ralph}/command/ralph-help.md";
-    xdg.configFile."opencode/command/ralph-loop.md".source =
-      "${inputs.opencode-ralph}/command/ralph-loop.md";
+    xdg.configFile = {
+      "opencode/plugin/ralph.ts".source = "${inputs.opencode-ralph}/plugin/ralph.ts";
+      # For some reason commands.<name> = inputs.<input> + "/path" doesn't link it,
+      # it assumes that is the contents itself.
+      "opencode/command/cancel-ralph.md".source = "${inputs.opencode-ralph}/command/cancel-ralph.md";
+      "opencode/command/ralph-help.md".source = "${inputs.opencode-ralph}/command/ralph-help.md";
+      "opencode/command/ralph-loop.md".source = "${inputs.opencode-ralph}/command/ralph-loop.md";
 
-    xdg.configFile."opencode/oh-my-opencode.json".text = builtins.toJSON {
-      "$schema" =
-        "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json";
-      agents = {
-        "Sisyphus" = {
-          model = "github-copilot/claude-opus-4.5";
-        };
-        "oracle" = {
-          model = "github-copilot/gpt-5.2";
-        };
-        "librarian" = {
-          model = "github-copilot/grok-code-fast-1";
-        };
-        "explore" = {
-          model = "github-copilot/gpt-5-mini";
-        };
-        "multimodal-looker" = {
-          model = "github-copilot/gemini-3-flash";
-        };
-        "Prometheus" = {
-          model = "github-copilot/claude-opus-4.5";
-        };
-        "Metis" = {
-          model = "github-copilot/claude-sonnet-4.5";
-        };
-        "Momus" = {
-          model = "github-copilot/claude-sonnet-4.5";
+      "opencode/oh-my-opencode.json".text = builtins.toJSON {
+        "$schema" =
+          "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json";
+        agents = {
+          "Sisyphus" = {
+            model = "github-copilot/claude-opus-4.5";
+          };
+          "oracle" = {
+            model = "github-copilot/gpt-5.2";
+          };
+          "librarian" = {
+            model = "github-copilot/grok-code-fast-1";
+          };
+          "explore" = {
+            model = "github-copilot/gpt-5-mini";
+          };
+          "multimodal-looker" = {
+            model = "github-copilot/gemini-3-flash";
+          };
+          "Prometheus" = {
+            model = "github-copilot/claude-opus-4.5";
+          };
+          "Metis" = {
+            model = "github-copilot/claude-sonnet-4.5";
+          };
+          "Momus" = {
+            model = "github-copilot/claude-sonnet-4.5";
+          };
         };
       };
     };

@@ -6,12 +6,12 @@
 }:
 let
   cfg = config.my.sketchybar;
-  stdenv = pkgs.stdenv;
+  inherit (pkgs) stdenv;
 
   wrapFile =
     drv: filename:
     pkgs.stdenv.mkDerivation {
-      name = drv.name;
+      inherit (drv) name;
       src = drv;
       phases = [ "buildPhase" ];
       buildPhase = ''
@@ -30,7 +30,7 @@ let
     src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
   };
 
-  lua = pkgs.lua54Packages.lua.withPackages (ps: [
+  lua = pkgs.lua54Packages.lua.withPackages (_: [
     pkgs.sbarlua
     bar-cfg
     defaults

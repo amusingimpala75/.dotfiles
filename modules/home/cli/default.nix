@@ -18,10 +18,12 @@
   };
 
   config = lib.mkIf config.my.cli.enable {
-    my.bat.enable = true;
-    my.direnv.enable = true;
-    my.nix.enable = true;
-    my.zsh.enable = true;
+    my = {
+      bat.enable = true;
+      direnv.enable = true;
+      nix.enable = true;
+      zsh.enable = true;
+    };
 
     nixpkgs.overlays = [ inputs.bible.overlays.default ];
 
@@ -36,17 +38,19 @@
       tree
     ];
 
-    programs.eza = {
-      enable = true;
-      icons = "always";
+    programs = {
+      eza = {
+        enable = true;
+        icons = "always";
+      };
+      fd.enable = true;
+      fzf.enable = true;
+      ripgrep.enable = true;
+      tealdeer = {
+        enable = true;
+        enableAutoUpdates = false;
+      };
+      zoxide.enable = true;
     };
-    programs.fd.enable = true;
-    programs.fzf.enable = true;
-    programs.ripgrep.enable = true;
-    programs.tealdeer = {
-      enable = true;
-      enableAutoUpdates = false;
-    };
-    programs.zoxide.enable = true;
   };
 }

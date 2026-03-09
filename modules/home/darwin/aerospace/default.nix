@@ -6,8 +6,8 @@
 }:
 let
   cfg = config.my.aerospace;
-  rice = config.rice;
-  stdenv = pkgs.stdenv;
+  inherit (config) rice;
+  inherit (pkgs) stdenv;
 
   aerospace = lib.getExe pkgs.aerospace;
   btop = lib.getExe pkgs.btop;
@@ -16,14 +16,14 @@ let
   new-ghostty = lib.getExe pkgs.new-ghostty-window;
 
   back-main = builtins.mapAttrs (
-    k: v: [
+    _: v: [
       v
       "mode main"
     ]
   );
 
   exec-back-main = builtins.mapAttrs (
-    k: v: [
+    _: v: [
       "exec-and-forget ${v} "
       "mode main"
     ]
@@ -75,12 +75,17 @@ in
             outer-bottom = rice.gaps.outer - 1;
           in
           {
-            inner.horizontal = inner;
-            inner.vertical = inner;
-            outer.left = outer * 3;
-            outer.right = outer;
-            outer.top = outer-top;
-            outer.bottom = outer-bottom;
+            inner = {
+              horizontal = inner;
+              vertical = inner;
+            };
+            outer = {
+
+              left = outer * 3;
+              right = outer;
+              top = outer-top;
+              bottom = outer-bottom;
+            };
           };
 
         mode = {

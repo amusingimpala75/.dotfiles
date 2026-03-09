@@ -46,7 +46,7 @@
           type = lib.types.listOf lib.types.package;
           default = [
             pkgs.ferium
-            (pkgs.mrpack-install.overrideAttrs (prev: {
+            (pkgs.mrpack-install.overrideAttrs (_: {
               doCheck = !pkgs.stdenv.isDarwin;
             }))
             pkgs.portablemc

@@ -6,13 +6,13 @@
 }:
 let
   cfg = config.my.emacs;
-  stdenv = pkgs.stdenv;
+  inherit (pkgs) stdenv;
 in
 {
   config = lib.mkIf (cfg.enable && stdenv.isLinux) {
     services.emacs = lib.mkIf cfg.service {
       enable = true;
-      package = cfg.package;
+      inherit (cfg) package;
 
       client.enable = true;
       client.arguments = [ "-c" ];

@@ -10,8 +10,6 @@
     pi
   ];
 
-  home.username = "lukemurray";
-
   my = {
     aerospace.enable = true;
     cli = {
@@ -29,9 +27,11 @@
         "${pkg}/bin/emacs-term";
     };
     firefox.enable = true;
-    games.brogue.enable = true;
-    games.brogue.terminal = true;
-    games.minecraft.gui.enable = true;
+    games = {
+      brogue.enable = true;
+      brogue.terminal = true;
+      minecraft.gui.enable = true;
+    };
     vcs = {
       git = true;
       jujutsu = true;
@@ -44,7 +44,7 @@
 
   programs.infat = {
     enable = true;
-    package = pkgs.infat.overrideAttrs (old: rec {
+    package = pkgs.infat.overrideAttrs (_: rec {
       # TODO remove once upstreamed into nixpkgs
       src = pkgs.fetchFromGitHub {
         owner = "philocalyst";
@@ -74,48 +74,61 @@
 
   rices.cross.enable = true;
 
-  home.packages =
-    with pkgs;
-    [
-      ntfy-sh
-      play-audio
-      cogfly
+  home = {
+    username = "lukemurray";
 
-      wireshark
-    ]
-    ++ lib.optionals pkgs.stdenv.isDarwin (
+    activation = lib.mkIf pkgs.stdenv.isDarwin {
+      restart-dock = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
+        /usr/bin/killall Dock
+      '';
+      load-settings = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
+        /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
+      '';
+    };
+
+    packages =
       with pkgs;
       [
-        # Emacs implicitly calls these,
-        # which pulls up a warning from macOS
-        # if `xcode-install --select` isn't run first
-        gcc
-        git
-        # macOS Apps
-        orbstack
-        # macOS utilities
-        darwin.trash # TODO cross-platform
-        brightness
-        unquarantine
-        screen-saver
-        run-ntfy-when-done
-        # Casks
-        brewCasks."8bitdo-ultimate-software-v2"
-        brewCasks.balenaetcher
-        # brewCasks.battle-net # failing for unknown reason
-        # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
-        brewCasks.gimp
-        brewCasks.imazing
-        brewCasks.inkscape
-        # brewCasks.jd-gui # can't find java?
-        brewCasks.minecraft
-        brewCasks.qlmarkdown
-        brewCasks.raspberry-pi-imager
-        brewCasks.steam
-        # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
-        brewCasks.ti-connect-ce
+        ntfy-sh
+        play-audio
+        cogfly
+
+        wireshark
       ]
-    );
+      ++ lib.optionals pkgs.stdenv.isDarwin (
+        with pkgs;
+        [
+          # Emacs implicitly calls these,
+          # which pulls up a warning from macOS
+          # if `xcode-install --select` isn't run first
+          gcc
+          git
+          # macOS Apps
+          orbstack
+          # macOS utilities
+          darwin.trash # TODO cross-platform
+          brightness
+          unquarantine
+          screen-saver
+          run-ntfy-when-done
+          # Casks
+          brewCasks."8bitdo-ultimate-software-v2"
+          brewCasks.balenaetcher
+          # brewCasks.battle-net # failing for unknown reason
+          # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
+          brewCasks.gimp
+          brewCasks.imazing
+          brewCasks.inkscape
+          # brewCasks.jd-gui # can't find java?
+          brewCasks.minecraft
+          brewCasks.qlmarkdown
+          brewCasks.raspberry-pi-imager
+          brewCasks.steam
+          # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
+          brewCasks.ti-connect-ce
+        ]
+      );
+  };
 
   nixpkgs.allowUnfreeList = [
     "orbstack"
@@ -159,15 +172,6 @@
       InitialKeyRepeat = 10;
       KeyRepeat = 1;
     };
-  };
-
-  home.activation = lib.mkIf pkgs.stdenv.isDarwin {
-    restart-dock = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
-      /usr/bin/killall Dock
-    '';
-    load-settings = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
-      /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
-    '';
   };
 
   my.darwin.dock.items = [

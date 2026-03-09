@@ -36,7 +36,7 @@ let
     };
   };
 in
-(builtins.mapAttrs (name: value: fetchurl value) wps)
+(builtins.mapAttrs (_: fetchurl) wps)
 // {
   "simple-cross" = ./cross_wallpaper.png;
   "bakersbane-duo" = fetchMTGWallpaper {

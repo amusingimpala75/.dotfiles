@@ -27,34 +27,36 @@ let
   };
 in
 {
-  flake.modules.darwin.nix =
-    { pkgs, ... }:
-    lib.mkMerge [
-      (common pkgs)
-      {
-        nix.gc.interval = {
-          Weekday = 7;
-          Hour = 3;
-          Minute = 15;
-        };
-      }
-    ];
-  flake.modules.homeManager.nix =
-    { pkgs, ... }:
-    lib.mkMerge [
-      (common pkgs)
-      {
-        nix.gc.persistent = true;
-        nix.gc.dates = "weekly";
-      }
-    ];
-  flake.modules.nixos.nix =
-    { pkgs, ... }:
-    lib.mkMerge [
-      (common pkgs)
-      {
-        nix.gc.persistent = true;
-        nix.gc.dates = "weekly";
-      }
-    ];
+  flake.modules = {
+    darwin.nix =
+      { pkgs, ... }:
+      lib.mkMerge [
+        (common pkgs)
+        {
+          nix.gc.interval = {
+            Weekday = 7;
+            Hour = 3;
+            Minute = 15;
+          };
+        }
+      ];
+    homeManager.nix =
+      { pkgs, ... }:
+      lib.mkMerge [
+        (common pkgs)
+        {
+          nix.gc.persistent = true;
+          nix.gc.dates = "weekly";
+        }
+      ];
+    nixos.nix =
+      { pkgs, ... }:
+      lib.mkMerge [
+        (common pkgs)
+        {
+          nix.gc.persistent = true;
+          nix.gc.dates = "weekly";
+        }
+      ];
+  };
 }

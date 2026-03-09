@@ -39,13 +39,17 @@
 
       config = lib.mkIf config.programs.pi.enable {
         nixpkgs.overlays = [ inputs.llm-agents.overlays.default ];
-        home.packages = [ pkgs.llm-agents.pi ];
-        home.sessionVariables.PI_CODING_AGENT_DIR = "~/${config.programs.pi.configDir}";
+        home = {
+          packages = [ pkgs.llm-agents.pi ];
+          sessionVariables.PI_CODING_AGENT_DIR = "~/${config.programs.pi.configDir}";
 
-        home.file."${config.programs.pi.configDir}/AGENTS.md".source = config.programs.pi."AGENTS.md";
-        home.file."${config.programs.pi.configDir}/settings.json".text = lib.mkIf (
-          config.programs.pi.settings != null
-        ) (builtins.toJSON config.programs.pi.settings);
+          file = {
+            "${config.programs.pi.configDir}/AGENTS.md".source = config.programs.pi."AGENTS.md";
+            "${config.programs.pi.configDir}/settings.json".text = lib.mkIf (
+              config.programs.pi.settings != null
+            ) (builtins.toJSON config.programs.pi.settings);
+          };
+        };
       };
     };
 

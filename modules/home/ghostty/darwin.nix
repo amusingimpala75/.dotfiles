@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.my.ghostty;
-  stdenv = pkgs.stdenv;
+  inherit (pkgs) stdenv;
 in
 {
   config = lib.mkIf (stdenv.isDarwin && cfg.enable) {

@@ -1,3 +1,3 @@
-final: prev: {
+_: prev: {
   local = prev.lib.makeScope prev.newScope (_: { });
 }

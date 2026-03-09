@@ -16,9 +16,11 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
-  wsl.enable = true;
-  wsl.defaultUser = "murrayle23";
-  wsl.startMenuLaunchers = true;
+  wsl = {
+    enable = true;
+    defaultUser = "murrayle23";
+    startMenuLaunchers = true;
+  };
 
   programs.ssh.startAgent = true;
 

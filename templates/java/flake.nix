@@ -11,7 +11,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
       perSystem =
-        { config, pkgs, ... }:
+        { pkgs, ... }:
         {
           devShells.default = pkgs.mkShell {
             packages = with pkgs; [
