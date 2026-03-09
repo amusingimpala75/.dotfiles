@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "agent-sandbox": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1773008081,
+        "narHash": "sha256-a6iWQwfDcOhMvCbtn+bnHdxxaysRE1ukji3By0CpqeY=",
+        "owner": "archie-judd",
+        "repo": "agent-sandbox.nix",
+        "rev": "49ad25985da60e7daef4a9bc5a9c52488c8d4f7f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "archie-judd",
+        "repo": "agent-sandbox.nix",
+        "type": "github"
+      }
+    },
     "alacritty-theme": {
       "inputs": {
         "alacritty-theme": "alacritty-theme_2",
@@ -1100,6 +1120,7 @@
     },
     "root": {
       "inputs": {
+        "agent-sandbox": "agent-sandbox",
         "alacritty-theme": "alacritty-theme",
         "automader": "automader",
         "bible": "bible",

@@ -27,6 +27,7 @@
           example = ./AGENTS.md;
           type = lib.types.nullOr lib.types.path;
         };
+        package = lib.mkPackageOption pkgs.llm-agents "pi" { };
         settings = lib.mkOption {
           description = "settings for pi (see docs/settings.md)";
           default = null;
@@ -40,7 +41,7 @@
       config = lib.mkIf config.programs.pi.enable {
         nixpkgs.overlays = [ inputs.llm-agents.overlays.default ];
         home = {
-          packages = [ pkgs.llm-agents.pi ];
+          packages = [ config.programs.pi.package ];
           sessionVariables.PI_CODING_AGENT_DIR = "~/${config.programs.pi.configDir}";
 
           file = {
@@ -56,6 +57,7 @@
   # My configuration for pi
   flake.modules.homeManager.pi =
     {
+      config,
       pkgs,
       ...
     }:
@@ -66,6 +68,28 @@
         enable = true;
         "AGENTS.md" = ./global-agents.md;
         configDir = ".config/pi/agent";
+        package = inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
+          pkg = pkgs.llm-agents.pi;
+          binName = "pi";
+          outName = "piw";
+          allowedPackages = with pkgs; [
+            bash
+            coreutils
+            fd
+            findutils
+            git
+            gnugrep
+            gnused
+            jq
+            jujutsu
+            ripgrep
+            which
+          ];
+          stateDirs = [ "$HOME/${config.programs.pi.configDir}" ];
+          extraEnv = {
+            inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR;
+          };
+        };
         settings = {
           defaultProvider = "github-copilot";
           defaultModel = "gpt-5.3-codex";

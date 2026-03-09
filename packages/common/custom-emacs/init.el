@@ -1048,7 +1048,7 @@
      'front-sticky '(font-lock-face read-only)
      'rear-nonsticky '(font-lock-face read-only)))
   :config
-  (dolist (command '("pi" "nh"))
+  (dolist (command '("pi" "piw" "nh"))
     (add-to-list 'eshell-visual-commands command))
   (dolist (subcommands '(("jj" "diff")))
     (add-to-list 'eshell-visual-subcommands subcommands))

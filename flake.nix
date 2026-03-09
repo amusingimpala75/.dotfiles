@@ -86,6 +86,9 @@
     automader.inputs.nixpkgs.follows = "nixpkgs";
 
     determinate-nix-cli.url = "github:DeterminateSystems/nix-src";
+
+    agent-sandbox.url = "github:archie-judd/agent-sandbox.nix";
+    agent-sandbox.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
