@@ -1287,7 +1287,9 @@
 ;; And unify the fold types
 (use-package kirigami
   :ensure t
-  :bind ("C-<iso-lefttab>" . kirigami-toggle-fold))
+  :bind
+  ("C-<iso-lefttab>" . kirigami-toggle-fold)
+  ("C-S-<tab>" . kirigami-toggle-fold))
 
 (use-package ansi-color
   :functions
