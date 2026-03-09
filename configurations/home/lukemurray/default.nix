@@ -10,6 +10,8 @@
     pi
   ];
 
+  home.username = "lukemurray";
+
   my = {
     aerospace.enable = true;
     cli = {
@@ -74,61 +76,48 @@
 
   rices.cross.enable = true;
 
-  home = {
-    username = "lukemurray";
+  home.packages =
+    with pkgs;
+    [
+      ntfy-sh
+      play-audio
+      cogfly
 
-    activation = lib.mkIf pkgs.stdenv.isDarwin {
-      restart-dock = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
-        /usr/bin/killall Dock
-      '';
-      load-settings = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
-        /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activatesettings -u
-      '';
-    };
-
-    packages =
+      wireshark
+    ]
+    ++ lib.optionals pkgs.stdenv.isDarwin (
       with pkgs;
       [
-        ntfy-sh
-        play-audio
-        cogfly
-
-        wireshark
+        # Emacs implicitly calls these,
+        # which pulls up a warning from macOS
+        # if `xcode-install --select` isn't run first
+        gcc
+        git
+        # macOS Apps
+        orbstack
+        # macOS utilities
+        darwin.trash # TODO cross-platform
+        brightness
+        unquarantine
+        screen-saver
+        run-ntfy-when-done
+        # Casks
+        brewCasks."8bitdo-ultimate-software-v2"
+        brewCasks.balenaetcher
+        # brewCasks.battle-net # failing for unknown reason
+        # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
+        brewCasks.gimp
+        brewCasks.imazing
+        brewCasks.inkscape
+        # brewCasks.jd-gui # can't find java?
+        brewCasks.minecraft
+        brewCasks.qlmarkdown
+        brewCasks.raspberry-pi-imager
+        brewCasks.steam
+        # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
+        brewCasks.ti-connect-ce
       ]
-      ++ lib.optionals pkgs.stdenv.isDarwin (
-        with pkgs;
-        [
-          # Emacs implicitly calls these,
-          # which pulls up a warning from macOS
-          # if `xcode-install --select` isn't run first
-          gcc
-          git
-          # macOS Apps
-          orbstack
-          # macOS utilities
-          darwin.trash # TODO cross-platform
-          brightness
-          unquarantine
-          screen-saver
-          run-ntfy-when-done
-          # Casks
-          brewCasks."8bitdo-ultimate-software-v2"
-          brewCasks.balenaetcher
-          # brewCasks.battle-net # failing for unknown reason
-          # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
-          brewCasks.gimp
-          brewCasks.imazing
-          brewCasks.inkscape
-          # brewCasks.jd-gui # can't find java?
-          brewCasks.minecraft
-          brewCasks.qlmarkdown
-          brewCasks.raspberry-pi-imager
-          brewCasks.steam
-          # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
-          brewCasks.ti-connect-ce
-        ]
-      );
-  };
+    );
 
   nixpkgs.allowUnfreeList = [
     "orbstack"
@@ -144,15 +133,6 @@
       magnification = true;
       mru-spaces = false;
       orientation = "bottom";
-      # Need some fixing to some format
-      # Spacers with:
-      #  com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
-      # persistent-apps = [ #
-      #   "/System/Library/Launchpad.app"
-      # ];
-      # persistent-others = [ #
-      #   "/Users/${username}/Downloads"
-      # ];
       show-recents = false;
     };
     "com.apple.finder" = {

@@ -16,18 +16,23 @@ in
     description = "items to add to dock";
   };
 
-  config = {
-    home.activation.set-dock =
-      lib.mkIf (pkgs.stdenv.isDarwin && (config.my.darwin.dock.items != null))
-        (
-          lib.hm.dag.entryAfter [ "writeBoundary" ] (
-            ''
+  config = lib.mkIf pkgs.stdenv.isDarwin {
+    home.activation = {
+      restart-dock = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
+        /usr/bin/killall Dock
+      '';
+      set-dock =
+        lib.mkIf (config.my.darwin.dock.items != null)
+          (
+            lib.hm.dag.entryBetween [ "restart-dock" ] [ "writeBoundary" ] (
+              ''
               ${dockutil} --remove all
             ''
-            + (lib.concatStringsSep "\n" (map add-dock-item config.my.darwin.dock.items))
-          )
-        );
-    targets.darwin = lib.mkIf pkgs.stdenv.isDarwin {
+              + (lib.concatStringsSep "\n" (map add-dock-item config.my.darwin.dock.items))
+            )
+          );
+    };
+    targets.darwin = {
       copyApps.enable = true;
       linkApps.enable = false;
     };
