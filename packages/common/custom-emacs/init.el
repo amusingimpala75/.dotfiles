@@ -1,5 +1,6 @@
 ;;; package --- Custom Emacs Configuration -*- lexical-binding: t -*-
 ;;; Commentary:
+;;; Some changes were suggested by emacs-solo
 ;;; Code:
 
 ;; Bind key for :bind keyword
@@ -103,8 +104,7 @@
 
 ;; When in a text mode, don't truncate lines but wrap them
 (use-package simple
-  ;; [TODO] is the extra org mode necessary?
-  :hook ((org-mode text-mode) . visual-line-mode)
+  :hook (text-mode . visual-line-mode)
   :custom
   ;; Please no tabs
   (indent-tabs-mode nil)
@@ -199,14 +199,19 @@
   :functions eglot-completion-at-point
   :bind
   ( :map eglot-mode-map
-    ("M-[" . eglot-code-actions)
-    ("M-]" . eglot-rename))
+    ("C-c l a" . eglot-code-actions)
+    ("C-c l h" . eglot-inlay-hints-mode)
+    ("C-c l f" . eglot-format)
+    ("C-c l r" . eglot-rename))
   :custom
   ;; This fixes some weird line height changes on Darwin
-  (eglot-code-action-indicator "*")
+  (eglot-code-action-indicator nil)
   ;; Enable semantic tokens
   (eglot-semantic-tokens-mode t)
+  ;; Better performance supposedly
   (eglot-stay-out-of '(imenu))
+  ;; Clean up last eglot buffer
+  (eglot-autoshutdown t)
   :hook
   ;; Hook into a variety of prog modes
   (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode
@@ -242,7 +247,9 @@
 (use-package flymake
   :defer t
   ;; Show diagnostics inline at end of line
-  :custom (flymake-show-diagnostics-at-end-of-line t)
+  :custom
+  (flymake-show-diagnostics-at-end-of-line 'fancy)
+  (flymake-indicator-type 'margins)
   :hook emacs-lisp-mode)
 
 (use-package skeleton :defines skeleton-positions)
@@ -924,14 +931,6 @@
     "Check if the current buffer is a dired-sidebar buffer."
     (eq (current-buffer) (dired-sidebar-buffer))))
 
-(use-package dired-preview
-  :ensure t
-  :custom
-  ;; Always dired preview [TODO] disable, this is getting annoying?
-  (dired-preview-global-mode t)
-  ;; Show preview quickly
-  (dired-preview-delay 0.1))
-
 (use-package pdf-tools
   :ensure t
   :config
@@ -964,6 +963,7 @@
   :bind ("C-x C-a t" . toggleterm-dwim))
 
 (use-package eshell
+  :defer 5
   :custom
   (eshell-prompt-regexp "^[^#$\n]* [λ#] ")
   (eshell-highlight-prompt nil)
@@ -1024,10 +1024,11 @@
   :config
   (dolist (command '("pi" "piw" "nh"))
     (add-to-list 'eshell-visual-commands command))
-  (dolist (subcommands '(("jj" "diff")))
+  (dolist (subcommands '(("jj" "diff" "squash")))
     (add-to-list 'eshell-visual-subcommands subcommands))
-  (dolist (options '(("jj" "--editor")))
-    (add-to-list 'eshell-visual-options options)))
+  (dolist (options '(("jj" "--editor" "--help")))
+    (add-to-list 'eshell-visual-options options))
+  (setenv "TERM" "xterm-256color"))
 (use-package esh-mode
   :defines eshell-preoutput-filter-functions
   :config
@@ -1036,9 +1037,7 @@
 (use-package xterm-color
   :ensure t
   :custom
-  (xterm-color-preserve-properties t)
-  :config
-  (setenv "TERM" "xterm-256color"))
+  (xterm-color-preserve-properties t))
 
 (use-package nnnrss
   :ensure t)
@@ -1173,7 +1172,9 @@
   ;; Fix scope for python
   (indent-bars-treesitter-scope '((python function_definition class_definition
                                           for_statement if_statement
-                                          with_statement while_statement))))
+                                          with_statement while_statement)))
+  ;; Don't unnecessarily draw intermediate lines
+  (indent-bars-no-descend-lists 'skip))
 
 (use-package sqlite-mode
   :bind
@@ -1187,12 +1188,10 @@
   ;; Show in mode line
   (project-mode-line t)
   ;; Clean up project mode line
-  (project-mode-line-format '(:eval
-                              (if (project-current)
-                                  (concat
-                                   " ["
-                                   (substring (project-mode-line-format) 1)
-                                   "]")))))
+  (project-mode-line-format
+   '(:eval
+     (if (project-current)
+         (project-mode-line-format)))))
 
 (use-package vc-git
   :config
@@ -1276,11 +1275,12 @@
   (compilation-scroll-output t))
 
 (use-package paren
+  :hook
+  (prog-mode . show-paren-local-mode)
   :custom
   ;; Show parens
-  (show-paren-mode t)
-  ;; Highlight expression rather than the pair itself
-  (show-paren-style 'expression))
+  (show-paren-delay 0)
+  (show-paren-context-when-offscreen 'overlay))
 
 (use-package mwheel
   :custom
@@ -1350,6 +1350,13 @@
 (use-package casual
   :ensure t)
 
+(use-package whitespace
+  :hook (before-save . whitespace-cleanup))
+
+(use-package isearch
+  :custom
+  (isearch-lazy-count t))
+
 (use-package emacs
   :custom
   (mode-line-format
@@ -1391,6 +1398,10 @@
   :hook (after-init . display-time-mode)
   :custom
   (display-time-default-load-average nil))
+
+(use-package mb-depth
+  :custom
+  (minibuffer-depth-indicate-mode t))
 
 ;; Direnv support
 (use-package envrc
