@@ -784,8 +784,8 @@
 (use-package embark
   :ensure t
   :bind
-  (("C-," . embark-act)
-   ("C-." . embark-export)))
+  ("M-[" . embark-act)
+  ("M-]" . embark-export))
 (use-package embark-consult
   :ensure t)
 
@@ -1022,9 +1022,9 @@
      'front-sticky '(font-lock-face read-only)
      'rear-nonsticky '(font-lock-face read-only)))
   :config
-  (dolist (command '("pi" "piw" "nh"))
+  (dolist (command '("pi" "piw" "nh" "gradlew"))
     (add-to-list 'eshell-visual-commands command))
-  (dolist (subcommands '(("jj" "diff" "squash")))
+  (dolist (subcommands '(("jj" "diff" "squash" "log")))
     (add-to-list 'eshell-visual-subcommands subcommands))
   (dolist (options '(("jj" "--editor" "--help")))
     (add-to-list 'eshell-visual-options options))
@@ -1392,7 +1392,8 @@
   (display-time-world-time-format "%A %d")
   (mode-line-collapse-minor-modes
    '( eldoc-mode hs-minor-mode which-key-mode completion-preview-mode
-      buffer-face-mode org-indent-mode visual-line-mode)))
+      buffer-face-mode org-indent-mode visual-line-mode
+      treesit-fold-mode)))
 
 (use-package time
   :hook (after-init . display-time-mode)
@@ -1412,7 +1413,7 @@
   :functions envrc-propagate-environment envrc--find-env-dir
   :config
   ;; Advice a few poorly acting modes
-  (dolist (fn '(Man-completion-table sql-sqlite my/org-latex-export-to-docx))
+  (dolist (fn '(Man-completion-table sql-sqlite my/org-latex-export-to-docx eshell-vterm-exec-visual))
     (advice-add fn :around #'envrc-propagate-environment)))
 
 (provide 'init)
