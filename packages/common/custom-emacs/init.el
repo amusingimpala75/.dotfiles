@@ -718,34 +718,53 @@
 (use-package groovy-mode
   :ensure t)
 
-(use-package vertico
-  :ensure t
+(use-package icomplete
+  :bind
+  ("S-<tab>" . completion-at-point)
+  ("<backtab>" . completion-at-point)
+  ( :map icomplete-minibuffer-map
+    ("C-n" . icomplete-forward-completions)
+    ("C-p" . icomplete-backward-completions)
+    ("TAB" . icomplete-force-complete)
+    ("RET" . icomplete-force-complete-and-exit)
+    ("C-v" . icomplete-vertical-mode)
+    ("SPC" . self-insert-command))
   :custom
-  ;; Cycle vertico
-  (vertico-cycle t)
-  ;; Enable ootb
-  (vertico-mode t))
-
-(use-package vertico-posframe
-  :ensure t
-  :after vertico
-  :custom
-  ;; Vertico in posframe [TODO] what about mini-frame?
-  (vertico-posframe-mode 1))
+  (icomplete-vertical-mode t)
+  (icomplete-in-buffer t)
+  (icomplete-scroll t)
+  (icomplete-compute-delay 0)
+  (icomplete-delay-completions-threshold 0)
+  (icomplete-show-matches-on-no-input t)
+  (icomplete-max-delay-chars 0)
+  (icomplete-vertical-render-prefix-indicator t)
+  (icomplete-prospects-height 10)
+  (icomplete-hide-common-prefix nil)
+  (icomplete-vertical-in-buffer-adjust-list t)
+  :config
+  (advice-add 'completion-at-point :after #'minibuffer-hide-completions)
+  :hook
+  (icomplete-minibuffer-setup . (lambda () (setq truncate-lines t))))
 
 (use-package marginalia
   :ensure t
   :custom
-  ;; Enable marginalia
-  (marginalia-mode 1))
+  (marginalia-mode 1)
+  :bind
+  ( :map minibuffer-local-map
+    ("M-a" . marginalia-cycle)))
 
+;; [TODO] could I get away with flex?
 (use-package orderless
   :ensure t
   :custom
   ;; Use the orderless completion
   (completion-styles '(orderless basic))
-  ;; [TODO] why?
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-overrides
+   '((file (styles basic partial-completion))
+     (command (styles orderless basic))
+     (function (styles orderless basic))
+     (variable (styles orderless basic)))))
 
 (use-package savehist
   :custom
@@ -782,7 +801,6 @@
 
 (use-package cape
   :ensure t
-  :after corfu
   :init
   ;; Define super capfs for various modes
   (defvar my/eglot-capf
@@ -799,44 +817,29 @@
   (defun my/cape-capf-set ()
     "Setup capfs depending on the mode."
     (interactive)
-    (setq-local completion-at-point-functions
-                (list #'cape-file
-                      (cond ((equal major-mode #'org-mode)
-                             my/org-capf)
-                            ((equal major-mode #'eshell-mode)
-                             my/eshell-capf)
-                            ((or (equal major-mode #'emacs-lisp-mode)
-                                 (equal major-mode #'lisp-interaction-mode))
-                             my/elisp-capf)
-                            ((and (fboundp 'eglot-managed-p) (eglot-managed-p))
-                             my/eglot-capf)
-                            (t
-                             my/generic-capf)))))
+    (setq-local
+     completion-at-point-functions
+     (list
+      #'cape-file
+      (cond ((equal major-mode #'org-mode)
+             my/org-capf)
+            ((equal major-mode #'eshell-mode)
+             my/eshell-capf)
+            ((or (equal major-mode #'emacs-lisp-mode)
+                 (equal major-mode #'lisp-interaction-mode))
+             my/elisp-capf)
+            ((and (fboundp 'eglot-managed-p) (eglot-managed-p))
+             my/eglot-capf)
+            (t
+             my/generic-capf)))))
   :hook (after-change-major-mode . my/cape-capf-set))
-
-(use-package corfu
-  :ensure t
-  ;; tab completion
-  :bind ( :map corfu-mode-map
-          ("S-<tab>" . completion-at-point)
-          ("<backtab>" . completion-at-point))
-  :custom
-  ;; Always enabled
-  (global-corfu-mode t)
-  ;; Allow cycling
-  (corfu-cycle t)
-  ;; Popup the documentation after half a second [TODO] reduce?
-  (corfu-popupinfo-delay '(0.5 . 0.5))
-  :hook prog-mode)
-(use-package corfu-popupinfo
-  :after corfu
-  :hook corfu-mode)
 
 ;; [TODO] fix suggestion in org mode at least not being
 ;;        anything other than a simple dict autocomplete (abbrev not showing?)
 (use-package completion-preview
   :diminish completion-preview-mode
-  :hook corfu-mode
+  :hook
+  (after-init . global-completion-preview-mode)
   ;; Show after two chars
   :custom (completion-preview-minimum-symbol-length 2)
   :config
@@ -844,21 +847,6 @@
   (setq completion-preview-commands
         (append completion-preview-commands
                 '(org-self-insert-command org-delete-backward-char))))
-
-(use-package kind-icon
-  :ensure t
-  :after corfu
-  :custom
-  ;; Add icons to the right side
-  (corfu-margin-formatters (list #'kind-icon-margin-formatter))
-  ;; Decrease the svg height. I think this is only because
-  ;; the svg height is taken from the main buffer, but
-  ;; our text-height is modified per-frame; i.e. the child
-  ;; frame for the candidates uses the smaller text size
-  ;; and thus you would (without this setting) have incorrently-
-  ;; sized rows that would overflow the window (they are there,
-  ;; you just can't read what they say)
-  (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.6 :scale 1.0 :background nil)))
 
 (use-package elec-pair
   :functions electric-pair-default-inhibit
