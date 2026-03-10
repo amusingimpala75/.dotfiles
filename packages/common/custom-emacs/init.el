@@ -88,13 +88,8 @@
    (lambda (_)
      (xterm-mouse-mode -1))))
 
-;; Allow hiding minor modes
-(use-package diminish
-  :ensure t)
-
 ;; Bring up a menu when in partially completed key chord
 (use-package which-key
-  :diminish which-key-mode
   :custom (which-key-mode t))
 
 ;; Allow highlighting hex colors (don't enable by default)
@@ -108,7 +103,6 @@
 
 ;; When in a text mode, don't truncate lines but wrap them
 (use-package simple
-  :diminish visual-line-mode
   ;; [TODO] is the extra org mode necessary?
   :hook ((org-mode text-mode) . visual-line-mode)
   :custom
@@ -337,7 +331,6 @@
 
 (use-package org
   :defer 5
-  :diminish org-indent-mode
   :hook
   ;; Fix for electric pair [TODO] remove electric pair from org-mode?
   (org-mode . (lambda ()
@@ -390,9 +383,6 @@
      (jupyter . t)
      (shell . t)
      (scala-cli . t))))
-
-;; [TODO] what does this do?
-(diminish 'buffer-face-mode)
 
 ;; Configure Karthik's org latex preview
 (use-package org-latex-preview
@@ -550,7 +540,6 @@
 
 (use-package zig-mode
   :ensure t
-  :diminish zig-format-on-save-mode
   :config
   ;; Add snippets
   (my/add-fundamental-snippets zig-mode-abbrev-table))
@@ -837,7 +826,6 @@
 ;; [TODO] fix suggestion in org mode at least not being
 ;;        anything other than a simple dict autocomplete (abbrev not showing?)
 (use-package completion-preview
-  :diminish completion-preview-mode
   :hook
   (after-init . global-completion-preview-mode)
   ;; Show after two chars
@@ -860,8 +848,6 @@
   :bind (("M-j" . avy-goto-char-timer)))
 
 ;; Show documentation
-(use-package eldoc
-  :diminish eldoc-mode)
 (use-package eldoc-box
   :ensure t
   :after eglot
@@ -1249,13 +1235,8 @@
 
 ;; Allow hiding code blocks
 (use-package hideshow
-  :diminish hs-minor-mode
   :hook (prog-mode . hs-minor-mode)
   :custom (hs-show-indicators t))
-
-;; Other hide blocks
-(use-package outline
-  :diminish (outline-minor-mode))
 
 ;; More hide blocks
 (use-package outline-indent
@@ -1309,8 +1290,7 @@
 
 ;; Use editorconfig
 (use-package editorconfig
-  :custom (editorconfig-mode t)
-  :diminish editorconfig-mode)
+  :custom (editorconfig-mode t))
 
 ;; Easier window switching
 (use-package ace-window
@@ -1369,6 +1349,48 @@
 
 (use-package casual
   :ensure t)
+
+(use-package emacs
+  :custom
+  (mode-line-format
+   '("%e"
+     (:propertize " " display (raise +0.2))
+     ;; (:propertize "" display (lower +0.2))
+     "λ "
+     mode-line-client
+     mode-line-modified
+     mode-line-remote
+     " "
+     mode-line-frame-identification
+     mode-line-buffer-identification
+     " "
+     mode-line-position
+     " "
+     mode-line-format-right-align
+     (project-mode-line project-mode-line-format)
+     (vc-mode vc-mode)
+     " "
+     mode-line-modes
+     mode-line-misc-info
+     " "))
+  (mode-line-modes-delimiters '("" . ""))
+  (flymake-mode-line-title "")
+  (flymake-mode-line-counter-format
+   '("" flymake-mode-line-error-counter
+     flymake-mode-line-warning-counter
+     flymake-mode-line-note-counter))
+  (envrc-on-lighter '(" " (:propertize "on" face envrc-mode-line-on-face)))
+  (envrc-none-lighter '(" " (:propertize "none" face envrc-mode-line-none-face)))
+  (envrc-error-lighter '(" " (:propertize "error" face envrc-mode-line-error-face)))
+  (display-time-world-time-format "%A %d")
+  (mode-line-collapse-minor-modes
+   '( eldoc-mode hs-minor-mode which-key-mode completion-preview-mode
+      buffer-face-mode org-indent-mode visual-line-mode)))
+
+(use-package time
+  :hook (after-init . display-time-mode)
+  :custom
+  (display-time-default-load-average nil))
 
 ;; Direnv support
 (use-package envrc
