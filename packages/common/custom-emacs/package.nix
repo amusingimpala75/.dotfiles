@@ -85,6 +85,7 @@ let
       fvextra
       upquote
       tcolorbox
+      wrapfig
       pdfcol # for latex precomp
       ;
   };
