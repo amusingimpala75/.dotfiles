@@ -1362,7 +1362,7 @@
   (mode-line-format
    '("%e"
      (:propertize " " display (raise +0.2))
-     ;; (:propertize "" display (lower +0.2))
+     (:propertize " " display (raise -0.2))
      "λ "
      mode-line-client
      mode-line-modified
