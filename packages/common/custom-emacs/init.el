@@ -230,6 +230,11 @@
   :config
   (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit))
 
+(use-package yasnippet
+  :ensure t
+  :custom
+  (yas-global-mode t))
+
 ;; Dape for DAP support
 (use-package dape
   :ensure t
@@ -716,8 +721,6 @@
 
 (use-package icomplete
   :bind
-  ("S-<tab>" . completion-at-point)
-  ("<backtab>" . completion-at-point)
   ( :map icomplete-minibuffer-map
     ("C-n" . icomplete-forward-completions)
     ("C-p" . icomplete-backward-completions)
@@ -727,18 +730,12 @@
     ("SPC" . self-insert-command))
   :custom
   (icomplete-vertical-mode t)
-  (icomplete-in-buffer t)
   (icomplete-scroll t)
   (icomplete-compute-delay 0)
-  (icomplete-delay-completions-threshold 0)
   (icomplete-show-matches-on-no-input t)
   (icomplete-max-delay-chars 0)
   (icomplete-vertical-render-prefix-indicator t)
-  (icomplete-prospects-height 10)
   (icomplete-hide-common-prefix nil)
-  (icomplete-vertical-in-buffer-adjust-list t)
-  :config
-  (advice-add 'completion-at-point :after #'minibuffer-hide-completions)
   :hook
   (icomplete-minibuffer-setup . (lambda () (setq truncate-lines t))))
 
@@ -829,6 +826,27 @@
             (t
              my/generic-capf)))))
   :hook (after-change-major-mode . my/cape-capf-set))
+
+(use-package corfu
+  :ensure t
+  ;; tab completion
+  :bind ( :map corfu-mode-map
+          ("S-<tab>" . completion-at-point)
+          ("<backtab>" . completion-at-point))
+  :custom
+  ;; Always enabled
+  (global-corfu-mode t)
+  ;; Allow cycling
+  (corfu-cycle t)
+  :hook
+  (after-init . global-corfu-mode))
+
+(use-package corfu-popupinfo
+  :after corfup
+  :custom
+  ;; Popup the documentation after half a second [TODO] reduce?
+  (corfu-popupinfo-delay '(0.25 . 0.25))
+  :hook corfu-mode)
 
 ;; [TODO] fix suggestion in org mode at least not being
 ;;        anything other than a simple dict autocomplete (abbrev not showing?)
@@ -1393,7 +1411,7 @@
   (mode-line-collapse-minor-modes
    '( eldoc-mode hs-minor-mode which-key-mode completion-preview-mode
       buffer-face-mode org-indent-mode visual-line-mode
-      treesit-fold-mode)))
+      treesit-fold-mode yas-minor-mode)))
 
 (use-package time
   :hook (after-init . display-time-mode)
