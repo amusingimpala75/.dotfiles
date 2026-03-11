@@ -205,7 +205,7 @@
     ("C-c l r" . eglot-rename))
   :custom
   ;; This fixes some weird line height changes on Darwin
-  (eglot-code-action-indicator nil)
+  (eglot-code-action-indicator "")
   ;; Enable semantic tokens
   (eglot-semantic-tokens-mode t)
   ;; Better performance supposedly
