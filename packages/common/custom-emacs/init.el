@@ -234,6 +234,12 @@
   :ensure t
   :custom
   (yas-global-mode t))
+(use-package yasnippet-snippets
+  :ensure t
+  :config
+  (yas-reload-all))
+(use-package yasnippet-capf
+  :ensure t)
 
 ;; Dape for DAP support
 (use-package dape
@@ -797,15 +803,15 @@
   :init
   ;; Define super capfs for various modes
   (defvar my/eglot-capf
-    (cape-capf-super #'eglot-completion-at-point #'cape-abbrev))
+    (cape-capf-super #'yasnippet-capf #'eglot-completion-at-point #'cape-abbrev))
   (defvar my/elisp-capf
-    (cape-capf-super #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point))
+    (cape-capf-super #'yasnippet-capf #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point))
   (defvar my/org-capf
-    (cape-capf-super #'cape-abbrev #'cape-elisp-block))
+    (cape-capf-super #'yasnippet-capf #'cape-abbrev #'cape-elisp-block))
   (defvar my/generic-capf
-    (cape-capf-super #'cape-abbrev))
+    (cape-capf-super #'yasnippet-capf #'cape-abbrev))
   (defvar my/eshell-capf
-    (cape-capf-super #'pcomplete-completions-at-point #'cape-history))
+    (cape-capf-super #'yasnippet-capf #'pcomplete-completions-at-point #'cape-history))
 
   (defun my/cape-capf-set ()
     "Setup capfs depending on the mode."
@@ -1411,7 +1417,7 @@
   (mode-line-collapse-minor-modes
    '( eldoc-mode hs-minor-mode which-key-mode completion-preview-mode
       buffer-face-mode org-indent-mode visual-line-mode
-      treesit-fold-mode yas-minor-mode)))
+      treesit-fold-mode yas-minor-mode subword-mode)))
 
 (use-package time
   :hook (after-init . display-time-mode)
@@ -1421,6 +1427,9 @@
 (use-package mb-depth
   :custom
   (minibuffer-depth-indicate-mode t))
+
+(use-package subword
+  :hook (after-init . global-subword-mode))
 
 ;; Direnv support
 (use-package envrc
