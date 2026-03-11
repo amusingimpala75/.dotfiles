@@ -1207,16 +1207,6 @@
     ("n" . next-line)
     ("p" . previous-line)))
 
-(use-package project
-  :custom
-  ;; Show in mode line
-  (project-mode-line t)
-  ;; Clean up project mode line
-  (project-mode-line-format
-   '(:eval
-     (if (project-current)
-         (project-mode-line-format)))))
-
 (use-package vc-git
   :config
   ;; I really just need to be able to use ¯\_(ツ)_/¯
@@ -1381,48 +1371,8 @@
   :custom
   (isearch-lazy-count t))
 
-(use-package emacs
-  :custom
-  (mode-line-format
-   '("%e"
-     (:propertize " " display (raise +0.2))
-     (:propertize " " display (raise -0.2))
-     "λ "
-     mode-line-client
-     mode-line-modified
-     mode-line-remote
-     " "
-     mode-line-frame-identification
-     mode-line-buffer-identification
-     " "
-     mode-line-position
-     " "
-     mode-line-format-right-align
-     (project-mode-line project-mode-line-format)
-     (vc-mode vc-mode)
-     " "
-     mode-line-modes
-     mode-line-misc-info
-     " "))
-  (mode-line-modes-delimiters '("" . ""))
-  (flymake-mode-line-title "")
-  (flymake-mode-line-counter-format
-   '("" flymake-mode-line-error-counter
-     flymake-mode-line-warning-counter
-     flymake-mode-line-note-counter))
-  (envrc-on-lighter '(" " (:propertize "on" face envrc-mode-line-on-face)))
-  (envrc-none-lighter '(" " (:propertize "none" face envrc-mode-line-none-face)))
-  (envrc-error-lighter '(" " (:propertize "error" face envrc-mode-line-error-face)))
-  (display-time-world-time-format "%A %d")
-  (mode-line-collapse-minor-modes
-   '( eldoc-mode hs-minor-mode which-key-mode completion-preview-mode
-      buffer-face-mode org-indent-mode visual-line-mode
-      treesit-fold-mode yas-minor-mode subword-mode)))
-
-(use-package time
-  :hook (after-init . display-time-mode)
-  :custom
-  (display-time-default-load-average nil))
+(use-package imacs
+  :ensure t)
 
 (use-package mb-depth
   :custom
