@@ -12,7 +12,7 @@
       theme = pkgs.base1624schemes.base16.default-dark;
 
       emacs = {
-        theme-package = pkgs.emacsPackages.ef-themes;
+        theme-package = epkgs: epkgs.ef-themes;
         theme-file-name = "ef-themes";
         theme-name = "ef-elea-dark";
       };

@@ -28,7 +28,7 @@
   font-family-fixed ? "Iosevka",
   font-family-variable ? "Iosevka Etoile",
   opacity ? 1.0,
-  theme-package ? (emacsPackagesFor emacs).gruvbox-theme,
+  theme-package ? epkgs: epkgs.gruvbox-theme,
   theme-file-name ? "gruvbox-theme",
   theme-name ? "gruvbox-dark-hard",
   ...
@@ -66,7 +66,7 @@ let
 
           (provide 'nix-settings)
         '';
-        packageRequires = [ theme-package ];
+        packageRequires = [ (theme-package epkgs) ];
       })
     ];
     override = epkgs: {

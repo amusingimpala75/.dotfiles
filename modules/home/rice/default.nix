@@ -79,7 +79,7 @@
     emacs = {
       theme-package = lib.mkOption {
         description = "package to use";
-        default = pkgs.mkBase16EmacsTheme config.rice.theme;
+        default = epkgs: (pkgs.mkBase16EmacsTheme.override { emacsPackages = epkgs; }) config.rice.theme;
       };
       theme-file-name = lib.mkOption {
         description = "name of file to be `require'd";
