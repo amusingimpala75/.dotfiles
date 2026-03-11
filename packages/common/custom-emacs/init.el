@@ -263,47 +263,9 @@
   (flymake-indicator-type 'margins)
   :hook emacs-lisp-mode)
 
-(use-package skeleton :defines skeleton-positions)
-
-(defun my/skeleton-indent-afterwards ()
-  "Indent after inserting skeleton."
-  (indent-region (car (last skeleton-positions)) (car skeleton-positions)))
-
-(define-skeleton fundamental-skeleton-current-file
-  "Insert the name of the current file."
-  nil ;; no prompt
-  > (file-name-nondirectory (buffer-file-name)))
-
-(define-skeleton fundamental-skeleton-current-date
-  "Insert the date."
-  nil ;; no prompt
-  > (format-time-string "%Y-%m-%d"))
-
 (defun my/longest-line (str)
   "Return length of longest single line in `STR'."
   (seq-max (mapcar 'string-width (split-string str "\n"))))
-
-(define-skeleton fundamental-skeleton-heading
-  "Generate surrounded heading."
-  ""
-  '(setq str (skeleton-read "Title: "))
-  > (make-string (my/longest-line str) ?=) \n
-  > str \n
-  > (make-string (my/longest-line str) ?=))
-
-(defun my/add-skeleton-abbrevs (table pairs)
-  "Add a `PAIRS' mapping words to skeletons to a given abbrev table `TABLE'."
-  (dolist (pair pairs)
-    (let ((name (car pair))
-          (fn (cdr pair)))
-      (define-abbrev table name "" fn 1))))
-
-(defun my/add-fundamental-snippets (table)
-  "Add the list of snippets for fundamental mode to abbrev table `TABLE'."
-  (define-abbrev table "shr" "¯\\_(ツ)_/¯" nil 1)
-  (my/add-skeleton-abbrevs table '(("here" . fundamental-skeleton-current-file)
-                                   ("now" . fundamental-skeleton-current-date)
-                                   ("heading" . fundamental-skeleton-heading))))
 
 (use-package lisp
   :bind ("M-\"" . my/insert-quote)
@@ -322,27 +284,10 @@
 ;; Configuring markdown mode
 (use-package markdown-mode
   :ensure t
-  :mode ("README\\.md\\'" . gfm-mode)
-  :config
-  (my/add-fundamental-snippets markdown-mode-abbrev-table))
+  :mode ("README\\.md\\'" . gfm-mode))
 
 (use-package nix-mode
-  :ensure t
-  :config
-  (my/add-fundamental-snippets nix-mode-abbrev-table))
-
-(define-skeleton LaTeX-skeleton-begin
-  "Insert LaTeX begin and end tags."
-  '(setq str (skeleton-read "Type: "))
-  > "\\begin{" str "}" \n
-  > \n
-  > "\\end{" str "}")
-
-(defun my/add-LaTeX-snippets (table)
-  "Add snippets related to LaTeX to the abbrev table `TABLE'."
-  (my/add-fundamental-snippets table)
-  (define-abbrev table "ria" "\\rightarrow" nil 1)
-  (my/add-skeleton-abbrevs table '(("begin" . LaTeX-skeleton-begin))))
+  :ensure t)
 
 (use-package face-remap
   :hook (org-mode . variable-pitch-mode))
@@ -391,8 +336,6 @@
    '(org-level-8 ((t (:weight bold)))))
   ;; Use org-tempo
   (add-to-list 'org-modules 'org-tempo)
-  ;; Add LaTeX snippets here
-  (my/add-LaTeX-snippets org-mode-abbrev-table)
   ;; Load various babel langauges [TODO] clean this code
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -475,37 +418,6 @@
   ;; Fontify using the engrave-faces backend
   :custom (org-latex-src-block-backend 'engraved))
 
-(define-skeleton java-skeleton-def-main
-  "Generate java main class/function."
-  ""
-  @
-  "public class " (capitalize
-                   (file-name-nondirectory
-                    (file-name-sans-extension (buffer-name)))) " {" \n
-  "public static void main(String[] args) {" \n
-  _ \n
-  "}" \n
-  "}"
-  @
-  '(my/skeleton-indent-afterwards))
-
-(define-skeleton java-skeleton-println
-  "Generate println statement."
-  ""
-  > "System.out.println(" (skeleton-read "text: ") ");" \n
-  > _)
-
-(defun my/add-java-snippets (table)
-  "Add java snippets to the abbrev table `TABLE'."
-  (my/add-fundamental-snippets table)
-  (my/add-skeleton-abbrevs table '(("defmain" . java-skeleton-def-main)
-                                   ("pr" . java-skeleton-println))))
-
-(use-package java-ts-mode
-  :config
-  ;; Configure java-ts-mode to use java abbrevs
-  (my/add-java-snippets java-ts-mode-abbrev-table))
-
 (use-package scala-mode
   :ensure t
   :hook
@@ -546,133 +458,21 @@
   :ensure t
   :after rust-mode
   ;; We do our own management of LSP
-  :custom (rustic-lsp-setup-p nil)
-  :config
-  ;; Based on the basic snippets
-  (my/add-fundamental-snippets rustic-mode-abbrev-table))
-
-(use-package lua-ts-mode
-  :config
-  ;; Add snippets
-  (my/add-fundamental-snippets lua-ts-mode-abbrev-table))
+  :custom (rustic-lsp-setup-p nil))
 
 (use-package zig-mode
-  :ensure t
-  :config
-  ;; Add snippets
-  (my/add-fundamental-snippets zig-mode-abbrev-table))
-
-(defun my/default-header-guard-name ()
-  "Default header guard created by upcase the file name."
-  (concat
-   (upcase
-    (file-name-nondirectory
-     (file-name-sans-extension (buffer-file-name)))) "_H"))
-
-(define-skeleton c-skeleton-guard
-  "Generate header guard."
-  ""
-  '(setq str (skeleton-read "Header: " (my/default-header-guard-name)))
-  "#ifndef " str \n
-  "#define " str \n
-  \n
-  _ \n
-  \n
-  "#endif /* " str " */")
-
-(define-skeleton c-skeleton-doxy-header
-  "Doxygen comment for header."
-  ""
-  @
-  "/**" \n
-  " * @file " (file-name-nondirectory (buffer-file-name)) \n
-  " * @author " (skeleton-read "Author: " nil nil) \n ;; TODO default author
-  " * @brief " (skeleton-read "Brief: " nil nil) \n
-  " * @date " (format-time-string "%Y-%m-%d") \n
-  " */"
-  @
-  '(my/skeleton-indent-afterwards))
-
-(define-skeleton c-skeleton-doxy-fn
-  "Doxygen comment for a function."
-  ""
-  @
-  "/**" \n
-  " * @brief " (skeleton-read "Brief: ") \n
-  " *" \n
-  " * " (skeleton-read "Description: ") \n
-  " *" \n
-  ("Param: " " * @param " str \n)
-  " * @return " (skeleton-read "Returns: ") \n
-  " */"
-  @
-  '(my/skeleton-indent-afterwards))
-
-(defun my/add-c-snippets (table)
-  "Add C based snippets to `TABLE'."
-  (my/add-fundamental-snippets table)
-  (my/add-skeleton-abbrevs table '(("guard" . c-skeleton-guard)
-                                   ("doxyheader" . c-skeleton-doxy-header)
-                                   ("doxyfn" . c-skeleton-doxy-fn))))
+  :ensure t)
 
 (use-package c-ts-mode
   :custom
   ;; Offset of 4 is good
   (c-ts-mode-indent-offset 4)
   ;; Doxygen integration is great
-  (c-ts-mode-enable-doxygen t)
-  :config
-  ;; Register C snippets
-  (my/add-c-snippets c-ts-mode-abbrev-table))
-
-(define-skeleton python-skeleton-doc-func
-  "Generate doc comment for function."
-  ""
-  "\"\"\"" (skeleton-read "Brief: ") \n
-  \n
-  (skeleton-read "Long: ") \n
-  \n
-  "Args:" \n
-  ("Arg: " "    " str \n)
-  \n
-  "Returns:" \n
-  "    " (skeleton-read "Returns: ") \n
-  \n
-  "Raises:" \n
-  ("Exception: " "    " str \n)
-  "\"\"\"")
-
-(define-skeleton python-skeleton-main-fn
-  "Generate main-func paradigm."
-  ""
-  "def main():" \n
-  > _ \n
-  > "pass" \n
-  \n
-  "if __name__ == '__main__':" \n
-  > "main()")
-
-(defun my/add-python-snippets (table)
-  "Register python snippets into `TABLE'."
-  (my/add-fundamental-snippets table)
-  (my/add-skeleton-abbrevs table '(("dfunc" . python-skeleton-doc-func)
-                                   ("mainf" . python-skeleton-main-fn))))
-
-(use-package python
-  :config
-  ;; Add python snippets
-  (my/add-python-snippets python-ts-mode-abbrev-table))
-
-(use-package js
-  :config
-  ;; Basic snippets
-  (my/add-fundamental-snippets js-ts-mode-abbrev-table))
+  (c-ts-mode-enable-doxygen t))
 
 (use-package fennel-mode
   :ensure t
-  :mode ("\\.fnl\\'" . fennel-mode)
-  :config
-  (my/add-fundamental-snippets fennel-mode-abbrev-table))
+  :mode ("\\.fnl\\'" . fennel-mode))
 
 (use-package just-ts-mode
   :ensure t)
@@ -1207,11 +1007,6 @@
     ("n" . next-line)
     ("p" . previous-line)))
 
-(use-package vc-git
-  :config
-  ;; I really just need to be able to use ¯\_(ツ)_/¯
-  (my/add-fundamental-snippets vc-git-log-edit-mode-abbrev-table))
-
 (use-package vc-jj
   :ensure t)
 
@@ -1354,7 +1149,6 @@
   :ensure t
   :hook
   (after-init . persistent-scratch-setup-default)
-  scratch-create-buffer
   :custom
   (pesistent-scratch-scratch-buffer-p-function
    (lambda ()

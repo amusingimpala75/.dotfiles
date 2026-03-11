@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: Function Doc
+# key: funcdoc
+# --
+"""${brief}
+
+${long}
+
+Args:
+${args}
+
+Raises:
+${exceptions}
+"""

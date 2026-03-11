@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Doxygen Header
+# key: doxyhead
+# --
+/**
+ * @file   `(file-name-nondirectory (buffer-file-name))`
+ * @author ${author}
+ * @brief  ${brief}
+ * @date   `(format-time-string "%Y-%m-%d")`
+ * $0
+ */

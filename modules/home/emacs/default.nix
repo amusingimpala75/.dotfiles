@@ -80,5 +80,9 @@ in
     sessionVariables = lib.optionalAttrs cfg.editor {
       EDITOR = cfg.term-command;
     };
+
+    file.".emacs.d/snippets".source =
+      config.lib.file.mkOutOfStoreSymlink
+        "${config.home.homeDirectory}/.dotfiles/modules/home/emacs/snippets";
   };
 }
