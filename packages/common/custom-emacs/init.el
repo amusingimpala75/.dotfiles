@@ -141,7 +141,8 @@
                          (ns-transparent-titlebar . t)
                          ;; Don't show vertical or horizontal scroll bars
                          (vertical-scroll-bars . nil)
-                         (horizontal-scroll-bars . nil))))
+                         (horizontal-scroll-bars . nil)
+                         (fullscreen . maximized))))
 
 (use-package cus-face
   :custom-face
@@ -774,8 +775,8 @@
   :config
   ;; Compile in the pdf tools
   (pdf-tools-install nil t))
-(use-package pdf-roll
-  :hook pdf-view-mode)
+;; (use-package pdf-roll
+;;   :hook pdf-view-mode)
 
 ;; Nicer looking org mode editing (centered column)
 (use-package olivetti
@@ -863,7 +864,7 @@
      'front-sticky '(font-lock-face read-only)
      'rear-nonsticky '(font-lock-face read-only)))
   :config
-  (dolist (command '("pi" "piw" "nh" "gradlew"))
+  (dolist (command '("pi" "piw" "nh" "gradlew" "dx" "ssh"))
     (add-to-list 'eshell-visual-commands command))
   (dolist (subcommands '(("jj" "diff" "squash" "log")))
     (add-to-list 'eshell-visual-subcommands subcommands))
@@ -1207,6 +1208,10 @@
   (post-command . my/update-cursor-type)
   :config
   (add-to-list 'god-exempt-major-modes 'vterm-mode))
+
+(use-package hl-line
+  :custom
+  (global-hl-line-mode t))
 
 ;; Direnv support
 (use-package envrc
