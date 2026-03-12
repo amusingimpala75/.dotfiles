@@ -104,7 +104,8 @@
 
 ;; When in a text mode, don't truncate lines but wrap them
 (use-package simple
-  :hook (text-mode . visual-line-mode)
+  :hook
+  (text-mode . visual-line-mode)
   :custom
   ;; Please no tabs
   (indent-tabs-mode nil)
@@ -603,15 +604,19 @@
   :init
   ;; Define super capfs for various modes
   (defvar my/eglot-capf
-    (cape-capf-super #'yasnippet-capf #'eglot-completion-at-point #'cape-abbrev))
+    (cape-capf-super
+     #'yasnippet-capf #'eglot-completion-at-point #'cape-abbrev))
   (defvar my/elisp-capf
-    (cape-capf-super #'yasnippet-capf #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point))
+    (cape-capf-super
+     #'yasnippet-capf #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point))
   (defvar my/org-capf
-    (cape-capf-super #'yasnippet-capf #'cape-abbrev #'cape-elisp-block))
+    (cape-capf-super
+     #'yasnippet-capf #'cape-abbrev #'cape-elisp-block))
   (defvar my/generic-capf
     (cape-capf-super #'yasnippet-capf #'cape-abbrev))
   (defvar my/eshell-capf
-    (cape-capf-super #'yasnippet-capf #'pcomplete-completions-at-point #'cape-history))
+    (cape-capf-super
+     #'yasnippet-capf #'pcomplete-completions-at-point #'cape-history))
 
   (defun my/cape-capf-set ()
     "Setup capfs depending on the mode."
@@ -695,7 +700,8 @@
   (let* ((my/radio-channels (my/user-secret-else my/radio-channel-location nil))
          (choice (completing-read "Station:"
                                   (seq-map (lambda (pair)
-                                             (car pair)) my/radio-channels)))
+                                             (car pair))
+                                           my/radio-channels)))
          (association (assoc choice my/radio-channels)))
     (message "playing %s" choice)
     (emms-play-url (if association
@@ -830,16 +836,19 @@
       (when (project-current)
         (concat
          (propertize
-          (file-name-base (directory-file-name (project-root (project-current))))
+          (file-name-base
+           (directory-file-name (project-root (project-current))))
           'face 'font-lock-string-face)
          "#"))
       (propertize
-       (file-name-base (directory-file-name (abbreviate-file-name default-directory)))
+       (file-name-base
+        (directory-file-name (abbreviate-file-name default-directory)))
        'face 'font-lock-string-face)
       (propertize
        (if (envrc--find-env-dir) " (direnv)" "")
        'face 'font-lock-comment-face)
-      (propertize (if (not (= 0 eshell-last-command-status)) " :(" "") 'face 'error)
+      (propertize
+       (if (not (= 0 eshell-last-command-status))" :(" "") 'face 'error)
       " λ "
       )
      'read-only t
@@ -1184,7 +1193,8 @@
   :functions envrc-propagate-environment envrc--find-env-dir
   :config
   ;; Advice a few poorly acting modes
-  (dolist (fn '(Man-completion-table sql-sqlite my/org-latex-export-to-docx eshell-vterm-exec-visual))
+  (dolist (fn '( Man-completion-table sql-sqlite my/org-latex-export-to-docx
+                 eshell-vterm-exec-visual))
     (advice-add fn :around #'envrc-propagate-environment)))
 
 (provide 'init)
