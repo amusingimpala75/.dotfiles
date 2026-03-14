@@ -7,40 +7,7 @@
 let
   cfg = config.my.sketchybar;
   inherit (pkgs) stdenv;
-
-  wrapFile =
-    drv: filename:
-    pkgs.stdenv.mkDerivation {
-      inherit (drv) name;
-      src = drv;
-      phases = [ "buildPhase" ];
-      buildPhase = ''
-        mkdir -p $out
-        cp $src $out/${filename}
-      '';
-    };
-
-  defaults = pkgs.buildFennelPackage {
-    name = "fennel-defaults";
-    src = wrapFile config.rice.fennel-defaults "defaults.fnl";
-  };
-
-  bar-cfg = pkgs.buildFennelPackage {
-    name = "sketchybar-config";
-    src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
-  };
-
-  lua = pkgs.lua54Packages.lua.withPackages (_: [
-    pkgs.sbarlua
-    bar-cfg
-    defaults
-  ]);
-
-  sketchybarrc = pkgs.writeScript "sketchybarrc" ''
-    #!${lua}/bin/lua
-    defaults = require('defaults')
-    require('init')
-  '';
+  bfp = ps: pkgs.buildFennelPackage.override { lua54Packages = ps; };
 in
 {
   options.my.sketchybar = {
@@ -48,19 +15,26 @@ in
   };
 
   config = lib.mkIf (cfg.enable && stdenv.isDarwin) {
-    home.packages = [ pkgs.sketchybar ];
-
-    launchd.agents."sketchybar" = {
+    programs.sketchybar = {
+      config = ''
+        require('init')
+      '';
+      configType = "lua";
       enable = true;
-      config = rec {
-        KeepAlive = true;
-        Program = "${lib.getExe pkgs.sketchybar}";
-        ProgramArguments = [
-          Program
-          "-c"
-          "${sketchybarrc}"
-        ];
-      };
+      extraLuaPackages = ps: with pkgs; [
+        (bfp ps {
+          name = "fennel-defaults";
+          src = runCommand "defaults.fnl" {} ''
+            mkdir -p $out
+            cp ${config.rice.fennel-defaults} $out/defaults.fnl
+          '';
+        })
+        (bfp ps {
+          name = "sketchybar-config";
+          src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
+        })
+      ];
+      service.enable = true;
     };
   };
 }
