@@ -1,0 +1,32 @@
+name: Flake update
+
+'on':
+  workflow_dispatch: { }
+  schedule:
+    - cron: "0 8 5 * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+
+    - uses: cachix/install-nix-action@v31
+
+    - name: Update flake
+      run: nix develop -c just update
+
+    - name: Verify update
+      run: nix -Lv flake check
+
+    - name: Commit update
+      uses: stefanzweifel/git-auto-commit-action@4
+      with:
+        commit_message: "flake: update inputs"
+        branch: master
+        commit_options: '--no-verify --signoff'
+        file_pattern: flake.lock
+        commit_user_name: Flake Bot
+        commit_author: Flake Bot <actions@github.com>
+        skip_dirty_check: false
+        skip_fetch: true
