@@ -7,7 +7,7 @@
 let
   dockutil = lib.getExe pkgs.dockutil;
   add-dock-item =
-    item: "${dockutil} --add \"${item}\"" + (if item == "" then "--type spacer" else "");
+    item: "${dockutil} --add \"${item}\"" + (if item == "" then "--type spacer" else "") + " --no-restart";
 in
 {
   options.my.darwin.dock.items = lib.mkOption {
