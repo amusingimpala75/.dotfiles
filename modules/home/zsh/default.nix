@@ -34,7 +34,12 @@ in
         highlight = "fg=#${cfg.inline-suggestion-color},bold,underline";
       };
       defaultKeymap = "emacs";
-      initContent = ''
+      initContent = let
+        hostnamePattern =
+          if pkgs.stdenv.isDarwin
+          then "$(scutil --get LocalHostName)"
+          else "%m";
+      in ''
         source ${pkgs.git}/share/git/contrib/completion/git-prompt.sh
         function __my_zsh_set_direnv_status {
           if direnv status | grep -q "Loaded RC";
@@ -72,7 +77,7 @@ in
         }
         add-zsh-hook precmd precmd_prompt
         setopt prompt_subst
-        export PROMPT='%n@%U%m%u''${_PROMPT_ENV} λ '
+        export PROMPT='%n@%U${hostnamePattern}%u''${_PROMPT_ENV} λ '
         export RPROMPT="%F{green}%~%f"
 
         [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \

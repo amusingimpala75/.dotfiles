@@ -840,7 +840,7 @@
        (user-login-name)
        'face 'font-lock-type-face)
       "@"
-      (propertize (system-name) 'face '(font-lock-keyword-face :underline t))
+      (propertize (my/smart-hostname) 'face '(font-lock-keyword-face :underline t))
       " "
       (when (project-current)
         (concat
@@ -863,6 +863,10 @@
      'read-only t
      'front-sticky '(font-lock-face read-only)
      'rear-nonsticky '(font-lock-face read-only)))
+  (defun my/smart-hostname ()
+    (if (eq system-type 'darwin)
+        (s-trim (shell-command-to-string "scutil --get LocalHostName"))
+      (system-name)))
   :config
   (dolist (command '("pi" "piw" "nh" "gradlew" "dx" "ssh"))
     (add-to-list 'eshell-visual-commands command))
