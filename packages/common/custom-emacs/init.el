@@ -1192,6 +1192,22 @@
 (use-package subword
   :hook (after-init . global-subword-mode))
 
+(use-package god-mode
+  :ensure t
+  :custom
+  (god-global-mode t)
+  :bind
+  ("C-z" . god-local-mode)
+  ( :map god-local-mode-map
+    ("." . repeat))
+  :preface
+  (defun my/update-cursor-type ()
+    (setq cursor-type (if god-local-mode 'box 'bar)))
+  :hook
+  (post-command . my/update-cursor-type)
+  :config
+  (add-to-list 'god-exempt-major-modes 'vterm-mode))
+
 ;; Direnv support
 (use-package envrc
   :ensure t
