@@ -17,7 +17,7 @@
             packages = with pkgs; [
               bun
               typescript
-              eslint-language-server
+              biome
               typescript-language-server
             ];
           };

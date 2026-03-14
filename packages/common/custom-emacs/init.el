@@ -229,7 +229,15 @@
           (kv (cdr args)))
       (cons server (map-delete kv :cancel-on-quit))))
   :config
-  (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit))
+  (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit)
+  (setcdr
+   (assoc '((js-mode :language-id "javascript")
+            (js-ts-mode :language-id "javascript")
+            (tsx-ts-mode :language-id "typescriptreact")
+            (typescript-ts-mode :language-id "typescript")
+            (typescript-mode :language-id "typescript"))
+          eglot-server-programs)
+   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy")))
 
 (use-package yasnippet
   :ensure t
