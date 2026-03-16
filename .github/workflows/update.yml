@@ -20,7 +20,7 @@ jobs:
       run: nix -Lv flake check
 
     - name: Commit update
-      uses: stefanzweifel/git-auto-commit-action@4
+      uses: stefanzweifel/git-auto-commit-action@v7
       with:
         commit_message: "flake: update inputs"
         branch: master
