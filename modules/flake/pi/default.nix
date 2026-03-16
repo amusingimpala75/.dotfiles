@@ -82,6 +82,7 @@
             gnused
             jq
             jujutsu
+            config.nix.package
             ripgrep
             which
           ];
