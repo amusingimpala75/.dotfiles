@@ -41,6 +41,23 @@ in
             "change_id.short() ++ '\n'"
             "-r"
           ];
+          mergiraf = [
+            "resolve"
+            "--tool"
+            "mergiraf"
+          ];
+          split-new = [
+            "new"
+            "--insert-before"
+            "@"
+            "--no-edit"
+          ];
+          sem = [
+            "util"
+            "exec"
+            "--"
+            "sem"
+          ];
           spr = [
             "util"
             "exec"
@@ -55,9 +72,21 @@ in
             "--to"
             "@-"
           ];
+          weave = [
+            "resolve"
+            "--tool"
+            "weave"
+          ];
         };
         fsmonitor.backend = "watchman";
         git.private-commits = "bookmarks(tip)";
+        merge-tools.weave = {
+          program = "weave-driver";
+          merge-args = ["$base" "$left" "$right" "-o" "$output" "-l" "$marker_length" "-p" "$path"];
+          merge-conflict-exit-codes = [1];
+          merge-tool-edits-conflict-markers = true;
+          conflict-marker-style = "git";
+        };
         revset-aliases = {
           "feature_base(id)" = "::id & features()";
           "feature_stack(id)" = "feature_base(id)::tip-";
@@ -72,6 +101,11 @@ in
         working-copy.eol-conversion = "input";
       };
     };
-    home.packages = [ pkgs.jj-spr ];
+    home.packages = with pkgs; [
+      jj-spr
+      mergiraf
+      sem-diff
+      weave
+    ];
   };
 }
