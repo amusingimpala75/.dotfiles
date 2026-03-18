@@ -18,7 +18,6 @@
               sbt
               scalafmt
               javaPackages.compiler.temurin-bin.jdk-21
-              metals
             ];
           };
         };

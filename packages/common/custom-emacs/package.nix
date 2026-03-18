@@ -1,20 +1,30 @@
 {
   # pkgs
   aspellWithDicts,
+  bash-language-server,
+  biome,
+  clang-tools,
   emacs,
-  emacsPackagesFor,
   ghostscript,
+  jdt-language-server,
   mathjax-node-cli,
+  metals,
   mpv,
+  nixd,
   pandoc,
   python3,
   R,
   rassumfrassum,
+  rust-analyzer,
   stable ? null,
   texlive,
+  ty,
+  typescript-language-server,
   unzip,
   vimPlugins,
   zip,
+  zls,
+  zuban,
 
   # builders
   emacsWithPackagesFromUsePackage,
@@ -92,17 +102,34 @@ let
   deps = symlinkJoin {
     name = "emacs30-path-additions";
     paths = [
+      # Dictionary support
       (aspellWithDicts (dicts: [ dicts.en ]))
+      # Org mode stuff
       ghostscript
       mathjax-node-cli
+      texlive-package
+      # Mpv: no youtube b/c compiles from source then
       (mpv.override {
         youtubeSupport = false;
       })
+      # needed by org-docx [TODO] own package
       pandoc
-      rassumfrassum
-      texlive-package
+      # Compression
       unzip
       zip
+      # LSPs
+      rassumfrassum
+      clang-tools                # clangd for C
+      jdt-language-server        # jdtls for Java
+      biome                      # these two for
+      typescript-language-server # TypeScript
+      zuban                      # these two
+      ty                         # for Python
+      rust-analyzer              # for Rust
+      metals                     # for Scala
+      zls                        # for Zig
+      nixd                       # for Nix
+      bash-language-server       # for Bash
 
       # There has to be a way so that ob-jupyter
       # doesn't just throw an error if jupyter isn't
