@@ -35,22 +35,11 @@ in
             "change_id.short() ++ '\n'"
             "-r"
           ];
-          mergiraf = [
-            "resolve"
-            "--tool"
-            "mergiraf"
-          ];
           split-new = [
             "new"
             "--insert-before"
             "@"
             "--no-edit"
-          ];
-          sem = [
-            "util"
-            "exec"
-            "--"
-            "sem"
           ];
           spr = [
             "util"
@@ -65,11 +54,6 @@ in
             "heads(::@- & bookmarks())"
             "--to"
             "@-"
-          ];
-          weave = [
-            "resolve"
-            "--tool"
-            "weave"
           ];
         };
         fsmonitor.backend = "watchman";
@@ -94,6 +78,7 @@ in
         };
         ui = {
           default-command = "log";
+          merge-editor = "weave";
           show-cryptographic-signatures = true;
         };
         user = {
@@ -105,7 +90,6 @@ in
     };
     home.packages = with pkgs; [
       jj-spr
-      mergiraf
       sem-diff
       weave
     ];
