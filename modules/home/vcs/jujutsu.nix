@@ -115,5 +115,7 @@ in
       sem-diff
       weave
     ];
+    # for other's signatures
+    programs.gpg.enable = true;
   };
 }
