@@ -2,6 +2,7 @@
   fetchFromGitHub,
   melpaBuild,
   s,
+  scala-cli,
   scala-mode,
   xterm-color,
   ...
@@ -19,5 +20,8 @@ melpaBuild {
     s
     scala-mode
     xterm-color
+  ];
+  propagatedBuildInputs = [
+    scala-cli
   ];
 }

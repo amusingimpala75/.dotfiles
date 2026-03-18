@@ -10,7 +10,6 @@
   python3,
   R,
   rassumfrassum,
-  scala-cli,
   stable ? null,
   texlive,
   unzip,
@@ -101,7 +100,6 @@ let
       })
       pandoc
       rassumfrassum
-      scala-cli
       texlive-package
       unzip
       zip
