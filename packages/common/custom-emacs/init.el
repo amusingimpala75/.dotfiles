@@ -1207,8 +1207,6 @@
 
 (use-package god-mode
   :ensure t
-  :custom
-  (god-global-mode t)
   :bind
   ("C-z" . god-local-mode)
   ( :map god-local-mode-map
@@ -1218,6 +1216,7 @@
     (setq cursor-type (if god-local-mode 'box 'bar)))
   :hook
   (post-command . my/update-cursor-type)
+  (after-init . god-mode-all)
   :config
   (add-to-list 'god-exempt-major-modes 'vterm-mode))
 
