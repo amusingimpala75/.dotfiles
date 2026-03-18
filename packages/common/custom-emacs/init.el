@@ -993,13 +993,18 @@
 ;; Ibuffer instead of whatever it was before
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
-  :custom (ibuffer-auto-mode t))
+  :custom
+  (ibuffer-auto-mode t)
+  (ibuffer-show-empty-filter-groups nil))
 
 ;; Grouping ibuffer by project root
 (use-package ibuffer-vc
   :ensure t
-  :bind ( :map ibuffer-mode-map
-          ("/ V" . ibuffer-vc-set-filter-groups-by-vc-root)))
+  :bind
+  ( :map ibuffer-mode-map
+    ("/ V" . ibuffer-vc-set-filter-groups-by-vc-root))
+  :hook
+  (ibuffer . (lambda () (ibuffer-vc-set-filter-groups-by-vc-root))))
 
 (use-package delsel
   ;; Delete selection when typing and region active
