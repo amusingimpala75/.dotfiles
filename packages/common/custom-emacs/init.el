@@ -994,7 +994,30 @@
   :bind ("C-x C-b" . ibuffer)
   :custom
   (ibuffer-auto-mode t)
-  (ibuffer-show-empty-filter-groups nil))
+  (ibuffer-show-empty-filter-groups nil)
+  (ibuffer-formats
+   '(( mark modified read-only locked " "
+       (icon 2 2 :left) (name 18 18 :left :elide) " "
+       (size 9 -1 :right) " "
+       (mode 16 16 :left :elide) " "
+       filename-and-process)
+     ( mark " "
+       (name 16 -1) " "
+       filename)))
+  :preface
+  (defun my/icon-for-buffer (buffer)
+    (with-current-buffer buffer
+      (cond
+       ((buffer-file-name) (vscode-icon-for-file (buffer-file-name)))
+       ((derived-mode-p 'dired-mode) (vscode-icon-for-file (dired-current-directory)))
+       ((derived-mode-p 'eshell-mode) (vscode-icon-for-file "foo.sh"))
+       (t nil))))
+  :config
+  (define-ibuffer-column icon
+    (:name " ")
+    (if-let ((icon (my/icon-for-buffer buffer)))
+        (propertize " " 'display icon)
+      "  ")))
 
 ;; Grouping ibuffer by project root
 (use-package ibuffer-vc
