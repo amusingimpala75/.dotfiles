@@ -253,6 +253,8 @@
   (yas-global-mode t))
 (use-package yasnippet-snippets
   :ensure t
+  :functions
+  yas-reload-all
   :config
   (yas-reload-all))
 (use-package yasnippet-capf
@@ -730,11 +732,14 @@
   (emms-minimalistic))
 
 (use-package vscode-icon
-  :ensure t)
+  :ensure t
+  :functions
+  vscode-icon-for-file)
 
 (use-package dired
   :functions
   dired-hide-details-mode
+  dired-current-directory
   :custom
   ;; B/c Darwin is weird
   (dired-use-ls-dired (not (eq system-type 'darwin)))
@@ -1015,7 +1020,7 @@
   :config
   (define-ibuffer-column icon
     (:name " ")
-    (if-let ((icon (my/icon-for-buffer buffer)))
+    (if-let* ((icon (my/icon-for-buffer buffer)))
         (propertize " " 'display icon)
       "  ")))
 
@@ -1246,6 +1251,13 @@
 (use-package hl-line
   :custom
   (global-hl-line-mode t))
+
+(use-package s
+  :functions s-trim)
+
+(use-package autorevert
+  :custom
+  (global-auto-revert-mode t))
 
 ;; Direnv support
 (use-package envrc
