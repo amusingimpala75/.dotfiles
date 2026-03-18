@@ -93,7 +93,15 @@ in
           "features()" = "roots(::tip & mutable())";
           "guestimate_master()" = "parents(features()):: & tracked_remote_bookmarks()";
         };
-        ui.default-command = "log";
+        signing = {
+          backend = "ssh";
+          key = "~/.ssh/id_ed25519.pub";
+          behavior = "own";
+        };
+        ui = {
+          default-command = "log";
+          show-cryptographic-signatures = true;
+        };
         user = {
           name = lib.mkIf (cfg.username != null) cfg.username;
           email = lib.mkIf (cfg.email != null) cfg.email;
