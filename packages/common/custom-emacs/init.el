@@ -596,8 +596,8 @@
 (use-package embark
   :ensure t
   :bind
-  ("M-[" . embark-act)
-  ("M-]" . embark-export))
+  ("C-c k a" . embark-act)
+  ("C-c k e" . embark-export))
 (use-package embark-consult
   :ensure t)
 
