@@ -217,7 +217,7 @@
   :hook
   ;; Hook into a variety of prog modes
   (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode
-     nix-mode java-ts-mode js-ts-mode
+     nix-mode java-ts-mode js-ts-mode typescript-ts-mode
      lua-ts-mode rustic-mode scala-mode)
    . eglot-ensure)
   :preface
@@ -238,7 +238,14 @@
             (typescript-ts-mode :language-id "typescript")
             (typescript-mode :language-id "typescript"))
           eglot-server-programs)
-   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy")))
+   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy"))
+  (setq-default
+   eglot-workspace-configuration
+   '(:nixd
+     (:options
+      ( :nixos (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\")).nixosConfigurations.wsl-nix.options")
+        :nix-darwin (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").darwinConfigurations.Lukes-MacBook-Air.options")
+        :home-manager (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").legacyPackages.x86_64-linux.homeConfigurations.murrayle23.options"))))))
 
 (use-package yasnippet
   :ensure t
