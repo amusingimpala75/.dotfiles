@@ -698,15 +698,16 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1768954826,
-        "narHash": "sha256-H2aNW6brQ3gIX83gEc8PwgzuscZISFhvQeqr0wVJ17A=",
-        "owner": "LucioFranco",
+        "lastModified": 1774295354,
+        "narHash": "sha256-FaCsr+NSW5wzBLu9vpZxq4tyHV4fMViRuVbm5P3k53Y=",
+        "owner": "amusingimpala75",
         "repo": "jj-spr",
-        "rev": "982602e92542b53639679b3ce9cd71e43237a18d",
+        "rev": "d03c0d55db97e68427635eb13bb7d638d1dc028a",
         "type": "github"
       },
       "original": {
-        "owner": "LucioFranco",
+        "owner": "amusingimpala75",
+        "ref": "fix-nix-jj-38",
         "repo": "jj-spr",
         "type": "github"
       }
@@ -863,22 +864,6 @@
         "owner": "NixOS",
         "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-jj37": {
-      "locked": {
-        "lastModified": 1770169770,
-        "narHash": "sha256-awR8qIwJxJJiOmcEGgP2KUqYmHG4v/z8XpL9z8FnT1A=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "aa290c9891fa4ebe88f8889e59633d20cc06a5f2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "aa290c9891fa4ebe88f8889e59633d20cc06a5f2",
         "type": "github"
       }
     },
@@ -1139,7 +1124,6 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-bleeding": "nixpkgs-bleeding",
-        "nixpkgs-jj37": "nixpkgs-jj37",
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nixvim": "nixvim",
