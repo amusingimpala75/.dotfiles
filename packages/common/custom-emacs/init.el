@@ -277,14 +277,6 @@
   "Return length of longest single line in `STR'."
   (seq-max (mapcar 'string-width (split-string str "\n"))))
 
-(use-package lisp
-  :bind ("M-\"" . my/insert-quote)
-  :preface
-  (defun my/insert-quote (&optional arg)
-    "Surround the region with quotes"
-    (interactive "P")
-    (insert-pair arg ?\" ?\")))
-
 (use-package prog-mode
   :bind
   ;; Shift return to continue writing in a comment
@@ -1152,6 +1144,10 @@
   :bind
   ("C-;" . expreg-expand)
   ("C-:" . expreg-contract))
+
+(use-package surround
+  :ensure t
+  :bind-keymap ("M-'" . surround-keymap))
 
 (use-package word-count
   :ensure t
