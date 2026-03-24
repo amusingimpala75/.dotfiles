@@ -29,7 +29,7 @@
 
   my.zsh.enable = true;
 
-  networking.hostName = "wsl-nix";
+  networking.hostName = "fingolfin";
   time.timeZone = "America/New_York";
 
   # This value determines the NixOS release from which the default
