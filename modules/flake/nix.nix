@@ -5,7 +5,6 @@
 }:
 let
   common = pkgs: {
-    # nixpkgs.overlays = [ inputs.determinate-nix-cli.overlays.default ];
     nix = {
       gc = {
         automatic = true;
@@ -33,6 +32,7 @@ in
       lib.mkMerge [
         (common pkgs)
         {
+          nix.channel.enable = false;
           nix.gc.interval = {
             Weekday = 7;
             Hour = 3;
@@ -54,6 +54,7 @@ in
       lib.mkMerge [
         (common pkgs)
         {
+          nix.channel.enable = false;
           nix.gc.persistent = true;
           nix.gc.dates = "weekly";
         }
