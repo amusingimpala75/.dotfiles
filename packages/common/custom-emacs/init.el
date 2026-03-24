@@ -195,71 +195,6 @@
   :after dashboard
   :custom (dashboard-footer-messages (list (bible-gateway-get-verse))))
 
-;; Eglot used for LSP
-(use-package eglot
-  :defer t
-  :functions eglot-completion-at-point
-  :bind
-  ( :map eglot-mode-map
-    ("C-c l a" . eglot-code-actions)
-    ("C-c l h" . eglot-inlay-hints-mode)
-    ("C-c l f" . eglot-format)
-    ("C-c l r" . eglot-rename))
-  :custom
-  ;; This fixes some weird line height changes on Darwin
-  (eglot-code-action-indicator "")
-  ;; Enable semantic tokens
-  (eglot-semantic-tokens-mode t)
-  ;; Better performance supposedly
-  (eglot-stay-out-of '(imenu))
-  ;; Clean up last eglot buffer
-  (eglot-autoshutdown t)
-  :hook
-  ;; Hook into a variety of prog modes
-  (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode
-     nix-mode java-ts-mode js-ts-mode typescript-ts-mode
-     lua-ts-mode rustic-mode scala-mode)
-   . eglot-ensure)
-  :preface
-  ;; I don't know why eglot started
-  ;; including :cancel-on-quit, but
-  ;; jsonrpc claims it doesn't exist
-  ;; [TODO] try removing at some point
-  (defun remove:cancel-on-quit (args)
-    (let ((server (car args))
-          (kv (cdr args)))
-      (cons server (map-delete kv :cancel-on-quit))))
-  :config
-  (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit)
-  (setcdr
-   (assoc '((js-mode :language-id "javascript")
-            (js-ts-mode :language-id "javascript")
-            (tsx-ts-mode :language-id "typescriptreact")
-            (typescript-ts-mode :language-id "typescript")
-            (typescript-mode :language-id "typescript"))
-          eglot-server-programs)
-   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy"))
-  (setq-default
-   eglot-workspace-configuration
-   '(:nixd
-     (:options
-      ( :nixos (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\")).nixosConfigurations.wsl-nix.options")
-        :nix-darwin (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").darwinConfigurations.Lukes-MacBook-Air.options")
-        :home-manager (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").legacyPackages.x86_64-linux.homeConfigurations.murrayle23.options"))))))
-
-(use-package yasnippet
-  :ensure t
-  :custom
-  (yas-global-mode t))
-(use-package yasnippet-snippets
-  :ensure t
-  :functions
-  yas-reload-all
-  :config
-  (yas-reload-all))
-(use-package yasnippet-capf
-  :ensure t)
-
 ;; Dape for DAP support
 (use-package dape
   :ensure t
@@ -297,8 +232,23 @@
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode))
 
+(use-package eglot
+  :defines
+  eglot-workspace-configuration
+  eglot-server-programs)
+
 (use-package nix-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq-default
+   eglot-workspace-configuration
+   (plist-put
+    eglot-workspace-configuration
+    :nixd
+    '(:options
+      ( :nixos (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\")).nixosConfigurations.wsl-nix.options")
+        :nix-darwin (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").darwinConfigurations.Lukes-MacBook-Air.options")
+        :home-manager (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").legacyPackages.x86_64-linux.homeConfigurations.murrayle23.options"))))))
 
 (use-package face-remap
   :hook (org-mode . variable-pitch-mode))
@@ -494,10 +444,22 @@
 (use-package swift-mode
   :ensure t
   :config
-  ;; [TODO] is this not already in the default?
-  (with-eval-after-load 'eglot
-    (add-to-list 'eglot-server-programs
-                 '(swift-mode . ("sourcekit-lsp")))))
+  (add-to-list
+   'eglot-server-programs
+   '(swift-mode . ("sourcekit-lsp"))))
+
+(use-package eglot
+  :config
+  ;; Use rass for ts/js
+  (setcdr
+   (assoc
+    '((js-mode :language-id "javascript")
+      (js-ts-mode :language-id "javascript")
+      (tsx-ts-mode :language-id "typescriptreact")
+      (typescript-ts-mode :language-id "typescript")
+      (typescript-mode :language-id "typescript"))
+    eglot-server-programs)
+   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy")))
 
 (use-package ada-ts-mode
   :ensure t)
@@ -536,151 +498,8 @@
 (use-package groovy-mode
   :ensure t)
 
-(use-package icomplete
-  :bind
-  ( :map icomplete-minibuffer-map
-    ("C-n" . icomplete-forward-completions)
-    ("C-p" . icomplete-backward-completions)
-    ("TAB" . icomplete-force-complete)
-    ("RET" . icomplete-force-complete-and-exit)
-    ("C-v" . icomplete-vertical-mode)
-    ("SPC" . self-insert-command))
-  :custom
-  (icomplete-vertical-mode t)
-  (icomplete-scroll t)
-  (icomplete-compute-delay 0)
-  (icomplete-show-matches-on-no-input t)
-  (icomplete-max-delay-chars 0)
-  (icomplete-vertical-render-prefix-indicator t)
-  (icomplete-hide-common-prefix nil)
-  :hook
-  (icomplete-minibuffer-setup . (lambda () (setq truncate-lines t))))
-
-(use-package marginalia
-  :ensure t
-  :custom
-  (marginalia-mode 1)
-  :bind
-  ( :map minibuffer-local-map
-    ("M-a" . marginalia-cycle)))
-
-;; [TODO] could I get away with flex?
-(use-package orderless
-  :ensure t
-  :custom
-  ;; Use the orderless completion
-  (completion-styles '(orderless basic))
-  (completion-category-overrides
-   '((file (styles basic partial-completion))
-     (command (styles orderless basic))
-     (function (styles orderless basic))
-     (variable (styles orderless basic)))))
-
-(use-package savehist
-  :custom
-  ;; Save history between sessions
-  (savehist-mode 1))
-
-(use-package consult
-  :ensure t
-  :custom
-  ;; Constant update
-  (consult-async-refresh-delay 0)
-  (consult-async-min-input 1)
-  ;; Replace builtin commands with better ones
-  :bind (("C-x p f" . consult-fd)
-         ("C-x p g" . consult-ripgrep)
-         ("C-x b" . consult-buffer)
-         ("C-x p b" . consult-project-buffer)
-         ("M-g g" . consult-goto-line)
-         ("M-y" . consult-yank-pop)))
-
-(use-package embark
-  :ensure t
-  :bind
-  ("C-c k a" . embark-act)
-  ("C-c k e" . embark-export))
-(use-package embark-consult
+(use-package imacs-completion
   :ensure t)
-
-(use-package wgrep
-  :ensure t)
-
-(use-package pcomplete
-  :functions pcomplete-completions-at-point)
-
-(use-package cape
-  :ensure t
-  :init
-  ;; Define super capfs for various modes
-  (defvar my/eglot-capf
-    (cape-capf-super
-     #'yasnippet-capf #'eglot-completion-at-point #'cape-abbrev))
-  (defvar my/elisp-capf
-    (cape-capf-super
-     #'yasnippet-capf #'cape-abbrev #'cape-dabbrev #'elisp-completion-at-point))
-  (defvar my/org-capf
-    (cape-capf-super
-     #'yasnippet-capf #'cape-abbrev #'cape-elisp-block))
-  (defvar my/generic-capf
-    (cape-capf-super #'yasnippet-capf #'cape-abbrev))
-  (defvar my/eshell-capf
-    (cape-capf-super
-     #'yasnippet-capf #'pcomplete-completions-at-point #'cape-history))
-
-  (defun my/cape-capf-set ()
-    "Setup capfs depending on the mode."
-    (interactive)
-    (setq-local
-     completion-at-point-functions
-     (list
-      #'cape-file
-      (cond ((equal major-mode #'org-mode)
-             my/org-capf)
-            ((equal major-mode #'eshell-mode)
-             my/eshell-capf)
-            ((or (equal major-mode #'emacs-lisp-mode)
-                 (equal major-mode #'lisp-interaction-mode))
-             my/elisp-capf)
-            ((and (fboundp 'eglot-managed-p) (eglot-managed-p))
-             my/eglot-capf)
-            (t
-             my/generic-capf)))))
-  :hook (after-change-major-mode . my/cape-capf-set))
-
-(use-package corfu
-  :ensure t
-  ;; tab completion
-  :bind ( :map corfu-mode-map
-          ("S-<tab>" . completion-at-point)
-          ("<backtab>" . completion-at-point))
-  :custom
-  ;; Always enabled
-  (global-corfu-mode t)
-  ;; Allow cycling
-  (corfu-cycle t)
-  :hook
-  (after-init . global-corfu-mode))
-
-(use-package corfu-popupinfo
-  :after corfup
-  :custom
-  ;; Popup the documentation after half a second [TODO] reduce?
-  (corfu-popupinfo-delay '(0.25 . 0.25))
-  :hook corfu-mode)
-
-;; [TODO] fix suggestion in org mode at least not being
-;;        anything other than a simple dict autocomplete (abbrev not showing?)
-(use-package completion-preview
-  :hook
-  (after-init . global-completion-preview-mode)
-  ;; Show after two chars
-  :custom (completion-preview-minimum-symbol-length 2)
-  :config
-  ;; Allow org movement commands to still trigger completion
-  (setq completion-preview-commands
-        (append completion-preview-commands
-                '(org-self-insert-command org-delete-backward-char))))
 
 (use-package elec-pair
   :functions electric-pair-default-inhibit
@@ -788,106 +607,6 @@
 
 (use-package reader
   :ensure t)
-
-(use-package eat
-  :ensure t)
-
-(use-package vterm
-  :ensure t)
-(use-package eshell-vterm
-  :ensure t
-  :custom
-  (eshell-vterm-mode t))
-
-;; Custom popup terminal
-(use-package toggleterm
-  :defer nil
-  :ensure t
-  :bind ("C-x C-a t" . toggleterm-dwim))
-
-(use-package eshell
-  :defer 5
-  :custom
-  (eshell-prompt-regexp "^[^#$\n]* [λ#] ")
-  (eshell-highlight-prompt nil)
-  (eshell-prompt-function 'my/eshell-prompt)
-  (eshell-command-aliases-list '(("clear" "clear t")))
-  (eshell-bad-command-tolerance most-positive-fixnum)
-  :functions
-  eshell/cd
-  eshell/echo
-  :preface
-  (defun eshell/z (&rest args)
-    "Jump to directory using zoxide."
-    (let* ((args-string
-            (mapconcat
-             (lambda (x)
-               (if (numberp x)
-                   (number-to-string x)
-                 x))
-             args " "))
-           (cmd (concat "zoxide query -- " args-string))
-           (results
-            (with-temp-buffer
-              (list :exit-code (call-process-shell-command cmd nil t)
-                    :target (string-trim (buffer-string)))))
-           (exit-code (plist-get results :exit-code))
-           (target (plist-get results :target)))
-      (if (not (= 0 exit-code))
-          (eshell/echo "zoxide: no match found")
-        (eshell/cd target))))
-  (defun my/eshell-prompt ()
-    "Generate my eshell prompt."
-    (propertize
-     (concat
-      (propertize
-       (user-login-name)
-       'face 'font-lock-type-face)
-      "@"
-      (propertize (my/smart-hostname) 'face '(font-lock-keyword-face :underline t))
-      " "
-      (when (project-current)
-        (concat
-         (propertize
-          (file-name-base
-           (directory-file-name (project-root (project-current))))
-          'face 'font-lock-string-face)
-         "#"))
-      (propertize
-       (file-name-base
-        (directory-file-name (abbreviate-file-name default-directory)))
-       'face 'font-lock-string-face)
-      (propertize
-       (if (envrc--find-env-dir) " (direnv)" "")
-       'face 'font-lock-comment-face)
-      (propertize
-       (if (not (= 0 eshell-last-command-status))" :(" "") 'face 'error)
-      " λ "
-      )
-     'read-only t
-     'front-sticky '(font-lock-face read-only)
-     'rear-nonsticky '(font-lock-face read-only)))
-  (defun my/smart-hostname ()
-    (if (eq system-type 'darwin)
-        (s-trim (shell-command-to-string "scutil --get LocalHostName"))
-      (system-name)))
-  :config
-  (dolist (command '("pi" "piw" "nh" "gradlew" "dx" "ssh"))
-    (add-to-list 'eshell-visual-commands command))
-  (dolist (subcommands '(("jj" "diff" "squash" "log")))
-    (add-to-list 'eshell-visual-subcommands subcommands))
-  (dolist (options '(("jj" "--editor" "--help")))
-    (add-to-list 'eshell-visual-options options))
-  (setenv "TERM" "xterm-256color"))
-(use-package esh-mode
-  :defines eshell-preoutput-filter-functions
-  :config
-  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter))
-
-(use-package xterm-color
-  :ensure t
-  :custom
-  (xterm-color-preserve-properties t))
 
 (use-package nnnrss
   :ensure t)
@@ -1223,7 +942,10 @@
   :custom
   (isearch-lazy-count t))
 
-(use-package imacs
+(use-package imacs-mode-line
+  :ensure t)
+
+(use-package imacs-shell
   :ensure t)
 
 (use-package mb-depth
