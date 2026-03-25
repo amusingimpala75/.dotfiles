@@ -112,7 +112,7 @@ let
       (mpv.override {
         youtubeSupport = false;
       })
-      # needed by org-docx [TODO] own package
+      # needed by ox-pandoc
       pandoc
       # Compression
       unzip

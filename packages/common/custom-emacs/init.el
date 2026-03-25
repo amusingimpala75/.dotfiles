@@ -337,28 +337,8 @@
   :ensure t
   :hook org-modern-mode)
 
-(use-package ox-latex
-  :preface
-  (defun my/pandoc-latex-to-docx (texfile &optional _)
-    "Convert latex doc to docx using pandoc"
-    (let ((infile (shell-quote-argument texfile))
-          (outfile (shell-quote-argument
-                    (format "%s.docx" (substring texfile 0 -4)))))
-      (shell-command (format "pandoc %s -o %s" infile outfile))))
-  (defun my/org-latex-export-to-docx ( &optional async subtreep
-                                       visible-only body-only ext-plist)
-    "Org export to docx using pandoc on a generated latex."
-    (interactive)
-    (let ((outfile (org-export-output-file-name ".tex" subtreep)))
-      (org-export-to-file 'latex outfile
-        async subtreep visible-only body-only ext-plist
-        #'my/pandoc-latex-to-docx)))
-  :config
-  ;; Add our custom docx exporter
-  (org-export-define-derived-backend 'docx 'latex
-    :menu-entry
-    '(?l 1
-         ((?d "As LaTeX file (Docx)" my/org-latex-export-to-docx)))))
+(use-package ox-pandoc
+  :ensure t)
 
 (use-package jupyter
   :ensure t
