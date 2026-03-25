@@ -34,6 +34,8 @@
     wallp.enable = true;
   };
 
+  services.podman.enable = true;
+
   home.packages = with pkgs; [
     noto-fonts-color-emoji
     get-win-sid
