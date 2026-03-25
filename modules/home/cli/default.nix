@@ -30,12 +30,14 @@
     home.packages = with pkgs; [
       bible.asv
       chafa
+      doxx
       file
       jaq
       killall
       scc
       sd
       tree
+      up
     ];
 
     programs = {
