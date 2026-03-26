@@ -98,6 +98,7 @@
         # macOS utilities
         darwin.trash # TODO cross-platform
         brightness
+        jd-gui-duo
         unquarantine
         screen-saver
         run-ntfy-when-done
@@ -109,7 +110,6 @@
         brewCasks.gimp
         brewCasks.imazing
         brewCasks.inkscape
-        # brewCasks.jd-gui # can't find java?
         brewCasks.minecraft
         brewCasks.qlmarkdown
         brewCasks.raspberry-pi-imager
