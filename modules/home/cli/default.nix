@@ -41,6 +41,7 @@
     ];
 
     programs = {
+      bottom.enable = true;
       eza = {
         enable = true;
         icons = "always";
