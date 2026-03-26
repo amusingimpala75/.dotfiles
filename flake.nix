@@ -88,6 +88,12 @@
 
     agent-sandbox.url = "github:archie-judd/agent-sandbox.nix";
     agent-sandbox.inputs.nixpkgs.follows = "nixpkgs";
+
+    angrr.url = "github:linyinfeng/angrr";
+    angrr.inputs = {
+      nixpkgs.follows = "nixpkgs";
+      nix-darwin.follows = "nix-darwin";
+    };
   };
 
   outputs =

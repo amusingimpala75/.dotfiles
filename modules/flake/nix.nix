@@ -1,15 +1,12 @@
 {
   inputs,
   lib,
+  self,
   ...
 }:
 let
   common = pkgs: {
     nix = {
-      gc = {
-        automatic = true;
-        options = "--delete-older-than 30d";
-      };
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
       package = inputs.determinate-nix-cli.packages.${pkgs.stdenv.hostPlatform.system}.nix-cli;
       registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
@@ -29,35 +26,29 @@ in
   flake.modules = {
     darwin.nix =
       { pkgs, ... }:
-      lib.mkMerge [
-        (common pkgs)
-        {
-          nix.channel.enable = false;
-          nix.gc.interval = {
-            Weekday = 7;
-            Hour = 3;
-            Minute = 15;
-          };
-        }
-      ];
+      {
+        imports = [
+          (common pkgs)
+          self.modules.darwin.store-garbage-collect
+        ];
+        nix.channel.enable = false;
+      };
     homeManager.nix =
       { pkgs, ... }:
-      lib.mkMerge [
-        (common pkgs)
-        {
-          nix.gc.persistent = true;
-          nix.gc.dates = "weekly";
-        }
-      ];
+      {
+        imports = [
+          (common pkgs)
+          self.modules.homeManager.store-garbage-collect
+        ];
+      };
     nixos.nix =
       { pkgs, ... }:
-      lib.mkMerge [
-        (common pkgs)
-        {
-          nix.channel.enable = false;
-          nix.gc.persistent = true;
-          nix.gc.dates = "weekly";
-        }
-      ];
+      {
+        imports = [
+          (common pkgs)
+          self.modules.nixos.store-garbage-collect
+        ];
+        nix.channel.enable = false;
+      };
   };
 }
