@@ -13,7 +13,7 @@ in
 
   config = lib.mkIf cfg.jujutsu {
     nixpkgs.overlays = [
-      (final: prev: {
+      (final: _: {
         jj-spr = inputs.jj-spr.packages.${final.stdenv.hostPlatform.system}.default;
       })
     ];
@@ -58,6 +58,7 @@ in
         };
         fsmonitor.backend = "watchman";
         git.private-commits = "bookmarks(tip)";
+        merge-tools.delta.diff-expected-exit-codes = [ 0 1 ];
         merge-tools.weave = {
           program = "weave-driver";
           merge-args = ["$base" "$left" "$right" "-o" "$output" "-l" "$marker_length" "-p" "$path"];
@@ -78,6 +79,8 @@ in
         };
         ui = {
           default-command = "log";
+          diff-editor = ":builtin";
+          diff-formatter = "delta";
           merge-editor = "weave";
           show-cryptographic-signatures = true;
         };
