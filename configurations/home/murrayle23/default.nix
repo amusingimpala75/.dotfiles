@@ -7,6 +7,7 @@
 }:
 {
   imports = with self.modules.homeManager; [
+    ng-cli
     pi
   ];
   home.username = "murrayle23";

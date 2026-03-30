@@ -16,7 +16,6 @@ in
       nix
 
       ./alacritty
-      ./bat
       ./cli
       ./darwin
       ./direnv

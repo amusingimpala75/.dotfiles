@@ -19,7 +19,6 @@
 
   config = lib.mkIf config.my.cli.enable {
     my = {
-      bat.enable = true;
       direnv.enable = true;
       nix.enable = true;
       zsh.enable = true;
@@ -35,25 +34,8 @@
       jaq
       killall
       scc
-      sd
       tree
       up
     ];
-
-    programs = {
-      bottom.enable = true;
-      eza = {
-        enable = true;
-        icons = "always";
-      };
-      fd.enable = true;
-      fzf.enable = true;
-      ripgrep.enable = true;
-      tealdeer = {
-        enable = true;
-        enableAutoUpdates = false;
-      };
-      zoxide.enable = true;
-    };
   };
 }

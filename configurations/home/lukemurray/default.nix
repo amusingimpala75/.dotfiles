@@ -7,6 +7,7 @@
 {
   imports = with self.modules.homeManager; [
     brew
+    ng-cli
     pi
   ];
 
