@@ -21,15 +21,12 @@ in
       ./direnv
       ./emacs
       ./firefox
-      # ./fish
       ./games
       ./ghostty
       ./nix
-      # ./nushell
       ./rice
       ./sops
       ./spotify
-      ./starship
       ./vcs
       ./wezterm
       ./wsl
