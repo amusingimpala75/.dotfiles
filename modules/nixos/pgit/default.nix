@@ -7,10 +7,59 @@
 let
   config' = config;
 
+  pgit = (pkgs.pgit.overrideAttrs (_: {
+    version = "git+01-24-2026";
+    src = pkgs.fetchFromGitHub {
+      owner = "picosh";
+      repo = "pgit";
+      rev = "c251930645ab9ce98fe48d4839c7d0563ff004be";
+      hash = "sha256-H2y22WotM2UmUXHJvgC1XR5i0pOKQIQRX9tALD47SCE=";
+    };
+  }));
+
   mustacheRepositories = pkgs.writeTextFile {
     name = "data.yaml";
     text = lib.strings.toJSON config.services.pgit;
   };
+
+  updateScript = ''
+    export PATH=${lib.makeBinPath [ pkgs.git pgit pkgs.mustache-go ]}:$PATH
+    rm -rf /tmp/pgit /var/www/pgit
+    mkdir -p /tmp/pgit /var/www/pgit
+  '' + (lib.concatMapStringsSep "\n" (repo: ''
+    cd /tmp/pgit/
+    git init "${repo.name}"
+    cd "${repo.name}"
+    git remote add origin "${repo.url}"
+  '' + (lib.concatMapStringsSep "\n" (rev: ''
+    git fetch origin "${rev}"
+  '') repo.revs) + ''
+    git checkout "${builtins.elemAt repo.revs 0}"
+    pgit --out /var/www/pgit/"${repo.name}" \
+         --root-relative "${repo.root}" \
+         --home-url "${config.services.pgit.homeUrl}" \
+         --theme "${config.services.pgit.theme}" \
+         --label "${repo.name}" \
+         --clone-url "${repo.url}" \
+         --desc "${repo.description}" \
+         --revs "${lib.join "," repo.revs}"
+  '') config.services.pgit.repos) + ''
+    cd /var/www/pgit
+    mustache ${config.services.pgit.index} < ${mustacheRepositories} > index.html
+    find . -name smol.css -exec cp "{}" ./smol.css \; -quit
+    find . -name main.css -exec cp "{}" ./main.css \; -quit
+    find . -name vars.css -exec cp "{}" ./vars.css \; -quit
+
+    rm -rf /tmp/pgit
+  '';
+
+  removePrefixes = prefixes: text: let
+    prefix = prefixes.filter (p: lib.hasPrefix p text) prefixes;
+  in if (builtins.length prefix) != 0
+     then lib.removePrefix (builtins.elemAt 0 prefix) text
+     else text;
+
+  noProtocol = removePrefixes [ "https://" "http://" ];
 in
 {
   options.services.pgit = {
@@ -21,10 +70,21 @@ in
       example = "gruvbox";
       description = "Theme for the website. See https://xyproto.github.io/splash/docs/all.html for possible values";
     };
+    nginx = lib.mkEnableOption "pgit host with nginx";
     homeUrl = lib.mkOption {
       type = lib.types.str;
       example = "https://git.mydomain.com";
       description = "URL of the repositories's homepage";
+      default = "${config.services.pgit.protocol}://${config.services.pgit.domain}";
+    };
+    domain = lib.mkOption {
+      type = lib.types.str;
+      example = "git.mydomain.com";
+    };
+    protocol = lib.mkOption {
+      type = lib.types.str;
+      default = "https";
+      example = "http";
     };
     index = lib.mkOption {
       type = lib.types.path;
@@ -67,25 +127,6 @@ in
                 type = lib.types.lines;
                 description = "Description of the project";
               };
-              cloneRev = lib.mkOption {
-                type = lib.types.str;
-                example = "v1";
-                description = "revision to clone for pgit (probably latest)";
-              };
-              cloneHash = lib.mkOption {
-                type = lib.types.str;
-                example = "sha256-...";
-                description = "hash of cloned project";
-              };
-              source = lib.mkOption {
-                # type = ?
-                default = pkgs.fetchgit {
-                  inherit (config) url;
-                  rev = config.cloneRev;
-                  hash = config.cloneHash;
-                  deepClone = true;
-                };
-              };
             };
           }
         )
@@ -94,68 +135,34 @@ in
         dotfiles = {
           name = "dotfiles";
           description = "my dotfiles";
-          cloneRev = "v1";
-          cloneHash = "sha256-...";
+          revs = [ "master" ];
         };
       };
     };
   };
 
   config = lib.mkIf config.services.pgit.enable {
-    environment.etc."pgit".source = pkgs.symlinkJoin {
-      name = "pgit-repos";
-      paths =
-        (lib.map (
-          v:
-          pkgs.stdenv.mkDerivation {
-            pname = "pgit-${v.name}";
-            version = "0";
-            src = v.source;
-            nativeBuildInputs = [
-              pkgs.git
-              (pkgs.pgit.overrideAttrs (_: {
-                version = "git+01-24-2026";
-                src = pkgs.fetchFromGitHub {
-                  owner = "picosh";
-                  repo = "pgit";
-                  rev = "c251930645ab9ce98fe48d4839c7d0563ff004be";
-                  hash = "sha256-H2y22WotM2UmUXHJvgC1XR5i0pOKQIQRX9tALD47SCE=";
-                };
-              }))
-            ];
-            phases = [
-              "unpackPhase"
-              "buildPhase"
-            ];
-            buildPhase = ''
-              pgit --out $out/"${v.name}" \
-                   --root-relative "${v.root}" \
-                   --home-url "${config.services.pgit.homeUrl}" \
-                   --theme "${config.services.pgit.theme}" \
-                   --label "${v.name}" \
-                   --clone-url "${v.url}" \
-                   --desc "${v.description}" \
-                   --revs "${lib.join "," v.revs}"
-            '';
-          }
-        ) config.services.pgit.repos)
-        ++ [
-          (pkgs.stdenv.mkDerivation {
-            pname = "pgit-index";
-            version = "0";
-            nativeBuildInputs = [ pkgs.mustache-go ];
-            phases = [ "buildPhase" ];
-            buildPhase = ''
-              mkdir -p $out
-              mustache ${config.services.pgit.index} < ${mustacheRepositories} > $out/index.html
-            '';
-          })
-        ];
-      postBuild = ''
-        find $out -name smol.css -exec cp "{}" $out/smol.css \;
-        find $out -name main.css -exec cp "{}" $out/main.css \;
-        find $out -name vars.css -exec cp "{}" $out/vars.css \;
-      '';
+    system.activationScripts.pgit-setup.text = updateScript;
+    services.nginx.virtualHosts."${config.services.pgit.domain}" = lib.mkIf config.services.pgit.nginx {
+      root = "/var/www/pgit";
+      locations."/" = { };
     };
   };
 }
+# Example nixos config:
+# services.nginx.enable = true;
+# services.pgit = {
+#   enable = true;
+#   nginx = true;
+#   theme = "nord";
+#   protocol = "http";
+#   domain = "git.localhost";
+#   repos = [
+#     {
+#       name = ".dotfiles";
+#       description = "my dotfiles";
+#       url = "https://github.com/amusingimpala75/.dotfiles.git";
+#       revs = [ "master" ];
+#     }
+#   ];
+# };
