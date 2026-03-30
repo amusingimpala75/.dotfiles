@@ -24,8 +24,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.direnv.enableZshIntegration = lib.mkIf config.my.direnv.enable true;
-
     programs.zsh = {
       enable = true;
       dotDir = "${config.home.homeDirectory}/.config/zsh";

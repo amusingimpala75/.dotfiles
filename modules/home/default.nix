@@ -18,7 +18,6 @@ in
       ./alacritty
       ./cli
       ./darwin
-      ./direnv
       ./emacs
       ./firefox
       ./games

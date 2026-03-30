@@ -3,10 +3,12 @@
   inputs,
   lib,
   pkgs,
+  self,
   ...
 }:
 {
   imports = [
+    self.modules.homeManager.direnv
     ./opencode.nix
     ./tmux.nix
   ];
@@ -19,7 +21,6 @@
 
   config = lib.mkIf config.my.cli.enable {
     my = {
-      direnv.enable = true;
       nix.enable = true;
       zsh.enable = true;
     };
