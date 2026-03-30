@@ -766,7 +766,8 @@
 (use-package diff-hl
   :ensure t
   :hook
-  (after-init . global-diff-hl-mode))
+  (after-init . global-diff-hl-mode)
+  (after-init . diff-hl-margin-mode))
 
 (use-package recentf
   :custom
