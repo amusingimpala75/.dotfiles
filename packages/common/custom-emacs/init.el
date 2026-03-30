@@ -763,6 +763,11 @@
 (use-package vc-jj
   :ensure t)
 
+(use-package diff-hl
+  :ensure t
+  :hook
+  (after-init . global-diff-hl-mode))
+
 (use-package recentf
   :custom
   ;; Keep track of recently visited files
