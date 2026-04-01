@@ -43,7 +43,7 @@
   (mode-line-collapse-minor-modes
    '( eldoc-mode hs-minor-mode which-key-mode completion-preview-mode
       buffer-face-mode org-indent-mode visual-line-mode god-local-mode
-      treesit-fold-mode yas-minor-mode subword-mode)))
+      treesit-fold-mode yas-minor-mode subword-mode apheleia-mode)))
 
 ;; Just show the bare styled numbers, no
 ;; brackets or 'Flymake'

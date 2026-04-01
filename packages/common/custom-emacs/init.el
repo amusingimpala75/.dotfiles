@@ -967,6 +967,11 @@
   :custom
   (global-auto-revert-mode t))
 
+(use-package apheleia
+  :ensure t
+  :hook
+  (after-init . apheleia-global-mode))
+
 ;; Direnv support
 (use-package envrc
   :ensure t

@@ -10,6 +10,7 @@ _: {
           fennel-ls
           just
           luaPackages.fennel
+          nixfmt
           nixfmt-tree
           sops
         ];
