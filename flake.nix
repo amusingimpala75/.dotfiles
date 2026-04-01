@@ -33,20 +33,11 @@
     textfox.url = "github:adriankarlen/textfox";
     textfox.inputs.nixpkgs.follows = "nixpkgs";
 
-    spicetify.url = "github:Gerg-L/spicetify-nix";
-    spicetify.inputs.nixpkgs.follows = "nixpkgs";
-
     bible.url = "github:amusingimpala75/bible.sh";
     bible.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-wallpaper.url = "github:lunik1/nix-wallpaper";
     nix-wallpaper.inputs.nixpkgs.follows = "nixpkgs";
-
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
 
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
@@ -56,9 +47,6 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    opencode-ralph.url = "github:rot13maxi/opencode-ralph";
-    opencode-ralph.flake = false;
 
     # TODO not necessary after pi in nixpkgs
     llm-agents.url = "github:numtide/llm-agents.nix";

@@ -9,7 +9,6 @@
 {
   imports = [
     self.modules.homeManager.direnv
-    ./opencode.nix
     ./tmux.nix
   ];
 
