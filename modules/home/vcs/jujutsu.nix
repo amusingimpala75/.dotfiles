@@ -47,22 +47,27 @@ in
             "--"
             "jj-spr"
           ];
-          tug = [
-            "bookmark"
-            "move"
-            "--from"
-            "heads(::@- & bookmarks())"
-            "--to"
-            "@-"
-          ];
         };
         fsmonitor.backend = "watchman";
         git.private-commits = "bookmarks(tip)";
-        merge-tools.delta.diff-expected-exit-codes = [ 0 1 ];
+        merge-tools.delta.diff-expected-exit-codes = [
+          0
+          1
+        ];
         merge-tools.weave = {
           program = "weave-driver";
-          merge-args = ["$base" "$left" "$right" "-o" "$output" "-l" "$marker_length" "-p" "$path"];
-          merge-conflict-exit-codes = [1];
+          merge-args = [
+            "$base"
+            "$left"
+            "$right"
+            "-o"
+            "$output"
+            "-l"
+            "$marker_length"
+            "-p"
+            "$path"
+          ];
+          merge-conflict-exit-codes = [ 1 ];
           merge-tool-edits-conflict-markers = true;
           conflict-marker-style = "git";
         };
@@ -71,6 +76,9 @@ in
           "feature_stack(id)" = "feature_base(id)::tip-";
           "features()" = "roots(::tip & mutable())";
           "guestimate_master()" = "parents(features()):: & tracked_remote_bookmarks()";
+        };
+        revsets = {
+          bookmark-advance-to = "@-";
         };
         signing = {
           backend = "ssh";
