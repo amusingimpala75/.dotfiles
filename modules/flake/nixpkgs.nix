@@ -25,7 +25,6 @@ let
 
     self.overlays.lib
     self.overlays.common
-    self.overlays.nixvim
     inputs.nur.overlays.default
   ];
 

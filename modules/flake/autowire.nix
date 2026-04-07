@@ -57,14 +57,6 @@ rec {
               type = lib.types.path;
             };
           };
-          nixvim = {
-            enable = lib.mkEnableOption "autowire nixvim configurations";
-            path = lib.mkOption {
-              description = "path from which to autowire nixvim configurations";
-              default = config.autowire.configurations.path + "/nixvim";
-              type = lib.types.path;
-            };
-          };
         };
         overlays = {
           enable = lib.mkEnableOption "autowire overlays";
@@ -149,16 +141,6 @@ rec {
                 }
               ) (builtins.readDir config.autowire.configurations.home.path)
             );
-
-            nixvimConfigurations = lib.mkIf config.autowire.configurations.nixvim.enable (
-              builtins.mapAttrs (
-                name: _:
-                inputs.nixvim.lib.evalNixvim {
-                  inherit (pkgs.stdenv.hostPlatform) system;
-                  modules = [ (config.autowire.configurations.nixvim.path + "/${name}") ];
-                }
-              ) (builtins.readDir config.autowire.configurations.nixvim.path)
-            );
           };
       };
     };
@@ -171,7 +153,6 @@ rec {
       darwin.enable = true;
       home.enable = true;
       nixos.enable = true;
-      nixvim.enable = true;
     };
     overlays.enable = true;
     templates.enable = true;
