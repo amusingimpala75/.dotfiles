@@ -30,6 +30,10 @@ let
       makeWrapper
     ];
 
+    # To update, run nix build .#cogfly.mitmCache.updateScript
+    # and run the resuliting file. Note: you may need to pin
+    # the port manually since it wasn't working for me one time,
+    # no clue why
     mitmCache = gradle_9.fetchDeps {
       inherit pkg;
       data = ./cogfly-deps.json;
