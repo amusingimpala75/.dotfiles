@@ -37,6 +37,7 @@ in
             name = lib.mkIf (cfg.username != null) cfg.username;
           };
         };
+        signing.format = "ssh";
       };
 
       delta = {
