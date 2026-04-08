@@ -19,6 +19,9 @@ in
       example = false;
       description = "enable NH";
     };
+    nix-search = (lib.mkEnableOption "nix search CLI utility") // {
+      default = true;
+    };
     dotfilesDir = lib.mkOption {
       type = lib.types.str;
       default = "~/.dotfiles";
@@ -49,8 +52,16 @@ in
       shellAliases = {
         nds = "nix develop -c $SHELL";
       };
-      packages = [
-        pkgs.nix-tree
+      packages = with pkgs; [
+        nix-tree
+        (writeShellApplication {
+          name = "ns";
+          runtimeInputs = [
+            fzf
+            nix-search-tv
+          ];
+          text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
+        })
       ];
     };
   };
