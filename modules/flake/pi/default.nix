@@ -83,6 +83,9 @@
             config.nix.package
             ripgrep
             which
+
+            inputs.pi-extensions
+            inputs.pi-quota-usage
           ];
           stateDirs = [ "$HOME/${config.programs.pi.configDir}" ];
           extraEnv = {
@@ -110,7 +113,7 @@
               officialExtension =
                 args: if builtins.isString args then fileExtension args else complexExtension args.name args.hash;
             in
-            map officialExtension [
+            (map officialExtension [
               "commands"
               "confirm-destructive"
               "dirty-repo-guard"
@@ -120,6 +123,9 @@
               "status-line"
               "titlebar-spinner"
               "tools"
+            ])
+            ++ [
+              "${inputs.pi-quota-usage}/extensions/index.ts"
             ];
         };
       };

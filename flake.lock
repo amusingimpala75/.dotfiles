@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775922203,
-        "narHash": "sha256-ldiHaBznU9su1gV6J5Xl6hSQq2gxU70VMKlMpyURd3U=",
+        "lastModified": 1776122103,
+        "narHash": "sha256-mt8AZm+cTcG9pwajmwJ/fsQQooB0np7ps8DkJVFvDwo=",
         "owner": "archie-judd",
         "repo": "agent-sandbox.nix",
-        "rev": "77a4d4f1e6e8601e32fa3b5065384eb05bdd5f4c",
+        "rev": "afa28c3afb8e682741a5c407a12595501c3315c3",
         "type": "github"
       },
       "original": {
@@ -964,6 +964,22 @@
         "type": "github"
       }
     },
+    "pi-quota-usage": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775488288,
+        "narHash": "sha256-VKpe828Z5/SerOoL4h+6kWMKCBo/+NySv//RjUDyNR8=",
+        "owner": "Limb",
+        "repo": "pi-quota-usage",
+        "rev": "7be17c5a9dcc333a0414011af67d3f478b227f2f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Limb",
+        "repo": "pi-quota-usage",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_4",
@@ -1012,6 +1028,7 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
         "pi-extensions": "pi-extensions",
+        "pi-quota-usage": "pi-quota-usage",
         "sops-nix": "sops-nix",
         "textfox": "textfox"
       }
