@@ -45,10 +45,6 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # TODO not necessary after pi in nixpkgs
-    llm-agents.url = "github:numtide/llm-agents.nix";
-    llm-agents.inputs.nixpkgs.follows = "nixpkgs";
-
     brew-api.url = "github:BatteredBunny/brew-api";
     brew-api.flake = false;
     brew-nix.url = "github:BatteredBunny/brew-nix";

@@ -37,9 +37,7 @@
           type = lib.types.nullOr lib.types.json;
         };
       };
-
       config = lib.mkIf config.programs.pi.enable {
-        nixpkgs.overlays = [ inputs.llm-agents.overlays.default ];
         home = {
           packages = [ config.programs.pi.package ];
           sessionVariables.PI_CODING_AGENT_DIR = "~/${config.programs.pi.configDir}";
@@ -69,7 +67,7 @@
         "AGENTS.md" = ./global-agents.md;
         configDir = ".config/pi/agent";
         package = inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
-          pkg = pkgs.llm-agents.pi;
+          pkg = pkgs.pi-coding-agent;
           binName = "pi";
           outName = "piw";
           allowedPackages = with pkgs; [
@@ -94,7 +92,7 @@
         settings = {
           defaultProvider = "github-copilot";
           defaultModel = "gpt-5.3-codex";
-          defaultThinkingLevel = "medium";
+          defaultThinkingLevel = "high";
           extensions =
             let
               fileExtension = name: "${inputs.pi-extensions}/${name}.ts";
@@ -119,10 +117,6 @@
               "doom-overlay/index"
               "permission-gate"
               "protected-paths"
-              # Currently this just junks up the current directory with a bunch
-              # of files and doesn't clear them when done bruh
-              # It also requires ripgrep, bubblewrap, and socat on linux
-              # { name = "sandbox"; hash = "sha256-eJbT63DS557JrRE/dLLVITtZIHYsCxlowRJHIkSGKTc="; }
               "status-line"
               "titlebar-spinner"
               "tools"
