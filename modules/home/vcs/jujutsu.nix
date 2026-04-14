@@ -88,7 +88,6 @@ in
         ui = {
           default-command = "log";
           diff-editor = ":builtin";
-          diff-formatter = "delta";
           merge-editor = "weave";
           show-cryptographic-signatures = true;
         };
@@ -98,6 +97,10 @@ in
         };
         working-copy.eol-conversion = "input";
       };
+    };
+    programs.delta = {
+      enable = true;
+      enableJujutsuIntegration = true;
     };
     home.packages = with pkgs; [
       jj-spr
