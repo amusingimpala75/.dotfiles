@@ -83,8 +83,9 @@ in
         signing = {
           backend = "ssh";
           key = "~/.ssh/id_ed25519.pub";
-          behavior = "own";
+          behavior = "drop";
         };
+        git.sign-on-push = true;
         ui = {
           default-command = "log";
           diff-editor = ":builtin";
