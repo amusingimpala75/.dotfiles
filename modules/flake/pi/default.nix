@@ -15,6 +15,7 @@
     {
       options.programs.pi = {
         enable = lib.mkEnableOption "pi coding agent";
+        noUpdateNotice = lib.mkEnableOption "disable update check";
         configDir = lib.mkOption {
           description = "path of the coding agent home relative to ~";
           default = ".pi/agent";
@@ -41,6 +42,7 @@
         home = {
           packages = [ config.programs.pi.package ];
           sessionVariables.PI_CODING_AGENT_DIR = "~/${config.programs.pi.configDir}";
+          sessionVariables.PI_OFFLINE = lib.mkIf config.programs.pi.noUpdateNotice 1;
 
           file = {
             "${config.programs.pi.configDir}/AGENTS.md".source = config.programs.pi."AGENTS.md";
@@ -66,6 +68,7 @@
         enable = true;
         "AGENTS.md" = ./global-agents.md;
         configDir = ".config/pi/agent";
+        noUpdateNotice = true;
         package = inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
           pkg = pkgs.pi-coding-agent;
           binName = "pi";
@@ -89,7 +92,7 @@
           ];
           stateDirs = [ "$HOME/${config.programs.pi.configDir}" ];
           extraEnv = {
-            inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR;
+            inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR PI_OFFLINE;
           };
         };
         settings = {
