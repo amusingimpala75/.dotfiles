@@ -73,6 +73,25 @@
       nixpkgs.follows = "nixpkgs";
       nix-darwin.follows = "nix-darwin";
     };
+
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    impermanence.url = "github:nix-community/impermanence";
+    impermanence.inputs = {
+      nixpkgs.follows = "nixpkgs";
+      home-manager.follows = "home-manager";
+    };
+
+    nixos-anywhere.url = "github:nix-community/nixos-anywhere";
+    nixos-anywhere.inputs = {
+      nixpkgs.follows = "nixpkgs";
+      disko.follows = "";
+      nixos-stable.follows = "";
+      nixos-images.follows = "";
+      nix-vm-test.follows = "";
+      treefmt-nix.follows = "";
+    };
   };
 
   outputs =
