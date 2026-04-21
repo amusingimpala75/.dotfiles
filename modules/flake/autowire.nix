@@ -122,11 +122,16 @@ rec {
         perSystem =
           { pkgs, self', ... }:
           {
-            apps = builtins.mapAttrs (_: pkg: {
-              type = "app";
-              program = lib.getExe pkg;
-              meta.description = pkg.meta.description;
-            }) self'.packages;
+            apps =
+              self'.packages
+              |> lib.filterAttrs (_: v: v.meta ? mainProgram)
+              |> builtins.mapAttrs (
+                _: pkg: {
+                  type = "app";
+                  program = lib.getExe pkg;
+                  meta.description = pkg.meta.description;
+                }
+              );
 
             legacyPackages.homeConfigurations = lib.mkIf config.autowire.configurations.home.enable (
               builtins.mapAttrs (
