@@ -49,14 +49,6 @@ rec {
               type = lib.types.path;
             };
           };
-          nixos = {
-            enable = lib.mkEnableOption "autowire nixos configurations";
-            path = lib.mkOption {
-              description = "path from which to autowire nixos configurations";
-              default = config.autowire.configurations.path + "/nixos";
-              type = lib.types.path;
-            };
-          };
         };
         overlays = {
           enable = lib.mkEnableOption "autowire overlays";
@@ -89,19 +81,6 @@ rec {
                 ];
               }
             ) (builtins.readDir "${config.autowire.configurations.darwin.path}")
-          );
-
-          nixosConfigurations = lib.mkIf config.autowire.configurations.nixos.enable (
-            builtins.mapAttrs (
-              name: _:
-              inputs.nixpkgs.lib.nixosSystem {
-                specialArgs = { inherit inputs self; };
-                modules = [
-                  (config.autowire.configurations.nixos.path + "/${name}")
-                  (config.autowire.root + "/modules/nixos")
-                ];
-              }
-            ) (builtins.readDir config.autowire.configurations.nixos.path)
           );
 
           overlays = lib.mkIf config.autowire.overlays.enable (
@@ -157,7 +136,6 @@ rec {
     configurations = {
       darwin.enable = true;
       home.enable = true;
-      nixos.enable = true;
     };
     overlays.enable = true;
     templates.enable = true;
