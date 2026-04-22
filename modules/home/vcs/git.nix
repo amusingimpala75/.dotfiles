@@ -48,8 +48,9 @@ in
       git-credential-oauth.enable = true;
     };
 
-    home.packages = [
-      pkgs.github-cli
-    ];
+    programs.gh = {
+      enable = true;
+      settings.telemetry = "disabled";
+    };
   };
 }
