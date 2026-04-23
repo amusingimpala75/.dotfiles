@@ -1,3 +1,7 @@
+{
+  inputs,
+  ...
+}:
 let
   common-gc = {
     nix.gc = {
@@ -19,6 +23,7 @@ in
   flake.modules = {
     darwin.store-garbage-collect = {
       imports = [
+        inputs.angrr.darwinModules.angrr
         common-angrr
         common-gc
       ];
