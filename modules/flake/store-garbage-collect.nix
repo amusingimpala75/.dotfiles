@@ -1,21 +1,16 @@
-{
-  inputs,
-  ...
-}:
 let
   common-gc = {
     nix.gc = {
       automatic = true;
-      options = "--delete-older-than 14d";
+      options = "--delete-older-than 7d";
     };
   };
   common-angrr = {
     services.angrr = {
       enable = true;
-      period = "14d";
       settings = {
-        profile-policies.system.keep-latest-n = 10;
-        profile-policies.user.keep-latest-n = 10;
+        keep-since = "7d";
+        keep-latest-n = 10;
       };
     };
   };
@@ -24,7 +19,6 @@ in
   flake.modules = {
     darwin.store-garbage-collect = {
       imports = [
-        inputs.angrr.darwinModules.angrr
         common-angrr
         common-gc
       ];
@@ -43,7 +37,6 @@ in
     };
     nixos.store-garbage-collect = {
       imports = [
-        inputs.angrr.nixosModules.angrr
         common-angrr
         common-gc
       ];
