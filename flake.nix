@@ -62,8 +62,6 @@
     pi-quota-usage.url = "github:Limb/pi-quota-usage";
     pi-quota-usage.flake = false;
 
-    import-tree.url = "github:vic/import-tree";
-
     automader.url = "github:amusingimpala75/automata_grader";
     automader.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -80,5 +78,17 @@
   };
 
   outputs =
-    inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules/flake);
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      {
+        lib,
+        ...
+      }:
+      {
+        # Custom import-tree courtesy of iampavel.dev
+        imports = lib.fileset.toList (
+          lib.fileset.fileFilter (file: file.hasExt "nix" && !(lib.hasPrefix "_" file.name)) ./modules/flake
+        );
+      }
+    );
 }
