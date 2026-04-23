@@ -13,9 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v6
 
-    - uses: cachix/install-nix-action@v31
+    - uses: DeterminateSystems/nix-installer-action@v22
       with:
-        extra_nix_config: experimental-features = flakes nix-command pipe-operators
+        extra-conf: experimental-features = flakes nix-command pipe-operators
 
     - name: Update flake
       run: nix develop -c just update
