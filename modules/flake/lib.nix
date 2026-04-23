@@ -18,4 +18,19 @@
         ];
     };
   };
+
+  flake.lib.mkDarwin = system: hostname: mainModule: {
+    "${hostname}" = inputs.nix-darwin.lib.darwinSystem {
+      inherit system;
+      modules =
+        with self.modules.generic;
+        with self.modules.darwin;
+        [
+          { networking.hostName = hostname; }
+          mainModule
+          nixpkgs
+          nix
+        ];
+    };
+  };
 }

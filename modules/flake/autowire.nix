@@ -33,14 +33,6 @@ rec {
             default = config.autowire.root + "/configurations";
             type = lib.types.path;
           };
-          darwin = {
-            enable = lib.mkEnableOption "autowire darwin configurations";
-            path = lib.mkOption {
-              description = "path from which to autowire darwin configurations";
-              default = config.autowire.configurations.path + "/darwin";
-              type = lib.types.path;
-            };
-          };
           home = {
             enable = lib.mkEnableOption "autowire home configurations";
             path = lib.mkOption {
@@ -70,19 +62,6 @@ rec {
 
       config = {
         flake = {
-          darwinConfigurations = lib.mkIf config.autowire.configurations.darwin.enable (
-            builtins.mapAttrs (
-              name: _:
-              inputs.nix-darwin.lib.darwinSystem {
-                specialArgs = { inherit inputs self; };
-                modules = [
-                  (config.autowire.configurations.darwin.path + "/${name}")
-                  (config.autowire.root + "/modules/darwin")
-                ];
-              }
-            ) (builtins.readDir "${config.autowire.configurations.darwin.path}")
-          );
-
           overlays = lib.mkIf config.autowire.overlays.enable (
             lib.mapAttrs' (name: _: {
               name = lib.removeSuffix ".nix" name;
@@ -133,10 +112,7 @@ rec {
   imports = [ flake.flakeModules.autowire ];
   autowire = {
     apps.enable = true;
-    configurations = {
-      darwin.enable = true;
-      home.enable = true;
-    };
+    configurations.home.enable = true;
     overlays.enable = true;
     templates.enable = true;
   };
