@@ -972,6 +972,9 @@
   :hook
   (after-init . apheleia-global-mode))
 
+(use-package help
+  :custom (help-window-select t))
+
 ;; Direnv support
 (use-package envrc
   :ensure t
