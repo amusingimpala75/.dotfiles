@@ -11,6 +11,10 @@
       "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-gnome.nix"
       self.modules.generic.nixpkgs
       self.modules.nixos.broadcom-wifi
+      {
+        networking.wireless.iwd.enable = true;
+        networking.networkmanager.wifi.backend = "iwd";
+      }
     ];
   };
   flake.packages.x86_64-linux.mba2015-installer =
