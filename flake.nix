@@ -57,8 +57,6 @@
     jj-spr.url = "github:amusingimpala75/jj-spr/fix-nix-jj-38";
     jj-spr.inputs.nixpkgs.follows = "nixpkgs";
 
-    pi-extensions.url = "github:badlogic/pi-mono?shallow=1&dir=packages/coding-agent/examples/extensions";
-    pi-extensions.flake = false;
     pi-quota-usage.url = "github:Limb/pi-quota-usage";
     pi-quota-usage.flake = false;
 

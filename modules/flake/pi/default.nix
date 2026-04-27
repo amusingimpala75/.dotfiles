@@ -87,7 +87,7 @@
             ripgrep
             which
 
-            inputs.pi-extensions
+            pkgs.pi-coding-agent.src
             inputs.pi-quota-usage
           ];
           stateDirs = [ "$HOME/${config.programs.pi.configDir}" ];
@@ -101,14 +101,15 @@
           defaultThinkingLevel = "high";
           extensions =
             let
-              fileExtension = name: "${inputs.pi-extensions}/${name}.ts";
+              pi-extensions = "${pkgs.pi-coding-agent.src}/packages/coding-agent/examples/extensions";
+              fileExtension = name: "${pi-extensions}/${name}.ts";
               complexExtension =
                 name: hash:
                 let
                   pkg = pkgs.buildNpmPackage {
                     pname = "pi-${name}";
                     version = "git";
-                    src = "${inputs.pi-extensions}/${name}";
+                    src = "${pi-extensions}/${name}";
                     npmDepsHash = hash;
                   };
                 in

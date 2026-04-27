@@ -931,24 +931,6 @@
         "type": "github"
       }
     },
-    "pi-extensions": {
-      "flake": false,
-      "locked": {
-        "dir": "packages/coding-agent/examples/extensions",
-        "lastModified": 1777279986,
-        "narHash": "sha256-c7LVvhGJIYuo6qlQ5CbmpGnwMMkNnYGp7T5z6ci8oUQ=",
-        "owner": "badlogic",
-        "repo": "pi-mono",
-        "rev": "2a7e82d3ef5ff887a0de1334bad26faf9ce73def",
-        "type": "github"
-      },
-      "original": {
-        "dir": "packages/coding-agent/examples/extensions",
-        "owner": "badlogic",
-        "repo": "pi-mono",
-        "type": "github"
-      }
-    },
     "pi-quota-usage": {
       "flake": false,
       "locked": {
@@ -1011,7 +993,6 @@
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
-        "pi-extensions": "pi-extensions",
         "pi-quota-usage": "pi-quota-usage",
         "sops-nix": "sops-nix",
         "textfox": "textfox"
