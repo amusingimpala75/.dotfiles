@@ -22,7 +22,6 @@ in
       ./firefox
       ./games
       ./ghostty
-      ./nix
       ./rice
       ./sops
       ./vcs

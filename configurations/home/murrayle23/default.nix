@@ -8,6 +8,7 @@
 {
   imports = with self.modules.homeManager; [
     ng-cli
+    ng-nix
     pi
   ];
   home.username = "murrayle23";

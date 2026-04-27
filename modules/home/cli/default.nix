@@ -19,10 +19,7 @@
   };
 
   config = lib.mkIf config.my.cli.enable {
-    my = {
-      nix.enable = true;
-      zsh.enable = true;
-    };
+    my.zsh.enable = true;
 
     nixpkgs.overlays = [ inputs.bible.overlays.default ];
 
