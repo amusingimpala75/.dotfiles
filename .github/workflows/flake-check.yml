@@ -16,4 +16,31 @@ jobs:
         extra-conf: experimental-features = flakes nix-command pipe-operators
 
     - name: Check flake
-      run: nix -Lv flake check --build-all
+      run: nix -Lv flake check
+
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+    - uses: DeterminateSystems/nix-installer-action@v22
+      with:
+        extra-conf: experimental-features = flakes nix-command pipe-operators
+    - id: set
+      run: |
+        inputs=$(nix eval --json .#packages.x86_64-linux | nix run nixpkgs#jq -- -r 'keys')
+        echo "matrix={\"input\":$inputs}" >> $GITHUB_OUTPUT
+
+  builds:
+    needs: discover
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.discover.outputs.matrix) }}
+
+    steps:
+    - uses: actions/checkout@v6
+    - uses: DeterminateSystems/nix-installer-action@v22
+      with:
+        extra-conf: experimental-features = flakes nix-command pipe-operators
+
+    - name: Build package
+      run: nix build .#${{ matrix.input }}
