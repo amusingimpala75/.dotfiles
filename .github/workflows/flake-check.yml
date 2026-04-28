@@ -29,8 +29,8 @@ jobs:
         extra-conf: experimental-features = flakes nix-command pipe-operators
     - id: set
       run: |
-        inputs=$(nix eval --json .#packages.x86_64-linux | nix run nixpkgs#jq -- -r 'keys')
-        echo "matrix={\"input\":$inputs}" >> $GITHUB_OUTPUT
+        matrix=$(nix eval --json .#packages.x86_64-linux | nix run nixpkgs#jq -- -c '{input: keys}')
+        echo "matrix=$matrix >> $GITHUB_OUTPUT
 
   builds:
     needs: discover
