@@ -30,7 +30,7 @@ jobs:
     - id: set
       run: |
         matrix=$(nix eval --json .#packages.x86_64-linux | nix run nixpkgs#jq -- -c '{input: keys}')
-        echo "matrix=$matrix >> $GITHUB_OUTPUT
+        echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   builds:
     needs: discover
