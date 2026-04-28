@@ -20,6 +20,8 @@ jobs:
 
   discover:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
     steps:
     - uses: actions/checkout@v6
     - uses: DeterminateSystems/nix-installer-action@v22
