@@ -66,6 +66,14 @@
   (truncate-lines t)
   ;; Trash by default
   (delete-by-moving-to-trash t)
+  ;; Disable bidirectional text for performance gain
+  (bidi-display-reordering 'left-to-right)
+  (bidi-paragraph-direction 'left-to-right)
+  (bidi-inhibit-bpa t)
+  ;; Don't refontify while still typing
+  (redisplay-skip-fontification-on-input t)
+  ;; Increase read process to improve lsp speeds
+  (read-process-output-max (* 1 1024 1024))
   :config
   ;; Default to UTF-8 where possible
   (set-default-coding-systems 'utf-8))
@@ -111,6 +119,10 @@
   (indent-tabs-mode nil)
   ;; Kill region default to word if no region selected
   (kill-region-dwim 'emacs-word)
+  ;; Save shared kill ring
+  (save-interprogram-paste-before-kill t)
+  ;; Dedupe kill ring
+  (kill-do-not-save-duplicates t)
   :bind
   ;; More dwim
   ("M-u" . upcase-dwim)
