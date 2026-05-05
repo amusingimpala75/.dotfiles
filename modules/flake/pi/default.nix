@@ -99,6 +99,7 @@
           defaultProvider = "github-copilot";
           defaultModel = "gpt-5.3-codex";
           defaultThinkingLevel = "high";
+          enableInstallTelemetry = false;
           extensions =
             let
               pi-extensions = "${pkgs.pi-coding-agent.src}/packages/coding-agent/examples/extensions";
