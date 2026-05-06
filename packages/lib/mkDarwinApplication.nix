@@ -40,20 +40,20 @@ stdenvNoCC.mkDerivation {
   phases = [ "installPhase" ];
 
   installPhase = ''
-    mkdir -p $out/Applications/${appName}.app/Contents/MacOS
-    mkdir -p $out/Applications/${appName}.app/Contents/Resources
+    mkdir -p "$out/Applications/${appName}.app/Contents/MacOS"
+    mkdir -p "$out/Applications/${appName}.app/Contents/Resources"
 
     echo ${img}
-    IMG_OUT=$out/Applications/${appName}.app/Contents/Resources/${appName}.icns
+    IMG_OUT="$out/Applications/${appName}.app/Contents/Resources/${appName}.icns"
 
     case "${img}" in
         *.icns) cp "${img}" "$IMG_OUT" ;;
         *)      ${icnsify}/bin/icnsify --output "$IMG_OUT" ${img} ;;
     esac
 
-    ln -s ${executable} $out/Applications/${appName}.app/Contents/MacOS/${exeName}
+    ln -s ${executable} "$out/Applications/${appName}.app/Contents/MacOS/${exeName}"
 
-    cp ${infoPlist} $out/Applications/${appName}.app/Contents/Info.plist
+    cp ${infoPlist} "$out/Applications/${appName}.app/Contents/Info.plist"
   '';
 
   meta = package.meta // {

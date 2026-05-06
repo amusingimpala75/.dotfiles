@@ -28,6 +28,7 @@
 
   # builders
   emacsWithPackagesFromUsePackage,
+  fetchurl,
   makeWrapper,
   symlinkJoin,
   writeText,
@@ -44,7 +45,14 @@
 }:
 let
   pkg = emacsWithPackagesFromUsePackage {
-    package = emacs;
+    package = emacs.overrideAttrs (o: {
+      patches = (o.patches or []) ++ [
+        (fetchurl {
+          url = "https://lists.gnu.org/archive/html/bug-gnu-emacs/2026-04/binO4nt7jVHnS.bin";
+          hash = "sha256-Uu+RoBjrMnnE8INd2DGGZiP7r+o8zoyztIFfxYo1KyA=";
+        })
+      ];
+    });
     alwaysTangle = true;
     defaultInitFile = true;
     config = ./init.el;

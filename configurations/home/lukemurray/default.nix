@@ -78,6 +78,8 @@
 
   rices.cross.enable = true;
 
+  nixpkgs.overlays = [ self.overlays.fix-ntfy ];
+
   home.packages =
     with pkgs;
     [
