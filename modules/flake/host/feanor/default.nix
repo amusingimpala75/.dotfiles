@@ -17,7 +17,7 @@
         # [TODO] add persisting some folders with impermanence
         btrfs-rollback
         ram-compression
-        hollowknight-sddm
+        hollowknight-login
         amusingimpala75
       ];
     boot.btrfs-rollback.device = "/dev/mapper/crypted";

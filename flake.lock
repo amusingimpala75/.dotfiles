@@ -1037,6 +1037,26 @@
         "type": "github"
       }
     },
+    "qylock": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1775148947,
+        "narHash": "sha256-qSzxL5/4mobnIvN8SYUUW5m0hkozPX9lDc/svo5c794=",
+        "owner": "LordHerdier",
+        "repo": "qylock-nix",
+        "rev": "af4ae446ed82ccb4df1a2cce87d86c2a01c38c68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LordHerdier",
+        "repo": "qylock-nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agent-sandbox": "agent-sandbox",
@@ -1064,6 +1084,7 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
         "pi-quota-usage": "pi-quota-usage",
+        "qylock": "qylock",
         "sops-nix": "sops-nix",
         "textfox": "textfox"
       }

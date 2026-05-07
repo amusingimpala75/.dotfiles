@@ -92,6 +92,9 @@
       nix-vm-test.follows = "";
       treefmt-nix.follows = "";
     };
+
+    qylock.url = "github:LordHerdier/qylock-nix";
+    qylock.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
