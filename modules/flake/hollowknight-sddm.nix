@@ -8,7 +8,7 @@
       services.displayManager.sddm = {
         enable = true;
         wayland.enable = true;
-        theme = "pixelart-hollowknight";
+        theme = "pixel-hollowknight";
       };
       environment.systemPackages = [
         pkgs.sddm-pixelart-hollowknight
