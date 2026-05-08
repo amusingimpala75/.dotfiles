@@ -3,7 +3,7 @@
   ...
 }:
 {
-  flake.darwinConfigurations = self.lib.mkDarwin "aarch64-darwin" "Lukes-MacBook-Air" (
+  flake.darwinConfigurations = self.lib.mkDarwin "aarch64-darwin" "finarfin" (
     {
       pkgs,
       ...
