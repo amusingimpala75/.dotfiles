@@ -10,7 +10,10 @@
     ng-cli
     ng-nix
     pi
+    radicle
   ];
+
+  programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
 
   home.username = "lukemurray";
 
