@@ -29,7 +29,7 @@ then
 fi
 
 ffprobe "$FILE" -v quiet -show_entries format_tags=title,composer -of json |
-    jaq -r '.format.tags | "\(.composer) - \(.title | gsub("_"; " "))"'
+    jaq -r '.format.tags | "\(.composer) - \(.title | gsub("_"; " "))" // "missing"'
 
 for _ in $(seq 1 "$LOOP")
 do
