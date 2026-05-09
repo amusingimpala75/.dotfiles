@@ -50,7 +50,10 @@ in
 
     programs.gh = {
       enable = true;
-      settings.telemetry = "disabled";
+      settings = {
+        git_protocol = "ssh";
+        telemetry = "disabled";
+      };
     };
   };
 }
