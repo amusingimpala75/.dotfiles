@@ -130,13 +130,6 @@ let
       zls # for Zig
       nixd # for Nix
       bash-language-server # for Bash
-
-      # There has to be a way so that ob-jupyter
-      # doesn't just throw an error if jupyter isn't
-      # present when we don't actually need jupyter
-      # and we're just trying to export the file
-      (python3.withPackages (pp: [ pp.jupyter ]))
-      R
     ];
   };
 in

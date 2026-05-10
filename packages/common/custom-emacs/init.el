@@ -313,10 +313,7 @@
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((python . t)
-     (R . t)
-     (jupyter . t)
-     (shell . t)
-     (scala-cli . t))))
+     (shell . t))))
 
 ;; Configure Karthik's org latex preview
 (use-package org-latex-preview
@@ -352,53 +349,10 @@
 (use-package ox-pandoc
   :ensure t)
 
-(use-package jupyter
-  :ensure t
-  :preface
-  (defun my/babel-render-export ()
-    "Render the HTML output of an org babel block."
-    (interactive)
-    (org-mark-element)
-    (forward-line 2)
-    (org-beginning-of-line)
-    (exchange-point-and-mark)
-    (forward-line -3)
-    (org-end-of-line)
-    (shr-render-region (mark) (point))))
-
 (use-package engrave-faces
   :ensure t
   ;; Fontify using the engrave-faces backend
   :custom (org-latex-src-block-backend 'engraved))
-
-(use-package scala-mode
-  :ensure t
-  :hook
-  ;; Disable type formatting for scala (caused freezing)
-  (scala-mode . (lambda ()
-                  (setq-local eglot-ignored-server-capabilities
-                              '(:documentOnTypeFormattingProvider))))
-  ;; Prettify replace symbols (like Int => Z)
-  (scala-mode . (lambda ()
-                  (setq prettify-symbols-alist scala-prettify-symbols-alist)
-                  (prettify-symbols-mode)))
-  :config
-  ;; Allow build.sbt as a project root
-  (add-to-list 'project-vc-extra-root-markers "build.sbt")
-  :bind
-  ;; Add keybinds for running and testing
-  ( :map scala-mode-map
-    ("C-c C-r" . sbt-do-run)
-    ("C-c C-t" . sbt-do-test)))
-(use-package sbt-mode
-  :functions
-  sbt-do-run
-  sbt-do-test
-  :ensure t)
-(use-package scala-cli-repl
-  :ensure t
-  ;; Pin to scala 3
-  :custom (ob-scala-cli-default-params '(:scala-version "3.0.0")))
 
 (use-package rust-mode
   :ensure t
@@ -430,9 +384,6 @@
 (use-package just-ts-mode
   :ensure t)
 
-(use-package haskell-mode
-  :ensure t)
-
 (use-package swift-mode
   :ensure t
   :config
@@ -452,35 +403,6 @@
       (typescript-mode :language-id "typescript"))
     eglot-server-programs)
    '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy")))
-
-(use-package ada-ts-mode
-  :ensure t)
-
-(use-package ess
-  :ensure t
-  :custom
-  ;; Smaller indent b/c that's how it is preferred
-  (ess-indent-offset 2)
-  :config
-  ;; Necessary for my custom C-<return>
-  (treesit-parser-create 'r)
-  :functions
-  ess-eval-region
-  :preface
-  (defun my/ess-eval-top-level-expression (&optional vis)
-    "Evaluate the top-most expression at point."
-    (interactive "P")
-    (let ((current (treesit-node-at (point))))
-      (while (not (string= "program"
-                           (treesit-node-type (treesit-node-parent current))))
-        (setq current (treesit-node-parent current)))
-      (ess-eval-region (treesit-node-start current)
-                       (treesit-node-end current) vis))))
-(use-package ess-r-mode
-  :bind
-  ;; Custom eval is bound to C-<return> in place of the old one
-  ( :map ess-r-mode-map
-    ("C-<return>" . my/ess-eval-top-level-expression)))
 
 (use-package elisp-mode
   :custom
@@ -904,31 +826,6 @@
 (use-package word-count
   :ensure t
   :hook org-mode)
-
-(use-package agent-shell
-  :ensure t)
-
-(use-package scratch
-  :ensure t
-  :preface
-  (defun my/create-scratch-buffer ()
-    (save-excursion
-      (goto-char (point-min))
-      (insert (substitute-command-keys initial-scratch-message))
-      (replace-regexp-in-region ";; " "" (point-min) (point-max))
-      (comment-region (point-min) (point-max))))
-  :hook
-  (scratch-create-buffer . my/create-scratch-buffer))
-
-(use-package persistent-scratch
-  :ensure t
-  :hook
-  (after-init . persistent-scratch-setup-default)
-  :custom
-  (pesistent-scratch-scratch-buffer-p-function
-   (lambda ()
-     (or (persistent-scratch-default-scratch-buffer-p)
-         scratch-buffer))))
 
 (use-package casual
   :ensure t)
