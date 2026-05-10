@@ -105,7 +105,6 @@
         gcc
         git
         # macOS Apps
-        orbstack
         # macOS utilities
         darwin.trash # TODO cross-platform
         brightness
@@ -115,24 +114,15 @@
         run-ntfy-when-done
         # Casks
         brewCasks."8bitdo-ultimate-software-v2"
-        brewCasks.balenaetcher
         # brewCasks.battle-net # failing for unknown reason
         # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
         brewCasks.gimp
         brewCasks.imazing
-        brewCasks.inkscape
-        brewCasks.minecraft
         brewCasks.qlmarkdown
-        brewCasks.raspberry-pi-imager
         brewCasks.steam
         # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
-        brewCasks.ti-connect-ce
       ]
     );
-
-  nixpkgs.allowUnfreeList = [
-    "orbstack"
-  ];
 
   # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
   # Additionally, `defaults read' will list out current settings

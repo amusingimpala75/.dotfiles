@@ -13,7 +13,6 @@ in
   brewCasks =
     prev.brewCasks
     // (with prev.brewCasks; {
-      minecraft = replaceHash minecraft "sha256-gsWdmzKFAX4tbRsDX1OUFcH+tQ14daTwNMwprycye0g=";
       steam = replaceHash steam "sha256-4av7qqe+Pg9IoODUwxMjPgWGGx0mrzKDDdyDi+iPJpE=";
     });
 }
