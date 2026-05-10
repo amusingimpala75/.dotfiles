@@ -115,7 +115,8 @@
         # Casks
         brewCasks."8bitdo-ultimate-software-v2"
         brewCasks.battle-net
-        # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
+        # Warning: when this updates it wipes the saves folder (I think?)
+        brewCasks.dwarf-fortress-lmp
         brewCasks.gimp
         brewCasks.imazing
         brewCasks.qlmarkdown
