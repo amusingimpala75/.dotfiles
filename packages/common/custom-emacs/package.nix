@@ -28,7 +28,6 @@
 
   # builders
   emacsWithPackagesFromUsePackage,
-  fetchurl,
   makeWrapper,
   symlinkJoin,
   writeText,
@@ -45,14 +44,7 @@
 }:
 let
   pkg = emacsWithPackagesFromUsePackage {
-    package = emacs.overrideAttrs (o: {
-      patches = (o.patches or []) ++ [
-        (fetchurl {
-          url = "https://lists.gnu.org/archive/html/bug-gnu-emacs/2026-04/binO4nt7jVHnS.bin";
-          hash = "sha256-Uu+RoBjrMnnE8INd2DGGZiP7r+o8zoyztIFfxYo1KyA=";
-        })
-      ];
-    });
+    package = emacs;
     alwaysTangle = true;
     defaultInitFile = true;
     config = ./init.el;
@@ -127,17 +119,17 @@ let
       zip
       # LSPs
       rassumfrassum
-      clang-tools                # clangd for C
-      jdt-language-server        # jdtls for Java
-      biome                      # these two for
+      clang-tools # clangd for C
+      jdt-language-server # jdtls for Java
+      biome # these two for
       typescript-language-server # TypeScript
-      zuban                      # these two
-      ty                         # for Python
-      rust-analyzer              # for Rust
-      metals                     # for Scala
-      zls                        # for Zig
-      nixd                       # for Nix
-      bash-language-server       # for Bash
+      zuban # these two
+      ty # for Python
+      rust-analyzer # for Rust
+      metals # for Scala
+      zls # for Zig
+      nixd # for Nix
+      bash-language-server # for Bash
 
       # There has to be a way so that ob-jupyter
       # doesn't just throw an error if jupyter isn't
