@@ -114,7 +114,7 @@
         run-ntfy-when-done
         # Casks
         brewCasks."8bitdo-ultimate-software-v2"
-        # brewCasks.battle-net # failing for unknown reason
+        brewCasks.battle-net
         # brewCasks.dwarf-fortress-lmp # weird path confirmation issues
         brewCasks.gimp
         brewCasks.imazing
