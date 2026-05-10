@@ -13,7 +13,7 @@ let
     {
       nix.package = inputs.determinate-nix-cli.packages.${pkgs.stdenv.hostPlatform.system}.nix-cli;
       nix.settings.trusted-substituters = lib.mkIf yes [ "https://install.determinate.systems" ];
-      nix.settings.trusted-public-keys = [
+      nix.settings.trusted-public-keys = lib.mkIf yes [
         "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       ];
     };
