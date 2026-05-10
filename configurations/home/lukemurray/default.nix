@@ -81,7 +81,10 @@
 
   rices.cross.enable = true;
 
-  nixpkgs.overlays = [ self.overlays.fix-ntfy ];
+  nixpkgs.overlays = [
+    self.overlays.fix-ntfy
+    self.overlays.lumafly-darwin
+  ];
 
   home.packages =
     with pkgs;
@@ -89,6 +92,7 @@
       ntfy-sh
       play-audio
       cogfly
+      lumafly
 
       wireshark
     ]
