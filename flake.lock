@@ -1085,8 +1085,7 @@
         "nur": "nur",
         "pi-quota-usage": "pi-quota-usage",
         "qylock": "qylock",
-        "sops-nix": "sops-nix",
-        "textfox": "textfox"
+        "sops-nix": "sops-nix"
       }
     },
     "rust-analyzer-src": {
@@ -1138,26 +1137,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "textfox": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1777836078,
-        "narHash": "sha256-ZV0hHE9wjrMRRv7tKBus0OenIbwhmyEI1h1KkHFgvJA=",
-        "owner": "adriankarlen",
-        "repo": "textfox",
-        "rev": "53db1ee3e343f51d28a13f1d4c0175e84642a35d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "adriankarlen",
-        "repo": "textfox",
         "type": "github"
       }
     },

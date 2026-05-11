@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  inputs,
   ...
 }:
 let
@@ -11,7 +10,6 @@ in
 {
   imports = [
     ./darwin.nix
-    inputs.textfox.homeManagerModules.default
   ];
 
   options.my.firefox = {
@@ -27,13 +25,6 @@ in
       default = "default-release";
       example = "my-profile";
       description = "firefox profile into which to install";
-    };
-
-    textfox = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      example = false;
-      description = "Enable textfox userChrome";
     };
   };
 
@@ -97,6 +88,7 @@ in
           "browser.startup.page" = 3;
           "browser.toolbars.bookmarks.visibility" = "newtab";
           "extensions.autoDisableScopes" = 0;
+          "sidebar.verticalTabs" = true;
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
           "trailhead.firstrun.didSeeAboutWelcome" = true;
         };
@@ -108,7 +100,6 @@ in
             gaoptout
             github-file-icons
             gruvbox-dark-theme # TODO integrate with theme system
-            # sideberry # done by textfox
             sponsorblock
             ublock-origin
             vimium
@@ -147,12 +138,5 @@ in
       "gaoptout"
       "youtube-recommended-videos"
     ];
-
-    textfox = lib.mkIf cfg.textfox {
-      enable = true;
-      profiles = [
-        cfg.profile
-      ];
-    };
   };
 }

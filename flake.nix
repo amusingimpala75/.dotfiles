@@ -30,9 +30,6 @@
     alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
     alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
 
-    textfox.url = "github:adriankarlen/textfox";
-    textfox.inputs.nixpkgs.follows = "nixpkgs";
-
     bible.url = "github:amusingimpala75/bible.sh";
     bible.inputs.nixpkgs.follows = "nixpkgs";
 
