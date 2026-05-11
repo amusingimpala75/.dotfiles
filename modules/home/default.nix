@@ -15,7 +15,6 @@ in
       nixpkgs
       nix
 
-      ./alacritty
       ./cli
       ./darwin
       ./emacs
@@ -25,7 +24,6 @@ in
       ./rice
       ./sops
       ./vcs
-      ./wezterm
       ./wsl
       ./zsh
     ];

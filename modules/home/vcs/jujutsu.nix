@@ -105,7 +105,6 @@ in
     };
     home.packages = with pkgs; [
       jj-spr
-      sem-diff
       weave
     ];
     # for other's signatures

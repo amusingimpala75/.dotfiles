@@ -9,10 +9,6 @@
       ...
     }:
     {
-      imports = with self.modules.darwin; [
-        netbird
-      ];
-
       environment.shells = [ pkgs.zsh ];
 
       programs.zsh.enable = true;

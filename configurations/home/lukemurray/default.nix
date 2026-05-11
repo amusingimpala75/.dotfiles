@@ -36,7 +36,6 @@
     firefox.enable = true;
     games = {
       brogue.enable = true;
-      brogue.terminal = true;
       minecraft.gui.enable = true;
     };
     vcs = {
@@ -93,8 +92,6 @@
       play-audio
       cogfly
       lumafly
-
-      wireshark
     ]
     ++ lib.optionals pkgs.stdenv.isDarwin (
       with pkgs;
@@ -114,9 +111,6 @@
         run-ntfy-when-done
         # Casks
         brewCasks."8bitdo-ultimate-software-v2"
-        brewCasks.battle-net
-        # Warning: when this updates it wipes the saves folder (I think?)
-        brewCasks.dwarf-fortress-lmp
         brewCasks.gimp
         brewCasks.imazing
         brewCasks.qlmarkdown
