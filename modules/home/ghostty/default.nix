@@ -48,38 +48,7 @@ in
 
         auto-update = "off";
 
-        theme = "base16";
-      };
-      themes = {
-        base16 = with config.rice.theme; {
-          background = "${base00}";
-          foreground = "${base06}";
-          palette = [
-            "0=#${base00}"
-            "1=#${base08}"
-            "2=#${base0B}"
-            "3=#${base0A}"
-            "4=#${base0D}"
-            "5=#${base0E}"
-            "6=#${base0C}"
-            "7=#${base05}"
-            "8=#${base08}"
-            "9=#${base03}"
-            "10=#${base08}"
-            "11=#${base0B}"
-            "12=#${base0A}"
-            "13=#${base0D}"
-            "14=#${base0E}"
-            "15=#${base0C}"
-            "16=#${base07}"
-            "17=#${base09}"
-            "18=#${base0F}"
-            "19=#${base01}"
-            "20=#${base02}"
-            "21=#${base04}"
-            "22=#${base06}"
-          ];
-        };
+        theme = "wallust";
       };
     };
   };

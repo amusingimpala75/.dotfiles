@@ -19,6 +19,7 @@
         ng-nix
         pi
         wallpaper
+        wallust
         wsl
       ];
 

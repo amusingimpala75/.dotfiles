@@ -22,6 +22,7 @@
         pi
         radicle
         wallpaper
+        wallust
       ];
 
       programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
