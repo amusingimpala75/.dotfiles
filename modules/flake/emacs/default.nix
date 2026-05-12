@@ -34,7 +34,7 @@
 
       fonts.fontconfig.enable = true;
 
-      targets.darwin.defaults."org.gnu.Emacs".AppleFontSmoothing = 0;
+      targets.darwin.defaults."org.gnu.Emacs".AppleFontSmoothing = lib.mkIf pkgs.stdenv.isDarwin 0;
 
       home = {
         packages = [
