@@ -8,6 +8,7 @@
 {
   imports = with self.modules.homeManager; [
     brogue
+    emacs
     ng-cli
     ng-nix
     pi
@@ -18,7 +19,6 @@
 
   my = {
     cli.enable = true;
-    emacs.enable = true;
     vcs = {
       git = true;
       jujutsu = true;

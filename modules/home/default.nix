@@ -18,7 +18,6 @@ in
 
       ./cli
       ./darwin
-      ./emacs
       ./ghostty
       ./rice
       ./vcs

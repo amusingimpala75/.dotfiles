@@ -8,6 +8,7 @@
   imports = with self.modules.homeManager; [
     brew
     brogue
+    emacs
     firefox
     minecraft
     ng-cli
@@ -26,16 +27,6 @@
     cli = {
       defaultShell = "zsh";
       enable = true;
-    };
-    emacs = {
-      enable = true;
-      term-command =
-        let
-          pkg = (pkgs.writeScriptBin "emacs-term" (builtins.readFile ./emacs-term.sh)).overrideAttrs (old: {
-            buildCommand = "${old.buildCommand}\n patchShebangs $out";
-          });
-        in
-        "${pkg}/bin/emacs-term";
     };
     vcs = {
       git = true;

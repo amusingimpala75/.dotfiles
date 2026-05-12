@@ -121,7 +121,7 @@ in
             esc = "mode main";
           }
           // exec-back-main {
-            e = "${config.my.emacs.package}/bin/${config.my.emacs.gui-command} ";
+            e = "${config.services.emacs.package}/bin/${config.home.sessionVariables.VISUAL} ";
             m = ''${ghostty_and} "${float_and} ${btop}"'';
             f = "open ~/";
             s = ''open "x-apple.systempreferences:"'';
