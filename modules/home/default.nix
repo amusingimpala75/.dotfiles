@@ -19,7 +19,6 @@ in
       ./cli
       ./darwin
       ./emacs
-      ./firefox
       ./ghostty
       ./rice
       ./vcs

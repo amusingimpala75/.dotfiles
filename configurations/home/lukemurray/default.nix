@@ -8,6 +8,7 @@
   imports = with self.modules.homeManager; [
     brew
     brogue
+    firefox
     minecraft
     ng-cli
     ng-nix
@@ -35,7 +36,6 @@
         in
         "${pkg}/bin/emacs-term";
     };
-    firefox.enable = true;
     vcs = {
       git = true;
       jujutsu = true;
