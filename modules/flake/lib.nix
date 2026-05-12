@@ -48,6 +48,7 @@
           mainModule
           (
             {
+              config,
               pkgs,
               ...
             }:

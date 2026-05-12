@@ -27,9 +27,6 @@
       inputs.nixpkgs-stable.follows = "nixpkgs-stable-nixos";
     };
 
-    alacritty-theme.url = "github:alexghr/alacritty-theme.nix";
-    alacritty-theme.inputs.nixpkgs.follows = "nixpkgs";
-
     bible.url = "github:amusingimpala75/bible.sh";
     bible.inputs.nixpkgs.follows = "nixpkgs";
 

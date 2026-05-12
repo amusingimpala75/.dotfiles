@@ -25,29 +25,6 @@ rec {
         apps = {
           enable = lib.mkEnableOption "applications for all packages";
         };
-        configurations = {
-          path = lib.mkOption {
-            description = "path at root of configurations";
-            default = config.autowire.root + "/configurations";
-            type = lib.types.path;
-          };
-          home = {
-            enable = lib.mkEnableOption "autowire home configurations";
-            path = lib.mkOption {
-              description = "path from which to autowire home configurations";
-              default = config.autowire.configurations.path + "/home";
-              type = lib.types.path;
-            };
-          };
-        };
-        overlays = {
-          enable = lib.mkEnableOption "autowire overlays";
-          path = lib.mkOption {
-            description = "path from which to autowire overlays";
-            default = config.autowire.root + "/overlays";
-            type = lib.types.path;
-          };
-        };
         templates = {
           enable = lib.mkEnableOption "autowire templates";
           path = lib.mkOption {
@@ -60,13 +37,6 @@ rec {
 
       config = {
         flake = {
-          overlays = lib.mkIf config.autowire.overlays.enable (
-            lib.mapAttrs' (name: _: {
-              name = lib.removeSuffix ".nix" name;
-              value = import (config.autowire.overlays.path + "/${name}");
-            }) (builtins.readDir config.autowire.overlays.path)
-          );
-
           templates = lib.mkIf config.autowire.templates.enable (
             builtins.mapAttrs (name: _: {
               path = config.autowire.templates.path + "/${name}";
@@ -99,7 +69,6 @@ rec {
   imports = [ flake.flakeModules.autowire ];
   autowire = {
     apps.enable = true;
-    overlays.enable = true;
     templates.enable = true;
   };
 }
