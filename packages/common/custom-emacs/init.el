@@ -354,6 +354,11 @@
   ;; Fontify using the engrave-faces backend
   :custom (org-latex-src-block-backend 'engraved))
 
+(use-package org-appear
+  :ensure t
+  :hook org-mode
+  :custom (org-appear-autolinks t))
+
 (use-package rust-mode
   :ensure t
   :custom
