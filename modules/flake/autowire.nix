@@ -6,9 +6,7 @@ rec {
   flake.flakeModules.autowire =
     {
       config,
-      inputs,
       lib,
-      self,
       ...
     }:
     {
@@ -78,7 +76,10 @@ rec {
         };
 
         perSystem =
-          { pkgs, self', ... }:
+          {
+            self',
+            ...
+          }:
           {
             apps =
               self'.packages
@@ -90,20 +91,6 @@ rec {
                   meta.description = pkg.meta.description;
                 }
               );
-
-            legacyPackages.homeConfigurations = lib.mkIf config.autowire.configurations.home.enable (
-              builtins.mapAttrs (
-                name: _:
-                inputs.home-manager.lib.homeManagerConfiguration {
-                  inherit pkgs;
-                  modules = [
-                    (config.autowire.configurations.home.path + "/${name}")
-                    (config.autowire.root + "/modules/home")
-                  ];
-                  extraSpecialArgs = { inherit inputs self; };
-                }
-              ) (builtins.readDir config.autowire.configurations.home.path)
-            );
           };
       };
     };
@@ -112,7 +99,6 @@ rec {
   imports = [ flake.flakeModules.autowire ];
   autowire = {
     apps.enable = true;
-    configurations.home.enable = true;
     overlays.enable = true;
     templates.enable = true;
   };

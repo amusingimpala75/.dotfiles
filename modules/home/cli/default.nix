@@ -3,12 +3,10 @@
   inputs,
   lib,
   pkgs,
-  self,
   ...
 }:
 {
   imports = [
-    self.modules.homeManager.direnv
     ./tmux.nix
   ];
 

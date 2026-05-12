@@ -33,4 +33,36 @@
         ];
     };
   };
+
+  flake.lib.mkHome = system: username: mainModule: {
+    "${username}" = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs { inherit system; };
+      modules =
+        with self.modules.homeManager;
+        with self.modules.generic;
+        [
+          ../home
+          nixpkgs
+          nix
+          sops
+          mainModule
+          (
+            {
+              pkgs,
+              ...
+            }:
+            {
+              home = {
+                inherit username;
+                homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+              };
+              news.display = "silent";
+              programs.home-manager.enable = true;
+              systemd.user.sessionVariables = config.home.sessionVariables;
+            }
+          )
+        ];
+      extraSpecialArgs = { inherit inputs; };
+    };
+  };
 }
