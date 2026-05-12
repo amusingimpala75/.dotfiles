@@ -14,6 +14,7 @@ in
     [
       nixpkgs
       nix
+      sops
 
       ./cli
       ./darwin
@@ -21,7 +22,6 @@ in
       ./firefox
       ./ghostty
       ./rice
-      ./sops
       ./vcs
       ./wsl
       ./zsh
