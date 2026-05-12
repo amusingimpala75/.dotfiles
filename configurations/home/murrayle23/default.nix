@@ -11,6 +11,8 @@
     ng-cli
     ng-nix
     pi
+    wallpaper
+    wsl
   ];
   home.username = "murrayle23";
 
@@ -28,11 +30,7 @@
   rices.nord.enable = true;
   rice.font.size = lib.mkForce 20;
 
-  wsl = {
-    enable = true;
-    username = "MURRAYLE23";
-    wallp.enable = true;
-  };
+  wsl.username = "MURRAYLE23";
 
   services.podman.enable = true;
 

@@ -22,7 +22,6 @@ in
       ./ghostty
       ./rice
       ./vcs
-      ./wsl
       ./zsh
     ];
 

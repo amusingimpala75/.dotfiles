@@ -14,6 +14,7 @@
     ng-nix
     pi
     radicle
+    wallpaper
   ];
 
   programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
