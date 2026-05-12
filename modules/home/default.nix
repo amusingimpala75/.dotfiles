@@ -19,7 +19,6 @@ in
       ./darwin
       ./emacs
       ./firefox
-      ./games
       ./ghostty
       ./rice
       ./sops

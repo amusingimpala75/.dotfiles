@@ -7,6 +7,7 @@
 }:
 {
   imports = with self.modules.homeManager; [
+    brogue
     ng-cli
     ng-nix
     pi
@@ -16,9 +17,6 @@
   my = {
     cli.enable = true;
     emacs.enable = true;
-    games = {
-      brogue.enable = true;
-    };
     vcs = {
       git = true;
       jujutsu = true;
