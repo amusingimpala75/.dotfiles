@@ -36,7 +36,10 @@
 
       targets.darwin.defaults."org.gnu.Emacs".AppleFontSmoothing = lib.mkIf pkgs.stdenv.isDarwin 0;
 
-      programs.emacs.package = config.services.emacs.package;
+      programs.emacs = {
+        enable = true;
+        package = config.services.emacs.package;
+      };
 
       home = {
         packages = [
