@@ -5,7 +5,6 @@
 }:
 {
   imports = [
-    ./aerospace
     ./dock
     ./sketchybar
   ];

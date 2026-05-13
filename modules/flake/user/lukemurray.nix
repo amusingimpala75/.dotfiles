@@ -25,6 +25,7 @@
         ng-nix
         pi
         radicle
+        tiling
         vcs
         wallpaper
         wallust
@@ -37,10 +38,6 @@
       vcs = {
         email = "69653100+amusingimpala75@users.noreply.github.com";
         username = "amusingimpala75";
-      };
-
-      my = {
-        aerospace.enable = true;
       };
 
       # programs.infat = {
