@@ -21,6 +21,7 @@
         wallpaper
         wallust
         wsl
+        zsh
       ];
 
       my = {

@@ -4,6 +4,5 @@
     ./darwin
     ./rice
     ./vcs
-    ./zsh
   ];
 }

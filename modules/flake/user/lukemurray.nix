@@ -24,16 +24,14 @@
         radicle
         wallpaper
         wallust
+        zsh
       ];
 
       programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
 
       my = {
         aerospace.enable = true;
-        cli = {
-          defaultShell = "zsh";
-          enable = true;
-        };
+        cli.enable = true;
         vcs = {
           git = true;
           jujutsu = true;
