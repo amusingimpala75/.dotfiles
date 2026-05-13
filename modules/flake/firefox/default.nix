@@ -1,6 +1,7 @@
 {
   flake.modules.homeManager.firefox =
     {
+      config,
       lib,
       pkgs,
       ...
@@ -58,13 +59,28 @@
           };
           settings = {
             "app.update.auto" = false;
+            "browser.aboutConfig.showWarning" = false;
+            "browser.contentblocking.category" = "strict";
+            "browser.download.autohideButton" = false;
+            "browser.download.dir" = "${config.home.homeDirectory}/Downloads";
             "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
             "browser.newtabpage.activity-stream.feeds.topsites" = false;
             "browser.newtabpage.activity-stream.feeds.wallpaperfeed" = false;
             "browser.newtabpage.activity-stream.feeds.weatherfeed" = false;
+            "browser.newtabpage.enabled" = true;
             "browser.startup.page" = 3;
+            "browser.tabs.warnOnClose" = false;
             "browser.toolbars.bookmarks.visibility" = "newtab";
+            # [TODO] "browser.uiCustomization.state"
+            # This causes it to load into safe mode without any extensions :sad:
+            # "extensions.activeThemeID" = "{eb8c4a94-e603-49ef-8e81-73d3c4cc04ff}";
             "extensions.autoDisableScopes" = 0;
+            "extensions.formautofill.addresses.enabled" = false;
+            "extensions.formautofill.creditCards.enabled" = false;
+            "extensions.pocket.enabled" = false;
+            "privacy.donottrackheader.enabled" = true;
+            "privacy.query_stripping.enabled" = true;
+            "privacy.trackingprotection.enabled" = true;
             "sidebar.verticalTabs" = true;
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
             "trailhead.firstrun.didSeeAboutWelcome" = true;
