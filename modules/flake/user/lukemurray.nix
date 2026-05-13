@@ -28,6 +28,7 @@
         vcs
         wallpaper
         wallust
+        window-borders
         zsh
       ];
 
@@ -40,7 +41,6 @@
 
       my = {
         aerospace.enable = true;
-        jankyborders.enable = true;
       };
 
       # programs.infat = {
