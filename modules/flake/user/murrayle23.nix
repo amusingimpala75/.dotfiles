@@ -14,6 +14,7 @@
       imports = with self.modules.homeManager; [
         brogue
         direnv
+        cli
         emacs
         ng-cli
         ng-nix
@@ -25,7 +26,6 @@
       ];
 
       my = {
-        cli.enable = true;
         vcs = {
           git = true;
           jujutsu = true;

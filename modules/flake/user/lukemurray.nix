@@ -13,6 +13,7 @@
       imports = with self.modules.homeManager; [
         brew
         brogue
+        cli
         direnv
         emacs
         firefox
@@ -31,7 +32,6 @@
 
       my = {
         aerospace.enable = true;
-        cli.enable = true;
         vcs = {
           git = true;
           jujutsu = true;
