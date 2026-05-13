@@ -16,6 +16,7 @@
         direnv
         emacs
         firefox
+        ghostty
         minecraft
         ng-cli
         ng-nix
@@ -39,7 +40,6 @@
           email = "69653100+amusingimpala75@users.noreply.github.com";
           username = "amusingimpala75";
         };
-        ghostty.enable = true;
         jankyborders.enable = true;
       };
 

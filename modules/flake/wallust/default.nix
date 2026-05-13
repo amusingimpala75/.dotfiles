@@ -16,5 +16,6 @@
         };
       };
     };
+    programs.ghostty.settings.theme = "wallust";
   };
 }
