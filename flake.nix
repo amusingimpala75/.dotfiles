@@ -89,6 +89,9 @@
 
     qylock.url = "github:LordHerdier/qylock-nix";
     qylock.inputs.nixpkgs.follows = "nixpkgs";
+
+    breaktime.url = "github:amusingimpala75/breaktime";
+    breaktime.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

@@ -11,6 +11,7 @@
     }:
     {
       imports = with self.modules.homeManager; [
+        breaktime
         brew
         brogue
         cli
