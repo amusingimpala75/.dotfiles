@@ -250,17 +250,7 @@
   eglot-server-programs)
 
 (use-package nix-mode
-  :ensure t
-  :config
-  (setq-default
-   eglot-workspace-configuration
-   (plist-put
-    eglot-workspace-configuration
-    :nixd
-    '(:options
-      ( :nixos (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\")).nixosConfigurations.wsl-nix.options")
-        :nix-darwin (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").darwinConfigurations.Lukes-MacBook-Air.options")
-        :home-manager (:expr "(builtins.getFlake \"/home/murrayle23/.dotfiles\").legacyPackages.x86_64-linux.homeConfigurations.murrayle23.options"))))))
+  :ensure t)
 
 (use-package face-remap
   :hook (org-mode . variable-pitch-mode))
