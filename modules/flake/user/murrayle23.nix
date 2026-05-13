@@ -16,22 +16,21 @@
         direnv
         cli
         emacs
+        git
+        jujutsu
         ng-cli
         ng-nix
         pi
+        vcs
         wallpaper
         wallust
         wsl
         zsh
       ];
 
-      my = {
-        vcs = {
-          git = true;
-          jujutsu = true;
-          email = "69653100+amusingimpala75@users.noreply.github.com";
-          username = "amusingimpala75";
-        };
+      vcs = {
+        email = "69653100+amusingimpala75@users.noreply.github.com";
+        username = "amusingimpala75";
       };
 
       rices.nord.enable = true;

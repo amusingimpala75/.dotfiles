@@ -18,11 +18,14 @@
         emacs
         firefox
         ghostty
+        git
+        jujutsu
         minecraft
         ng-cli
         ng-nix
         pi
         radicle
+        vcs
         wallpaper
         wallust
         zsh
@@ -30,14 +33,13 @@
 
       programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
 
+      vcs = {
+        email = "69653100+amusingimpala75@users.noreply.github.com";
+        username = "amusingimpala75";
+      };
+
       my = {
         aerospace.enable = true;
-        vcs = {
-          git = true;
-          jujutsu = true;
-          email = "69653100+amusingimpala75@users.noreply.github.com";
-          username = "amusingimpala75";
-        };
         jankyborders.enable = true;
       };
 

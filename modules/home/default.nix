@@ -2,6 +2,5 @@
   imports = [
     ./darwin
     ./rice
-    ./vcs
   ];
 }
