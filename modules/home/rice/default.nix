@@ -7,8 +7,6 @@
 }:
 {
   imports = [
-    # compat
-    ./darwin.nix
     # rices
     ./rices/cross.nix
     ./rices/grey.nix
