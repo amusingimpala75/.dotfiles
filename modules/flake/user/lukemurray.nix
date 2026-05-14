@@ -26,7 +26,7 @@
         ng-nix
         pi
         radicle
-        tiling
+        scrolling
         vcs
         wallpaper
         wallust
