@@ -16,6 +16,7 @@
         chafa
         doxx
         file
+        htmlq
         jaq
         killall
         scc

@@ -96,6 +96,7 @@
             git
             # macOS Apps
             # macOS utilities
+            apfel-llm
             darwin.trash # TODO cross-platform
             brightness
             jd-gui-duo
