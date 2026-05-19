@@ -511,7 +511,7 @@
 ;;   :hook pdf-view-mode)
 
 ;; Nicer looking org mode editing (centered column)
-(use-package olivetti
+(use-package writeroom-mode
   :ensure t)
 
 (use-package reader

@@ -345,7 +345,7 @@ comb1 = "Ctrl + Alt + Meta + Shift"
 "Alt + Ctrl + M" = "show_mission_control_all"
 
 "comb0 + Enter" = { "exec" = ["/usr/bin/env", "sh", "-c", "open -a Ghostty"] }
-"comb0 + E" = { "exec" = [ "/usr/bin/env", "sh", "-c", "emacsclient -c"] }
+"comb0 + E" = { "exec" = [ "/usr/bin/env", "sh", "-c", "~/.nix-profile/bin/emacsclient -c"] }
 
 "comb1 + D" = "debug" # prints layout tree
 
