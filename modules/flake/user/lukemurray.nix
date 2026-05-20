@@ -95,6 +95,7 @@
             gcc
             git
             # macOS Apps
+            raycast
             # macOS utilities
             apfel-llm
             darwin.trash # TODO cross-platform
@@ -112,6 +113,8 @@
             # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
           ]
         );
+
+      nixpkgs.allowUnfreeList = [ "raycast" ];
 
       # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
       # Additionally, `defaults read' will list out current settings
