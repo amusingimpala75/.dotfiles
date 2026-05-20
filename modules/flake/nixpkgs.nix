@@ -24,6 +24,7 @@ let
     self.overlays.emacs-packages
 
     self.overlays.lib
+    self.overlays.fix-ntfy
     self.overlays.common
     inputs.nur.overlays.default
   ];

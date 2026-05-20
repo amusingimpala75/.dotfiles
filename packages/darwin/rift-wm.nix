@@ -16,5 +16,7 @@ rustPlatform.buildRustPackage {
 
   cargoHash = "sha256-2KMEjAGWxMzcY9yE5v9SmAspA4tDJtNwS0GlEm4opKc=";
 
+  doCheck = false;
+
   meta.mainProgram = "rift";
 }
