@@ -34,7 +34,8 @@ jobs:
       run: |
         matrix_macos=$(nix eval --json .#packages.aarch64-darwin | nix run nixpkgs#jq -- -c 'keys | map_values({key: ., value: "macos-latest"}) | from_entries')
         matrix_linux=$(nix eval --json .#packages.x86_64-linux | nix run nixpkgs#jq -- -c 'keys | map_values({key: ., value: "ubuntu-latest"}) | from_entries')
-        matrix=$(echo "$matrix_macos\n$matrix_linux" | nix run nixpkgs#jq -- -s 'map(to_entries) | flatten | group_by(.key) | map({name: .[0].key, runners: [.[] | .value]})')
+        echo "$matrix_macos" "$matrix_linux"
+        matrix=$(echo "$matrix_macos" "$matrix_linux" | nix run nixpkgs#jq -- -s 'map(to_entries) | flatten | group_by(.key) | map({name: .[0].key, runners: [.[] | .value]})')
         echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   builds:
