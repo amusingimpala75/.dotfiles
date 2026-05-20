@@ -1,28 +1,27 @@
 {
   # pkgs
   aspellWithDicts,
-  bash-language-server,
-  biome,
-  clang-tools,
   emacs,
   ghostscript,
-  jdt-language-server,
   mathjax-node-cli,
-  metals,
   mpv,
-  nixd,
   pandoc,
-  python3,
-  R,
-  rassumfrassum,
-  rust-analyzer,
   stable ? null,
   texlive,
-  ty,
-  typescript-language-server,
   unzip,
   vimPlugins,
   zip,
+
+  bash-language-server,
+  biome,
+  clang-tools,
+  gopls,
+  jdt-language-server,
+  nixd,
+  rassumfrassum,
+  rust-analyzer,
+  ty,
+  typescript-language-server,
   zls,
   zuban,
 
@@ -126,10 +125,10 @@ let
       zuban # these two
       ty # for Python
       rust-analyzer # for Rust
-      metals # for Scala
       zls # for Zig
       nixd # for Nix
       bash-language-server # for Bash
+      gopls # for Go
     ];
   };
 in
