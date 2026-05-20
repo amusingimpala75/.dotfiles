@@ -1,1 +1,0 @@
-map (platform: map (package: ) platform)(builtins.getFlake ./.).packages
