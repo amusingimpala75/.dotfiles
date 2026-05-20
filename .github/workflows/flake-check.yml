@@ -41,8 +41,8 @@ jobs:
     needs: discover
     strategy:
       matrix:
-      - package: ${{ fromJson(needs.discover.outputs.matrix) }}
-      - runner: [ ubuntu-latest, macos-latest ]
+        package: ${{ fromJson(needs.discover.outputs.matrix) }}
+        runner: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.runner }}
 
     steps:
