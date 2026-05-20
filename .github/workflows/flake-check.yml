@@ -36,7 +36,7 @@ jobs:
         extra-conf: experimental-features = flakes nix-command pipe-operators
     - id: set
       run: |
-        matrix=$(nix eval --json .#packages.x86_64-linux | nix run nixpkgs#jq -- -c '{input: keys}')
+        matrix=$(nix eval --json .#packages.$(nix eval --impure --raw --expr 'builtins.currentSystem') | nix run nixpkgs#jq -- -c '{input: keys}')
         echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   builds:
