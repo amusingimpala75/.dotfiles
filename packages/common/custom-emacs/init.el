@@ -692,6 +692,9 @@
 (use-package vc-jj
   :ensure t)
 
+(use-package majutsu
+  :ensure t)
+
 (use-package diff-hl
   :ensure t
   :hook
@@ -878,6 +881,14 @@
 
 (use-package help
   :custom (help-window-select t))
+
+(use-package devdocs
+  :ensure t)
+
+(use-package buffer-terminator
+  :ensure t
+  :hook
+  (after-init . buffer-terminator-mode))
 
 ;; Direnv support
 (use-package envrc
