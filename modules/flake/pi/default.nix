@@ -28,7 +28,7 @@
           example = ./AGENTS.md;
           type = lib.types.nullOr lib.types.path;
         };
-        package = lib.mkPackageOption pkgs.llm-agents "pi" { };
+        package = lib.mkPackageOption pkgs "pi-coding-agent" { };
         settings = lib.mkOption {
           description = "settings for pi (see docs/settings.md)";
           default = null;
@@ -61,17 +61,14 @@
       pkgs,
       ...
     }:
-    {
-      imports = [ self.homeModules.pi ];
-      programs.pi = {
-        enable = true;
-        "AGENTS.md" = ./global-agents.md;
-        configDir = ".config/pi/agent";
-        noUpdateNotice = true;
-        package = inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
-          pkg = pkgs.pi-coding-agent;
+    let
+      inherit (pkgs.bleeding) pi-coding-agent;
+      build =
+        update:
+        inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox (update {
+          pkg = pi-coding-agent;
           binName = "pi";
-          outName = "piw";
+          outName = "pi-wrapped";
           allowedPackages = with pkgs; [
             bash
             coreutils
@@ -82,17 +79,43 @@
             gnused
             jq
             jujutsu
-            config.nix.package
             ripgrep
             which
 
-            pkgs.pi-coding-agent.src
+            pi-coding-agent.src
             inputs.pi-quota-usage
           ];
           stateDirs = [ "$HOME/${config.programs.pi.configDir}" ];
+          stateFiles = [ ];
           extraEnv = {
             inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR PI_OFFLINE;
           };
+        });
+
+    in
+    {
+      imports = [ self.homeModules.pi ];
+      programs.pi = {
+        enable = true;
+        "AGENTS.md" = ./global-agents.md;
+        configDir = ".config/pi/agent";
+        noUpdateNotice = true;
+        package = pkgs.symlinkJoin {
+          name = "pi-configs";
+          paths = [
+            (build (old: old))
+            (build (
+              old:
+              old
+              // {
+                outName = "${old.outName}-nix";
+                allowedPackages = old.allowedPackages ++ [ config.nix.package ];
+                stateFiles = old.stateFiles ++ [
+                  "/nix/var/nix/daemon-socket/socket"
+                ];
+              }
+            ))
+          ];
         };
         settings = {
           defaultProvider = "github-copilot";
@@ -101,7 +124,7 @@
           enableInstallTelemetry = false;
           extensions =
             let
-              pi-extensions = "${pkgs.pi-coding-agent.src}/packages/coding-agent/examples/extensions";
+              pi-extensions = "${pi-coding-agent.src}/packages/coding-agent/examples/extensions";
               fileExtension = name: "${pi-extensions}/${name}.ts";
               complexExtension =
                 name: hash:
