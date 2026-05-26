@@ -92,6 +92,9 @@
 
     breaktime.url = "github:amusingimpala75/breaktime";
     breaktime.inputs.nixpkgs.follows = "nixpkgs";
+
+    hister.url = "github:asciimoo/hister";
+    hister.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
