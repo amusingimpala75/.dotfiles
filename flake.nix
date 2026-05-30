@@ -129,10 +129,6 @@
       url = "github:Limb/pi-quota-usage";
       flake = false;
     };
-    qylock = {
-      url = "github:LordHerdier/qylock-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
