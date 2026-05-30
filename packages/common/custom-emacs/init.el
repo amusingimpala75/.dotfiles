@@ -430,6 +430,8 @@
 (use-package eldoc-box
   :ensure t
   :after eglot
+  :custom
+  (alter-fullscreen-frames nil)
   ;; Show doc inline
   :bind ( :map eglot-mode-map
           ("C-c C-e" . 'eldoc-box-help-at-point)))
