@@ -305,6 +305,11 @@
    '((python . t)
      (shell . t))))
 
+(use-package ox-latex
+  :after s
+  :custom
+  (org-latex-pdf-process (list (s-replace-regexp "^latexmk" (executable-find "latexmk") (car org-latex-pdf-process)))))
+
 ;; Configure Karthik's org latex preview
 (use-package org-latex-preview
   :defer t
@@ -899,8 +904,7 @@
   :functions envrc-propagate-environment envrc--find-env-dir
   :config
   ;; Advice a few poorly acting modes
-  (dolist (fn '( Man-completion-table sql-sqlite my/org-latex-export-to-docx
-                 eshell-vterm-exec-visual))
+  (dolist (fn '( Man-completion-table sql-sqlite eshell-vterm-exec-visual))
     (advice-add fn :around #'envrc-propagate-environment)))
 
 (provide 'init)
