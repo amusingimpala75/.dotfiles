@@ -21,19 +21,21 @@ in
       '';
       configType = "lua";
       enable = true;
-      extraLuaPackages = ps: with pkgs; [
-        (bfp ps {
-          name = "fennel-defaults";
-          src = runCommand "defaults.fnl" {} ''
-            mkdir -p $out
-            cp ${config.rice.fennel-defaults} $out/defaults.fnl
-          '';
-        })
-        (bfp ps {
-          name = "sketchybar-config";
-          src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
-        })
-      ];
+      extraLuaPackages =
+        ps: with pkgs; [
+          (bfp ps {
+            name = "fennel-defaults";
+            src = runCommand "defaults.fnl" { } ''
+              mkdir -p $out
+              cp ${config.rice.fennel-defaults} $out/defaults.fnl
+            '';
+          })
+          (bfp ps {
+            name = "sketchybar-config";
+            src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
+          })
+          (rift-lua.override { luaPackages = ps; })
+        ];
       service.enable = true;
     };
   };

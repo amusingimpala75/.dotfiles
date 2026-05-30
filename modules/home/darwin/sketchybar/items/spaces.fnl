@@ -1,26 +1,15 @@
 (local sbar (require "sketchybar"))
 (local defaults (require "defaults"))
+(local rift (require "rift"))
+
+(local client (let [[client err] [(rift.connect)]]
+                (when (not client)
+                  (error err))
+                client))
 
 (let [foreground (.. "0xff" defaults.base06)
       background (.. "0xff" defaults.base01)
-      wksp-change-event "aerospace_workspace_change"
-      spaces {}]
-  (sbar.add "event" wksp-change-event)
-  (fn space-changed [env]
-    (let [name env.NAME
-          index (. spaces name)
-          is-focused (= index (tonumber env.FOCUSED_WORKSPACE))
-          bg (if is-focused foreground background)
-          fg (if is-focused background foreground)
-          animate (lambda []
-                    (sbar.set name {:background {:color bg}
-                                    :icon {:color fg}
-                                    :label {:color fg}}))]
-      (sbar.animate "tanh" 15 animate)))
-  (fn clicked [env]
-    (let [name env.NAME
-          index (. spaces name)]
-      (sbar.exec (.. "~/.nix-profile/bin/aerospace workspace " (tonumber index)))))
+      spaces []]
   (for [i 1 9 1]
     (let [lb-pad (if (= i 1) defaults.bar-padding 0)
           rb-pad (if (= i 9) defaults.bar-padding 0)
@@ -34,8 +23,20 @@
                                           :padding_right 10
                                           :string (tonumber i)
                                           :color foreground}})]
-      (space:subscribe wksp-change-event space-changed)
+      (fn space-changed [env]
+        (let [is-focused (= i (tonumber env.DATA.workspace_id.idx))
+              bg (if is-focused foreground background)
+              fg (if is-focused background foreground)
+              animate (lambda []
+                        (sbar.set space.name {:background {:color bg}
+                                              :icon {:color fg}
+                                              :label {:color fg}}))]
+          (sbar.animate "tanh" 15 animate)))
+      (fn clicked [_]
+        ;; [TODO] switch to using the rift client object from above
+        (sbar.exec (.. "~/.nix-profile/bin/rift-cli execute workspace switch " (tonumber (- i 1)))))
+
+      (client:subscribe ["workspace_changed"] space-changed)
       (space:subscribe "mouse.clicked" clicked)
-      (tset spaces space.name i)))
-  (icollect [k _ (pairs spaces)]
-    k))
+      (table.insert spaces space.name)))
+  spaces)
