@@ -238,7 +238,12 @@ workspace_names = [
 #       ]
 #
 # By default there are no app rules; add or uncomment rules below as needed.
-app_rules = []
+app_rules = [
+  { app_id = "org.nixos.firefox", workspace = 0 },
+  { app_id = "xyz.radicle.desktop", workspace = 6 },
+  { app_id = "org.prismlauncher.PrismLauncher", workspace = 7 },
+  { app_id = "com.hnc.Discord", workspace = 8 }
+]
 
 # Modifier combinations that can be reused in key bindings
 # Define common modifier combinations to avoid repetition.
