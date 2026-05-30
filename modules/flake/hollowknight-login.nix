@@ -5,41 +5,29 @@
       ...
     }:
     let
-      theme-name = "pixel-hollowknight";
+      theme = "pixel-hollowknight";
 
-      theme = pkgs.stdenv.mkDerivation {
-        name = "sddm-theme-${theme-name}";
-        src = pkgs.fetchFromGitHub {
-          owner = "Darkkal44";
-          repo = "qylock";
-          rev = "3ecb79f621d5bfc2fbc6bfd37c3b12f0214601ac";
-          hash = "";
-          sparseCheckout = [
-            "themes/${theme-name}"
-          ];
-        };
-
-        installPhase = ''
-          mkdir -p $out/share/sddm/themes/${theme-name}"
-          cp -r themes/pixel-hollowknight/. $out/share/sddm/themes/${theme-name}
-        '';
+      # [TODO] I need to fix the cursor, it's invisible atm
+      package = pkgs.qylock-with-theme.override {
+        inherit theme;
+        hash = "sha256-1At9ffKV46lAOYn0ksyHPIzn8FUsHJfKuHcw4ep6vSs=";
       };
     in
     {
       services.displayManager.sddm = {
         enable = true;
         wayland.enable = true;
-        theme = theme-name;
+        inherit theme;
         package = pkgs.kdePackages.sddm;
 
         extraPackages = with pkgs.kdePackages; [
-          theme
+          package
           qtdeclarative
           qt5compat
           qtmultimedia
         ];
       };
 
-      environment.systemPackages = [ theme ];
+      environment.systemPackages = [ package ];
     };
 }
