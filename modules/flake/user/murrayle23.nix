@@ -22,7 +22,6 @@
         ng-nix
         pi
         vcs
-        wallpaper
         wallust
         wsl
         zsh

@@ -36,8 +36,6 @@
         height = 32;
         color = theme.base01;
       };
-
-      wallpaper = "${pkgs.wallpapers.winnie-the-pooh-farm}";
     };
     home.packages = [
       pkgs.iosevka-bin

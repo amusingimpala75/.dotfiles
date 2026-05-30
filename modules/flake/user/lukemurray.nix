@@ -29,7 +29,6 @@
         radicle
         scrolling
         vcs
-        wallpaper
         wallust
         window-borders
         zsh

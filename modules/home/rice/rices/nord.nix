@@ -20,14 +20,14 @@
       };
 
       emacs = {
-        theme-package = epkgs: epkgs.nord-theme.overrideAttrs (_: {
-          patches = [ ./0001-add-lexical-binding-cookie.patch ];
-        });
+        theme-package =
+          epkgs:
+          epkgs.nord-theme.overrideAttrs (_: {
+            patches = [ ./0001-add-lexical-binding-cookie.patch ];
+          });
         theme-file-name = "nord-theme";
         theme-name = "nord";
       };
-
-      wallpaper = pkgs.wallpapers."nord-buildings";
     };
 
     home.packages = [

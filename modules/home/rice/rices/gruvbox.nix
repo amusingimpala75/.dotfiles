@@ -35,8 +35,6 @@
         height = 32;
         color = theme.base01;
       };
-
-      wallpaper = "${pkgs.wallpapers.gruv-bunny}";
     };
 
     home.packages = [

@@ -1,7 +1,9 @@
 {
   flake.modules.homeManager.wallust =
     {
+      config,
       lib,
+      options,
       pkgs,
       ...
     }:
@@ -22,6 +24,11 @@
               template = ./palette.wallust;
               target = "~/.local/state/wallust/palette.txt";
             };
+            # Same here
+            wallpaper = {
+              template = ./wallpaper.wallust;
+              target = "~/.local/state/wallust/wallpaper.txt";
+            };
           };
           hooks = {
             ghostty = ''osascript -e 'tell application "Ghostty" to perform action "reload_config" on focused terminal of selected tab of front window' > /dev/null'';
@@ -33,9 +40,20 @@
                 ${lib.getExe pkgs.set-appearance} "false"
               fi
             '';
+            wallpaper =
+              if pkgs.stdenv.isDarwin then
+                ''${lib.getExe pkgs.desktoppr} "$(cat ~/.local/state/wallust/wallpaper.txt)"''
+              else if (options ? wsl) then
+                ''
+                  cp "$(cat ~/.local/state/wallust/wallpaper.txt)" 'C:\Users\${config.wsl.username}\.nix-profiles\share\wallpaper.png'
+                  ${lib.getExe pkgs.wallp} 'C:\Users\${config.wsl.username}\.nix-profile\share\wallpaper.png
+                ''
+              else
+                ""; # [TODO]
           };
         };
       };
+
       programs.ghostty.settings.theme = "wallust";
     };
 }

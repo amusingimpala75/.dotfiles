@@ -42,8 +42,6 @@
         height = -config.rice.gaps.outer;
         color = theme.base01;
       };
-
-      wallpaper = "${pkgs.wallpapers.simple-cross}";
     };
     home.packages = [
       pkgs.iosevka-bin
