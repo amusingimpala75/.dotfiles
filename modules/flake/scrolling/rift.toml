@@ -50,7 +50,7 @@ column_width_ratio = 0.75
 max_column_width_ratio = 0.95
 
 alignment = "center"
-focus_navigation_style = "niri"
+focus_navigation_style = "anchored"
 
 [settings.layout.scrolling.gestures]
 # Enable horizontal scroll gestures to switch columns
@@ -122,7 +122,7 @@ skip_empty = true
 # Number of fingers required for swipe
 fingers = 3
 # Normalized horizontal distance (0..1) to trigger swipe for NSTouch-based detection
-distance_pct = 0.08
+distance_pct = 0.05
 # Haptic feedback on commit (generic | alignment | level_change)
 haptics_enabled = true
 haptic_pattern = "level_change"
