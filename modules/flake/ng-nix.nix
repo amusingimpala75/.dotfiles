@@ -1,5 +1,6 @@
 {
   inputs,
+  self,
   ...
 }:
 {
@@ -11,7 +12,10 @@
       ...
     }:
     {
-      imports = [ inputs.nix-index-database.homeModules.nix-index ];
+      imports = [
+        inputs.nix-index-database.homeModules.nix-index
+        self.modules.homeManager.nix-init
+      ];
 
       options.ng-nix = {
         dotfilesDir = lib.mkOption {
@@ -45,7 +49,6 @@
             nds = "nix develop -c $SHELL";
           };
           packages = with pkgs; [
-            nix-init
             nix-tree
             (writeShellApplication {
               name = "ns";
