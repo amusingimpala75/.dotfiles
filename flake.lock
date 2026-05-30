@@ -7,16 +7,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1780236773,
+        "lastModified": 1780291399,
         "narHash": "sha256-51EsKA2/pDaIgKp9zbZIW2Wtk04ABrj7FKF5h/6BJ/I=",
         "owner": "archie-judd",
         "repo": "agent-sandbox.nix",
-        "rev": "f0588aeb395e4b90834cf71b30004f1e7b55126a",
+        "rev": "a9f650ea3a96800f4799741ef466a8db2b1c9563",
         "type": "github"
       },
       "original": {
         "owner": "archie-judd",
-        "ref": "fix/macos-link-state-dirs-and-files",
         "repo": "agent-sandbox.nix",
         "type": "github"
       }

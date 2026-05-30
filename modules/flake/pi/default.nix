@@ -170,7 +170,7 @@
 
   flake-file.inputs = {
     agent-sandbox = {
-      url = "github:archie-judd/agent-sandbox.nix/fix/macos-link-state-dirs-and-files";
+      url = "github:archie-judd/agent-sandbox.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
