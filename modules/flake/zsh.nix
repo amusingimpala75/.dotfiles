@@ -40,7 +40,7 @@
             function precmd_prompt {
               if jj root > /dev/null 2>&1
               then
-                _PROMPT_ENV=$(jj log -r 'heads((::@ | @::) & (bookmarks() | remote_bookmarks()))' -T 'self.bookmarks() ++ "\n"' -G)
+                _PROMPT_ENV=$(jj log -r 'heads((::@ | @::) & (bookmarks() | remote_bookmarks()))' -T 'self.bookmarks() ++ "\n"' -G --ignore-working-copy)
               else
                 _PROMPT_ENV=$(__git_ps1 "%s")
               fi
