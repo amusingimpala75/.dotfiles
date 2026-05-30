@@ -54,6 +54,13 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    ccusage = {
+      url = "github:ryoppippi/ccusage";
+      inputs = {
+        agent-skills.follows = "";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
     determinate-nix-cli.url = "github:DeterminateSystems/nix-src";
     disko = {
       url = "github:nix-community/disko";

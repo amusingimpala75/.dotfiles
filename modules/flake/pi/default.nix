@@ -163,6 +163,9 @@
             ];
         };
       };
+
+      home.sessionVariables.PI_AGENT_DIR = "$HOME/${config.programs.pi.configDir}/sessions";
+      home.packages = [ inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.ccusage ];
     };
 
   flake-file.inputs = {
@@ -174,6 +177,12 @@
     pi-quota-usage = {
       url = "github:Limb/pi-quota-usage";
       flake = false;
+    };
+
+    ccusage = {
+      url = "github:ryoppippi/ccusage";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.agent-skills.follows = "";
     };
   };
 }
