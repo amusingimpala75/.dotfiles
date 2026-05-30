@@ -128,6 +128,10 @@
       url = "github:ogulcancelik/pi-extensions?dir=packages/pi-minimal-footer";
       flake = false;
     };
+    pi-telegram = {
+      url = "github:badlogic/pi-telegram";
+      flake = false;
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

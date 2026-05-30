@@ -106,6 +106,7 @@
             pi-coding-agent.src
             inputs.pi-cd
             pi-minimal-footer
+            pi-telegram
           ]
           ++ roDirs;
           inherit
@@ -126,7 +127,12 @@
             --replace-fail '{ buildSessionContext }' '{ buildSessionContext, getAgentDir }' \
             --replace-fail 'homedir(), ".pi", "agent"' 'getAgentDir()'
       '';
-
+      pi-telegram = pkgs.runCommand "pi-telegram" { } ''
+        mkdir -p $out
+        substitute ${inputs.pi-telegram + "/index.ts"} $out/pi-telegram.ts \
+            --replace-fail $'agent";\n' $'agent";\nimport { getAgentDir } from "@mariozechner/pi-coding-agent";\n ' \
+            --replace-fail 'homedir(), ".pi", "agent"' 'getAgentDir()'
+      '';
     in
     {
       imports = [ self.homeModules.pi ];
@@ -203,6 +209,7 @@
               "${pkgs.rtk.src}/hooks/pi/rtk.ts"
               "${inputs.pi-cd}/extensions/cd.ts"
               pi-minimal-footer
+              pi-telegram
             ];
           skills = [
             ./skills
@@ -236,6 +243,11 @@
 
     pi-minimal-footer = {
       url = "github:ogulcancelik/pi-extensions?dir=packages/pi-minimal-footer";
+      flake = false;
+    };
+
+    pi-telegram = {
+      url = "github:badlogic/pi-telegram";
       flake = false;
     };
   };

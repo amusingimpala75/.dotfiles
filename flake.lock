@@ -871,6 +871,22 @@
         "type": "github"
       }
     },
+    "pi-telegram": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1775268787,
+        "narHash": "sha256-2Gvr3AogpEHkmGkHetVfaPW9VHyMH9TZaK3swKbvQCw=",
+        "owner": "badlogic",
+        "repo": "pi-telegram",
+        "rev": "cb34008460b6c1ca036d92322f69d87f626be0fc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "badlogic",
+        "repo": "pi-telegram",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agent-sandbox": "agent-sandbox",
@@ -899,6 +915,7 @@
         "nur": "nur",
         "pi-cd": "pi-cd",
         "pi-minimal-footer": "pi-minimal-footer",
+        "pi-telegram": "pi-telegram",
         "sops-nix": "sops-nix",
         "wrappers": "wrappers"
       }
