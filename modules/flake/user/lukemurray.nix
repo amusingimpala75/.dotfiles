@@ -1,12 +1,10 @@
 {
-  inputs,
   self,
   ...
 }:
 {
   flake.homeConfigurations = self.lib.mkHome "aarch64-darwin" "lukemurray" (
     {
-      lib,
       pkgs,
       ...
     }:
@@ -42,70 +40,31 @@
         username = "amusingimpala75";
       };
 
-      # programs.infat = {
-      #   enable = true;
-      #   package = pkgs.infat.overrideAttrs (_: rec {
-      #     # TODO remove once upstreamed into nixpkgs
-      #     src = pkgs.fetchFromGitHub {
-      #       owner = "philocalyst";
-      #       repo = "infat";
-      #       rev = "eed1108f042c1613a60eef4aa3bb80c44a7c86e7";
-      #       hash = "sha256-4R/BB6WbMjuhUeBH1/kdSSvLnQTCTBihqt5STIu5cU0=";
-      #     };
-      #     cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
-      #       inherit src;
-      #       hash = "sha256-/DHku1bryv5813NC0b2vdrP3Qvj8fu7C64//A9SmbIg=";
-      #     };
-      #   });
-      #   settings = {
-      #     extensions = {
-      #       org = "Emacs";
-      #       yaml = "Emacs";
-      #       md = "Emacs";
-      #     };
-      #     schemes = {
-      #       mailto = "Mail";
-      #     };
-      #     types = {
-      #       plain-text = "Emacs";
-      #     };
-      #   };
-      # };
-
       rices.cross.enable = true;
 
-      home.packages =
-        with pkgs;
-        [
-          ntfy-sh
-          play-audio
-        ]
-        ++ lib.optionals pkgs.stdenv.isDarwin (
-          with pkgs;
-          [
-            # Emacs implicitly calls these,
-            # which pulls up a warning from macOS
-            # if `xcode-install --select` isn't run first
-            gcc
-            # macOS utilities
-            darwin.trash # TODO cross-platform
-            brightness
-            unquarantine
-            screen-saver
-            run-ntfy-when-done
-            # Casks
-            brewCasks."8bitdo-ultimate-software-v2"
-            brewCasks.gimp
-            brewCasks.qlmarkdown
-            brewCasks.steam
-            # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
-          ]
-        );
+      home.packages = with pkgs; [
+        play-audio
+        # Emacs implicitly calls these,
+        # which pulls up a warning from macOS
+        # if `xcode-install --select` isn't run first
+        gcc
+        # macOS utilities
+        darwin.trash # TODO cross-platform
+        unquarantine
+        screen-saver
+        run-ntfy-when-done
+        # Casks
+        brewCasks."8bitdo-ultimate-software-v2"
+        brewCasks.gimp
+        brewCasks.qlmarkdown
+        brewCasks.steam
+        # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
+      ];
 
       # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
       # Additionally, `defaults read' will list out current settings
       # Alternately all settings can be found at ~/Library/Preferences/<app-id>.plist
-      targets.darwin.defaults = lib.mkIf pkgs.stdenv.isDarwin {
+      targets.darwin.defaults = {
         "com.apple.dock" = {
           autohide = true;
           largesize = 96;

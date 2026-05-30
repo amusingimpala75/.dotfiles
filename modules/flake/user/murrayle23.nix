@@ -46,12 +46,7 @@
         wsl-open
 
         inputs.automader.packages.${pkgs.stdenv.hostPlatform.system}.automader
-
-        (dyalog.override { acceptLicense = true; })
-        ride
       ];
-
-      nixpkgs.allowUnfreeList = [ "dyalog" ];
 
       home.stateVersion = "24.05";
     }
