@@ -120,6 +120,7 @@
                 stateFiles = old.stateFiles ++ [
                   "/nix/var/nix/daemon-socket/socket"
                 ];
+                useDevshell = true;
               }
             ))
           ];
@@ -171,7 +172,7 @@
 
   flake-file.inputs = {
     agent-sandbox = {
-      url = "github:archie-judd/agent-sandbox.nix";
+      url = "github:amusingimpala75/agent-sandbox.nix/include-devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
