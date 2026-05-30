@@ -698,11 +698,11 @@
     },
     "nixpkgs-bleeding": {
       "locked": {
-        "lastModified": 1780747962,
-        "narHash": "sha256-IX7G1dlKrOqPOImfbo7ADDfV5yU1+j+MRChI3TL4tAA=",
+        "lastModified": 1780930886,
+        "narHash": "sha256-rppURzHviaQN131F+nLiLdGfcb0uCd9gGP0E5+iw9MI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "cbb5cf358f50aa6acc9efd6113b7bcfbc352cd73",
+        "rev": "8c3cede7ddc26bd659d2d383b5610efbd2c7a16e",
         "type": "github"
       },
       "original": {
@@ -837,22 +837,6 @@
         "type": "github"
       }
     },
-    "pi-nixpkgs": {
-      "locked": {
-        "lastModified": 1780543024,
-        "narHash": "sha256-+5v5DiMqFAnU7s6ZDkI/mMVVuVdZ8ii7ieky0h7smFM=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "726fd9f7993e5a6fc427f0441baa2dd63e84b615",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "726fd9f7993e5a6fc427f0441baa2dd63e84b615",
-        "type": "github"
-      }
-    },
     "pi-quota-usage": {
       "flake": false,
       "locked": {
@@ -895,7 +879,6 @@
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
-        "pi-nixpkgs": "pi-nixpkgs",
         "pi-quota-usage": "pi-quota-usage",
         "sops-nix": "sops-nix",
         "wrappers": "wrappers"

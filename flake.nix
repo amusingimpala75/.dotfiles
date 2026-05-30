@@ -120,7 +120,6 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pi-nixpkgs.url = "github:nixos/nixpkgs?rev=726fd9f7993e5a6fc427f0441baa2dd63e84b615";
     pi-quota-usage = {
       url = "github:Limb/pi-quota-usage";
       flake = false;
