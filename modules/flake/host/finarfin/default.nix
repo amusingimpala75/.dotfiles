@@ -9,6 +9,8 @@
       ...
     }:
     {
+      imports = [ self.modules.darwin.dictionary ];
+
       environment.shells = [ pkgs.zsh ];
 
       programs.zsh.enable = true;

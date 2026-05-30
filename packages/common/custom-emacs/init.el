@@ -948,6 +948,10 @@
   :hook
   (after-init . elcord-mode))
 
+(use-package tooltip
+  :custom
+  (tooltip-hide-delay 60))
+
 ;; Direnv support
 (use-package envrc
   :ensure t
