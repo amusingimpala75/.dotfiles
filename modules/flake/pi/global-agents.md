@@ -17,7 +17,19 @@ perhaps even to the installation.
   possible before defaulting to a simple edit. For example, if you are adding a rust
   dependency you should use `cargo add` rather than manually editing, and when creating
   a rust project you should use `cargo init` instead of manually writing the `Cargo.toml`.
+
+# Advice
+
+These are a list of various things you should know about this setup to be able to operate
+to the best of your ability, instead of sitting around, wasting tokens trying to figure
+out why things are the way they are.
+
 - I often use Jujutsu for my version control, so if git isn't behaving like you thought
   it may just be that the repo is using Jujutsu. If placed in a Jujutsu workspace, you
   are not to attempt to edit the other workspaces but should remain in the workspace
   in which you were started
+- Every execution of the agent occurs in a sandboxed environment, which may be blocking
+  the access of some files or directories. If you find yourself denied access to a file,
+  please consider if the action can be done with minimal impedance a different way. If
+  it is still not possible to be done that way, please prompt the user about potentially
+  modifying the sandbox to be able to acess what is needed.

@@ -62,7 +62,7 @@
       ...
     }:
     let
-      inherit (pkgs.bleeding) rtk pi-coding-agent;
+      inherit (pkgs.bleeding) pi-coding-agent;
       build =
         update:
         inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox (update {
@@ -121,6 +121,12 @@
                 stateFiles = old.stateFiles ++ [
                   "/nix/var/nix/daemon-socket/socket"
                 ];
+                stateDirs = old.stateDirs ++ [
+                  "/etc/static/nix"
+                ];
+                extraEnv = old.extraEnv // {
+                  NIX_CONF_DIR = "/etc/static/nix";
+                };
               }
             ))
             (build (
@@ -179,7 +185,10 @@
       };
 
       home.sessionVariables.PI_AGENT_DIR = "$HOME/${config.programs.pi.configDir}/sessions";
-      home.packages = [ inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.ccusage ];
+      home.packages = [
+        inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.ccusage
+        pkgs.rtk
+      ];
     };
 
   flake-file.inputs = {
