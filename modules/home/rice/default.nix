@@ -95,8 +95,6 @@
         fixed_pitch = config.rice.font.family.fixed-pitch;
         variable_pitch = config.rice.font.family.variable-pitch;
 
-        active_border = config.rice.border.active;
-        inactive_border = config.rice.border.inactive;
         border_width = config.rice.border.width;
         corner_radius = config.rice.border.radius;
 

@@ -6,8 +6,8 @@
   :font-size (tonumber "@font_size@")
   :fixed-pitch "@fixed_pitch@"
   :variable-pitch "@variable_pitch@"
-  :active-border "@active_border@"
-  :inactive-border "@inactive_border@"
+  :active-border "eeeeee"
+  :inactive-border "222222"
   :border-width (tonumber "@border_width@")
   :corner-radius (tonumber "@corner_radius@")
   :inner-gap (tonumber "@inner_gap@")

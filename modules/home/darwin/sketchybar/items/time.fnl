@@ -1,4 +1,5 @@
 (local sbar (require "sketchybar"))
+(local defaults (require "defaults"))
 
 (fn set-popup [item on]
   (doto item
@@ -6,7 +7,8 @@
 
 (let [time-item (sbar.add "item" {:position "right"
                                   :update_freq 1
-                                  :popup {:align "center"}})
+                                  :popup {:align "center"}
+                                  :background {:padding_right defaults.bar-padding}})
       date-item (sbar.add "item" {:position (.. "popup." time-item.name)
                                   :update_freq 60})]
   (doto time-item

@@ -4,6 +4,7 @@
 (sbar.begin_config)
 
 (local background-color (.. "0xff" defaults.base01))
+(local border-width (/ defaults.border-width 4))
 
 (sbar.default {:updates "when_shown"
                :label {:font (.. defaults.fixed-pitch ":Bold:" defaults.font-size)
@@ -14,18 +15,18 @@
                                     :padding_left defaults.bar-padding
                                     :padding_right defaults.bar-padding
                                     :border_color (.. "0xff" defaults.active-border)
-                                    :border_width (/ defaults.border-width 2)}}
+                                    :border_width border-width}}
                :background {:color background-color
                             :corner_radius defaults.corner-radius
                             :height (- defaults.bar-height 8)}})
 
 (sbar.bar {:height defaults.bar-height
-           :color "0x00000000" ;; background-color
+           :color background-color
            :position (if defaults.bar-is-top "top" "bottom")
            :display "all"
            :corner_radius defaults.corner-radius
-           :margin defaults.outer-gap
-           :y_offset defaults.outer-gap})
+           :margin (* defaults.outer-gap 6)
+           :y_offset (/ defaults.outer-gap 2)})
 
 (fn mk-spacer [side]
   (sbar.add "item" {:position side :width 8 :background {:color "0x00000000"}}))
@@ -39,7 +40,7 @@
   (table.insert bracket-names _spacer.name)
   (sbar.add "bracket" bracket-names {:background {:height defaults.bar-height
                                                   :border_color (.. "0xCC" defaults.active-border)
-                                                  :border_width (/ defaults.border-width 2)}}))
+                                                  :border_width border-width}}))
 
 ;; Right Items
 (let [time (require "items.time")
@@ -47,7 +48,7 @@
       water (require "items.water")]
   (sbar.add "bracket" [time.name _spacer.name water.name] {:background {:height defaults.bar-height
                                                                         :border_color (.. "0xCC" defaults.active-border)
-                                                                        :border_width (/ defaults.border-width 2)}}))
+                                                                        :border_width border-width}}))
 
 (sbar.end_config)
 

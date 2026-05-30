@@ -37,7 +37,7 @@
 
       bar = {
         isTop = true;
-        height = -config.rice.gaps.outer;
+        height = 32;
         color = theme.base01;
       };
     };

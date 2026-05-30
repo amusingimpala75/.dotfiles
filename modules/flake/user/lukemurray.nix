@@ -35,6 +35,8 @@
 
       programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
 
+      my.sketchybar.enable = true;
+
       vcs = {
         email = "69653100+amusingimpala75@users.noreply.github.com";
         username = "amusingimpala75";

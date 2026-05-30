@@ -11,7 +11,9 @@
                               :label {:string "⬤"
                                       :font {:style "Regular"
                                              :size 24}
-                                      :color good}})]
+                                      :color good
+                                      }
+                              :background {:padding_left defaults.bar-padding}})]
   (fn should-drink []
     (> (os.difftime (os.time) start) duration))
 
