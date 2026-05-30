@@ -93,8 +93,10 @@
             "extensions.formautofill.addresses.enabled" = false;
             "extensions.formautofill.creditCards.enabled" = false;
             "extensions.pocket.enabled" = false;
+            "network.IDN_show_punycode" = true;
             "privacy.donottrackheader.enabled" = true;
             "privacy.query_stripping.enabled" = true;
+            "privacy.resistFingerprinting" = true;
             "privacy.trackingprotection.enabled" = true;
             "sidebar.verticalTabs" = true;
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
