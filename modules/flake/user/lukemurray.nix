@@ -74,17 +74,11 @@
 
       rices.cross.enable = true;
 
-      nixpkgs.overlays = [
-        self.overlays.lumafly-darwin
-      ];
-
       home.packages =
         with pkgs;
         [
           ntfy-sh
           play-audio
-          cogfly
-          lumafly
         ]
         ++ lib.optionals pkgs.stdenv.isDarwin (
           with pkgs;
@@ -93,27 +87,20 @@
             # which pulls up a warning from macOS
             # if `xcode-install --select` isn't run first
             gcc
-            # macOS Apps
-            raycast
             # macOS utilities
-            apfel-llm
             darwin.trash # TODO cross-platform
             brightness
-            jd-gui-duo
             unquarantine
             screen-saver
             run-ntfy-when-done
             # Casks
             brewCasks."8bitdo-ultimate-software-v2"
             brewCasks.gimp
-            brewCasks.imazing
             brewCasks.qlmarkdown
             brewCasks.steam
             # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
           ]
         );
-
-      nixpkgs.allowUnfreeList = [ "raycast" ];
 
       # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
       # Additionally, `defaults read' will list out current settings
