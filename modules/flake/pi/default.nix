@@ -150,8 +150,8 @@
           ];
         };
         settings = {
-          defaultProvider = "github-copilot";
-          defaultModel = "gpt-5.3-codex";
+          defaultProvider = "openai-codex";
+          defaultModel = "gpt-5.5";
           defaultThinkingLevel = "high";
           enableInstallTelemetry = false;
           extensions =
@@ -173,7 +173,6 @@
                 args: if builtins.isString args then fileExtension args else complexExtension args.name args.hash;
             in
             (map officialExtension [
-              "built-in-tool-renderer"
               "commands"
               "notify"
               "plan-mode/index"
