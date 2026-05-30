@@ -244,9 +244,9 @@
     ("S-<return>" . comment-indent-new-line)))
 
 ;; Configuring markdown mode
-(use-package markdown-mode
-  :ensure t
-  :mode ("README\\.md\\'" . gfm-mode))
+(use-package markdown-ts-mode
+  :mode
+  ("\\.md\\'" . markdown-ts-mode))
 
 (use-package eglot
   :defines
@@ -399,6 +399,9 @@
    '(swift-mode . ("sourcekit-lsp"))))
 
 (use-package eglot
+  :custom
+  (eglot-code-action-indicator nil)
+  (eglot-documentation-renderer 'markdown-ts-view-mode)
   :config
   ;; Use rass for ts/js
   (setcdr
@@ -660,6 +663,7 @@
      ( mark " "
        (name 16 -1) " "
        filename)))
+  (ibuffer-human-readable-size t)
   :preface
   (defun my/icon-for-buffer (buffer)
     (with-current-buffer buffer
@@ -908,7 +912,9 @@
   (after-init . apheleia-global-mode))
 
 (use-package help
-  :custom (help-window-select t))
+  :custom
+  (help-window-select t)
+  (view-lossage-auto-refresh t))
 
 (use-package devdocs
   :ensure t)
