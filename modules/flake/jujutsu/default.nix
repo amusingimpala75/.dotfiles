@@ -95,6 +95,7 @@
       programs.delta = {
         enable = true;
         enableJujutsuIntegration = true;
+        options.syntax-theme = "ansi";
       };
       home.packages = with pkgs; [
         jj-spr
