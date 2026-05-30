@@ -2,6 +2,7 @@
   # pkgs
   aspellWithDicts,
   emacs,
+  bleeding,
   ghostscript,
   mathjax-node-cli,
   mpv,
@@ -122,7 +123,7 @@ let
       jdt-language-server # jdtls for Java
       biome # these two for
       typescript-language-server # TypeScript
-      # zuban # these two
+      bleeding.zuban # these two
       ty # for Python
       rust-analyzer # for Rust
       zls # for Zig
