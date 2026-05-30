@@ -17,12 +17,11 @@
         ram-compression
         hollowknight-login
         amusingimpala75
-        self.wrappers.niri.install
+        nnn-stack
       ];
     boot.btrfs-rollback.device = "/dev/mapper/crypted";
     hardware.facter.reportPath = ./hardware.json;
     services.desktopManager.pantheon.enable = true;
-    wrappers.niri.enable = true;
     programs.zsh.enable = true;
     boot.loader.systemd-boot.enable = true;
     system.stateVersion = "26.05";

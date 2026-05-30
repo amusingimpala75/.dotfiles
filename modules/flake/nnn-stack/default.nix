@@ -4,33 +4,54 @@
   ...
 }:
 {
-  flake.wrappers = {
-    niri =
+  flake = {
+    modules.nixos.nnn-stack =
       {
         pkgs,
-        wlib,
         ...
       }:
       {
-        imports = [ wlib.wrapperModules.niri ];
-        extraSettings = [ { include = "~/.dotfiles/modules/flake/nnn-stack/config.kdl"; } ];
-        settings = {
-          spawn-at-startup = [
-            (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia-shell)
-          ];
+        programs.niri = {
+          enable = true;
+          package = self.packages.${pkgs.stdenv.hostPlatform.system}.niri;
         };
       };
 
-    noctalia-shell =
-      {
-        wlib,
-        ...
-      }:
-      {
-        imports = [ wlib.wrapperModules.noctalia-shell ];
+    wrappers = {
+      niri =
+        {
+          pkgs,
+          wlib,
+          ...
+        }:
+        {
+          imports = [ wlib.wrapperModules.niri ];
+          extraSettings = [
+            {
+              include = [
+                { optional = true; }
+                "~/.dotfiles/modules/flake/nnn-stack/config.kdl"
+              ];
+            }
+          ];
+          settings = {
+            spawn-at-startup = [
+              (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia-shell)
+            ];
+          };
+        };
 
-        outOfStoreConfig = "~/.dotfiles/modules/flake/nnn-stack/noctalia";
-      };
+      noctalia-shell =
+        {
+          wlib,
+          ...
+        }:
+        {
+          imports = [ wlib.wrapperModules.noctalia-shell ];
+
+          outOfStoreConfig = "~/.dotfiles/modules/flake/nnn-stack/noctalia";
+        };
+    };
   };
 
   perSystem =
