@@ -1,4 +1,5 @@
 {
+  lib,
   inputs,
   ...
 }:
@@ -18,6 +19,14 @@
       programs.jujutsu = {
         ediff = true;
         enable = true;
+        package =
+          (pkgs.writeShellScriptBin "jj" ''
+            export GIT_CONFIG_GLOBAL=${config.wrappers.custom-git.constructFiles.gitconfig.outPath}
+            exec ${lib.getExe pkgs.jujutsu} "$@"
+          '')
+          // {
+            inherit (pkgs.jujutsu) version;
+          };
         settings = {
           aliases = {
             features = [
@@ -103,8 +112,6 @@
       ];
       # for other's signatures
       programs.gpg.enable = true;
-      # since we rely on git colocation
-      programs.git.enable = true;
     };
 
   flake-file.inputs.jj-spr = {

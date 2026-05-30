@@ -93,7 +93,6 @@
             # which pulls up a warning from macOS
             # if `xcode-install --select` isn't run first
             gcc
-            git
             # macOS Apps
             raycast
             # macOS utilities

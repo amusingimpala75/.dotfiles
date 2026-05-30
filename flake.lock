@@ -1039,7 +1039,8 @@
         "nur": "nur",
         "pi-nixpkgs": "pi-nixpkgs",
         "pi-quota-usage": "pi-quota-usage",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "wrappers": "wrappers"
       }
     },
     "rust-analyzer-src": {
@@ -1160,6 +1161,26 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "wrappers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779886850,
+        "narHash": "sha256-Udj+9DzeLccvPKoW9Q8xFdqIhrw2jhYMoqxBv+8iWzo=",
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
+        "rev": "168fd6f514a9f8fa47df4fdcf9ecd61db10aec68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
         "type": "github"
       }
     }

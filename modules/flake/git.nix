@@ -1,53 +1,116 @@
 {
+  self,
+  ...
+}:
+{
   flake.modules.homeManager.git =
     {
       config,
       ...
     }:
     {
-      programs = {
-        git = {
+      imports = [
+        self.wrappers.gh.install
+        self.wrappers.custom-git.install
+      ];
+
+      wrappers = {
+        custom-git = {
           enable = true;
-          ignores = [
-            "*~"
-            "**/.DS_Store"
-            ".direnv"
-            ".envrc"
-          ];
-          settings = {
-            branch.sort = "-committerdate";
-            column.ui = "auto";
-            commit.verbose = true;
-            diff = {
-              algorithm = "histogram";
-              renames = true;
-            };
-            help.autocorrect = "prompt";
-            init.defaultBranch = "master";
-            push.autoSetupRemote = true;
-            tag.sort = "version:refname";
-            user = {
-              email = config.vcs.email;
-              name = config.vcs.username;
-            };
+          settings.user = {
+            email = config.vcs.email;
+            name = config.vcs.username;
           };
-          signing.format = "ssh";
         };
 
-        delta = {
-          enable = true;
-          enableGitIntegration = true;
-        };
-
-        git-credential-oauth.enable = true;
-      };
-
-      programs.gh = {
-        enable = true;
-        settings = {
-          git_protocol = "ssh";
-          telemetry = "disabled";
-        };
+        gh.enable = true;
       };
     };
+
+  flake.wrappers = {
+    custom-git =
+      {
+        lib,
+        pkgs,
+        wlib,
+        ...
+      }:
+      {
+        imports = [ wlib.wrapperModules.git ];
+        settings = {
+          branch.sort = "-comitterdate";
+          column.ui = "auto";
+          commit.verbose = true;
+          core.excludesFile = pkgs.writeText "global-gitignore" ''
+            *~
+            **/.DS_Store
+            .direnv
+            .envrc
+          '';
+          credential.helper = lib.getExe pkgs.git-credential-oauth;
+          credential."https://github.com".helper = "${lib.getExe pkgs.gh} auth git-credential";
+          delta.syntax-theme = "ansi";
+          diff = {
+            algorithm = "histogram";
+            renames = true;
+          };
+          gpg.format = "ssh";
+          gpg.ssh.program = lib.getExe' pkgs.openssh "ssh-keygen";
+          help.autocorrect = "prompt";
+          init.defaultBranch = "trunk";
+          interactive.diffFilter = "${lib.getExe pkgs.delta} --color-only";
+          pager = {
+            blame = lib.getExe pkgs.delta;
+            diff = lib.getExe pkgs.delta;
+            log = lib.getExe pkgs.delta;
+            show = lib.getExe pkgs.delta;
+          };
+          push.autoSetupRemote = true;
+          tag.sort = "version:refname";
+          # Get username and email from further wrapping
+        };
+      };
+
+    gh = {
+      imports = [ self.wrapperModules.gh-wrapper ];
+
+      settings = {
+        git_protocol = "ssh";
+        telemetry = "disabled";
+        version = "1";
+      };
+    };
+
+    gh-wrapper =
+      {
+        config,
+        lib,
+        pkgs,
+        wlib,
+        ...
+      }:
+      {
+        imports = [ wlib.modules.default ];
+
+        options.settings = lib.mkOption {
+          type = wlib.types.structuredValueWith {
+            nullable = false;
+            typeName = "JSON";
+          };
+          default = { };
+        };
+
+        config = {
+          package = pkgs.gh;
+          env.GH_CONFIG_DIR = dirOf config.constructFiles.generatedConfig.path;
+          constructFiles.generatedConfig = {
+            content = builtins.toJSON config.settings;
+            relPath = "config/config.yml";
+            builder = ''${lib.getExe' pkgs.remarshal "json2yaml"} "$1" "$2"'';
+          };
+        };
+      };
+  };
+
+  perSystem.wrappers.packages.gh-wrapper = true;
 }
