@@ -50,6 +50,7 @@
             nds = "nix develop -c $SHELL";
           };
           packages = with pkgs; [
+            self.packages.${pkgs.stdenv.hostPlatform.system}.nixpkgs-review
             nix-tree
             (writeShellApplication {
               name = "ns";
