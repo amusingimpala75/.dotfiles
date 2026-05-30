@@ -22,6 +22,6 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p "$out/share/sddm/themes/${theme}"
-    cp -r "themes/${theme}/." "$out/share/sddm-themes/${theme}"
+    cp -r "themes/${theme}/." "$out/share/sddm/themes/${theme}"
   '';
 }
