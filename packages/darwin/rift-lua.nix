@@ -2,11 +2,11 @@
   fetchFromGitHub,
   gcc,
   lib,
-  luaPackages,
+  lua55Packages,
   readline,
   ...
 }:
-luaPackages.buildLuaPackage {
+lua55Packages.buildLuaPackage {
   pname = "rift-lua";
   version = "0-unstable-2026-02-20";
 
@@ -22,12 +22,12 @@ luaPackages.buildLuaPackage {
   buildInputs = [ readline ];
 
   preBuild = ''
-    tar xvf ${luaPackages.lua.src}
+    tar xvf ${lua55Packages.lua.src}
   '';
 
   makeFlags = [
-    "INSTALL_DIR=$(out)/lib/lua/${luaPackages.lua.luaversion}"
-    "LUA_DIR=lua-${luaPackages.lua.version}"
+    "INSTALL_DIR=$(out)/lib/lua/${lua55Packages.lua.luaversion}"
+    "LUA_DIR=lua-${lua55Packages.lua.version}"
   ];
 
   meta = {

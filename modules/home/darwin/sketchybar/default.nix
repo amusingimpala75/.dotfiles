@@ -34,7 +34,7 @@ in
             name = "sketchybar-config";
             src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
           })
-          (rift-lua.override { luaPackages = ps; })
+          (rift-lua.override { lua55Packages = ps; })
         ];
       service.enable = true;
     };
