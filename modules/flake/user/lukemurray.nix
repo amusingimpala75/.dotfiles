@@ -44,8 +44,9 @@
 
       rices.cross.enable = true;
 
+      programs.discord.enable = true;
+
       home.packages = with pkgs; [
-        discord
         play-audio
         # Emacs implicitly calls this,
         # which pulls up a warning from macOS
