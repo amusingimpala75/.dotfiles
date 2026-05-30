@@ -45,8 +45,9 @@
       rices.cross.enable = true;
 
       home.packages = with pkgs; [
+        discord
         play-audio
-        # Emacs implicitly calls these,
+        # Emacs implicitly calls this,
         # which pulls up a warning from macOS
         # if `xcode-install --select` isn't run first
         gcc
@@ -62,6 +63,8 @@
         brewCasks.steam
         # brewCasks.tailscale-app # invalid archive here, doesn't launch if from nixpkgs
       ];
+
+      nixpkgs.allowUnfreeList = [ "discord" ];
 
       # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
       # Additionally, `defaults read' will list out current settings

@@ -940,6 +940,11 @@
   ( :map speedbar-file-key-map
     ("q" . speedbar)))
 
+(use-package elcord
+  :ensure t
+  :hook
+  (after-init . elcord-mode))
+
 ;; Direnv support
 (use-package envrc
   :ensure t
