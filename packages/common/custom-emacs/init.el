@@ -358,6 +358,9 @@
   :hook org-mode
   :custom (org-appear-autolinks t))
 
+(use-package org-present
+  :ensure t)
+
 (use-package rust-mode
   :ensure t
   :custom
