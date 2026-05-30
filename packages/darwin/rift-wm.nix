@@ -14,6 +14,10 @@ rustPlatform.buildRustPackage {
     hash = "sha256-3TKhoLJE+GtTfcnskH7yUBamCV+G5xXzy1n15mNWDzk=";
   };
 
+  cargoBuildFlags = [
+    "--bins"
+  ];
+
   cargoHash = "sha256-2KMEjAGWxMzcY9yE5v9SmAspA4tDJtNwS0GlEm4opKc=";
 
   doCheck = false;

@@ -24,6 +24,7 @@ let
       xdg.configFile."rift/config.toml".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/flake/scrolling/rift.toml";
 
+      home.packages = [ pkgs.rift-wm ];
     };
 in
 {
