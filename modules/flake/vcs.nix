@@ -18,4 +18,18 @@
         };
       };
     };
+
+  perSystem =
+    {
+      pkgs,
+      ...
+    }:
+    {
+      packages.global-gitignore = pkgs.writeText "global-gitignore" ''
+        *~
+        **/.DS_Store
+        .direnv
+        .envrc
+      '';
+    };
 }

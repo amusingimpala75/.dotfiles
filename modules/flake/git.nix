@@ -41,12 +41,7 @@
           branch.sort = "-comitterdate";
           column.ui = "auto";
           commit.verbose = true;
-          core.excludesFile = pkgs.writeText "global-gitignore" ''
-            *~
-            **/.DS_Store
-            .direnv
-            .envrc
-          '';
+          core.excludesFile = self.packages.${pkgs.stdenv.hostPlatform.system}.global-gitignore;
           credential.helper = lib.getExe pkgs.git-credential-oauth;
           credential."https://github.com".helper = "${lib.getExe pkgs.gh} auth git-credential";
           delta.syntax-theme = "ansi";
@@ -59,12 +54,16 @@
           help.autocorrect = "prompt";
           init.defaultBranch = "trunk";
           interactive.diffFilter = "${lib.getExe pkgs.delta} --color-only";
-          pager = {
-            blame = lib.getExe pkgs.delta;
-            diff = lib.getExe pkgs.delta;
-            log = lib.getExe pkgs.delta;
-            show = lib.getExe pkgs.delta;
-          };
+          pager =
+            let
+              path = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.delta;
+            in
+            {
+              blame = path;
+              diff = path;
+              log = path;
+              show = path;
+            };
           push.autoSetupRemote = true;
           tag.sort = "version:refname";
           # Get username and email from further wrapping
