@@ -86,8 +86,8 @@
             rtk.src
 
             pi-coding-agent.src
-            inputs.pi-quota-usage
             inputs.pi-cd
+            pi-minimal-footer
           ];
           stateDirs = [
             "$HOME/${config.programs.pi.configDir}"
@@ -100,6 +100,13 @@
             RTK_TELEMETRY_DISABLED = 1;
           };
         });
+      pi-minimal-footer = pkgs.runCommand "pi-minimal-footer" { } ''
+        mkdir -p $out
+        substitute ${inputs.pi-minimal-footer + "/index.ts"} $out/pi-minimal-footer.ts \
+            --replace-fail '{ buildSessionContext }' '{ buildSessionContext, getAgentDir }' \
+            --replace-fail 'homedir(), ".pi", "agent"' 'getAgentDir()'
+      '';
+
     in
     {
       imports = [ self.homeModules.pi ];
@@ -166,20 +173,20 @@
                 args: if builtins.isString args then fileExtension args else complexExtension args.name args.hash;
             in
             (map officialExtension [
+              "built-in-tool-renderer"
               "commands"
-              "confirm-destructive"
-              "dirty-repo-guard"
-              "doom-overlay/index"
+              "notify"
+              "plan-mode/index"
               "permission-gate"
               "protected-paths"
               "status-line"
-              "titlebar-spinner"
+              # "subagent"
               "tools"
             ])
             ++ [
-              "${inputs.pi-quota-usage}/extensions/index.ts"
               "${pkgs.rtk.src}/hooks/pi/rtk.ts"
               "${inputs.pi-cd}/extensions/cd.ts"
+              pi-minimal-footer
             ];
         };
       };
@@ -197,11 +204,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    pi-quota-usage = {
-      url = "github:Limb/pi-quota-usage";
-      flake = false;
-    };
-
     ccusage = {
       url = "github:ryoppippi/ccusage";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -210,6 +212,11 @@
 
     pi-cd = {
       url = "github:Acelogic/pi-cd";
+      flake = false;
+    };
+
+    pi-minimal-footer = {
+      url = "github:ogulcancelik/pi-extensions?dir=packages/pi-minimal-footer";
       flake = false;
     };
   };

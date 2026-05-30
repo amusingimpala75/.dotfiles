@@ -124,8 +124,8 @@
       url = "github:Acelogic/pi-cd";
       flake = false;
     };
-    pi-quota-usage = {
-      url = "github:Limb/pi-quota-usage";
+    pi-minimal-footer = {
+      url = "github:ogulcancelik/pi-extensions?dir=packages/pi-minimal-footer";
       flake = false;
     };
     sops-nix = {

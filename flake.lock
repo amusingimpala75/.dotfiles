@@ -853,19 +853,21 @@
         "type": "github"
       }
     },
-    "pi-quota-usage": {
+    "pi-minimal-footer": {
       "flake": false,
       "locked": {
-        "lastModified": 1775488288,
-        "narHash": "sha256-VKpe828Z5/SerOoL4h+6kWMKCBo/+NySv//RjUDyNR8=",
-        "owner": "Limb",
-        "repo": "pi-quota-usage",
-        "rev": "7be17c5a9dcc333a0414011af67d3f478b227f2f",
+        "dir": "packages/pi-minimal-footer",
+        "lastModified": 1780875302,
+        "narHash": "sha256-UNKpWR8lx8oZU0wocemCX89zcBUEhh8LPQkU6L1/tgc=",
+        "owner": "ogulcancelik",
+        "repo": "pi-extensions",
+        "rev": "cee9a04718285ee0722501010a20864a131a72c1",
         "type": "github"
       },
       "original": {
-        "owner": "Limb",
-        "repo": "pi-quota-usage",
+        "dir": "packages/pi-minimal-footer",
+        "owner": "ogulcancelik",
+        "repo": "pi-extensions",
         "type": "github"
       }
     },
@@ -896,7 +898,7 @@
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
         "pi-cd": "pi-cd",
-        "pi-quota-usage": "pi-quota-usage",
+        "pi-minimal-footer": "pi-minimal-footer",
         "sops-nix": "sops-nix",
         "wrappers": "wrappers"
       }
