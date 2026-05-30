@@ -24,8 +24,7 @@ let
     self.overlays.emacs-packages
 
     self.overlays.lib
-    self.overlays.fix-ntfy # Once v0.24.0 lands
-    self.overlays.fix-rtk # Once v0.42 lands
+    (final: prev: { inherit (prev.bleeding) ntfy-sh; })
     self.overlays.fix-powermanagement # Once we get around to updating the package
 
     self.overlays.common

@@ -63,6 +63,7 @@
     }:
     let
       inherit (inputs.pi-nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}) pi-coding-agent;
+      inherit (pkgs.bleeding) rtk;
       build =
         update:
         inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox (update {
