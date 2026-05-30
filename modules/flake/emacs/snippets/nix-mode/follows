@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: follows
+# key: follows
+# --
+inputs.${1:nixpkgs}.follows = "${2:$1}";$0
