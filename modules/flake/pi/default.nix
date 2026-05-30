@@ -142,9 +142,9 @@
             (build {
               outName = "pi-nix";
               allowNix = true;
-              allowedPackages = with pkgs; [
+              allowedPackages = [
                 config.wrappers.nix-init.wrapper
-                nurl
+                config.wrappers.nurl.wrapper
               ];
               roFiles = [
                 "${config.sops.templates."nix-gh-ro-access.conf".path}"
@@ -204,6 +204,9 @@
               "${inputs.pi-cd}/extensions/cd.ts"
               pi-minimal-footer
             ];
+          skills = [
+            ./skills
+          ];
         };
       };
 

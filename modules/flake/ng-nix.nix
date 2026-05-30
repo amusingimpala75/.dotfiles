@@ -15,6 +15,7 @@
       imports = [
         inputs.nix-index-database.homeModules.nix-index
         self.modules.homeManager.nix-init
+        self.modules.homeManager.nurl
       ];
 
       options.ng-nix = {
