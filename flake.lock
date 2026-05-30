@@ -837,6 +837,22 @@
         "type": "github"
       }
     },
+    "pi-cd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778495878,
+        "narHash": "sha256-L7RpPYCq/gHf8kcwLBMJET0q+sCSSnGIH3wAzeF3cVM=",
+        "owner": "Acelogic",
+        "repo": "pi-cd",
+        "rev": "6b5c3347d99a92092286640f7e7f3132cf358901",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Acelogic",
+        "repo": "pi-cd",
+        "type": "github"
+      }
+    },
     "pi-quota-usage": {
       "flake": false,
       "locked": {
@@ -879,6 +895,7 @@
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
+        "pi-cd": "pi-cd",
         "pi-quota-usage": "pi-quota-usage",
         "sops-nix": "sops-nix",
         "wrappers": "wrappers"

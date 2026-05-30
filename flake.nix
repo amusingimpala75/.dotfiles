@@ -120,6 +120,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pi-cd = {
+      url = "github:Acelogic/pi-cd";
+      flake = false;
+    };
     pi-quota-usage = {
       url = "github:Limb/pi-quota-usage";
       flake = false;

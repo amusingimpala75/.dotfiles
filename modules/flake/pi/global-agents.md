@@ -17,3 +17,7 @@ perhaps even to the installation.
   possible before defaulting to a simple edit. For example, if you are adding a rust
   dependency you should use `cargo add` rather than manually editing, and when creating
   a rust project you should use `cargo init` instead of manually writing the `Cargo.toml`.
+- I often use Jujutsu for my version control, so if git isn't behaving like you thought
+  it may just be that the repo is using Jujutsu. If placed in a Jujutsu workspace, you
+  are not to attempt to edit the other workspaces but should remain in the workspace
+  in which you were started

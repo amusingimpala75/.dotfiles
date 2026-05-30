@@ -87,6 +87,7 @@
 
             pi-coding-agent.src
             inputs.pi-quota-usage
+            inputs.pi-cd
           ];
           stateDirs = [
             "$HOME/${config.programs.pi.configDir}"
@@ -115,10 +116,21 @@
               old:
               old
               // {
-                outName = "${old.outName}-nix";
+                outName = "pi-nix";
                 allowedPackages = old.allowedPackages ++ [ config.nix.package ];
                 stateFiles = old.stateFiles ++ [
                   "/nix/var/nix/daemon-socket/socket"
+                ];
+              }
+            ))
+            (build (
+              old:
+              old
+              // {
+                outName = "pi-go";
+                allowedPackages = old.allowedPackages ++ [ pkgs.go ];
+                stateFiles = old.stateFiles ++ [
+                  "$HOME/go"
                 ];
               }
             ))
@@ -161,6 +173,7 @@
             ++ [
               "${inputs.pi-quota-usage}/extensions/index.ts"
               "${pkgs.rtk.src}/hooks/pi/rtk.ts"
+              "${inputs.pi-cd}/extensions/cd.ts"
             ];
         };
       };
@@ -184,6 +197,11 @@
       url = "github:ryoppippi/ccusage";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.agent-skills.follows = "";
+    };
+
+    pi-cd = {
+      url = "github:Acelogic/pi-cd";
+      flake = false;
     };
   };
 }
