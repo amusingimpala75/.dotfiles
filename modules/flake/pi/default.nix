@@ -64,42 +64,62 @@
     let
       inherit (pkgs.bleeding) pi-coding-agent;
       build =
-        update:
-        inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox (update {
+        {
+          outName ? null,
+          allowNix ? false,
+          allowedPackages ? [ ],
+          rwDirs ? [ ],
+          rwFiles ? [ ],
+          roDirs ? [ ],
+          roFiles ? [ ],
+          env ? { },
+        }:
+        inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
           pkg = pi-coding-agent;
           binName = "pi";
-          outName = "pi-wrapped";
-          allowedPackages = with pkgs; [
-            bash
-            coreutils
-            fd
-            findutils
-            git
-            gnugrep
-            gnused
-            jq
-            jujutsu
-            ripgrep
-            which
+          outName = if outName != null then outName else "pi-wrapped";
+          allowedPackages =
+            with pkgs;
+            [
+              bash
+              coreutils
+              fd
+              findutils
+              config.wrappers.custom-git.wrapper
+              gnugrep
+              gnused
+              jq
+              config.wrappers.jujutsu-weave.wrapper
+              ripgrep
+              which
 
-            rtk
-            rtk.src
-
+              rtk
+            ]
+            ++ allowedPackages;
+          rwDirs = [
+            "$HOME/${config.programs.pi.configDir}"
+            "$HOME/Library/Application Support/rtk"
+          ]
+          ++ rwDirs;
+          roDirs = [
+            pkgs.rtk.src
             pi-coding-agent.src
             inputs.pi-cd
             pi-minimal-footer
-          ];
-          stateDirs = [
-            "$HOME/${config.programs.pi.configDir}"
-            "$HOME/Library/Application Support/rtk"
-          ];
-          stateFiles = [ ];
-          extraEnv = {
+          ]
+          ++ roDirs;
+          inherit
+            rwFiles
+            roFiles
+            allowNix
+            ;
+          env = {
             inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR PI_OFFLINE;
             DEEPSEEK_API_KEY = "$(cat ${config.sops.secrets.deepseek_api_key.path})";
             RTK_TELEMETRY_DISABLED = 1;
-          };
-        });
+          }
+          // env;
+        };
       pi-minimal-footer = pkgs.runCommand "pi-minimal-footer" { } ''
         mkdir -p $out
         substitute ${inputs.pi-minimal-footer + "/index.ts"} $out/pi-minimal-footer.ts \
@@ -118,35 +138,32 @@
         package = pkgs.symlinkJoin {
           name = "pi-configs";
           paths = [
-            (build (old: old))
-            (build (
-              old:
-              old
-              // {
-                outName = "pi-nix";
-                allowedPackages = old.allowedPackages ++ [ config.nix.package ];
-                stateFiles = old.stateFiles ++ [
-                  "/nix/var/nix/daemon-socket/socket"
-                ];
-                stateDirs = old.stateDirs ++ [
-                  "/etc/static/nix"
-                ];
-                extraEnv = old.extraEnv // {
-                  NIX_CONF_DIR = "/etc/static/nix";
-                };
-              }
-            ))
-            (build (
-              old:
-              old
-              // {
-                outName = "pi-go";
-                allowedPackages = old.allowedPackages ++ [ pkgs.go ];
-                stateFiles = old.stateFiles ++ [
-                  "$HOME/go"
-                ];
-              }
-            ))
+            (build { })
+            (build {
+              outName = "pi-nix";
+              allowNix = true;
+              allowedPackages = with pkgs; [
+                config.wrappers.nix-init.wrapper
+                nurl
+              ];
+              roFiles = [
+                "${config.sops.templates."nix-gh-ro-access.conf".path}"
+              ];
+              roDirs = [
+                "$HOME/.config/nix"
+              ];
+              rwDirs = [
+                "$HOME/.cache/nix"
+                "$HOME/.local/share/nix"
+              ];
+            })
+            (build {
+              outName = "pi-go";
+              allowedPackages = [ pkgs.go ];
+              rwDirs = [
+                "$HOME/go/pkg"
+              ];
+            })
           ];
         };
         settings = {

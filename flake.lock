@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780609351,
-        "narHash": "sha256-BTIsR6fDhkU4pmNzhjiajPtlE7/HiHMMXLvjTR6ASIU=",
+        "lastModified": 1781800405,
+        "narHash": "sha256-XqLtMlXuBE8zQismJ30rMGU9/CEokEriIq7x5vKDt3E=",
         "owner": "archie-judd",
         "repo": "agent-sandbox.nix",
-        "rev": "5271837a5d864d516cd45c01e8279de54d81246f",
+        "rev": "b93705c34a4d3a8063965d9a36fc27183ed1f47d",
         "type": "github"
       },
       "original": {
