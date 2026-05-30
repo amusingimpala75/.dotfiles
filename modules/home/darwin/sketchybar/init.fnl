@@ -15,7 +15,8 @@
                                     :padding_left defaults.bar-padding
                                     :padding_right defaults.bar-padding
                                     :border_color (.. "0xff" defaults.active-border)
-                                    :border_width border-width}}
+                                    :border_width border-width
+                                    :corner_radius defaults.corner-radius}}
                :background {:color background-color
                             :corner_radius defaults.corner-radius
                             :height (- defaults.bar-height 8)}})

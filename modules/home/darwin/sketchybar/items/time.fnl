@@ -10,7 +10,9 @@
                                   :popup {:align "center"}
                                   :background {:padding_right defaults.bar-padding}})
       date-item (sbar.add "item" {:position (.. "popup." time-item.name)
-                                  :update_freq 60})]
+                                  :update_freq 60
+                                  :background {:padding_right defaults.bar-padding
+                                               :padding_left defaults.bar-padding}})]
   (doto time-item
     (: :subscribe "routine" (lambda []
                               (time-item:set {:label {:string (os.date "%H:%M:%S")}})))
