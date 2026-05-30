@@ -1,6 +1,5 @@
 {
   lib,
-  inputs,
   ...
 }:
 {
@@ -11,11 +10,6 @@
       ...
     }:
     {
-      nixpkgs.overlays = [
-        (final: _: {
-          jj-spr = inputs.jj-spr.packages.${final.stdenv.hostPlatform.system}.default;
-        })
-      ];
       programs.jujutsu = {
         ediff = true;
         enable = true;
@@ -29,13 +23,6 @@
           };
         settings = {
           aliases = {
-            features = [
-              "util"
-              "exec"
-              "--"
-              "sh"
-              "${./jj-features.sh}"
-            ];
             get-change-ids = [
               "log"
               "-G"
@@ -43,15 +30,9 @@
               "change_id.short() ++ '\n'"
               "-r"
             ];
-            spr = [
-              "util"
-              "exec"
-              "--"
-              "jj-spr"
-            ];
           };
           fsmonitor.backend = "watchman";
-          git.private-commits = "bookmarks(tip)";
+          git.private-commits = "visible_heads()";
           merge-tools.delta.diff-expected-exit-codes = [
             0
             1
@@ -72,12 +53,6 @@
             merge-conflict-exit-codes = [ 1 ];
             merge-tool-edits-conflict-markers = true;
             conflict-marker-style = "git";
-          };
-          revset-aliases = {
-            "feature_base(id)" = "::id & features()";
-            "feature_stack(id)" = "feature_base(id)::tip-";
-            "features()" = "roots(::tip & mutable())";
-            "guestimate_master()" = "parents(features()):: & tracked_remote_bookmarks()";
           };
           revsets = {
             bookmark-advance-to = "@-";
@@ -107,15 +82,9 @@
         options.syntax-theme = "ansi";
       };
       home.packages = with pkgs; [
-        jj-spr
         weave
       ];
       # for other's signatures
       programs.gpg.enable = true;
     };
-
-  flake-file.inputs.jj-spr = {
-    url = "github:amusingimpala75/jj-spr/fix-nix-jj-38";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
 }
