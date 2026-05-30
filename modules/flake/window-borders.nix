@@ -11,11 +11,19 @@ let
         enable = true;
         settings = {
           style = if config.rice.border.radius == 0 then "square" else "round";
-          active_color = "0xff${toString config.rice.border.active}";
-          inactive_color = "0xff${toString config.rice.border.inactive}";
           inherit (config.rice.border) width;
-          blacklist = "desktop_shell";
         };
+      };
+
+      programs.wallust.settings = {
+        templates.jankyborders = lib.mkIf pkgs.stdenv.isDarwin {
+          template = ./wallust/jankyborders.wallust;
+          target = "~/.config/jankyborders/wallust.json";
+        };
+        hooks.jankyborders = lib.mkIf pkgs.stdenv.isDarwin ''
+          borders active_color="$(jaq -r '.active' < ~/.config/jankyborders/wallust.json)" inactive_color="$(jaq -r '.inactive' < ~/.config/jankyborders/wallust.json)"
+        '';
+
       };
     };
 in

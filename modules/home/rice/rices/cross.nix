@@ -26,8 +26,6 @@
       };
 
       border = {
-        active = theme.base0E;
-        inactive = theme.base02;
         width = 8;
         radius = 12;
       };

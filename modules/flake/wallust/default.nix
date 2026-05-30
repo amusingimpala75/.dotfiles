@@ -31,7 +31,6 @@
             };
           };
           hooks = {
-            ghostty = ''osascript -e 'tell application "Ghostty" to perform action "reload_config" on focused terminal of selected tab of front window' > /dev/null'';
             darwin-system-appearance = lib.mkIf pkgs.stdenv.isDarwin ''
               if grep "dark" < "$HOME/.local/state/wallust/palette.txt" > /dev/null
               then
@@ -40,6 +39,7 @@
                 ${lib.getExe pkgs.set-appearance} "false"
               fi
             '';
+            ghostty = ''osascript -e 'tell application "Ghostty" to perform action "reload_config" on focused terminal of selected tab of front window' > /dev/null'';
             wallpaper =
               if pkgs.stdenv.isDarwin then
                 ''${lib.getExe pkgs.desktoppr} "$(cat ~/.local/state/wallust/wallpaper.txt)"''

@@ -30,14 +30,6 @@
     };
 
     border = {
-      active = lib.mkOption {
-        description = "color of active window border";
-        default = config.rice.theme.base0E;
-      };
-      inactive = lib.mkOption {
-        description = "color of inactive window border";
-        default = config.rice.theme.base02;
-      };
       width = lib.mkOption { description = "width of window border"; };
       radius = lib.mkOption {
         description = "corner radius";

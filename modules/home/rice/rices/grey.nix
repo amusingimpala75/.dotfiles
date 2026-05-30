@@ -38,8 +38,6 @@
       };
 
       border = {
-        active = theme.base0E;
-        inactive = theme.base02;
         width = 4; # pixels
       };
 

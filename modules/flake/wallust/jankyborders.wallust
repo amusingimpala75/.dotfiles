@@ -1,0 +1,4 @@
+{
+  "active": "0xff{{ color14 | strip }}",
+  "inactive": "0xff{{ background | strip }}"
+}
