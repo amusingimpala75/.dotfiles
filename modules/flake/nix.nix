@@ -9,6 +9,7 @@ let
     nix = {
       nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") inputs;
       registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
+      package = pkgs.nix;
       settings = {
         experimental-features = [
           "flakes"
