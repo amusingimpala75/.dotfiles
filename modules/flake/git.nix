@@ -6,6 +6,7 @@
   flake.modules.homeManager.git =
     {
       config,
+      pkgs,
       ...
     }:
     {
@@ -13,6 +14,8 @@
         self.wrappers.gh.install
         self.wrappers.custom-git.install
       ];
+
+      home.packages = [ pkgs.git-remote-setup ];
 
       wrappers = {
         custom-git = {

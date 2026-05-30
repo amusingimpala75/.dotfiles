@@ -1,0 +1,6 @@
+git@github.com:amusingimpala75/$repo.git
+git@codeberg.org:amusingimpala75/$repo
+git@tangled.org:amusingimpala75.tngl.sh/$repo.git
+git@git.sr.ht:~amusingimpala75/$repo.git
+git@gitlab.com:amusingimpala75/$repo.git
+$radicle_url
