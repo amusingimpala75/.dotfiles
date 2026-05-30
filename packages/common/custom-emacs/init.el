@@ -954,6 +954,22 @@
   :hook
   (after-init . elcord-mode))
 
+(use-package discourse
+  :ensure t
+  :custom
+  (discourse-default-url "https://discourse.nixos.org")
+  :config
+  (add-to-list 'auth-sources "~/.config/sops-nix/secrets/rendered/nixos_discourse.authinfo"))
+
+(use-package clatter
+  :ensure t
+  :custom
+  (clatter-networks
+   '(("libera" :server "irc.libera.chat" :port 6697 :tls t :nick "amusingimpala75")))
+  :config
+  (require 'gnutls)
+  (add-to-list 'auth-sources "~/.config/sops-nix/secrets/rendered/libera-chat.authinfo"))
+
 (use-package tooltip
   :custom
   (tooltip-hide-delay 60))
