@@ -1,7 +1,6 @@
 {
   # pkgs
   aspellWithDicts,
-  emacs,
   bleeding,
   ghostscript,
   mathjax-node-cli,
@@ -43,6 +42,7 @@
   ...
 }:
 let
+  emacs = bleeding.emacs31;
   pkg = emacsWithPackagesFromUsePackage {
     package = emacs;
     alwaysTangle = true;

@@ -78,6 +78,10 @@
   (display-time-default-load-average nil)
   (display-time-world-time-format "%A %d"))
 
+;; Show the batter in the mode line
+(use-package battery
+  :hook (after-init . display-battery-mode))
+
 (provide 'imacs-mode-line)
 
 ;;; imacs-mode-line.el ends here

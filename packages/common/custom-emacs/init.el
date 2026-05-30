@@ -97,6 +97,10 @@
    (lambda (_)
      (xterm-mouse-mode -1))))
 
+(use-package term/xterm
+  :custom
+  (xterm-update-cursor t))
+
 ;; Bring up a menu when in partially completed key chord
 (use-package which-key
   :custom (which-key-mode t))
@@ -357,7 +361,7 @@
 (use-package rust-mode
   :ensure t
   :custom
-  ;; Make rust use treesi
+  ;; Make rust use treesit
   (rust-mode-treesitter-derive t)
   ;; Do format when saving
   (rust-format-on-save t))
@@ -373,7 +377,7 @@
 (use-package c-ts-mode
   :custom
   ;; Offset of 4 is good
-  (c-ts-mode-indent-offset 4)
+  (c-ts-indent-offset 4)
   ;; Doxygen integration is great
   (c-ts-mode-enable-doxygen t))
 
@@ -409,6 +413,10 @@
   ;; Semantic fonitifcation is nice
   (elisp-fontify-semantically t))
 
+(use-package java-ts-mode
+  :custom
+  (java-ts-mode-enable-doxygen t))
+
 (use-package groovy-mode
   :ensure t)
 
@@ -419,7 +427,12 @@
   :functions electric-pair-default-inhibit
   :custom
   ;; Electric pair ootb [TODO] not in org?
-  (electric-pair-mode t))
+  (electric-pair-mode t)
+  (electric-pair-pairs
+   '((34 . 34) ;; ""
+     (91 . 93) ;; []
+     (40 . 41) ;; ()
+     ("\\/\\*" . " */"))))
 
 (use-package avy
   :ensure t
@@ -787,7 +800,8 @@
   :custom
   ;; Show parens
   (show-paren-delay 0)
-  (show-paren-context-when-offscreen 'overlay))
+  (show-paren-context-when-offscreen 'overlay)
+  (show-paren-not-in-comments-or-strings 'on-mismatch))
 
 (use-package mwheel
   :custom
@@ -863,12 +877,16 @@
     ("." . repeat))
   :preface
   (defun my/update-cursor-type ()
-    (setq cursor-type (if god-local-mode 'box 'bar)))
+    (setq cursor-type
+          (if (and (boundp god-local-mode) god-local-mode)
+              'box
+            'bar)))
   :hook
   (post-command . my/update-cursor-type)
   (after-init . god-mode-all)
   :config
-  (add-to-list 'god-exempt-major-modes 'vterm-mode))
+  (dolist (mode '(vterm-mode speedbar-mode))
+    (add-to-list 'god-exempt-major-modes mode)))
 
 (use-package hl-line
   :custom
@@ -896,6 +914,31 @@
   :ensure t
   :hook
   (after-init . buffer-terminator-mode))
+
+;; Missing in the Elpa build smh
+;; [TODO] enable once fixed (can't find symbol) currently
+;;(use-package xref
+;;  :hook
+;;  (after-init . global-xref-mouse-mode))
+
+(use-package system-taskbar
+  :hook
+  (after-init . system-taskbar-mode))
+
+(use-package tty-tip-mode
+  :hook
+  (after-init . tty-tip-mode))
+
+;; [TODO] will I replace dired-sidebar with this?
+(use-package speedbar
+  :custom
+  (speedbar-prefer-window t)
+  (speedbar-show-unknown-files t)
+  (speedbar-window-default-width 40)
+  (speedbar-window-max-width 40)
+  :bind
+  ( :map speedbar-file-key-map
+    ("q" . speedbar)))
 
 ;; Direnv support
 (use-package envrc

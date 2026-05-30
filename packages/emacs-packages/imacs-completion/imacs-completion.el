@@ -143,10 +143,6 @@
 (use-package embark-consult
   :ensure t)
 
-;; Writable grep: write changes back into fs
-(use-package wgrep
-  :ensure t)
-
 (use-package pcomplete
   :functions pcomplete-completions-at-point)
 

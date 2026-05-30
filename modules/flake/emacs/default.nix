@@ -18,7 +18,6 @@
           font-family-variable = rice.font.family.variable-pitch;
           inherit (rice) opacity;
           inherit (rice.emacs) theme-package theme-file-name theme-name;
-          emacs = pkgs.emacs-git;
         };
 
         client.enable = true;
