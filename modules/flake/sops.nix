@@ -29,6 +29,7 @@
           sopsFile = ../../secrets/emacs-radio-channels.el;
           path = "%r/emacs-radio-channels.el";
         };
+        secrets."deepseek_api_key" = { };
       };
     };
 
