@@ -25,6 +25,8 @@ let
 
     self.overlays.lib
     self.overlays.fix-ntfy
+    # Or rather update
+    self.overlays.fix-rtk
     self.overlays.common
     inputs.nur.overlays.default
   ];

@@ -20,7 +20,7 @@
 
   inputs = {
     agent-sandbox = {
-      url = "github:archie-judd/agent-sandbox.nix";
+      url = "github:archie-judd/agent-sandbox.nix/fix/macos-link-state-dirs-and-files";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     angrr = {

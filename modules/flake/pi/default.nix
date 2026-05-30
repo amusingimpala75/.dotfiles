@@ -82,16 +82,22 @@
             ripgrep
             which
 
+            rtk
+            rtk.src
+
             pi-coding-agent.src
             inputs.pi-quota-usage
           ];
-          stateDirs = [ "$HOME/${config.programs.pi.configDir}" ];
+          stateDirs = [
+            "$HOME/${config.programs.pi.configDir}"
+            "$HOME/Library/Application Support/rtk"
+          ];
           stateFiles = [ ];
           extraEnv = {
             inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR PI_OFFLINE;
+            RTK_TELEMETRY_DISABLED = 1;
           };
         });
-
     in
     {
       imports = [ self.homeModules.pi ];
@@ -153,6 +159,7 @@
             ])
             ++ [
               "${inputs.pi-quota-usage}/extensions/index.ts"
+              "${pkgs.rtk.src}/hooks/pi/rtk.ts"
             ];
         };
       };
@@ -160,7 +167,7 @@
 
   flake-file.inputs = {
     agent-sandbox = {
-      url = "github:archie-judd/agent-sandbox.nix";
+      url = "github:archie-judd/agent-sandbox.nix/fix/macos-link-state-dirs-and-files";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
