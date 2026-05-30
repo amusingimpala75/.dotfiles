@@ -58,7 +58,7 @@ rec {
                 _: pkg: {
                   type = "app";
                   program = lib.getExe pkg;
-                  meta.description = pkg.meta.description;
+                  meta.description = pkg.meta.description or "";
                 }
               );
           };

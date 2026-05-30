@@ -1,5 +1,4 @@
 {
-  inputs,
   self,
   ...
 }:
@@ -11,9 +10,8 @@
       [
         broadcom-wifi
         iwd
-        inputs.disko.nixosModules.disko
         feanor-disko
-        inputs.impermanence.nixosModule
+        impermanence
         # [TODO] add persisting some folders with impermanence
         btrfs-rollback
         ram-compression

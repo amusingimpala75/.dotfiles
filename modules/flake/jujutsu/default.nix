@@ -105,4 +105,9 @@
       # since we rely on git colocation
       programs.git.enable = true;
     };
+
+  flake-file.inputs.jj-spr = {
+    url = "github:amusingimpala75/jj-spr/fix-nix-jj-38";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 }

@@ -15,4 +15,9 @@
       wayland.enable = true;
     };
   };
+
+  flake-file.inputs.qylock = {
+    url = "github:LordHerdier/qylock-nix";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 }

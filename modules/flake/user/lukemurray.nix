@@ -21,6 +21,7 @@
         firefox
         ghostty
         git
+        hister
         jujutsu
         minecraft
         ng-cli
@@ -32,8 +33,6 @@
         wallust
         window-borders
         zsh
-
-        inputs.hister.homeModules.default
       ];
 
       programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
@@ -42,8 +41,6 @@
         email = "69653100+amusingimpala75@users.noreply.github.com";
         username = "amusingimpala75";
       };
-
-      services.hister.enable = true;
 
       # programs.infat = {
       #   enable = true;

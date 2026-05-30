@@ -48,4 +48,9 @@
     services.breaktime.enable = true;
     # settings TODO once proper theming support is actually working
   };
+
+  flake-file.inputs.breaktime = {
+    url = "github:amusingimpala75/breaktime";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 }

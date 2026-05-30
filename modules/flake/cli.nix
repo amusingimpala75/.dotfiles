@@ -24,4 +24,9 @@
         up
       ];
     };
+
+  flake-file.inputs.bible = {
+    url = "github:amusingimpala75/bible.sh";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 }

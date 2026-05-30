@@ -302,6 +302,21 @@
         "type": "github"
       }
     },
+    "flake-file": {
+      "locked": {
+        "lastModified": 1779051720,
+        "narHash": "sha256-+jbXnODsR19pFKB0x/6kHhFgW6yV6N+CGClFr45eDU8=",
+        "owner": "denful",
+        "repo": "flake-file",
+        "rev": "c58eb27d9434e5be0c8693f1eb18d47035bc21ba",
+        "type": "github"
+      },
+      "original": {
+        "owner": "denful",
+        "repo": "flake-file",
+        "type": "github"
+      }
+    },
     "flake-parts": {
       "inputs": {
         "nixpkgs-lib": [
@@ -993,6 +1008,7 @@
         "determinate-nix-cli": "determinate-nix-cli",
         "disko": "disko",
         "emacs-overlay": "emacs-overlay",
+        "flake-file": "flake-file",
         "flake-parts": "flake-parts_6",
         "hister": "hister",
         "home-manager": "home-manager",

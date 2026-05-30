@@ -51,4 +51,12 @@ in
       };
     };
   };
+
+  flake-file.inputs.angrr = {
+    url = "github:linyinfeng/angrr";
+    inputs = {
+      nixpkgs.follows = "nixpkgs";
+      nix-darwin.follows = "nix-darwin";
+    };
+  };
 }

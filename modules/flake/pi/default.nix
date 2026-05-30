@@ -157,4 +157,16 @@
         };
       };
     };
+
+  flake-file.inputs = {
+    agent-sandbox = {
+      url = "github:archie-judd/agent-sandbox.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    pi-quota-usage = {
+      url = "github:Limb/pi-quota-usage";
+      flake = false;
+    };
+  };
 }

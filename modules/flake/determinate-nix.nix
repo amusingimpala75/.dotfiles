@@ -22,4 +22,6 @@ in
   flake.modules.darwin.determinate-nix = withSubstituters true;
   flake.modules.homeManager.determinate-nix = withSubstituters false;
   flake.modules.nixos.determinate-nix = withSubstituters true;
+
+  flake-file.inputs.determinate-nix-cli.url = "github:DeterminateSystems/nix-src";
 }

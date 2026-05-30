@@ -1,5 +1,11 @@
 {
+  self,
+  ...
+}:
+{
   flake.modules.nixos.feanor-disko = {
+    imports = [ self.modules.nixos.disko ];
+
     disko.devices.disk.main = {
       type = "disk";
       device = "/dev/disk/by-id/ata-APPLE_SSD_SD0128F_141644410441";

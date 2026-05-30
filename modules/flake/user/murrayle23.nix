@@ -56,4 +56,10 @@
       home.stateVersion = "24.05";
     }
   );
+
+  flake-file.inputs.automader = {
+    url = "github:amusingimpala75/automata_grader";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
 }
