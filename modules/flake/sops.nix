@@ -17,7 +17,7 @@
           if pkgs.stdenv.isDarwin then
             "${config.home.homeDirectory}/Library/Application Support/sops/age/keys.txt"
           else
-            "${config.home.homeDirectory}/.config/sops/age/keyis.txt";
+            "${config.home.homeDirectory}/.config/sops/age/keys.txt";
         defaultSopsFile = ../../secrets/secrets.yaml;
         secrets."emacs-feeds.el" = {
           format = "binary";
