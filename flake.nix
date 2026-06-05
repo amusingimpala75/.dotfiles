@@ -61,7 +61,6 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    determinate-nix-cli.url = "github:DeterminateSystems/nix-src";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
