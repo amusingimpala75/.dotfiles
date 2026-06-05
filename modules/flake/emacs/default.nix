@@ -18,14 +18,7 @@
           font-family-variable = rice.font.family.variable-pitch;
           inherit (rice) opacity;
           inherit (rice.emacs) theme-package theme-file-name theme-name;
-          emacs = pkgs.emacs-git.overrideAttrs (o: {
-            patches = (o.patches or [ ]) ++ [
-              (pkgs.fetchurl {
-                url = "https://lists.gnu.org/archive/html/bug-gnu-emacs/2026-04/binO4nt7jVHnS.bin";
-                hash = "sha256-Uu+RoBjrMnnE8INd2DGGZiP7r+o8zoyztIFfxYo1KyA=";
-              })
-            ];
-          });
+          emacs = pkgs.emacs-git;
         };
 
         client.enable = true;
