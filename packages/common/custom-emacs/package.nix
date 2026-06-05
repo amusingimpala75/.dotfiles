@@ -23,7 +23,7 @@
   ty,
   typescript-language-server,
   zls,
-  zuban,
+  # zuban,
 
   # builders
   emacsWithPackagesFromUsePackage,
@@ -122,7 +122,7 @@ let
       jdt-language-server # jdtls for Java
       biome # these two for
       typescript-language-server # TypeScript
-      zuban # these two
+      # zuban # these two
       ty # for Python
       rust-analyzer # for Rust
       zls # for Zig
