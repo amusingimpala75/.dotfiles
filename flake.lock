@@ -978,6 +978,22 @@
         "type": "github"
       }
     },
+    "pi-nixpkgs": {
+      "locked": {
+        "lastModified": 1780543024,
+        "narHash": "sha256-+5v5DiMqFAnU7s6ZDkI/mMVVuVdZ8ii7ieky0h7smFM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "726fd9f7993e5a6fc427f0441baa2dd63e84b615",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "726fd9f7993e5a6fc427f0441baa2dd63e84b615",
+        "type": "github"
+      }
+    },
     "pi-quota-usage": {
       "flake": false,
       "locked": {
@@ -1021,6 +1037,7 @@
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "nixpkgs-stable-nixos": "nixpkgs-stable-nixos",
         "nur": "nur",
+        "pi-nixpkgs": "pi-nixpkgs",
         "pi-quota-usage": "pi-quota-usage",
         "sops-nix": "sops-nix"
       }

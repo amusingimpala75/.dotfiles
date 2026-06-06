@@ -62,7 +62,7 @@
       ...
     }:
     let
-      inherit (pkgs.bleeding) pi-coding-agent;
+      inherit (inputs.pi-nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}) pi-coding-agent;
       build =
         update:
         inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox (update {
@@ -169,6 +169,9 @@
     };
 
   flake-file.inputs = {
+    # [TODO] remove once upstream is fixed
+    pi-nixpkgs.url = "github:nixos/nixpkgs?rev=726fd9f7993e5a6fc427f0441baa2dd63e84b615";
+
     agent-sandbox = {
       url = "github:archie-judd/agent-sandbox.nix";
       inputs.nixpkgs.follows = "nixpkgs";
