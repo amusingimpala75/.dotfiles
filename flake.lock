@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781120762,
-        "narHash": "sha256-mP0105158Ko4yzfrOvYwLrHntFTbj3fYLkMcFrZeiTY=",
+        "lastModified": 1781117924,
+        "narHash": "sha256-smSgwBVNUO8yiHi/fISCEjvAaLZ2GY2JYuJT1HDvOec=",
         "owner": "amusingimpala75",
         "repo": "agent-sandbox.nix",
-        "rev": "b5496f16c4af1e1d9cc69f46a827838730986d09",
+        "rev": "7eb79d5516ee7de5183b55586c6add74ac3f6347",
         "type": "github"
       },
       "original": {
