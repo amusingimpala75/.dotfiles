@@ -20,7 +20,7 @@
 
   inputs = {
     agent-sandbox = {
-      url = "github:amusingimpala75/agent-sandbox.nix/include-devshell";
+      url = "github:archie-judd/agent-sandbox.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     angrr = {

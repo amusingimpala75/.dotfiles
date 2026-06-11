@@ -7,16 +7,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1781117924,
-        "narHash": "sha256-smSgwBVNUO8yiHi/fISCEjvAaLZ2GY2JYuJT1HDvOec=",
-        "owner": "amusingimpala75",
+        "lastModified": 1780609351,
+        "narHash": "sha256-BTIsR6fDhkU4pmNzhjiajPtlE7/HiHMMXLvjTR6ASIU=",
+        "owner": "archie-judd",
         "repo": "agent-sandbox.nix",
-        "rev": "7eb79d5516ee7de5183b55586c6add74ac3f6347",
+        "rev": "5271837a5d864d516cd45c01e8279de54d81246f",
         "type": "github"
       },
       "original": {
-        "owner": "amusingimpala75",
-        "ref": "include-devshell",
+        "owner": "archie-judd",
         "repo": "agent-sandbox.nix",
         "type": "github"
       }
