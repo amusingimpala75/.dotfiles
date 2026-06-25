@@ -5,6 +5,6 @@
       ...
     }:
     {
-      home.packages = [ pkgs.stable.prismlauncher ];
+      home.packages = [ pkgs.prismlauncher ];
     };
 }

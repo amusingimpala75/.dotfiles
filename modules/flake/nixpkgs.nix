@@ -10,15 +10,9 @@ let
       inherit (final.stdenv.hostPlatform) system;
     };
   };
-  stable = final: _: {
-    stable = import (
-      if final.stdenv.isDarwin then inputs.nixpkgs-stable-darwin else inputs.nixpkgs-stable-nixos
-    ) { inherit (final.stdenv.hostPlatform) system; };
-  };
 
   overlays = [
     bleeding
-    stable
 
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages

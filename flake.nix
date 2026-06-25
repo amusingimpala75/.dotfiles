@@ -69,7 +69,7 @@
       url = "github:nix-community/emacs-overlay";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        nixpkgs-stable.follows = "nixpkgs-stable-nixos";
+        nixpkgs-stable.follows = "";
       };
     };
     flake-file.url = "github:denful/flake-file";
@@ -110,8 +110,6 @@
     };
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-bleeding.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
-    nixpkgs-stable-nixos.url = "github:NixOS/nixpkgs/nixos-26.05";
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";

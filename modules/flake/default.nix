@@ -26,8 +26,6 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-bleeding.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs-stable-darwin.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
-    nixpkgs-stable-nixos.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -40,7 +38,7 @@
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs-stable-nixos";
+      inputs.nixpkgs-stable.follows = "";
     };
     nixos-anywhere = {
       url = "github:nix-community/nixos-anywhere";
