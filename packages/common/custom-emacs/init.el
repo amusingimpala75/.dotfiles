@@ -309,27 +309,6 @@
    '((python . t)
      (shell . t))))
 
-(use-package ox-latex
-  :after s
-  :custom
-  (org-latex-pdf-process (list (s-replace-regexp "^latexmk" (executable-find "latexmk") (car org-latex-pdf-process)))))
-
-;; Configure Karthik's org latex preview
-(use-package org-latex-preview
-  :defer t
-  :after org
-  ;; Enable in org mode by default
-  :hook org-mode
-  :custom
-  ;; Enable live update
-  (org-latex-preview-mode-display-live t)
-  ;; Low delay
-  (org-latex-preview-mode-update-delay 0.1)
-  :config
-  ;; Fix latex on emacs path but not zsh path
-  (setcdr (assoc "pdflatex" org-latex-preview-compiler-command-map)
-          (executable-find "latex")))
-
 ;; Nicer looking org mode
 (use-package org-modern
   :ensure t
@@ -349,9 +328,7 @@
   :ensure t)
 
 (use-package engrave-faces
-  :ensure t
-  ;; Fontify using the engrave-faces backend
-  :custom (org-latex-src-block-backend 'engraved))
+  :ensure t)
 
 (use-package org-appear
   :ensure t
@@ -360,6 +337,12 @@
 
 (use-package org-present
   :ensure t)
+
+(use-package ox-typst
+  :ensure t
+  :custom
+  ;; Typst should be set up per-project
+  (org-typst-process "nix develop -c typst c \"%s\""))
 
 (use-package rust-mode
   :ensure t

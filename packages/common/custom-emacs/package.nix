@@ -2,12 +2,8 @@
   # pkgs
   aspellWithDicts,
   bleeding,
-  ghostscript,
-  mathjax-node-cli,
   mpv,
   pandoc,
-  stable ? null,
-  texlive,
   unzip,
   vimPlugins,
   zip,
@@ -78,25 +74,6 @@ let
         packageRequires = [ (theme-package epkgs) ];
       })
     ];
-    override = epkgs: {
-      org = epkgs.org-karthik;
-    };
-  };
-
-  texlive-base = if stable != null then stable.texlive else texlive;
-
-  texlive-package = texlive-base.combine {
-    inherit (texlive-base)
-      scheme-medium
-      mylatexformat
-      preview # for latex preview
-      capt-of # for tikz automata
-      fvextra
-      upquote
-      tcolorbox
-      wrapfig
-      pdfcol # for latex precomp
-      ;
   };
 
   deps = symlinkJoin {
@@ -104,10 +81,6 @@ let
     paths = [
       # Dictionary support
       (aspellWithDicts (dicts: [ dicts.en ]))
-      # Org mode stuff
-      ghostscript
-      mathjax-node-cli
-      texlive-package
       # Mpv: no youtube b/c compiles from source then
       (mpv.override {
         youtubeSupport = false;
