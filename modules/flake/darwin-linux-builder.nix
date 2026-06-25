@@ -13,14 +13,6 @@
     #   enable = true;
     #   ephemeral = true;
     # };
-    # [TODO] Remove overlay once qemu in nixpkgs is fixed
-    nixpkgs.overlays = [
-      (final: prev: {
-        qemu = prev.qemu.overrideAttrs (old: {
-          buildInputs = old.buildInputs ++ [ final.apple-sdk_15 ];
-        });
-      })
-    ];
   };
 
   flake-file.inputs.nix-rosetta-builder = {

@@ -217,9 +217,9 @@
       };
 
       home.sessionVariables.PI_AGENT_DIR = "$HOME/${config.programs.pi.configDir}/sessions";
-      home.packages = [
-        inputs.ccusage.packages.${pkgs.stdenv.hostPlatform.system}.ccusage
-        pkgs.rtk
+      home.packages = with pkgs; [
+        ccusage
+        rtk
       ];
     };
 
@@ -227,12 +227,6 @@
     agent-sandbox = {
       url = "github:archie-judd/agent-sandbox.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ccusage = {
-      url = "github:ryoppippi/ccusage";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.agent-skills.follows = "";
     };
 
     pi-cd = {

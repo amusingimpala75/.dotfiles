@@ -18,15 +18,6 @@ let
     self.overlays.emacs-packages
 
     self.overlays.lib
-    # Here we leave the packages that are broken in unstable but working in bleeding
-    (_: prev: {
-      inherit (prev.bleeding) ntfy-sh pi-coding-agent zuban;
-      darwin = prev.darwin.overrideScope (
-        _: dprev: {
-          inherit (prev.bleeding.darwin) PowerManagement;
-        }
-      );
-    })
 
     self.overlays.common
   ];

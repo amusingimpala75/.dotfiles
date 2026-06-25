@@ -12,7 +12,12 @@ let
   common-angrr = {
     services.angrr = {
       enable = true;
-      settings = {
+      settings.profile-policies.all = {
+        profile-paths = [
+          "/nix/var/nix/profiles/system"
+          "/nix/var/nix/profiles/per-user/root/profile"
+          "~/.local/state/nix/profiles/profile"
+        ];
         keep-since = "7d";
         keep-latest-n = 10;
       };
