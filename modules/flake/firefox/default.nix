@@ -45,6 +45,20 @@
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = [ "@np" ];
               };
+              MyNixOS = {
+                urls = [
+                  {
+                    template = "https://mynixos.com/search";
+                    params = [
+                      {
+                        name = "q";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+                definedAliases = [ "@mn" ];
+              };
               Scryfall = {
                 urls = [
                   {
