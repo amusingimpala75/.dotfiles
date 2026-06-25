@@ -9,7 +9,12 @@
       ...
     }:
     {
-      imports = [ self.modules.darwin.dictionary ];
+      imports = with self.modules.darwin; [
+        brew
+        dictionary
+        lukemurray
+        user-applications
+      ];
 
       environment.shells = [ pkgs.zsh ];
 

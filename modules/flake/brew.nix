@@ -1,19 +1,15 @@
 {
+  inputs,
   self,
   ...
 }:
 {
-  flake.modules.homeManager.brew =
-    {
-      inputs,
-      ...
-    }:
-    {
-      nixpkgs.overlays = [
-        inputs.brew-nix.overlays.default
-        self.overlays.brew-hashes
-      ];
-    };
+  flake.modules.darwin.brew = {
+    nixpkgs.overlays = [
+      inputs.brew-nix.overlays.default
+      self.overlays.brew-hashes
+    ];
+  };
 
   flake-file.inputs = {
     brew-api = {
