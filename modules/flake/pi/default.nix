@@ -62,7 +62,6 @@
       ...
     }:
     let
-      inherit (pkgs.bleeding) pi-coding-agent;
       build =
         {
           outName ? null,
@@ -75,7 +74,7 @@
           env ? { },
         }:
         inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
-          pkg = pi-coding-agent;
+          pkg = pkgs.pi-coding-agent;
           binName = "pi";
           outName = if outName != null then outName else "pi-wrapped";
           allowedPackages =
@@ -103,7 +102,7 @@
           ++ rwDirs;
           roDirs = [
             pkgs.rtk.src
-            pi-coding-agent.src
+            pkgs.pi-coding-agent.src
             inputs.pi-cd
             pi-minimal-footer
             pi-telegram
@@ -179,7 +178,7 @@
           enableInstallTelemetry = false;
           extensions =
             let
-              pi-extensions = "${pi-coding-agent.src}/packages/coding-agent/examples/extensions";
+              pi-extensions = "${pkgs.pi-coding-agent.src}/packages/coding-agent/examples/extensions";
               fileExtension = name: "${pi-extensions}/${name}.ts";
               complexExtension =
                 name: hash:
