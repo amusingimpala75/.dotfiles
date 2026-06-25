@@ -137,7 +137,6 @@ let
                   "System Monitor"
                   "OriAndTheWillOfTheWisps"
                   "Dwarf Fortress"
-                  "Brogue"
                   "My Shell"
                 ];
           };

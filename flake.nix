@@ -74,10 +74,6 @@
     };
     flake-file.url = "github:denful/flake-file";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    hister = {
-      url = "github:asciimoo/hister";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

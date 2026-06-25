@@ -12,7 +12,6 @@
     }:
     {
       imports = with self.modules.homeManager; [
-        brogue
         direnv
         cli
         emacs

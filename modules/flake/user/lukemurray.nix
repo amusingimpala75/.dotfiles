@@ -36,14 +36,12 @@
   flake.homeConfigurations = self.lib.mkHome "aarch64-darwin" "lukemurray" {
     imports = with self.modules.homeManager; [
       breaktime
-      brogue
       cli
       direnv
       emacs
       firefox
       ghostty
       git
-      hister
       jujutsu
       minecraft
       ng-cli

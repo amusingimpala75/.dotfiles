@@ -45,21 +45,6 @@
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
                 definedAliases = [ "@np" ];
               };
-              Hister = {
-                urls = [
-                  {
-                    template = "http://localhost:4433";
-                    params = [
-                      {
-                        name = "q";
-                        value = "{searchTerms}";
-                      }
-                    ];
-                  }
-                ];
-                icon = "${config.services.hister.package.frontend.src}/webui/app/static/logo.png";
-                definedAliases = [ "@h" ];
-              };
               Scryfall = {
                 urls = [
                   {
