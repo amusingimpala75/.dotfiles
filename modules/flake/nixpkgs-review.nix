@@ -1,19 +1,27 @@
 {
-  perSystem =
+  self,
+  ...
+}:
+{
+  flake.wrappers.nixpkgs-review =
     {
       pkgs,
-      self',
+      wlib,
       ...
     }:
     {
-      packages.nixpkgs-review = pkgs.symlinkJoin {
-        name = "nixpkgs-review";
-        paths = with pkgs; [
-          glow
-          nixpkgs-review
-          nom
-          self'.packages.delta
-        ];
+      imports = [ wlib.modules.default ];
+      config = {
+        package = pkgs.symlinkJoin {
+          name = pkgs.nixpkgs-review.name;
+          paths = with pkgs; [
+            glow
+            nixpkgs-review
+            nom
+            self.packages.${pkgs.stdenv.hostPlatform.system}.delta
+          ];
+        };
+        flags."--systems" = "all";
       };
     };
 }

@@ -12,6 +12,7 @@
       imports = with self.modules.darwin; [
         brew
         dictionary
+        linux-builder
         lukemurray
         user-applications
       ];
