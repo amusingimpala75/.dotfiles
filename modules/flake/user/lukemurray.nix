@@ -66,9 +66,7 @@
 
     rices.cross.enable = true;
 
-    programs.discord.enable = true;
-
-    nixpkgs.allowUnfreeList = [ "discord" ];
+    programs.vesktop.enable = true;
 
     # See both mynixos.com options for nix-darwin and home-manager, as well as macos-defaults.com
     # Additionally, `defaults read' will list out current settings
