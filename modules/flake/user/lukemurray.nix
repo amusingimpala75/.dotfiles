@@ -43,6 +43,7 @@
       ghostty
       git
       jujutsu
+      neko
       minecraft
       ng-cli
       ng-nix
