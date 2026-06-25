@@ -23,18 +23,20 @@
     ("C-c l r" . eglot-rename))
   :custom
   ;; This fixes some weird line height changes on Darwin
-  (eglot-code-action-indicator "")
+  (eglot-code-action-indicator nil)
   ;; Enable semantic tokens
   (eglot-semantic-tokens-mode t)
   ;; Better performance supposedly
   (eglot-stay-out-of '(imenu))
   ;; Clean up last eglot buffer
   (eglot-autoshutdown t)
+  ;; Use the builtin markdown-ts mode
+  (eglot-documentation-renderer 'markdown-ts-view-mode)
   :hook
   ;; Hook into a variety of prog modes
   (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode
      nix-mode java-ts-mode js-ts-mode typescript-ts-mode
-     lua-ts-mode rustic-mode scala-mode)
+     lua-ts-mode rustic-mode scala-mode elm-mode)
    . eglot-ensure)
   :preface
   ;; I don't know why eglot started
@@ -46,7 +48,18 @@
           (kv (cdr args)))
       (cons server (map-delete kv :cancel-on-quit))))
   :config
-  (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit))
+  (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit)
+  ;; Add swift lsp
+  (add-to-list 'eglot-server-programs '(swift-mode . ("sourcekit-lsp")))
+  (setcdr
+   (assoc
+    '((js-mode :language-id "javascript")
+      (js-ts-mode :language-id "javascript")
+      (tsx-ts-mode :language-id "typescriptreact")
+      (typescript-ts-mode :language-id "typescript")
+      (typescript-mode :language-id "typescript"))
+    eglot-server-programs)
+   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy")))
 
 ;; Snippets completion
 (use-package yasnippet

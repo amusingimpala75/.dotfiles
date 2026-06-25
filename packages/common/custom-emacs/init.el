@@ -293,27 +293,7 @@
   :ensure t)
 
 (use-package swift-mode
-  :ensure t
-  :config
-  (add-to-list
-   'eglot-server-programs
-   '(swift-mode . ("sourcekit-lsp"))))
-
-(use-package eglot
-  :custom
-  (eglot-code-action-indicator nil)
-  (eglot-documentation-renderer 'markdown-ts-view-mode)
-  :config
-  ;; Use rass for ts/js
-  (setcdr
-   (assoc
-    '((js-mode :language-id "javascript")
-      (js-ts-mode :language-id "javascript")
-      (tsx-ts-mode :language-id "typescriptreact")
-      (typescript-ts-mode :language-id "typescript")
-      (typescript-mode :language-id "typescript"))
-    eglot-server-programs)
-   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy")))
+  :ensure t)
 
 (use-package elisp-mode
   :custom
@@ -325,6 +305,9 @@
   (java-ts-mode-enable-doxygen t))
 
 (use-package groovy-mode
+  :ensure t)
+
+(use-package elm-mode
   :ensure t)
 
 (use-package imacs-completion
@@ -870,6 +853,9 @@
   :config
   (require 'gnutls)
   (add-to-list 'auth-sources "~/.config/sops-nix/secrets/rendered/libera-chat.authinfo"))
+
+(use-package verb
+  :ensure t)
 
 (use-package tooltip
   :custom
