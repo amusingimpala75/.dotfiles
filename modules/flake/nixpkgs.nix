@@ -28,7 +28,6 @@ let
     self.overlays.fix-powermanagement # Once we get around to updating the package
 
     self.overlays.common
-    inputs.nur.overlays.default
   ];
 
   darwin-overlays = [

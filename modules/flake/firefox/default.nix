@@ -1,4 +1,8 @@
 {
+  inputs,
+  ...
+}:
+{
   flake.modules.homeManager.firefox =
     {
       config,
@@ -149,10 +153,19 @@
         "youtube-recommended-videos"
       ];
 
+      nixpkgs.overlays = [
+        inputs.nur.overlays.default
+      ];
+
       home.activation.default-browser = lib.mkIf pkgs.stdenv.isDarwin (
         lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           ${lib.getExe pkgs.defaultbrowser} firefox
         ''
       );
     };
+
+  flake-file.inputs.nur = {
+    url = "github:nix-community/NUR";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 }
