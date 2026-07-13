@@ -861,6 +861,9 @@
   :custom
   (tooltip-hide-delay 60))
 
+(use-package eplot
+  :ensure t)
+
 ;; Direnv support
 (use-package envrc
   :ensure t

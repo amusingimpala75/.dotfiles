@@ -13,6 +13,7 @@
   clang-tools,
   gopls,
   jdt-language-server,
+  librsvg,
   nixd,
   rassumfrassum,
   rust-analyzer,
@@ -90,6 +91,8 @@ let
       # Compression
       unzip
       zip
+      # eplot
+      librsvg
       # LSPs
       rassumfrassum
       clang-tools # clangd for C
