@@ -8,4 +8,7 @@
 ! https://stackoverflow.com
 ||accounts.google.com/gsi/iframe/select?client_id=717762328687-iludtf96g1hinl76e4lc1b9a82g457nn.apps.googleusercontent.com
 
-! ======== End of filter lists =========
+! ======== End of filter google sign-in lists (TODO: replace with generic?) =========
+
+! ======== Hide Anubis Image ========
+*/.within.website/x/cmd/anubis/static/img/*.webp$image
