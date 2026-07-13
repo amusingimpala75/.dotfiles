@@ -6,18 +6,16 @@
       pkgs,
       ...
     }:
-    let
-      inherit (config) rice;
-    in
     {
       services.emacs = {
         enable = true;
         package = pkgs.custom-emacs.override {
-          font-size = rice.font.size;
-          font-family-fixed = rice.font.family.fixed-pitch;
-          font-family-variable = rice.font.family.variable-pitch;
-          inherit (rice) opacity;
-          inherit (rice.emacs) theme-package theme-file-name theme-name;
+          font-family-fixed = "Maple Mono NF CN";
+          font-family-variable = "Liberation Serif";
+          opacity = 0.9;
+          theme-package = epkgs: epkgs.ef-themes;
+          theme-file-name = "ef-themes";
+          theme-name = "ef-elea-dark";
         };
 
         client.enable = true;
@@ -71,6 +69,8 @@
       home = {
         packages = [
           pkgs.noto-fonts-cjk-sans
+          pkgs.maple-mono.NF-CN-unhinted
+          pkgs.liberation_ttf
         ];
 
         shellAliases = {

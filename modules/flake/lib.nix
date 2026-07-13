@@ -42,7 +42,6 @@
           with self.modules.homeManager;
           with self.modules.generic;
           [
-            ../home
             nixpkgs
             nix
             sops
@@ -64,7 +63,6 @@
               }
             )
           ];
-        extraSpecialArgs = { inherit inputs; };
       };
     };
   };

@@ -1,7 +1,6 @@
 let
   darwin =
     {
-      config,
       lib,
       pkgs,
       ...
@@ -10,8 +9,8 @@ let
       services.jankyborders = lib.mkIf pkgs.stdenv.isDarwin {
         enable = true;
         settings = {
-          style = if config.rice.border.radius == 0 then "square" else "round";
-          inherit (config.rice.border) width;
+          style = "round";
+          width = 8;
         };
       };
 

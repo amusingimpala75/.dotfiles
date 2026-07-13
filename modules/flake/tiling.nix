@@ -7,7 +7,6 @@ let
       ...
     }:
     let
-      inherit (config) rice;
       inherit (pkgs) stdenv;
 
       aerospace = lib.getExe pkgs.aerospace;
@@ -66,10 +65,10 @@ let
 
             gaps =
               let
-                inner = rice.gaps.inner * 2;
-                outer = rice.gaps.outer;
-                outer-top = rice.gaps.outer + rice.bar.height + rice.gaps.outer;
-                outer-bottom = rice.gaps.outer - 1;
+                inner = 24;
+                outer = 48;
+                outer-top = 128;
+                outer-bottom = 47;
               in
               {
                 inner = {

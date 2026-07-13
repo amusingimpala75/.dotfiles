@@ -31,9 +31,6 @@
         username = "amusingimpala75";
       };
 
-      rices.nord.enable = true;
-      rice.font.size = lib.mkForce 20;
-
       wsl.username = "MURRAYLE23";
 
       services.podman.enable = true;
