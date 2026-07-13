@@ -16,25 +16,27 @@
   libxcb,
   cairo,
   pango,
-  libdrm
+  libdrm,
 }:
 
 let
-  sbclEnv = sbcl.withPackages (ps: with ps; [
-    alexandria
-    cl-ansi-text
-    cl-colors2
-    terminfo
-    adopt
-    iterate
-    atomics
-    fset
-    bordeaux-threads
-    cffi
-    cffi-grovel
-    closer-mop
-    fiasco
-  ]);
+  sbclEnv = sbcl.withPackages (
+    ps: with ps; [
+      alexandria
+      cl-ansi-text
+      cl-colors2
+      terminfo
+      adopt
+      iterate
+      atomics
+      fset
+      bordeaux-threads
+      cffi
+      cffi-grovel
+      closer-mop
+      fiasco
+    ]
+  );
 
 in
 stdenv.mkDerivation {
@@ -79,7 +81,15 @@ stdenv.mkDerivation {
   buildPhase = ''
     runHook preBuild
 
-    export LD_LIBRARY_PATH="${lib.makeLibraryPath [ wayland libxkbcommon wlroots_0_19 cairo pango ]}:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="${
+      lib.makeLibraryPath [
+        wayland
+        libxkbcommon
+        wlroots_0_19
+        cairo
+        pango
+      ]
+    }:$LD_LIBRARY_PATH"
 
     make LISP=sbcl
     runHook postBuild
@@ -87,7 +97,15 @@ stdenv.mkDerivation {
 
   checkPhase = ''
     runHook preCheck
-    export LD_LIBRARY_PATH="${lib.makeLibraryPath [ wayland libxkbcommon wlroots_0_19 cairo pango ]}:$LD_LIBRARY_PATH"
+    export LD_LIBRARY_PATH="${
+      lib.makeLibraryPath [
+        wayland
+        libxkbcommon
+        wlroots_0_19
+        cairo
+        pango
+      ]
+    }:$LD_LIBRARY_PATH"
     make LISP=sbcl test
     runHook postCheck
   '';
@@ -100,13 +118,15 @@ stdenv.mkDerivation {
 
     wrapProgram $out/bin/mahogany \
       --set SBCL_HOME "${sbcl}/lib/sbcl" \
-      --prefix LD_LIBRARY_PATH : "$out/lib:${lib.makeLibraryPath [
-        wlroots_0_19
-        libxkbcommon
-        wayland
-        cairo
-        pango
-      ]}"
+      --prefix LD_LIBRARY_PATH : "$out/lib:${
+        lib.makeLibraryPath [
+          wlroots_0_19
+          libxkbcommon
+          wayland
+          cairo
+          pango
+        ]
+      }"
 
     runHook postInstall
   '';

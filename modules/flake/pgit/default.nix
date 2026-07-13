@@ -9,17 +9,15 @@
     let
       config' = config;
 
-      pgit = (
-        pkgs.pgit.overrideAttrs (_: {
-          version = "git+01-24-2026";
-          src = pkgs.fetchFromGitHub {
-            owner = "picosh";
-            repo = "pgit";
-            rev = "c251930645ab9ce98fe48d4839c7d0563ff004be";
-            hash = "sha256-H2y22WotM2UmUXHJvgC1XR5i0pOKQIQRX9tALD47SCE=";
-          };
-        })
-      );
+      pgit = pkgs.pgit.overrideAttrs (_: {
+        version = "git+01-24-2026";
+        src = pkgs.fetchFromGitHub {
+          owner = "picosh";
+          repo = "pgit";
+          rev = "c251930645ab9ce98fe48d4839c7d0563ff004be";
+          hash = "sha256-H2y22WotM2UmUXHJvgC1XR5i0pOKQIQRX9tALD47SCE=";
+        };
+      });
 
       mustacheRepositories = pkgs.writeTextFile {
         name = "data.yaml";
@@ -69,18 +67,6 @@
 
         rm -rf /tmp/pgit
       '';
-
-      removePrefixes =
-        prefixes: text:
-        let
-          prefix = prefixes.filter (p: lib.hasPrefix p text) prefixes;
-        in
-        if (builtins.length prefix) != 0 then lib.removePrefix (builtins.elemAt 0 prefix) text else text;
-
-      noProtocol = removePrefixes [
-        "https://"
-        "http://"
-      ];
     in
     {
       options.services.pgit = {

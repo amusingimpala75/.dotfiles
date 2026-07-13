@@ -7,7 +7,8 @@
 let
   dockutil = lib.getExe pkgs.dockutil;
   add-dock-item =
-    item: "${dockutil} --add \"${item}\"" + (if item == "" then "--type spacer" else "") + " --no-restart";
+    item:
+    "${dockutil} --add \"${item}\"" + (if item == "" then "--type spacer" else "") + " --no-restart";
 in
 {
   options.my.darwin.dock.items = lib.mkOption {
@@ -21,16 +22,14 @@ in
       restart-dock = lib.hm.dag.entryAfter [ "setDarwinDefaults" ] ''
         /usr/bin/killall Dock
       '';
-      set-dock =
-        lib.mkIf (config.my.darwin.dock.items != null)
-          (
-            lib.hm.dag.entryBetween [ "restart-dock" ] [ "writeBoundary" ] (
-              ''
-              ${dockutil} --remove all
-            ''
-              + (lib.concatStringsSep "\n" (map add-dock-item config.my.darwin.dock.items))
-            )
-          );
+      set-dock = lib.mkIf (config.my.darwin.dock.items != null) (
+        lib.hm.dag.entryBetween [ "restart-dock" ] [ "writeBoundary" ] (
+          ''
+            ${dockutil} --remove all
+          ''
+          + (lib.concatStringsSep "\n" (map add-dock-item config.my.darwin.dock.items))
+        )
+      );
     };
     targets.darwin = {
       copyApps.enable = true;

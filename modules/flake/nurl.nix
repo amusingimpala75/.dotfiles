@@ -14,7 +14,7 @@
       nurl = {
         imports = [ self.wrapperModules.nurl-wrapper ];
 
-        nixpkgs = inputs.nixpkgs;
+        inherit (inputs) nixpkgs;
       };
 
       nurl-wrapper =

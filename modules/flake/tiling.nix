@@ -7,7 +7,6 @@ let
       ...
     }:
     let
-      cfg = config.my.aerospace;
       inherit (config) rice;
       inherit (pkgs) stdenv;
 

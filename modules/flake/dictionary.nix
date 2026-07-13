@@ -16,54 +16,56 @@ let
     };
 in
 {
-  flake.modules.nixos.dictionary = common;
+  flake = {
+    modules.nixos.dictionary = common;
 
-  flake.modules.darwin.dictionary = {
-    imports = [
-      self.darwinModules.dictd
-      common
-    ];
-  };
+    modules.darwin.dictionary = {
+      imports = [
+        self.darwinModules.dictd
+        common
+      ];
+    };
 
-  flake.darwinModules.dictd =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-    {
-      options.services.dictd = {
-        enable = lib.mkEnableOption "DICT.org dictionary server";
-        DBs = lib.mkOption {
-          type = lib.types.listOf lib.types.package;
-          default = with pkgs.dictdDBs; [
-            wiktionary
-            wordnet
-          ];
-        };
-      };
-      config =
-        let
-          dictdb = pkgs.dictDBCollector {
-            dictlist = map (x: {
-              name = x.name;
-              filename = x;
-            }) config.services.dictd.DBs;
+    darwinModules.dictd =
+      {
+        config,
+        lib,
+        pkgs,
+        ...
+      }:
+      {
+        options.services.dictd = {
+          enable = lib.mkEnableOption "DICT.org dictionary server";
+          DBs = lib.mkOption {
+            type = lib.types.listOf lib.types.package;
+            default = with pkgs.dictdDBs; [
+              wiktionary
+              wordnet
+            ];
           };
-        in
-        lib.mkIf config.services.dictd.enable {
-          environment.systemPackages = [ pkgs.dict ];
-          environment.etc."dict.conf".text = ''
-            server localhost
-          '';
-          launchd.daemons.dictd = {
-            command = "${pkgs.dict}/sbin/dictd -c ${dictdb}/share/dictd/dictd.conf --locale en_US.UTF-8";
-            serviceConfig = {
-              KeepAlive = true;
-              RunAtLoad = true;
+        };
+        config =
+          let
+            dictdb = pkgs.dictDBCollector {
+              dictlist = map (x: {
+                inherit (x) name;
+                filename = x;
+              }) config.services.dictd.DBs;
+            };
+          in
+          lib.mkIf config.services.dictd.enable {
+            environment.systemPackages = [ pkgs.dict ];
+            environment.etc."dict.conf".text = ''
+              server localhost
+            '';
+            launchd.daemons.dictd = {
+              command = "${pkgs.dict}/sbin/dictd -c ${dictdb}/share/dictd/dictd.conf --locale en_US.UTF-8";
+              serviceConfig = {
+                KeepAlive = true;
+                RunAtLoad = true;
+              };
             };
           };
-        };
-    };
+      };
+  };
 }

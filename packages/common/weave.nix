@@ -41,7 +41,10 @@ rustPlatform.buildRustPackage rec {
   meta = with lib; {
     description = "Entity-level semantic merge tool for Git conflicts";
     homepage = "https://github.com/Ataraxy-Labs/weave";
-    license = with licenses; [ mit asl20 ];
+    license = with licenses; [
+      mit
+      asl20
+    ];
     mainProgram = "weave";
     platforms = platforms.unix;
   };

@@ -17,7 +17,7 @@
         // (with prev.brewCasks; {
           battle-net =
             (replaceHash battle-net "sha256-VH05EhAkeKzXhTWVnHe1c347F86B49Wq35EDPJt0Cq8=").overrideAttrs
-              (o: {
+              (_: {
                 unpackPhase = ''
                   unzip $src
                 '';

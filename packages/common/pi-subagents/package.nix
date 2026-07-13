@@ -25,7 +25,6 @@ buildNpmPackage (finalAttrs: {
     description = "Pi extension for delegating tasks to subagents with chains, parallel execution, and TUI clarification";
     homepage = "https://github.com/nicobailon/pi-subagents";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [ ];
     mainProgram = "pi-subagents";
   };
 })

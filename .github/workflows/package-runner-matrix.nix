@@ -1,5 +1,5 @@
 let
-  flake = (builtins.getFlake ("path:" + (toString ../..)));
+  flake = builtins.getFlake ("path:" + (toString ../..));
   gen-platform-matrix =
     { system, runner }:
     map (package: {

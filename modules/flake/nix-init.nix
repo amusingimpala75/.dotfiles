@@ -15,7 +15,7 @@
         imports = [ self.wrapperModules.nix-init-wrapper ];
 
         settings = {
-          nixpkgs = inputs.nixpkgs;
+          inherit (inputs) nixpkgs;
         };
       };
 

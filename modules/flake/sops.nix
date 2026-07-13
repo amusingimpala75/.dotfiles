@@ -19,17 +19,19 @@
           else
             "${config.home.homeDirectory}/.config/sops/age/keys.txt";
         defaultSopsFile = ../../secrets/secrets.yaml;
-        secrets."emacs-feeds.el" = {
-          format = "binary";
-          sopsFile = ../../secrets/emacs-feeds.el;
-          path = "%r/emacs-feeds.el";
+        secrets = {
+          "emacs-feeds.el" = {
+            format = "binary";
+            sopsFile = ../../secrets/emacs-feeds.el;
+            path = "%r/emacs-feeds.el";
+          };
+          "emacs-radio-channels.el" = {
+            format = "binary";
+            sopsFile = ../../secrets/emacs-radio-channels.el;
+            path = "%r/emacs-radio-channels.el";
+          };
+          "deepseek_api_key" = { };
         };
-        secrets."emacs-radio-channels.el" = {
-          format = "binary";
-          sopsFile = ../../secrets/emacs-radio-channels.el;
-          path = "%r/emacs-radio-channels.el";
-        };
-        secrets."deepseek_api_key" = { };
       };
     };
 

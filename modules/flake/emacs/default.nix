@@ -33,19 +33,21 @@
         package = config.services.emacs.package;
       };
 
-      sops.secrets."nixos_discourse_password" = { };
-      sops.templates."nixos_discourse.authinfo".content = ''
-        machine discourse.nixos.org login AmusingImpala75 password ${
-          config.sops.placeholder."nixos_discourse_password"
-        }
-      '';
+      sops = {
+        secrets."nixos_discourse_password" = { };
+        templates."nixos_discourse.authinfo".content = ''
+          machine discourse.nixos.org login AmusingImpala75 password ${
+            config.sops.placeholder."nixos_discourse_password"
+          }
+        '';
 
-      sops.secrets."libera_chat_password" = { };
-      sops.templates."libera-chat.authinfo".content = ''
-        machine irc.libera.chat login amusingimpala75 password ${
-          config.sops.placeholder."libera_chat_password"
-        }
-      '';
+        secrets."libera_chat_password" = { };
+        templates."libera-chat.authinfo".content = ''
+          machine irc.libera.chat login amusingimpala75 password ${
+            config.sops.placeholder."libera_chat_password"
+          }
+        '';
+      };
 
       home = {
         packages = [
