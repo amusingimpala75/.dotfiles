@@ -17,6 +17,8 @@ let
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
 
+    (final: _: { inherit (final.bleeding) nh; })
+
     self.overlays.lib
 
     self.overlays.common
