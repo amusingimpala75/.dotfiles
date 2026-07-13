@@ -106,6 +106,7 @@
             inputs.pi-cd
             pi-minimal-footer
             pi-telegram
+            pkgs.pi-subagents
           ]
           ++ roDirs;
           inherit
@@ -152,6 +153,7 @@
                 config.wrappers.nurl.wrapper
               ];
               roFiles = [
+                # [TODO] fix: I think its still unautheticated rate-limiting?
                 "${config.sops.templates."nix-gh-ro-access.conf".path}"
               ];
               roDirs = [
@@ -173,7 +175,7 @@
         };
         settings = {
           defaultProvider = "openai-codex";
-          defaultModel = "gpt-5.5";
+          defaultModel = "gpt-5.6-terra";
           defaultThinkingLevel = "high";
           enableInstallTelemetry = false;
           extensions =
@@ -209,10 +211,25 @@
               "${inputs.pi-cd}/extensions/cd.ts"
               pi-minimal-footer
               pi-telegram
+              "${pkgs.pi-subagents}/lib/node_modules"
             ];
           skills = [
             ./skills
           ];
+          subagents = {
+            defaultModel = "gpt-5.6-terra";
+            agentOverrides = {
+              scout = {
+                model = "gpt-5.6-luna";
+              };
+              oracle = {
+                model = "gpt-5.6-sol";
+              };
+              planner = {
+                model = "gpt-5.6-sol";
+              };
+            };
+          };
         };
       };
 

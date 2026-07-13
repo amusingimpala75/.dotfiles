@@ -29,7 +29,9 @@ out why things are the way they are.
   are not to attempt to edit the other workspaces but should remain in the workspace
   in which you were started
 - Every execution of the agent occurs in a sandboxed environment, which may be blocking
-  the access of some files or directories. If you find yourself denied access to a file,
-  please consider if the action can be done with minimal impedance a different way. If
-  it is still not possible to be done that way, please prompt the user about potentially
-  modifying the sandbox to be able to acess what is needed.
+  the access of some files or directories. Specifically, files outside of the current
+  working directory are not accessible, except for a whitelist depending on the agent
+  setup. If you find yourself denied access to a file, please consider if the action
+  can be done with minimal impedance a different way. If it is still not possible to be
+  done that way, please prompt the user about potentially modifying the sandbox to be able
+  to acess what is needed.

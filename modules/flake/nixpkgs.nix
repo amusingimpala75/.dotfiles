@@ -17,7 +17,7 @@ let
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
 
-    (final: _: { inherit (final.bleeding) nh; })
+    (final: _: { inherit (final.bleeding) nh pi-coding-agent; })
 
     self.overlays.lib
 
