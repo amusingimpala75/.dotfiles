@@ -113,6 +113,8 @@
               gaoptout
               github-file-icons
               gruvbox-dark-theme # TODO integrate with theme system
+              return-youtube-dislikes
+              nopow
               sponsorblock
               ublock-origin
               vimium
