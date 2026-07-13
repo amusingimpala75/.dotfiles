@@ -23,7 +23,7 @@ let
     inherit version src;
 
     mvnJdk = jdk25;
-    mvnHash = "sha256-YJz8cQZbZvMwJthYst4mCA1TAqhPupCpwC8yc5xgd30=";
+    mvnHash = "sha256-5OXLzS3em5b3xHLczz4bhtkTPDZgp8ZVcBw6Iqu5p8U=";
     mvnParameters = lib.strings.join " " [
       "-pl"
       "app"
@@ -40,13 +40,13 @@ let
     ];
 
     installPhase = ''
-    mkdir -p $out/share/jd-gui-duo/lib
-    cp -r app/target/jd-gui-duo-app-${version}.jar $out/share/jd-gui-duo/
-    cp app/target/lib/*.jar $out/share/jd-gui-duo/lib/
-    makeWrapper ${lib.getExe jdk25} $out/bin/jd-gui-duo \
-      --add-flags "-cp $out/share/jd-gui-duo/lib/" \
-      --add-flags "-jar $out/share/jd-gui-duo/jd-gui-duo-app-${version}.jar"
-  '';
+      mkdir -p $out/share/jd-gui-duo/lib
+      cp -r app/target/jd-gui-duo-app-${version}.jar $out/share/jd-gui-duo/
+      cp app/target/lib/*.jar $out/share/jd-gui-duo/lib/
+      makeWrapper ${lib.getExe jdk25} $out/bin/jd-gui-duo \
+        --add-flags "-cp $out/share/jd-gui-duo/lib/" \
+        --add-flags "-jar $out/share/jd-gui-duo/jd-gui-duo-app-${version}.jar"
+    '';
 
     meta = {
       mainProgram = "jd-gui-duo";
@@ -55,11 +55,12 @@ let
     };
   };
 in
-if stdenv.isLinux || mkDarwinApplication == null
-then pkg
-else mkDarwinApplication {
-  package = pkg;
-  exeName = "jd-gui-duo";
-  appName = "JD-GUI Duo";
-  img = "${src}/app/src/main/resources/org/jd/gui/images/JDGUI.icns";
-}
+if stdenv.isLinux || mkDarwinApplication == null then
+  pkg
+else
+  mkDarwinApplication {
+    package = pkg;
+    exeName = "jd-gui-duo";
+    appName = "JD-GUI Duo";
+    img = "${src}/app/src/main/resources/org/jd/gui/images/JDGUI.icns";
+  }
