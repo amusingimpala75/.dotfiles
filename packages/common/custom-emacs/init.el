@@ -776,7 +776,7 @@
   (post-command . my/update-cursor-type)
   (after-init . god-mode-all)
   :config
-  (dolist (mode '(vterm-mode speedbar-mode))
+  (dolist (mode '(ghostel-mode speedbar-mode))
     (add-to-list 'god-exempt-major-modes mode)))
 
 (use-package hl-line
@@ -870,7 +870,7 @@
   :functions envrc-propagate-environment envrc--find-env-dir
   :config
   ;; Advice a few poorly acting modes
-  (dolist (fn '( Man-completion-table sql-sqlite eshell-vterm-exec-visual))
+  (dolist (fn '( Man-completion-table sql-sqlite ghostel-eshell--exec-visual))
     (advice-add fn :around #'envrc-propagate-environment)))
 
 (provide 'init)

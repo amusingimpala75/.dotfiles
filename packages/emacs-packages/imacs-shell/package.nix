@@ -1,8 +1,6 @@
 {
-  eat,
-  eshell-vterm,
+  ghostel,
   toggleterm,
-  vterm,
   xterm-color,
 
   melpaBuild,
@@ -13,10 +11,8 @@ melpaBuild {
   version = "0.1";
   src = ./.;
   packageRequires = [
-    eat
-    vterm
+    ghostel
     toggleterm
-    eshell-vterm
     xterm-color
   ];
 }

@@ -48,7 +48,7 @@
   :type 'integer
   :group 'toggleterm)
 
-(defcustom toggleterm-buffer-function #'toggleterm--start-eat
+(defcustom toggleterm-buffer-function (lambda () (call-interactively #'term))
   "Function to call to create terminal buffer in current directory."
   :type 'symbol
   :group 'toggleterm)
@@ -63,6 +63,7 @@
     (current-buffer)))
 
 ;; no need for toggleterm--start-eshell, #'eshell is good enough for customize
+;; same for ghostel
 
 (defun toggleterm--get-frame ()
   "Get the toggleterm frame, creating if necessary."

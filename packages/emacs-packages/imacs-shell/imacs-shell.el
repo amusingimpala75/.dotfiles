@@ -11,19 +11,18 @@
 
 ;;; Code:
 
-;; I don't need both of these, I'm probably
-;; going to get rid of eat at some point
-(use-package eat :ensure t)
-(use-package vterm :ensure t)
+;; Our terminal emulator in emacs
+(use-package ghostel :ensure t)
 
 ;; [TODO] this needs to be fixed to use eshell
 (use-package toggleterm
   :defer nil
   :ensure t
-  :bind ("C-x C-a t" . toggleterm-dwim))
+  :bind ("C-x C-a t" . toggleterm-dwim)
+  :custom (toggleterm-buffer-function #'ghostel))
 
 ;; Eshell is a great general shell with the caveat
-;; of using vterm for visual stuff.
+;; of using ghostel for visual stuff.
 (use-package eshell
   :defer 5
   :custom
@@ -105,15 +104,18 @@ extra junk that it provides otherwise"
         (s-trim (shell-command-to-string "scutil --get LocalHostName"))
       (system-name)))
   :config
+  ;; Make sure programs know we can handle colors
+  (setenv "TERM" "xterm-256color"))
+
+(use-package em-term
+  :config
   ;; Add the list of visual commands / subcommands / options
   (dolist (command '("pi" "piw" "nh" "gradlew" "dx" "ssh"))
     (add-to-list 'eshell-visual-commands command))
   (dolist (subcommands '(("jj" "diff" "squash" "log")))
     (add-to-list 'eshell-visual-subcommands subcommands))
   (dolist (options '(("jj" "--editor" "--help")))
-    (add-to-list 'eshell-visual-options options))
-  ;; Make sure programs know we can handle colors
-  (setenv "TERM" "xterm-256color"))
+    (add-to-list 'eshell-visual-options options)))
 
 (use-package esh-mode
   :defines eshell-preoutput-filter-functions
@@ -124,9 +126,8 @@ extra junk that it provides otherwise"
   :ensure t
   :custom (xterm-color-preserve-properties t))
 
-(use-package eshell-vterm
-  :ensure t
-  :custom (eshell-vterm-mode t))
+(use-package ghostel-eshell
+  :hook (eshell-load . ghostel-eshell-visual-command-mode))
 
 (provide 'imacs-shell)
 
