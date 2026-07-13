@@ -1,7 +1,7 @@
 {
   # pkgs
   aspellWithDicts,
-  bleeding,
+  emacs31,
   mpv,
   pandoc,
   unzip,
@@ -38,7 +38,7 @@
   ...
 }:
 let
-  emacs = bleeding.emacs31;
+  emacs = emacs31;
   pkg = emacsWithPackagesFromUsePackage {
     package = emacs;
     alwaysTangle = true;
