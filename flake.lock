@@ -626,6 +626,7 @@
       "original": {
         "owner": "Acelogic",
         "repo": "pi-cd",
+        "rev": "6b5c3347d99a92092286640f7e7f3132cf358901",
         "type": "github"
       }
     },
@@ -644,6 +645,7 @@
         "dir": "packages/pi-minimal-footer",
         "owner": "ogulcancelik",
         "repo": "pi-extensions",
+        "rev": "1deb3f144d0b64e3e67f61c95922360c4bb25b47",
         "type": "github"
       }
     },
@@ -660,6 +662,7 @@
       "original": {
         "owner": "badlogic",
         "repo": "pi-telegram",
+        "rev": "cb34008460b6c1ca036d92322f69d87f626be0fc",
         "type": "github"
       }
     },

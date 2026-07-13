@@ -112,15 +112,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pi-cd = {
-      url = "github:Acelogic/pi-cd";
+      url = "github:Acelogic/pi-cd/6b5c3347d99a92092286640f7e7f3132cf358901";
       flake = false;
     };
     pi-minimal-footer = {
-      url = "github:ogulcancelik/pi-extensions?dir=packages/pi-minimal-footer";
+      url = "github:ogulcancelik/pi-extensions/1deb3f144d0b64e3e67f61c95922360c4bb25b47?dir=packages/pi-minimal-footer";
       flake = false;
     };
     pi-telegram = {
-      url = "github:badlogic/pi-telegram";
+      url = "github:badlogic/pi-telegram/cb34008460b6c1ca036d92322f69d87f626be0fc";
       flake = false;
     };
     sops-nix = {
