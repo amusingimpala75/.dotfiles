@@ -22,7 +22,10 @@ let
       emacsPackagesFor =
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (
-          efinal: _: { inherit (final.bleeding.emacsPackagesFor emacs) majutsu; }
+          efinal: _: {
+            inherit (final.bleeding.emacsPackagesFor emacs) majutsu;
+            inherit (efinal.melpaPackages) telega;
+          }
         ));
     })
 

@@ -881,6 +881,9 @@
 (use-package eplot
   :ensure t)
 
+(use-package telega
+  :ensure t)
+
 ;; Direnv support
 (use-package envrc
   :ensure t
