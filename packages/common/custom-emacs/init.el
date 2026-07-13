@@ -160,13 +160,25 @@
                          (horizontal-scroll-bars . nil)
                          (fullscreen . maximized))))
 
+(defun my/prepend-emoji-font ()
+  "Make it use the proper emoji fonts."
+  (let ((font-family (if (eq system-type 'darwin)
+                         "Apple Color Emoji"
+                       "Noto Color Emoji")))
+    (set-fontset-font t 'emoji (font-spec :family font-family))))
+
 (use-package cus-face
   :custom-face
   ;; Load face settings from nix-settings
   (default ((t ( :family ,my/font-family-fixed-pitch
                  :height ,(* my/font-size 10)))))
   (variable-pitch ((t (:family ,my/font-family-variable-pitch))))
-  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch)))))
+  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch))))
+  :config
+  (add-hook 'after-make-frame-functions
+            (lambda (frame)
+              (with-selected-frame frame
+                (my/prepend-emoji-font)))))
 
 (use-package font-lock
   :config
