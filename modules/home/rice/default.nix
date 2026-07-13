@@ -66,34 +66,6 @@
         default = "my-base16";
       };
     };
-
-    fennel-defaults = lib.mkOption {
-      description = "defaults.fnl file to generate";
-      default = pkgs.replaceVars ./defaults.fnl {
-        inherit (config.rice) opacity;
-
-        font_size = config.rice.font.size;
-        fixed_pitch = config.rice.font.family.fixed-pitch;
-        variable_pitch = config.rice.font.family.variable-pitch;
-
-        border_width = config.rice.border.width;
-        corner_radius = config.rice.border.radius;
-
-        inner_gap = config.rice.gaps.inner;
-        outer_gap = config.rice.gaps.outer;
-
-        bar_height = config.rice.bar.height;
-        bar_is_top = config.rice.bar.isTop;
-        bar_padding = config.rice.bar.padding;
-
-        wezterm_theme = config.rice.wezterm.theme-name;
-      };
-    };
-
-    wezterm.theme-name = lib.mkOption {
-      description = "theme for wezterm to use";
-      default = "my-base16";
-    };
   };
 
   config.nixpkgs.overlays = [
