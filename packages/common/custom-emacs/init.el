@@ -808,6 +808,11 @@
   :hook
   (after-init . buffer-terminator-mode))
 
+(use-package super-save
+  :ensure t
+  :hook (after-init . super-save-mode)
+  :custom (super-save-auto-save-when-idle t))
+
 ;; Missing in the Elpa build smh
 ;; [TODO] enable once fixed (can't find symbol) currently
 ;;(use-package xref
