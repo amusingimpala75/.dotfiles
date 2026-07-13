@@ -5,7 +5,6 @@
 }:
 {
   imports = [
-    ./dock
     ./sketchybar
   ];
 
