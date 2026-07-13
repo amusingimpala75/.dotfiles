@@ -34,19 +34,37 @@
       };
 
       sops = {
-        secrets."nixos_discourse_password" = { };
-        templates."nixos_discourse.authinfo".content = ''
-          machine discourse.nixos.org login AmusingImpala75 password ${
-            config.sops.placeholder."nixos_discourse_password"
-          }
-        '';
+        secrets =
+          (lib.genAttrs
+            [
+              "emacs-feeds.el"
+              "emacs-radio-channels.el"
+              "emacs-signel-number.el"
+            ]
+            (file: {
+              format = "binary";
+              sopsFile = ../../../secrets/${file};
+              path = "%r/${file}";
+            })
+          )
+          // {
+            "nixos_discourse_password" = { };
+            "libera_chat_password" = { };
+          };
 
-        secrets."libera_chat_password" = { };
-        templates."libera-chat.authinfo".content = ''
-          machine irc.libera.chat login amusingimpala75 password ${
-            config.sops.placeholder."libera_chat_password"
-          }
-        '';
+        templates = {
+          "nixos_discourse.authinfo".content = ''
+            machine discourse.nixos.org login AmusingImpala75 password ${
+              config.sops.placeholder."nixos_discourse_password"
+            }
+          '';
+
+          "libera-chat.authinfo".content = ''
+            machine irc.libera.chat login amusingimpala75 password ${
+              config.sops.placeholder."libera_chat_password"
+            }
+          '';
+        };
       };
 
       home = {

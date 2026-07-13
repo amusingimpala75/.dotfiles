@@ -884,6 +884,13 @@
 (use-package telega
   :ensure t)
 
+(defvar my/signel-account-location
+  "~/.config/sops-nix/secrets/emacs-signel-number.el")
+
+(use-package signel
+  :ensure t
+  :custom (signel-account (my/user-secret-else my/signel-account-location nil)))
+
 ;; Direnv support
 (use-package envrc
   :ensure t

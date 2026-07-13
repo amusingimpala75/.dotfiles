@@ -233,6 +233,8 @@
         };
       };
 
+      sops.secrets."deepseek_api_key" = { };
+
       home.sessionVariables.PI_AGENT_DIR = "$HOME/${config.programs.pi.configDir}/sessions";
       home.packages = with pkgs; [
         ccusage

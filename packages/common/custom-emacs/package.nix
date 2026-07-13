@@ -2,8 +2,10 @@
   # pkgs
   aspellWithDicts,
   emacs31,
+  librsvg,
   mpv,
   pandoc,
+  signal-cli,
   unzip,
   vimPlugins,
   zip,
@@ -13,7 +15,6 @@
   clang-tools,
   gopls,
   jdt-language-server,
-  librsvg,
   nixd,
   rassumfrassum,
   rust-analyzer,
@@ -93,6 +94,8 @@ let
       zip
       # eplot
       librsvg
+      # signel
+      signal-cli
       # LSPs
       rassumfrassum
       clang-tools # clangd for C
