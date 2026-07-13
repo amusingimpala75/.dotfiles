@@ -1,6 +1,10 @@
 {
+  freeglut,
   freetype,
   fetchFromGitHub,
+  lib,
+  libGL,
+  libGLU,
   libjpeg,
   pkg-config,
   stdenv,
@@ -30,7 +34,12 @@ stdenv.mkDerivation (finalAttrs: {
   buildInputs = [
     freetype
     libjpeg
-  ];
+  ]
+  ++ (lib.optionals stdenv.hostPlatform.isLinux [
+    libGL
+    libGLU
+    freeglut
+  ]);
 
   nativeBuildInputs = [
     pkg-config
