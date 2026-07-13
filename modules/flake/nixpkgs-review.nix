@@ -12,14 +12,14 @@
     {
       imports = [ wlib.modules.default ];
       config = {
-        package = pkgs.symlinkJoin {
-          name = pkgs.nixpkgs-review.name;
-          paths = with pkgs; [
-            glow
-            nixpkgs-review
-            nom
-            self.packages.${pkgs.stdenv.hostPlatform.system}.delta
-          ];
+        # Mostly copied from nixpkgs-reviewFull,
+        # but add our wrapped delta
+        package = pkgs.nixpkgs-review.override {
+          withSandboxSupport = pkgs.stdenv.hostPlatform.isLinux;
+          withNom = true;
+          withDelta = true;
+          withGlow = true;
+          inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) delta;
         };
         flags."--systems" = "all";
       };
