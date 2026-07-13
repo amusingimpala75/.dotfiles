@@ -1,20 +1,21 @@
 (local sbar (require "sketchybar"))
 (local defaults (require "defaults"))
+(local wallust (require "wallust"))
 
 (sbar.begin_config)
 
-(local background-color (.. "0xff" defaults.base01))
+(local background-color wallust.base00)
 (local border-width (/ defaults.border-width 4))
 
 (sbar.default {:updates "when_shown"
                :label {:font (.. defaults.fixed-pitch ":Bold:" defaults.font-size)
-                       :color (.. "0xff" defaults.base05)
+                       :color wallust.base07
                        :padding_left defaults.bar-padding
                        :padding_right defaults.bar-padding}
                :popup {:background {:color background-color
                                     :padding_left defaults.bar-padding
                                     :padding_right defaults.bar-padding
-                                    :border_color (.. "0xff" defaults.active-border)
+                                    :border_color wallust.base07
                                     :border_width border-width
                                     :corner_radius defaults.corner-radius}}
                :background {:color background-color

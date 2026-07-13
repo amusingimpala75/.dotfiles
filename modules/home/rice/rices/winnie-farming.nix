@@ -9,8 +9,6 @@
 
   config = lib.mkIf config.rices.winnie-farming.enable {
     rice = rec {
-      theme = pkgs.base1624schemes.base16.mocha;
-
       opacity = 0.9;
 
       font = {
@@ -32,7 +30,6 @@
       bar = {
         isTop = true;
         height = 32;
-        color = theme.base01;
       };
     };
     home.packages = [

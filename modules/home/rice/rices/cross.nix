@@ -9,8 +9,6 @@
 
   config = lib.mkIf config.rices.cross.enable {
     rice = rec {
-      theme = pkgs.base1624schemes.base16.default-dark;
-
       emacs = {
         theme-package = epkgs: epkgs.ef-themes;
         theme-file-name = "ef-themes";
@@ -38,7 +36,6 @@
       bar = {
         isTop = true;
         height = 32;
-        color = theme.base01;
       };
     };
     home.packages = [

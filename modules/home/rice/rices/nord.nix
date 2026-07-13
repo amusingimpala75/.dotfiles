@@ -9,8 +9,6 @@
 
   config = lib.mkIf config.rices.nord.enable {
     rice = {
-      theme = pkgs.base1624schemes.base16.nord;
-
       opacity = 1.0;
 
       font = {

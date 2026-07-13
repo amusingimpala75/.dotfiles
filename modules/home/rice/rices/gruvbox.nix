@@ -9,8 +9,6 @@
 
   config = lib.mkIf config.rices.gruvbox.enable {
     rice = rec {
-      theme = pkgs.base1624schemes.base16.gruvbox-dark-hard;
-
       opacity = 1.0;
 
       font = {
@@ -31,7 +29,6 @@
       bar = {
         isTop = true;
         height = 32;
-        color = theme.base01;
       };
     };
 

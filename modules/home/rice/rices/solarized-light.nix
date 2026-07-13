@@ -12,8 +12,6 @@ in
 
   config = lib.mkIf config.rices.${rice-name}.enable {
     rice = rec {
-      theme = pkgs.base1624schemes.base16.solarized-light;
-
       opacity = 0.9;
 
       font = {
@@ -34,7 +32,6 @@ in
       bar = {
         isTop = true;
         height = 32;
-        color = theme.base01;
       };
     };
 

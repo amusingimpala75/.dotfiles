@@ -1,10 +1,11 @@
 (local sbar (require "sketchybar"))
 (local defaults (require "defaults"))
+(local wallust (require "wallust"))
 
 (var start (os.time))
 
-(let [good (.. "0xff" defaults.base0D)
-      bad (.. "0xff" defaults.base0F)
+(let [good wallust.base06
+      bad wallust.base03
       duration (* 2.5 60)
       water (sbar.add "item" {:position "right"
                               :update_freq 10

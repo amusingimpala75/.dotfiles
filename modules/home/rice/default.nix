@@ -70,25 +70,6 @@
     fennel-defaults = lib.mkOption {
       description = "defaults.fnl file to generate";
       default = pkgs.replaceVars ./defaults.fnl {
-        inherit (config.rice.theme)
-          base00
-          base01
-          base02
-          base03
-          base04
-          base05
-          base06
-          base07
-          base08
-          base09
-          base0A
-          base0B
-          base0C
-          base0D
-          base0E
-          base0F
-          ;
-
         inherit (config.rice) opacity;
 
         font_size = config.rice.font.size;
@@ -102,7 +83,6 @@
         outer_gap = config.rice.gaps.outer;
 
         bar_height = config.rice.bar.height;
-        bar_color = config.rice.bar.color;
         bar_is_top = config.rice.bar.isTop;
         bar_padding = config.rice.bar.padding;
 

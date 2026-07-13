@@ -1,14 +1,15 @@
 (local sbar (require "sketchybar"))
 (local defaults (require "defaults"))
 (local rift (require "rift"))
+(local wallust (require "wallust"))
 
 (local client (let [[client err] [(rift.connect)]]
                 (when (not client)
                   (error err))
                 client))
 
-(let [foreground (.. "0xff" defaults.base06)
-      background (.. "0xff" defaults.base01)
+(let [foreground wallust.base07
+      background wallust.base00
       spaces []]
   (for [i 1 9 1]
     (let [lb-pad (if (= i 1) defaults.bar-padding 0)

@@ -35,6 +35,7 @@ in
             src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
           })
           (rift-lua.override { lua55Packages = ps; })
+          ps.fennel
         ];
       service.enable = true;
     };

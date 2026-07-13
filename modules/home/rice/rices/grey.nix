@@ -10,25 +10,6 @@
 
   config = lib.mkIf config.rices.grey.enable {
     rice = rec {
-      theme =
-        let
-          scheme = pkgs.base1624schemes.base16.grayscale-light;
-        in
-        scheme
-        // lib.optionalAttrs config.rices.grey.forceFg (
-          with scheme;
-          {
-            base08 = base05;
-            base09 = base04;
-            base0A = base05;
-            base0B = base04;
-            base0C = base05;
-            base0D = base04;
-            base0E = base05;
-            base0F = base04;
-          }
-        );
-
       opacity = 1.0;
 
       font = {
@@ -49,7 +30,6 @@
       bar = {
         isTop = true;
         height = 32;
-        color = theme.base01;
       };
     };
     home.packages = [

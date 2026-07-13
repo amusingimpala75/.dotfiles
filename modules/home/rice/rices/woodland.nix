@@ -9,8 +9,6 @@
 
   config = lib.mkIf config.rices.woodland.enable {
     rice = rec {
-      theme = pkgs.base1624schemes.base16.woodland;
-
       opacity = 0.9;
 
       font = {
@@ -31,7 +29,6 @@
       bar = {
         isTop = true;
         height = 32;
-        color = theme.base01;
       };
     };
 
