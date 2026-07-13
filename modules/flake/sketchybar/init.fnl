@@ -8,7 +8,7 @@
 (local border-width (/ defaults.border-width 4))
 
 (sbar.default {:updates "when_shown"
-               :label {:font (.. defaults.fixed-pitch ":Bold:" defaults.font-size)
+               :label {:font (.. "Maple Mono NF CN:Bold:" defaults.font-size)
                        :color wallust.base07
                        :padding_left defaults.bar-padding
                        :padding_right defaults.bar-padding}
