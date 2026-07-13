@@ -439,83 +439,6 @@
 (use-package reader
   :ensure t)
 
-(use-package nnnrss
-  :ensure t)
-
-(use-package gnus
-  :defines
-  gnus-newsrc-alist
-  gnus-tmp-group
-  :functions
-  gnus-collect-urls
-  gnus-browse-exit
-  gnus-browse-toggle-subscription-at-point
-  gnus-browse-foreign-server)
-
-(defun my/subscribe-feed-url (method url)
-  "Subscribe to a feed at `URL' of type `METHOD' (nnnrss, nnatom, etc.)."
-  (gnus-browse-foreign-server (list method url))
-  (with-current-buffer "*Gnus Browse Server*"
-    (let ((colon (string-match ":" (buffer-string))))
-      (message "%s" (buffer-string))
-      (gnus-browse-toggle-subscription-at-point colon))
-    (gnus-browse-exit)))
-
-(defvar my/feeds-file "~/.config/sops-nix/secrets/emacs-feeds.el")
-
-(defun my/newsrc-contains (method-url)
-  "Check if newrc already contains `METHOD-URL'."
-  (seq-filter (lambda (entry)
-                (string-prefix-p method-url (nth 0 entry)))
-              gnus-newsrc-alist))
-
-(defun my/add-missing-feeds ()
-  "Add all feeds not already in newrc there."
-  (dolist (feed (my/user-secret-else my/feeds-file nil))
-    (let* ((method+url (nth 0 feed))
-           (split (string-split method+url "+"))
-           (method (read (car split)))
-           (url (cl-second split)))
-      (unless (my/newsrc-contains method+url)
-        (message "adding feed %s" method+url)
-        (my/subscribe-feed-url method url)))))
-
-;; I don't really like the qualified name,
-;; and the non-qualified name isn't as
-;; easily customizable
-(defun gnus-user-format-function-G (_)
-  "Nicer formatting?"
-  (let* ((url-and-method (nth 0 (string-split gnus-tmp-group ":")))
-         (mapped (assoc url-and-method
-                        (my/user-secret-else my/feeds-file nil))))
-    (if (null mapped)
-        gnus-tmp-group
-      (cdr mapped))))
-
-(defun my/select-and-play-url ()
-  "Play a given URL in emms."
-  (interactive)
-  (let ((urls (gnus-collect-urls)))
-    (cond ((length< urls 1) (message "no URLs found"))
-          ((length= urls 1) (emms-play-url (car urls)))
-          ((length> urls 1) (emms-play-url (completing-read "URLs: " urls))))))
-
-(use-package gnus
-  :custom
-  ;; [TODO] explain
-  (gnus-group-line-format "%M%S%p%P%5y:%B%(%uG%)\n")
-  ;; Configure showing feeds
-  (gnus-parameters '(("\\(nnnrss\\|nnatom\\)+.*"
-                      (display . all)
-                      (gnus-article-sort-functions
-                       '((not gnus-article-sort-by-date)))
-                      (gnus-show-threads nil))))
-  (gnus-permanently-visible-groups "\\(nnnrss\\|nnatom\\)+.*")
-  :bind (("C-x C-a g" . gnus)
-         :map gnus-article-mode-map
-         ("C-c C-p" . my/select-and-play-url))
-  :hook (gnus-setup-news . my/add-missing-feeds))
-
 (use-package files
   :preface
   (defun my/find-file-massive-basic ()
@@ -900,6 +823,22 @@
   (mail-user-agent 'minimail)
   :config
   (load-file my/emails-accounts-location))
+
+(defvar my/emacs-feeds-location
+  "~/.config/sops-nix/secrets/emacs-feeds.el")
+
+(defun my/newsticker-youtube-emms ()
+  "Open the current newsticker YouTube video with emms."
+  (interactive)
+  (emms-play-url (get-text-property (point) :nt-link)))
+
+(use-package newsticker
+  :custom
+  (newsticker-url-list (my/user-secret-else my/emacs-feeds-location nil)))
+(use-package newst-treeview
+  :bind
+  ( :map newsticker-treeview-list-mode-map
+    ("C-c y" . my/newsticker-youtube-emms)))
 
 ;; Direnv support
 (use-package envrc

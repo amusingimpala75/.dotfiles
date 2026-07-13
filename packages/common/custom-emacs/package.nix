@@ -83,11 +83,9 @@ let
     paths = [
       # Dictionary support
       (aspellWithDicts (dicts: [ dicts.en ]))
-      # Mpv: no youtube b/c compiles from source then
-      (mpv.override {
-        youtubeSupport = false;
-      })
-      # needed by ox-pandoc
+      # emms
+      mpv
+      # ox-pandoc
       pandoc
       # Compression
       unzip
