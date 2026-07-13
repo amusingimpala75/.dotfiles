@@ -37,6 +37,8 @@ in
 stdenvNoCC.mkDerivation {
   inherit (package) name;
 
+  wrapped = package;
+
   phases = [ "installPhase" ];
 
   installPhase = ''

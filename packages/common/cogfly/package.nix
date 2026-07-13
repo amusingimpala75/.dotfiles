@@ -31,6 +31,7 @@ let
     ];
 
     # To update, run nix build .#cogfly.mitmCache.updateScript
+    # [ .#cogfly.wrapped.mitmCache.updateScript on Darwin ]
     # and run the resuliting file. Note: you may need to pin
     # the port manually since it wasn't working for me one time,
     # no clue why
