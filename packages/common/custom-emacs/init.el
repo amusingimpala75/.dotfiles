@@ -891,6 +891,16 @@
   :ensure t
   :custom (signel-account (my/user-secret-else my/signel-account-location nil)))
 
+(defvar my/emails-accounts-location
+  "~/.config/sops-nix/secrets/emacs-emails.el")
+
+(use-package minimail
+  :ensure t
+  :custom
+  (mail-user-agent 'minimail)
+  :config
+  (load-file my/emails-accounts-location))
+
 ;; Direnv support
 (use-package envrc
   :ensure t

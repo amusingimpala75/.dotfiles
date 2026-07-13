@@ -40,6 +40,7 @@
               "emacs-feeds.el"
               "emacs-radio-channels.el"
               "emacs-signel-number.el"
+              "emacs-emails.el"
             ]
             (file: {
               format = "binary";
