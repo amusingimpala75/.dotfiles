@@ -13,7 +13,7 @@
       {
         # Custom import-tree courtesy of iampavel.dev
         imports = lib.fileset.toList (
-          lib.fileset.fileFilter (file: file.hasExt "nix" && !(lib.hasPrefix "_" file.name)) ./modules/flake
+          lib.fileset.fileFilter (file: file.hasExt "nix" && !(lib.hasPrefix "_" file.name)) ./modules
         );
       }
     );
