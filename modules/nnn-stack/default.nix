@@ -49,7 +49,7 @@
         {
           imports = [ wlib.wrapperModules.noctalia-shell ];
 
-          outOfStoreConfig = "~/.dotfiles/modules/flake/nnn-stack/noctalia";
+          outOfStoreConfig = "~/.dotfiles/modules/nnn-stack/noctalia";
         };
     };
   };

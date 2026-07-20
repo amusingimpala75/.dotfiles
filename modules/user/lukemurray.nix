@@ -62,7 +62,7 @@
     }:
     {
       imports = with self.modules.homeManager; [
-        breaktime
+        # breaktime
         cli
         direnv
         emacs

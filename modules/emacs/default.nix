@@ -1,4 +1,8 @@
 {
+  self,
+  ...
+}:
+{
   flake.modules.homeManager.emacs =
     {
       config,
@@ -42,7 +46,7 @@
             ]
             (file: {
               format = "binary";
-              sopsFile = ../../../secrets/${file};
+              sopsFile = "${self}/secrets/${file}";
               path = "%r/${file}";
             })
           )
@@ -84,7 +88,7 @@
         sessionVariables.VISUAL = "emacsclient -c";
 
         file.".emacs.d/snippets".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/flake/emacs/snippets";
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/emacs/snippets";
       };
     };
 }
