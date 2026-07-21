@@ -127,11 +127,11 @@
       ...
     }:
     {
-      packages.sketchybar = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
-        self.wrappers.sketchybar.wrap {
+      packages = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
+        sketchybar = self.wrappers.sketchybar.wrap {
           inherit pkgs;
-        }
-      );
+        };
+      };
 
       wrappers.packages = {
         sketchybar-wrapper = true;
