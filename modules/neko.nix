@@ -71,7 +71,7 @@ in
         };
 
         config = {
-          package = pkgs.neko-go.program;
+          package = pkgs.neko-go;
           flags = {
             "-speed" = toString config.speed;
             "-scale" = toString config.scale;
