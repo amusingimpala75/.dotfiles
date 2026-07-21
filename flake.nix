@@ -25,10 +25,7 @@
     };
     angrr = {
       url = "github:linyinfeng/angrr";
-      inputs = {
-        nix-darwin.follows = "nix-darwin";
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     automader = {
       url = "github:amusingimpala75/automata_grader";
