@@ -32,7 +32,7 @@ jobs:
         extra-conf: experimental-features = flakes nix-command pipe-operators
     - id: set
       run: |
-        matrix=$(NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nix eval --impure --json --no-pretty --expr "import .github/workflows/package-runner-matrix.nix" --show-trace)
+        matrix=$(nix eval --impure --json --no-pretty --expr "import .github/workflows/package-runner-matrix.nix")
         echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   builds:

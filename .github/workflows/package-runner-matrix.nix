@@ -10,8 +10,7 @@ let
         "write-lock"
       ];
       filtered = flake.inputs.nixpkgs.lib.filterAttrs (
-        name: package:
-        (builtins.elem package.name whitelisted) || (builtins.elem system package.meta.platforms)
+        name: package: (builtins.elem name whitelisted) || (builtins.elem system package.meta.platforms)
       ) packages;
     in
     map (package: {
