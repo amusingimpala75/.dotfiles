@@ -8,13 +8,13 @@
 }:
 lua55Packages.buildLuaPackage {
   pname = "rift-lua";
-  version = "0-unstable-2026-02-20";
+  version = "0-unstable-2026-09-06";
 
   src = fetchFromGitHub {
     owner = "acsandmann";
     repo = "rift.lua";
-    rev = "4ef184ff186431fa2c6e6f8d43938588c30b0885";
-    hash = "sha256-nrF+QZAENHULrpFmB2OJ4aw4G1FeaeV5xvAst4Pb5QY=";
+    rev = "c5c087daf5da63e9b29e6c448ccabe364b7e13af";
+    hash = "sha256-QFO3ed2zlmwSVfdvXxnxn80CNWiclOXW6V8OzgmogF4=";
   };
 
   nativeBuildInputs = [ gcc ];
