@@ -20,12 +20,10 @@ let
     self.overlays.emacs-packages
 
     (final: prev: {
-      inherit (final.bleeding) nh pi-coding-agent rift-wm;
       emacsPackagesFor =
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (
           efinal: _: {
-            inherit (final.bleeding.emacsPackagesFor emacs) majutsu org;
             inherit (efinal.melpaPackages) telega;
           }
         ));
