@@ -78,6 +78,7 @@
           pkgs.noto-fonts-cjk-sans
           pkgs.maple-mono.NF-CN-unhinted
           pkgs.liberation_ttf
+          pkgs.youtube-rss # for newsticker
         ];
 
         shellAliases = {
