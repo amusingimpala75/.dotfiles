@@ -164,6 +164,11 @@
                   "user-filters"
                 ];
                 user-filters = builtins.readFile ./ublock-filters.txt;
+                netWhitelist = [
+                  "chrome-extension-scheme"
+                  "moz-extension-scheme"
+                  "www.youtube.com"
+                ];
               };
             };
           };
