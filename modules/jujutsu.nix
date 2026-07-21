@@ -40,6 +40,14 @@
               "change_id.short() ++ '\n'"
               "-r"
             ];
+            clean-push = [
+              "util"
+              "exec"
+              "--"
+              "sh"
+              "-c"
+              "jj run -j 4 -- pre-commit run --all-files && jj git push"
+            ];
           };
           fsmonitor.backend = "watchman";
           git.private-commits = "visible_heads()";

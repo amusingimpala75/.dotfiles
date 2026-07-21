@@ -39,4 +39,3 @@ index c1569ce..1c4f9a2 100644
  else ifeq ($(HAVE_MINGW64),yes)
 -- 
 2.52.0
-
