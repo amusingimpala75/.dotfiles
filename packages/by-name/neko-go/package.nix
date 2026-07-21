@@ -52,7 +52,7 @@ buildGoModule (finalAttrs: {
     "-w"
   ];
 
-  skins =
+  passthru.skins =
     let
       root =
         (fetchFromGitHub {
@@ -86,7 +86,7 @@ buildGoModule (finalAttrs: {
       "spirit"
       "tora"
       "valentine"
-    ] (name: "${root}/${name}");
+    ] (name: "${root}/${name}.png");
 
   meta = {
     description = "Cross-platform cursor-chasing cat reimplementation written in Go";

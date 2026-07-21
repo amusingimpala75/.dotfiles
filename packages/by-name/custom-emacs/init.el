@@ -375,6 +375,19 @@
                        (cdr association)
                      choice))))
 
+(defun my/kbaq-current-piece ()
+  "Fetch the currently-playing music on KBAQ."
+  (interactive)
+  (url-retrieve
+   (url-generic-parse-url "https://cadence.nprstations.org/api/cadence/widget/eeee8880-c130-4ec1-bec5-802797e5747e?show_song=true&format=json")
+   (lambda (_)
+     (goto-char url-http-end-of-headers)
+     (let* ((json (json-parse-buffer :object-type 'plist))
+            (song (plist-get json :currentlyPlayingSong))
+            (title (plist-get song :title))
+            (composer (plist-get song :composer)))
+       (message "%s by %s" title composer)))))
+
 (use-package emms
   :ensure t
   :bind

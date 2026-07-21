@@ -95,6 +95,7 @@
       };
 
       home.packages = with pkgs; [
+        blockbench
         cogfly
       ];
 
