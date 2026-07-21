@@ -71,8 +71,9 @@
         ghostty
         git
         jujutsu
-        neko
+        ladybird
         minecraft
+        neko
         ng-cli
         ng-nix
         pi
