@@ -7,7 +7,7 @@
     {
       nixpkgs.allowUnfreeList = [ "broadcom-sta" ];
       nixpkgs.config.permittedInsecurePackages = [
-        "broadcom-sta-6.30.223.271-59-${config.boot.kernelPackages.kernel.version}"
+        config.boot.kernelPackages.broadcom_sta.name
       ];
       boot = {
         extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
