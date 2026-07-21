@@ -27,7 +27,7 @@ jobs:
       matrix: ${{ steps.set.outputs.matrix }}
     steps:
     - uses: actions/checkout@v6
-    - uses: DeterminateSystems/nix-installer-action@v22
+    - uses: samueldr/lix-gha-installer-action@8dc19fbd6451fa106a68ecb2dafeeeb90dff3a29
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
     - id: set
