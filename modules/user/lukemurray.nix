@@ -94,6 +94,10 @@
         username = "amusingimpala75";
       };
 
+      home.packages = with pkgs; [
+        cogfly
+      ];
+
       targets.darwin = {
         copyApps.enable = true;
         linkApps.enable = false;

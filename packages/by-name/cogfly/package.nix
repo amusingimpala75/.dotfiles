@@ -4,7 +4,6 @@
   jdk25,
   lib,
   makeWrapper,
-  mkDarwinApplication,
   stdenvNoCC,
   ...
 }:
@@ -43,10 +42,20 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   installPhase = ''
     mkdir -p $out/share/cogfly $out/bin
-    cp build/libs/Cogfly-${finalAttrs.version}.jar resources/icons/icon.icns $out/share/cogfly/
-    makeWrapper ${lib.getExe jdk25} $out/bin/cogfly \
+    cp build/libs/Cogfly-${finalAttrs.version}.jar $out/share/cogfly/
+    makeWrapper ${lib.getExe jdk25} $out/bin/Cogfly \
       --add-flags "-jar $out/share/cogfly/Cogfly-${finalAttrs.version}.jar"
-  '';
+  ''
+  + (lib.optionalString stdenvNoCC.hostPlatform.isDarwin ''
+    mkdir -p $out/Applications/Cogfly.app/Contents/MacOS $out/Applications/Cogfly.app/Contents/Resources
+    cp resources/mac/Info.plist $out/Applications/Cogfly.app/Contents/
+    cp resources/icons/icon.icns $out/Applications/Cogfly.app/Contents/Resources/Cogfly.icns
+    cp $out/bin/Cogfly $out/Applications/Cogfly.app/Contents/MacOS
+  '')
+  + (lib.optionalString stdenvNoCC.hostPlatform.isLinux ''
+    mkdir -p $out/share/applications
+    cp resources/linux/Cogfly.desktop $out/share/applications/
+  '');
 
   meta = {
     mainProgram = "cogfly";
@@ -55,15 +64,3 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     platforms = lib.platforms.all;
   };
 })
-|> (
-  if stdenvNoCC.hostPlatform.isLinux then
-    lib.id
-  else
-    package:
-    mkDarwinApplication {
-      inherit package;
-      exeName = "cogfly";
-      appName = "Cogfly";
-      img = "${package}/share/cogfly/icon.icns";
-    }
-)
