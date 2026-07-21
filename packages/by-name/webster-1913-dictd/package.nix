@@ -3,6 +3,7 @@
   dict,
   fetchurl,
   flex,
+
   lib,
   stdenv,
   ...
@@ -80,6 +81,6 @@ stdenv.mkDerivation {
       lib.licenses.publicDomain
       lib.licenses.gpl1Plus
     ];
-    maintainers = [ ];
+    platforms = lib.platforms.all;
   };
 }

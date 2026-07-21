@@ -1,6 +1,8 @@
 {
   ffmpeg,
   jaq,
+
+  lib,
   writeShellApplication,
   ...
 }:
@@ -11,5 +13,8 @@ writeShellApplication {
     ffmpeg
     jaq
   ];
-  meta.description = "play an audio track (possibly looping) with ffmpeg";
+  meta = {
+    description = "play an audio track (possibly looping) with ffmpeg";
+    platforms = lib.platforms.all;
+  };
 }

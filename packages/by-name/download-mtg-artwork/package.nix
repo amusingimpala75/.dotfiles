@@ -3,6 +3,7 @@
   file,
   gnugrep,
 
+  lib,
   writeShellApplication,
   ...
 }:
@@ -14,5 +15,8 @@ writeShellApplication {
     file
     gnugrep
   ];
-  meta.description = "download a series of artwork from a MtG set";
+  meta = {
+    description = "download a series of artwork from a MtG set";
+    platforms = lib.platforms.all;
+  };
 }

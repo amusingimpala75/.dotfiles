@@ -128,9 +128,13 @@
     }:
     {
       packages = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-        sketchybar = self.wrappers.sketchybar.wrap {
-          inherit pkgs;
-        };
+        sketchybar =
+          (self.wrappers.sketchybar.wrap {
+            inherit pkgs;
+          }).overrideAttrs
+            (old: {
+              meta.platforms = lib.platforms.darwin;
+            });
       };
 
       wrappers.packages = {

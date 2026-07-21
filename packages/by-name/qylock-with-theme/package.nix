@@ -1,5 +1,6 @@
 {
   fetchFromGitHub,
+  lib,
   stdenv,
 
   theme ? "pixel-hollowknight",
@@ -24,4 +25,6 @@ stdenv.mkDerivation {
     mkdir -p "$out/share/sddm/themes/${theme}"
     cp -r "themes/${theme}/." "$out/share/sddm/themes/${theme}"
   '';
+
+  meta.platforms = lib.platforms.linux;
 }

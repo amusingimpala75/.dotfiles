@@ -2,22 +2,17 @@
   self,
   ...
 }:
-let
-  platformPackages = platform: final: prev: {
-    local = prev.local.overrideScope (
-      _: _:
-      prev.lib.packagesFromDirectoryRecursive {
-        inherit (final) callPackage;
-        directory = "${self}/packages/${platform}";
-      }
-    );
-  };
-in
 {
   flake.overlays = {
-    common = platformPackages "common";
-    darwin = platformPackages "darwin";
-    linux = platformPackages "linux";
+    by-name = final: prev: {
+      local = prev.local.overrideScope (
+        _: _:
+        prev.lib.packagesFromDirectoryRecursive {
+          inherit (final) callPackage;
+          directory = self + "/packages/by-name";
+        }
+      );
+    };
 
     emacs-packages = final: prev: {
       emacsPackagesFor =

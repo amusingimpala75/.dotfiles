@@ -1,5 +1,6 @@
 {
   curl,
+  lib,
   writeShellApplication,
   ...
 }:
@@ -9,5 +10,8 @@ writeShellApplication {
   runtimeInputs = [
     curl
   ];
-  meta.description = "Download Minecraft music assets";
+  meta = {
+    description = "Download Minecraft music assets";
+    platforms = lib.platforms.all;
+  };
 }

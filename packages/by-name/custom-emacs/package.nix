@@ -25,6 +25,7 @@
 
   # builders
   emacsWithPackagesFromUsePackage,
+  lib,
   makeWrapper,
   symlinkJoin,
   writeText,
@@ -123,5 +124,6 @@ symlinkJoin {
   meta = {
     description = "My custom emacs config";
     mainProgram = "emacs";
+    platforms = lib.platforms.all;
   };
 }

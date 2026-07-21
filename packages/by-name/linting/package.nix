@@ -7,6 +7,7 @@
   statix,
 
   fetchFromGitHub,
+  lib,
   writeShellApplication,
   ...
 }:
@@ -19,6 +20,7 @@ writeShellApplication {
   '';
   meta = {
     description = "Lint the current directory with deadnix, statix, and nixf-diagnose";
+    platforms = lib.platforms.all;
   };
   runtimeInputs = [
     deadnix

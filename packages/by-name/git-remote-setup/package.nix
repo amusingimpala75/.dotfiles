@@ -5,6 +5,8 @@
   git,
   gnugrep,
   gum,
+
+  lib,
   writeShellApplication,
 }:
 writeShellApplication {
@@ -17,5 +19,8 @@ writeShellApplication {
     gum
   ];
   runtimeEnv.GIT_REMOTE_SETUP_PROVIDERS = ./providers.txt;
-  meta.description = "setup multiple push-urls for a repo";
+  meta = {
+    description = "setup multiple push-urls for a repo";
+    platforms = lib.platforms.all;
+  };
 }

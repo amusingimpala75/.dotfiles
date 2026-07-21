@@ -12,6 +12,8 @@ let
   };
 
   overlays = [
+    self.overlays.preface
+
     bleeding
 
     inputs.emacs-overlay.overlays.default
@@ -31,15 +33,9 @@ let
 
     self.overlays.lib
 
-    self.overlays.common
-  ];
+    self.overlays.by-name
 
-  darwin-overlays = [
-    self.overlays.darwin
-  ];
-
-  linux-overlays = [
-    self.overlays.linux
+    self.overlays.flatten
   ];
 in
 {
@@ -52,13 +48,7 @@ in
       };
       config.nixpkgs = {
         config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) config.nixpkgs.allowUnfreeList;
-        overlays = [
-          self.overlays.preface
-        ]
-        ++ overlays
-        ++ darwin-overlays
-        ++ linux-overlays
-        ++ [ self.overlays.flatten ];
+        inherit overlays;
       };
     };
 
@@ -66,14 +56,7 @@ in
     { system, ... }:
     {
       _module.args.pkgs = import inputs.nixpkgs {
-        inherit system;
-        overlays = [
-          self.overlays.preface
-        ]
-        ++ overlays
-        ++ (lib.optionals (lib.hasSuffix "linux" system) linux-overlays)
-        ++ (lib.optionals (lib.hasSuffix "darwin" system) darwin-overlays)
-        ++ [ self.overlays.flatten ];
+        inherit overlays system;
       };
     };
 }
