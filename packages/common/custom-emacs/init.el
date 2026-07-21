@@ -834,7 +834,8 @@
 
 (use-package newsticker
   :custom
-  (newsticker-url-list (my/user-secret-else my/emacs-feeds-location nil)))
+  (newsticker-url-list (my/user-secret-else my/emacs-feeds-location nil))
+  (newsticker-url-list-defaults nil))
 (use-package newst-treeview
   :bind
   ( :map newsticker-treeview-list-mode-map

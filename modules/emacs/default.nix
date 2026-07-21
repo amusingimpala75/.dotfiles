@@ -26,8 +26,11 @@
         client.arguments = [ "-c" ];
       };
 
-      fonts.fontconfig.enable = true;
+      launchd.agents.emacs.config.EnvironmentVariables = {
+        TERMINFO = "${config.programs.ghostty.package.terminfo}/share/terminfo/";
+      };
 
+      fonts.fontconfig.enable = true;
       targets.darwin.defaults."org.gnu.Emacs".AppleFontSmoothing = lib.mkIf pkgs.stdenv.isDarwin 0;
 
       programs.emacs = {
