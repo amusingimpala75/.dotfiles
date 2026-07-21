@@ -304,9 +304,6 @@
 (use-package just-ts-mode
   :ensure t)
 
-(use-package swift-mode
-  :ensure t)
-
 (use-package elisp-mode
   :custom
   ;; Semantic fonitifcation is nice
