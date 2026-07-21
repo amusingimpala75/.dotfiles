@@ -66,6 +66,7 @@
         cli
         cloudflare-manager
         direnv
+        discord
         emacs
         firefox
         ghostty
@@ -93,7 +94,6 @@
         username = "amusingimpala75";
       };
 
-      programs.vesktop.enable = true;
 
       targets.darwin = {
         copyApps.enable = true;
