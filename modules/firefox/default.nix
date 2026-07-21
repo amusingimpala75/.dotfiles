@@ -22,7 +22,7 @@
             default = "ddg";
             force = true;
             engines = {
-              "Nixpkgs" = {
+              Nixpkgs = {
                 urls = [
                   {
                     template = "https://search.nixos.org/packages";
@@ -43,7 +43,21 @@
                   }
                 ];
                 icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-                definedAliases = [ "@np" ];
+                definedAliases = [ "@nixpkgs" ];
+              };
+              Noogle = {
+                urls = [
+                  {
+                    template = "https://noogle.dev/q/";
+                    params = [
+                      {
+                        name = "term";
+                        value = "{searchTerms}";
+                      }
+                    ];
+                  }
+                ];
+                definedAliases = [ "@noogle" ];
               };
               MyNixOS = {
                 urls = [
@@ -57,7 +71,7 @@
                     ];
                   }
                 ];
-                definedAliases = [ "@mn" ];
+                definedAliases = [ "@mynixos" ];
               };
               Scryfall = {
                 urls = [
@@ -113,6 +127,7 @@
               gaoptout
               github-file-icons
               gruvbox-dark-theme # TODO integrate with theme system
+              indie-wiki-buddy
               return-youtube-dislikes
               nopow
               sponsorblock
@@ -121,6 +136,12 @@
               youtube-recommended-videos # unhook
             ];
             settings = {
+              # Indie Wiki Buddy
+              "{cb31ec5d-c49a-4e5a-b240-16c767444f62}".settings = {
+                # for whatever reason this isn't actually read...
+                searchEngineToggles.duckduckgo = "on";
+                # Also somehow want to disable desktop notifications
+              };
               "uBlock0@raymondhill.net".settings = {
                 selectedFilterLists = [
                   "easylist"
