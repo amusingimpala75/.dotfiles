@@ -81,7 +81,7 @@
         imports = [ self.wrapperModules.jujutsu ];
         settings = {
           merge-tools.weave = {
-            program = lib.getExe' self.packages.${pkgs.stdenv.hostPlatform.system}.weave "weave-driver";
+            program = lib.getExe' pkgs.weave "weave-driver";
             merge-args = [
               "$base"
               "$left"
