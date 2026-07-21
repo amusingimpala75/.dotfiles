@@ -14,43 +14,52 @@
   libxxf86vm,
 }:
 
-buildGoModule (finalAttrs: {
-  pname = "neko";
-  version = "0.1.43";
+{
+  program = buildGoModule (finalAttrs: {
+    pname = "neko";
+    version = "0.1.43";
 
-  src = fetchFromGitHub {
-    owner = "crgimenes";
-    repo = "neko";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-2XlY0myW61HGfKaNVhIw1Yg71hhgc1gxqzdNudk2dR0=";
-  };
+    src = fetchFromGitHub {
+      owner = "crgimenes";
+      repo = "neko";
+      tag = "v${finalAttrs.version}";
+      hash = "sha256-2XlY0myW61HGfKaNVhIw1Yg71hhgc1gxqzdNudk2dR0=";
+    };
 
-  vendorHash = "sha256-pir3S6JkMDKteAGlsk20TN+LPh8ZqLaVFxydbX5q9i4=";
+    vendorHash = "sha256-pir3S6JkMDKteAGlsk20TN+LPh8ZqLaVFxydbX5q9i4=";
 
-  __structuredAttrs = true;
-  strictDeps = true;
+    __structuredAttrs = true;
+    strictDeps = true;
 
-  env.CGO_ENABLED = if stdenv.hostPlatform.isLinux then "1" else "0";
+    env.CGO_ENABLED = if stdenv.hostPlatform.isLinux then "1" else "0";
 
-  nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [
-    pkg-config
-  ];
+    nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [
+      pkg-config
+    ];
 
-  buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
-    alsa-lib
-    libGL
-    libx11
-    libxcursor
-    libxi
-    libxinerama
-    libxrandr
-    libxxf86vm
-  ];
+    buildInputs = lib.optionals stdenv.hostPlatform.isLinux [
+      alsa-lib
+      libGL
+      libx11
+      libxcursor
+      libxi
+      libxinerama
+      libxrandr
+      libxxf86vm
+    ];
 
-  ldflags = [
-    "-s"
-    "-w"
-  ];
+    ldflags = [
+      "-s"
+      "-w"
+    ];
+
+    meta = {
+      description = "Cross-platform cursor-chasing cat reimplementation written in Go";
+      homepage = "https://github.com/crgimenes/neko";
+      license = lib.licenses.bsd2;
+      mainProgram = "neko";
+    };
+  });
 
   skins =
     let
@@ -72,10 +81,4 @@ buildGoModule (finalAttrs: {
       }) files
     );
 
-  meta = {
-    description = "Cross-platform cursor-chasing cat reimplementation written in Go";
-    homepage = "https://github.com/crgimenes/neko";
-    license = lib.licenses.bsd2;
-    mainProgram = "neko";
-  };
-})
+}
