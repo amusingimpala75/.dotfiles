@@ -76,7 +76,7 @@
         inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
           pkg = pkgs.pi-coding-agent;
           binName = "pi";
-          outName = if outName != null then outName else "pi-wrapped";
+          outName = if outName != null then outName else "pi";
           allowedPackages =
             with pkgs;
             [
@@ -211,25 +211,11 @@
               "${inputs.pi-cd}/extensions/cd.ts"
               pi-minimal-footer
               pi-telegram
-              "${pkgs.pi-subagents}/lib/node_modules"
+              "${pkgs.pi-subagents}/lib/node_modules/@tintinweb"
             ];
           skills = [
             ./skills
           ];
-          subagents = {
-            defaultModel = "gpt-5.6-terra";
-            agentOverrides = {
-              scout = {
-                model = "gpt-5.6-luna";
-              };
-              oracle = {
-                model = "gpt-5.6-sol";
-              };
-              planner = {
-                model = "gpt-5.6-sol";
-              };
-            };
-          };
         };
       };
 
@@ -240,6 +226,11 @@
         ccusage
         rtk
       ];
+      # Custom agents, and to specify the models
+      home.file."${config.programs.pi.configDir}/agents" = {
+        source = ./agents;
+        recursive = true;
+      };
     };
 
   flake-file.inputs = {

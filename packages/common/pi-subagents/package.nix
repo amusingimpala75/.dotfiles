@@ -1,20 +1,27 @@
 {
   lib,
   buildNpmPackage,
-  fetchgit,
+  fetchFromGitHub,
 }:
 
 buildNpmPackage (finalAttrs: {
   pname = "pi-subagents";
-  version = "0.34.0";
+  version = "0.14.3";
 
-  src = fetchgit {
-    url = "https://github.com/nicobailon/pi-subagents.git";
+  src = fetchFromGitHub {
+    owner = "tintinweb";
+    repo = "pi-subagents";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-RN8f5cT/oRSkqwOAmvJ2uJsOmScYb0ijwixTd75iGHk=";
+    hash = "sha256-ZztgK9TUrpLsTSmYTOlHu8f6P5G/EA3MmVhqSfFZLQA=";
   };
 
-  npmDepsHash = "sha256-IJJ3hceNvHUr5QFIa/+0tnxNiEPh7jifE9dvPHrLE58=";
+  npmDepsFetcherVersion = 2;
+  npmDepsHash = "sha256-SSk/wL7T/DkkaOLAToI/eW8zReuwGnJE4Wfbc4KXcno=";
+
+  # The project's package-lock.json needed the npm-lockfile-fix script run on it
+  postPatch = ''
+    cp ${./package-lock.json} ./package-lock.json
+  '';
 
   dontNpmBuild = true;
 
@@ -22,9 +29,9 @@ buildNpmPackage (finalAttrs: {
   strictDeps = true;
 
   meta = {
-    description = "Pi extension for delegating tasks to subagents with chains, parallel execution, and TUI clarification";
-    homepage = "https://github.com/nicobailon/pi-subagents";
+    description = "Claude Code like Sub-agents for Pi — parallel execution, live widget, custom agent types, mid-run steering and more";
+    homepage = "https://github.com/tintinweb/pi-subagents";
     license = lib.licenses.mit;
-    mainProgram = "pi-subagents";
+    # mainProgram = "pi-subagents";
   };
 })
