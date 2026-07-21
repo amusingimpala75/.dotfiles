@@ -1,4 +1,5 @@
 {
+  lib,
   self,
   ...
 }:
@@ -6,7 +7,6 @@
   flake.wrappers = {
     sketchybar =
       {
-        lib,
         pkgs,
         ...
       }:
@@ -42,7 +42,6 @@
     sketchybar-wrapper =
       {
         config,
-        lib,
         pkgs,
         wlib,
         ...
@@ -122,5 +121,19 @@
     wrappers.sketchybar.enable = true;
   };
 
-  perSystem.wrappers.packages.sketchybar-wrapper = true;
+  perSystem =
+    {
+      pkgs,
+      ...
+    }:
+    {
+      packages.sketchybar =
+        lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin self.wrappers.sketchybar.wrap
+          { inherit pkgs; };
+
+      wrappers.packages = {
+        sketchybar-wrapper = true;
+        sketchybar = true;
+      };
+    };
 }
