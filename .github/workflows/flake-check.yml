@@ -29,7 +29,7 @@ jobs:
     - uses: actions/checkout@v6
     - uses: samueldr/lix-gha-installer-action@8dc19fbd6451fa106a68ecb2dafeeeb90dff3a29
       with:
-        extra-conf: experimental-features = flakes nix-command pipe-operator
+        extra_nix_config: experimental-features = flakes nix-command pipe-operator
     - id: set
       run: |
         matrix=$(NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nix eval --impure --json --expr "import .github/workflows/package-runner-matrix.nix" --show-trace)
