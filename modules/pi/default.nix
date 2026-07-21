@@ -1,60 +1,8 @@
 {
   inputs,
-  self,
   ...
 }:
 {
-  # Reusable home module for pi
-  flake.homeModules.pi =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-    {
-      options.programs.pi = {
-        enable = lib.mkEnableOption "pi coding agent";
-        noUpdateNotice = lib.mkEnableOption "disable update check";
-        configDir = lib.mkOption {
-          description = "path of the coding agent home relative to ~";
-          default = ".pi/agent";
-          example = ".config/pi/agent";
-          type = lib.types.str;
-        };
-        "AGENTS.md" = lib.mkOption {
-          description = "global AGENTS.md";
-          default = null;
-          example = ./AGENTS.md;
-          type = lib.types.nullOr lib.types.path;
-        };
-        package = lib.mkPackageOption pkgs "pi-coding-agent" { };
-        settings = lib.mkOption {
-          description = "settings for pi (see docs/settings.md)";
-          default = null;
-          example = {
-            defaultProvider = "openai";
-          };
-          type = lib.types.nullOr lib.types.json;
-        };
-      };
-      config = lib.mkIf config.programs.pi.enable {
-        home = {
-          packages = [ config.programs.pi.package ];
-          sessionVariables.PI_CODING_AGENT_DIR = "~/${config.programs.pi.configDir}";
-          sessionVariables.PI_OFFLINE = lib.mkIf config.programs.pi.noUpdateNotice 1;
-
-          file = {
-            "${config.programs.pi.configDir}/AGENTS.md".source = config.programs.pi."AGENTS.md";
-            "${config.programs.pi.configDir}/settings.json".text = lib.mkIf (
-              config.programs.pi.settings != null
-            ) (builtins.toJSON config.programs.pi.settings);
-          };
-        };
-      };
-    };
-
-  # My configuration for pi
   flake.modules.homeManager.pi =
     {
       config,
@@ -62,6 +10,8 @@
       ...
     }:
     let
+      config-dir = ".config/pi/agent";
+
       build =
         {
           outName ? null,
@@ -96,7 +46,7 @@
             ]
             ++ allowedPackages;
           rwDirs = [
-            "$HOME/${config.programs.pi.configDir}"
+            "$HOME/${config-dir}"
             "$HOME/Library/Application Support/rtk"
           ]
           ++ rwDirs;
@@ -135,12 +85,10 @@
       '';
     in
     {
-      imports = [ self.homeModules.pi ];
-      programs.pi = {
+      programs.pi-coding-agent = {
         enable = true;
-        "AGENTS.md" = ./global-agents.md;
-        configDir = ".config/pi/agent";
-        noUpdateNotice = true;
+        context = ./global-agents.md;
+        configDir = "${config.home.homeDirectory}/${config-dir}";
         package = pkgs.symlinkJoin {
           name = "pi-configs";
           paths = [
@@ -221,15 +169,22 @@
 
       sops.secrets."deepseek_api_key" = { };
 
-      home.sessionVariables.PI_AGENT_DIR = "$HOME/${config.programs.pi.configDir}/sessions";
-      home.packages = with pkgs; [
-        ccusage
-        rtk
-      ];
-      # Custom agents, and to specify the models
-      home.file."${config.programs.pi.configDir}/agents" = {
-        source = ./agents;
-        recursive = true;
+      home = {
+        sessionVariables = {
+          PI_AGENT_DIR = "$HOME/${config-dir}/sessions"; # Stupid ccusage
+          PI_OFFLINE = 1;
+        };
+
+        packages = with pkgs; [
+          ccusage
+          rtk
+        ];
+
+        # Custom agents, and to specify the models
+        file."${config-dir}/agents" = {
+          source = ./agents;
+          recursive = true;
+        };
       };
     };
 
