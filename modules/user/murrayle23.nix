@@ -1,12 +1,11 @@
 {
+  inputs,
   self,
   ...
 }:
 {
   flake.homeConfigurations = self.lib.mkHome "x86_64-linux" "murrayle23" (
     {
-      lib,
-      inputs,
       pkgs,
       ...
     }:

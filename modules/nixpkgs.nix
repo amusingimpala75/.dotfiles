@@ -23,7 +23,7 @@ let
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (
           efinal: _: {
-            inherit (final.bleeding.emacsPackagesFor emacs) majutsu;
+            inherit (final.bleeding.emacsPackagesFor emacs) majutsu org;
             inherit (efinal.melpaPackages) telega;
           }
         ));
