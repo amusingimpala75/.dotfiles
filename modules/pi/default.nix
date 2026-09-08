@@ -64,6 +64,7 @@
             roFiles
             allowNix
             ;
+          allowUnixSockets = allowNix;
           env = {
             inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR PI_OFFLINE;
             DEEPSEEK_API_KEY = "$(cat ${config.sops.secrets.deepseek_api_key.path})";

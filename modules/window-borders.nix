@@ -6,7 +6,7 @@ let
       ...
     }:
     {
-      services.jankyborders = lib.mkIf pkgs.stdenv.isDarwin {
+      services.jankyborders = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
         enable = true;
         settings = {
           style = "round";
@@ -15,11 +15,11 @@ let
       };
 
       programs.wallust.settings = {
-        templates.jankyborders = lib.mkIf pkgs.stdenv.isDarwin {
+        templates.jankyborders = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
           template = ./wallust/jankyborders.wallust;
           target = "~/.config/jankyborders/wallust.json";
         };
-        hooks.jankyborders = lib.mkIf pkgs.stdenv.isDarwin ''
+        hooks.jankyborders = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin ''
           borders active_color="$(jaq -r '.active' < ~/.config/jankyborders/wallust.json)" inactive_color="$(jaq -r '.inactive' < ~/.config/jankyborders/wallust.json)"
         '';
 

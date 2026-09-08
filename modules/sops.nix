@@ -15,7 +15,7 @@
 
       sops = {
         age.keyFile =
-          if pkgs.stdenv.isDarwin then
+          if pkgs.stdenv.hostPlatform.isDarwin then
             "${config.home.homeDirectory}/Library/Application Support/sops/age/keys.txt"
           else
             "${config.home.homeDirectory}/.config/sops/age/keys.txt";

@@ -17,7 +17,7 @@
         defaultKeymap = "emacs";
         initContent =
           let
-            hostnamePattern = if pkgs.stdenv.isDarwin then "$(scutil --get LocalHostName)" else "%m";
+            hostnamePattern = if pkgs.stdenv.hostPlatform.isDarwin then "$(scutil --get LocalHostName)" else "%m";
           in
           ''
             source ${pkgs.git}/share/git/contrib/completion/git-prompt.sh

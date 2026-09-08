@@ -65,4 +65,4 @@ let
     img = "${src}/icons/icon.icns";
   };
 in
-if stdenv.isDarwin then darwin-pkg else pkg
+if stdenv.hostPlatform.isDarwin then darwin-pkg else pkg

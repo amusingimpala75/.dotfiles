@@ -158,7 +158,7 @@
         inputs.nur.overlays.default
       ];
 
-      home.activation.default-browser = lib.mkIf pkgs.stdenv.isDarwin (
+      home.activation.default-browser = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
         lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           ${lib.getExe pkgs.defaultbrowser} firefox
         ''

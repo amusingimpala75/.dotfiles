@@ -55,7 +55,7 @@
               {
                 home = {
                   inherit username;
-                  homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+                  homeDirectory = if pkgs.stdenv.hostPlatform.isDarwin then "/Users/${username}" else "/home/${username}";
                 };
                 news.display = "silent";
                 programs.home-manager.enable = true;

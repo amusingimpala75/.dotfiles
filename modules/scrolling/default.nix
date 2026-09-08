@@ -7,7 +7,7 @@ let
       ...
     }:
     {
-      launchd.agents.rift = lib.mkIf pkgs.stdenv.isDarwin {
+      launchd.agents.rift = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
         enable = true;
         config = {
           ProgramArguments = [

@@ -46,7 +46,7 @@ let
       };
     in
     {
-      config = lib.mkIf stdenv.isDarwin {
+      config = lib.mkIf stdenv.hostPlatform.isDarwin {
         programs.aerospace = {
           enable = true;
 
