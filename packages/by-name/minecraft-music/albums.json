@@ -1,0 +1,118 @@
+{
+  "tales_and_trails": [
+    "a_familiar_room.ogg"
+  ],
+  "caves_and_cliffs": [
+    "an_ordinary_day.ogg",
+    "ancestry.ogg",
+    "comforting_memories.ogg",
+    "floating_dream.ogg",
+    "infinite_amethyst.ogg",
+    "left_to_bloom.ogg",
+    "one_more_day.ogg",
+    "stand_tall.ogg",
+    "wending.ogg",
+    "otherside.ogg"
+  ],
+  "chase_the_skies": [
+    "below_and_above.ogg",
+    "broken_clocks.ogg",
+    "fireflies.ogg",
+    "lilypad.ogg",
+    "os_piano.ogg",
+    "tears.ogg"
+  ],
+  "trails_and_tales": [
+    "bromeliad.ogg",
+    "crescent_dunes.ogg",
+    "echo_in_the_wind.ogg"
+  ],
+  "volume_alpha": [
+    "clark.ogg",
+    "danny.ogg",
+    "dry_hands.ogg",
+    "haggstrom.ogg",
+    "key.ogg",
+    "living_mice.ogg",
+    "mice_on_venus.ogg",
+    "minecraft.ogg",
+    "oxygene.ogg",
+    "subwoofer_lullaby.ogg",
+    "sweden.ogg",
+    "wet_hands.ogg",
+    "13.ogg",
+    "cat.ogg"
+  ],
+  "volume_beta": [
+    "aria_math.ogg",
+    "biome_fest.ogg",
+    "blind_spots.ogg",
+    "dreiton.ogg",
+    "haunt_muskie.ogg",
+    "taswell.ogg",
+    "alpha.ogg",
+    "the_end.ogg",
+    "ballad_of_the_cats.ogg",
+    "concrete_halls.ogg",
+    "dead_voxel.ogg",
+    "warmth.ogg",
+    "beginning_2.ogg",
+    "floating_trees.ogg",
+    "moog_city_2.ogg",
+    "mutation.ogg",
+    "blocks.ogg",
+    "chirp.ogg",
+    "far.ogg",
+    "mall.ogg",
+    "mellohi.ogg",
+    "stal.ogg",
+    "strad.ogg",
+    "wait.ogg",
+    "ward.ogg"
+  ],
+  "tricky_trials": [
+    "deeper.ogg",
+    "eld_unknown.ogg",
+    "endless.ogg",
+    "featherfall.ogg",
+    "komorebi.ogg",
+    "pokopoko.ogg",
+    "puzzlebox.ogg",
+    "watcher.ogg",
+    "yakusoku.ogg",
+    "creator.ogg",
+    "creator_music_box.ogg",
+    "precipice.ogg",
+    "relic.ogg"
+  ],
+  "chaos_cubed": [
+    "ebb.ogg",
+    "home.ogg",
+    "memories.ogg",
+    "nightly.ogg",
+    "shores.ogg",
+    "bounce.ogg"
+  ],
+  "-": [
+    "boss.ogg",
+    "11.ogg",
+    "lava_chicken.ogg"
+  ],
+  "nether_update": [
+    "chrysopoeia.ogg",
+    "rubedo.ogg",
+    "so_below.ogg",
+    "pigstep.ogg"
+  ],
+  "the_wild_update": [
+    "aerie.ogg",
+    "firebugs.ogg",
+    "labyrinthine.ogg",
+    "5.ogg"
+  ],
+  "volume_gamma": [
+    "axolotl.ogg",
+    "dragon_fish.ogg",
+    "shuniji.ogg"
+  ]
+}

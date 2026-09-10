@@ -28,8 +28,10 @@ then
     exit 1
 fi
 
-ffprobe "$FILE" -v quiet -show_entries format_tags=title,composer -of json |
-    jaq -r '.format.tags | "\(.composer) - \(.title | gsub("_"; " "))" // "missing"'
+MSG=$(ffprobe "$FILE" -v quiet -show_entries format_tags=title,composer -of json |
+          jaq -r '.format.tags | "\(.composer // "Unknown") - \(.title // "Unknown"| gsub("_"; " "))" // "missing"')
+
+echo "$MSG - $FILE"
 
 for _ in $(seq 1 "$LOOP")
 do
