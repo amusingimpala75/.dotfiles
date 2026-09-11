@@ -3,7 +3,8 @@ name: Flake update
 'on':
   workflow_dispatch: { }
   schedule:
-    - cron: "0 8 5 * *"
+    - cron: "0 5 5 * *"
+      timezone: "America/New_York"
 
 jobs:
   update:

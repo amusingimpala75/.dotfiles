@@ -3,7 +3,8 @@ name: Flake bleeding update
 'on':
   workflow_dispatch: { }
   schedule:
-    - cron: "0 8 * * 1"
+    - cron: "0 4 * * *"
+      timezone: "America/New_York
 
 jobs:
   update:
