@@ -22,7 +22,7 @@ let
   ) (builtins.fromJSON (builtins.readFile ./index.json));
   albums = builtins.fromJSON (builtins.readFile ./albums.json);
 in
-symlinkJoin {
+(symlinkJoin {
   name = "minecraft-music";
   inherit paths;
   update = writeShellApplication {
@@ -48,4 +48,6 @@ symlinkJoin {
       passthru.tracks = builtins.listToAttrs tracks;
     }
   ) albums;
-}
+}).overrideAttrs (old: {
+  meta.platforms = lib.platforms.all;
+})
