@@ -319,6 +319,9 @@
 (use-package elm-mode
   :ensure t)
 
+(use-package coffee-mode
+  :ensure t)
+
 (use-package imacs-completion
   :ensure t)
 
