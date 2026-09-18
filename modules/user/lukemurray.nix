@@ -64,6 +64,7 @@
       imports = with self.modules.homeManager; [
         # breaktime
         cli
+        cloudflare-manager
         direnv
         emacs
         firefox

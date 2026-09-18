@@ -11,8 +11,9 @@
     }:
     {
       imports = with self.modules.homeManager; [
-        direnv
         cli
+        cloudflare-manager
+        direnv
         emacs
         git
         jujutsu
