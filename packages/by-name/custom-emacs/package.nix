@@ -14,6 +14,7 @@
   biome,
   clang-tools,
   gopls,
+  harper,
   jdt-language-server,
   nixd,
   rassumfrassum,
@@ -108,6 +109,7 @@ let
       nixd # for Nix
       bash-language-server # for Bash
       gopls # for Go
+      harper # for grammar
     ];
   };
 in

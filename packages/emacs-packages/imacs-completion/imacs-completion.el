@@ -36,7 +36,7 @@
   ;; Hook into a variety of prog modes
   (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode
      nix-mode java-ts-mode js-ts-mode typescript-ts-mode
-     lua-ts-mode rustic-mode scala-mode elm-mode)
+     lua-ts-mode rustic-mode scala-mode elm-mode markdown-ts-mode)
    . eglot-ensure)
   :preface
   ;; I don't know why eglot started
@@ -51,6 +51,7 @@
   (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit)
   ;; Add swift lsp
   (add-to-list 'eglot-server-programs '(swift-mode . ("sourcekit-lsp")))
+  (add-to-list 'eglot-server-programs '(markdown-ts-mode . ("harper-ls" "--stdio")))
   (setcdr
    (assoc
     '((js-mode :language-id "javascript")
