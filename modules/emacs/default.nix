@@ -91,10 +91,10 @@
 
         sessionVariables.EDITOR = "emacsclient -nw";
         sessionVariables.VISUAL = "emacsclient -c";
-
-        file.".emacs.d/snippets".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/emacs/snippets";
       };
+
+      xdg.configFile."emacs/snippets".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/emacs/snippets";
 
       xdg.configFile."home-manager/packages".text =
         config.home.packages |> map (pkg: if pkg ? pname then pkg.pname else pkg.name) |> builtins.toJSON;
