@@ -260,11 +260,6 @@
   :mode
   ("\\.md\\'" . markdown-ts-mode))
 
-(use-package eglot
-  :defines
-  eglot-workspace-configuration
-  eglot-server-programs)
-
 (use-package nix-mode
   :ensure t)
 

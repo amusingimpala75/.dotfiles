@@ -52,6 +52,9 @@
   ;; Add swift lsp
   (add-to-list 'eglot-server-programs '(swift-mode . ("sourcekit-lsp")))
   (add-to-list 'eglot-server-programs '(markdown-ts-mode . ("harper-ls" "--stdio")))
+  (add-to-list 'eglot-server-programs '(org-mode . ("harper-ls" "--stdio")))
+  (setq-default eglot-workspace-configuration
+                '(:harper-ls (:linters (:OxfordComma :json-false))))
   (setcdr
    (assoc
     '((js-mode :language-id "javascript")
