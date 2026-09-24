@@ -43,12 +43,14 @@
 
           nix-index.enable = false;
           nix-index-database.comma.enable = true;
+
+          nix-your-shell = {
+            enable = true;
+            nix-output-monitor.enable = true;
+          };
         };
 
         home = {
-          shellAliases = {
-            nds = "nix develop -c $SHELL";
-          };
           packages = with pkgs; [
             self.packages.${pkgs.stdenv.hostPlatform.system}.nixpkgs-review
             nix-tree
