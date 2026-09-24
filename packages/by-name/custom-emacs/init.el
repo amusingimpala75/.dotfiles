@@ -768,10 +768,17 @@
   ( :map speedbar-file-key-map
     ("q" . speedbar)))
 
+(defun my/discord-installed-p ()
+  "Checks to see if a discord client is installed."
+  (let ((packages-path "~/.config/home-manager/packages")
+        (package-names '("discord" "vesktop" "equibop" "dissent" "dorion")))
+    (when (file-exists-p packages-path)
+      (and (any (lambda (prog) (seq-contains-p (json-read-file packages-path) prog (-flip #'s-contains-p))) package-names) t))))
+
 (use-package elcord
   :ensure t
   :hook
-  (after-init . elcord-mode))
+  (after-init . (lambda () (when (my/discord-installed-p) (elcord-mode 1)))))
 
 (use-package discourse
   :ensure t
