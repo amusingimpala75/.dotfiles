@@ -1,13 +1,13 @@
 {
   fetchFromGitHub,
   lib,
-  stdenv,
+  stdenvNoCC,
 
   theme ? "pixel-hollowknight",
   hash ? "sha256-1At9ffKV46lAOYn0ksyHPIzn8FUsHJfKuHcw4ep6vSs=",
   ...
 }:
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   name = "sddm-theme-${theme}";
   src = fetchFromGitHub {
     owner = "Darkkal44";

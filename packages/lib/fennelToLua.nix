@@ -1,9 +1,9 @@
 {
-  stdenv,
+  stdenvNoCC,
   lua54Packages,
 }:
 drvArgs:
-(stdenv.mkDerivation drvArgs).overrideAttrs (
+(stdenvNoCC.mkDerivation drvArgs).overrideAttrs (
   _: _: {
     buildInputs = [ lua54Packages.fennel ];
     phases = [ "buildPhase" ];

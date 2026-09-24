@@ -5,7 +5,7 @@
   lib,
   makeWrapper,
   mkDarwinApplication,
-  stdenv,
+  stdenvNoCC,
   ...
 }:
 let
@@ -18,7 +18,7 @@ let
     hash = "sha256-49pBeR5I4iqIaIgK5wsMQt+pCXYJOYEwjAsgp54pYJk=";
   };
 
-  pkg = stdenv.mkDerivation {
+  pkg = stdenvNoCC.mkDerivation {
     pname = "cogfly";
     inherit version src;
 
@@ -65,4 +65,4 @@ let
     img = "${src}/icons/icon.icns";
   };
 in
-if stdenv.hostPlatform.isDarwin then darwin-pkg else pkg
+if stdenvNoCC.hostPlatform.isDarwin then darwin-pkg else pkg

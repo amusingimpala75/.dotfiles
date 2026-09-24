@@ -1,11 +1,11 @@
 {
   lua54Packages,
-  stdenv,
+  stdenvNoCC,
   ...
 }:
 drvArgs:
 lua54Packages.toLuaModule (
-  (stdenv.mkDerivation drvArgs).overrideAttrs (
+  (stdenvNoCC.mkDerivation drvArgs).overrideAttrs (
     _: _: {
       buildInputs = [ lua54Packages.fennel ];
       phases = [ "buildPhase" ];
