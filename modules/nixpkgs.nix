@@ -19,7 +19,7 @@ let
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
 
-    (final: prev: {
+    (_: prev: {
       emacsPackagesFor =
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (

@@ -94,7 +94,6 @@
         username = "amusingimpala75";
       };
 
-
       targets.darwin = {
         copyApps.enable = true;
         linkApps.enable = false;

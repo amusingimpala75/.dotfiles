@@ -32,7 +32,7 @@
           .envrc
           .env
         '').overrideAttrs
-          (old: {
+          (_: {
             meta.platforms = lib.platforms.all;
           });
     };

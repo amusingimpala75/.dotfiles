@@ -31,7 +31,8 @@
       };
 
       fonts.fontconfig.enable = true;
-      targets.darwin.defaults."org.gnu.Emacs".AppleFontSmoothing = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin 0;
+      targets.darwin.defaults."org.gnu.Emacs".AppleFontSmoothing =
+        lib.mkIf pkgs.stdenv.hostPlatform.isDarwin 0;
 
       programs.emacs = {
         enable = true;

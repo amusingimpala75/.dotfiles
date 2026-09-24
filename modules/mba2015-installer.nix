@@ -20,7 +20,7 @@
   };
   flake.packages.x86_64-linux.mba2015-installer =
     self.nixosConfigurations.mba2015-installer.config.system.build.isoImage.overrideAttrs
-      (old: {
+      (_: {
         meta.platforms = lib.platforms.linux;
       });
 }

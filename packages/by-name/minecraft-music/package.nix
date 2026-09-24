@@ -48,6 +48,7 @@ in
       passthru.tracks = builtins.listToAttrs tracks;
     }
   ) albums;
-}).overrideAttrs (old: {
-  meta.platforms = lib.platforms.all;
-})
+}).overrideAttrs
+  (_: {
+    meta.platforms = lib.platforms.all;
+  })

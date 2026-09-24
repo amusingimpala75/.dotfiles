@@ -64,7 +64,7 @@
           };
 
           luaPackages = lib.mkOption {
-            default = ps: [ ];
+            default = _: [ ];
             type = lib.types.functionTo (lib.types.listOf lib.types.package);
           };
 
@@ -132,7 +132,7 @@
           (self.wrappers.sketchybar.wrap {
             inherit pkgs;
           }).overrideAttrs
-            (old: {
+            (_: {
               meta.platforms = lib.platforms.darwin;
             });
       };
