@@ -8,19 +8,17 @@
   stdenvNoCC,
   ...
 }:
-let
-  version = "1.1.2";
-
-  src = fetchFromGitHub {
-    owner = "Nix-main";
-    repo = "Cogfly";
-    rev = version;
-    hash = "sha256-49pBeR5I4iqIaIgK5wsMQt+pCXYJOYEwjAsgp54pYJk=";
-  };
-
-  pkg = stdenvNoCC.mkDerivation {
+(
+  stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "cogfly";
-    inherit version src;
+    version = "1.2.5";
+
+    src = fetchFromGitHub {
+      owner = "Nix-main";
+      repo = "Cogfly";
+      rev = finalAttrs.version;
+      hash = "sha256-noOe0Jyb53swzloY7e1TWI6oYzOpQclrTU38/R5mvXk=";
+    };
 
     __darwinAllowLocalNetworking = true;
 
@@ -36,7 +34,7 @@ let
     # the port manually since it wasn't working for me one time,
     # no clue why
     mitmCache = gradle_9.fetchDeps {
-      inherit pkg;
+      inherit (finalAttrs) pname;
       data = ./cogfly-deps.json;
     };
 
@@ -46,9 +44,9 @@ let
 
     installPhase = ''
       mkdir -p $out/share/cogfly $out/bin
-      cp build/libs/Cogfly-${version}.jar $out/share/cogfly/
+      cp build/libs/Cogfly-${finalAttrs.version}.jar resources/icons/icon.icns $out/share/cogfly/
       makeWrapper ${lib.getExe jdk25} $out/bin/cogfly \
-        --add-flags "-jar $out/share/cogfly/Cogfly-${version}.jar"
+        --add-flags "-jar $out/share/cogfly/Cogfly-${finalAttrs.version}.jar"
     '';
 
     meta = {
@@ -57,12 +55,17 @@ let
       license = lib.licenses.asl20;
       platforms = lib.platforms.all;
     };
-  };
-  darwin-pkg = mkDarwinApplication {
-    package = pkg;
-    exeName = "cogfly";
-    appName = "Cogfly";
-    img = "${src}/icons/icon.icns";
-  };
-in
-if stdenvNoCC.hostPlatform.isDarwin then darwin-pkg else pkg
+  })
+  |> (
+    if stdenvNoCC.hostPlatform.isLinux then
+      package: package
+    else
+      package:
+      mkDarwinApplication {
+        inherit package;
+        exeName = "cogfly";
+        appName = "Cogfly";
+        img = "${package}/share/cogfly/icon.icns";
+      }
+  )
+)

@@ -182,16 +182,16 @@
   }
  },
  "https://repo.maven.apache.org/maven2": {
-  "ch/qos/logback#logback-classic/1.5.6": {
-   "jar": "sha256-YRXGysXtHZ24ENFPL39N1qnyHwrLuoAW5NqsoroPXrg=",
-   "pom": "sha256-SysA32EjwOKmHnG1vis/AHOWeLtLBplA1cScJN9T9Zo="
+  "ch/qos/logback#logback-classic/1.5.37": {
+   "jar": "sha256-/Wj/WqJ2CFesW3rTAemLxsGKdNYNfgFtoaYIMHye6tc=",
+   "pom": "sha256-LmUJJ/4yonkCDzCX5bnX2h2IKLJzL2IOfOmGzM+ZMXI="
   },
-  "ch/qos/logback#logback-core/1.5.6": {
-   "jar": "sha256-iYx9EgGZ834azIEY2XqxWk0CsOcuJ7qfBYQ8s3ThYMY=",
-   "pom": "sha256-BpPQaN02h3R1rYCQbjHHvA1RlbgtTAB1HcGcHqUR5xE="
+  "ch/qos/logback#logback-core/1.5.37": {
+   "jar": "sha256-wUKVXXV9kjxsYmKWvZe+Lg2xz9M63q2/LiknQDOR4KE=",
+   "pom": "sha256-8oTpAjJbtuPNW8i1+egOsd4Ef6z8QScCo7pp0ZIfe5U="
   },
-  "ch/qos/logback#logback-parent/1.5.6": {
-   "pom": "sha256-e9/LJJJGgaSRRNujSpJ7i9B5INCS6sw972H55kevTeg="
+  "ch/qos/logback#logback-parent/1.5.37": {
+   "pom": "sha256-w7tOQyZeVSyOf8e0eqbVgCx3ekSA0yXCcQSeZUiw0VY="
   },
   "com/formdev#flatlaf-intellij-themes/3.7": {
    "jar": "sha256-yIxGt8A3n+k2k1fXjgDsLvBPaHjsrBF7QF8Z5+UUh5I=",
@@ -229,15 +229,15 @@
    "jar": "sha256-JgxLHiKx254RDuRBxPE84RX4QfpIxB14dQmGIUs5VVc=",
    "pom": "sha256-mLYq5v8oDXR/s1n8QuSP7RE9Rbw3Kagj3DC4MIqAZkU="
   },
-  "org/slf4j#slf4j-api/2.0.13": {
-   "jar": "sha256-58KkjoUVuh9J+mN9V7Ti9ZCz9b2XQHrGmcOqXvsSBKk=",
-   "pom": "sha256-UYBc/agMoqyCBBuQbZhl056YI+NYoO62I3nf7UdcFXE="
+  "org/slf4j#slf4j-api/2.0.17": {
+   "jar": "sha256-e3UdlSBhlU1av+1xgcH2RdM2CRtnmJFZHWMynGIuuDI=",
+   "pom": "sha256-FQxAKH987NwhuTgMqsmOkoxPM8Aj22s0jfHFrJdwJr8="
   },
-  "org/slf4j#slf4j-bom/2.0.13": {
-   "pom": "sha256-evJy16c44rmHY3kf/diWBA6L6ymKiP1gYhRAeXbNMQo="
+  "org/slf4j#slf4j-bom/2.0.17": {
+   "pom": "sha256-940ntkK0uIbrg5/BArXNn+fzDzdZn/5oGFvk4WCQMek="
   },
-  "org/slf4j#slf4j-parent/2.0.13": {
-   "pom": "sha256-Z/rP1R8Gk1zqhWFaBHddcNgL/QOtDzdnA1H5IO0LtYo="
+  "org/slf4j#slf4j-parent/2.0.17": {
+   "pom": "sha256-lc1x6FLf2ykSbli3uTnVfsKy5gJDkYUuC1Rd7ggrvzs="
   },
   "org/yaml#snakeyaml/2.2": {
    "jar": "sha256-FGeTFEiggXaWrigFt7iyC/sIJlK/nE767VKJMNxJOJs=",
