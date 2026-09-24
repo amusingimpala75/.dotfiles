@@ -119,6 +119,7 @@ in
       "avogadrio" = "amusingimpala75.github.io";
       "memory" = "amusingimpala75.github.io";
       "www" = "amusingimpala75.github.io";
+      "comp451" = "my-platform-36w.pages.dev";
     };
     MX = [
       "fwd1.porkbun.com"
