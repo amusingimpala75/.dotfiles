@@ -5,17 +5,13 @@
   stdenvNoCC,
   ...
 }:
-let
-  version = "1.4.1";
-  hash = "sha256-b7N0fWPH+uxNoZdD2kYcEsJxIPxl/J6rCNvIlahu4s0=";
-in
-stdenvNoCC.mkDerivation {
-  inherit version;
+stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "WallP.exe";
+  version = "1.4.1";
 
   src = fetchzip {
-    inherit hash;
-    url = "https://github.com/LesFerch/WallP/releases/download/${version}/WallP.zip";
+    hash = "sha256-b7N0fWPH+uxNoZdD2kYcEsJxIPxl/J6rCNvIlahu4s0=";
+    url = "https://github.com/LesFerch/WallP/releases/download/${finalAttrs.version}/WallP.zip";
     stripRoot = false;
   };
 
@@ -33,4 +29,4 @@ stdenvNoCC.mkDerivation {
     # specifically with WSL
     platforms = lib.platforms.linux;
   };
-}
+})

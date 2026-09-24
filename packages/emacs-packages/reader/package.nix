@@ -10,7 +10,6 @@
   ...
 }:
 let
-  version = "0-unstable-2026-02-17";
   src = fetchFromGitea {
     domain = "codeberg.org";
     owner = "MonadicSheep";
@@ -40,6 +39,7 @@ let
 in
 melpaBuild {
   pname = "reader";
-  inherit src version;
+  version = "0-unstable-2026-02-17";
+  inherit src;
   files = ''(:defaults "${lib.getLib core}/lib/render-core.*")'';
 }

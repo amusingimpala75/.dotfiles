@@ -8,15 +8,11 @@
   stdenv,
   ...
 }:
-
-let
-  version = "1.4-0.47pd-2";
-in
 stdenv.mkDerivation {
   # Keep the derivation name matching the DICT database basename; the local
   # dictd module uses package.name as the database name.
   name = "web1913";
-  inherit version;
+  version = "1.4-0.47pd-2";
 
   src = fetchurl {
     url = "https://snapshot.debian.org/file/edbb34c19958b0fc2b15fce54cd0efe9b59010ea";
