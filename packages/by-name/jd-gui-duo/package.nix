@@ -55,7 +55,7 @@ let
     };
   };
 in
-if stdenv.isLinux || mkDarwinApplication == null then
+if stdenv.hostPlatform.isLinux || mkDarwinApplication == null then
   pkg
 else
   mkDarwinApplication {

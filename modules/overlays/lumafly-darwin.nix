@@ -1,7 +1,7 @@
 {
   flake.overlays.lumafly-darwin = final: prev: {
     lumafly =
-      if prev.stdenv.isLinux then
+      if prev.stdenv.hostPlatform.isLinux then
         prev.lumafly
       else
         let
