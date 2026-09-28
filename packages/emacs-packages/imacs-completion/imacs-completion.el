@@ -68,8 +68,8 @@
 ;; Snippets completion
 (use-package yasnippet
   :ensure t
-  :custom
-  (yas-global-mode t))
+  :hook
+  (after-init . yas-global-mode))
 ;; Use pre-packaged snippets
 (use-package yasnippet-snippets
   :ensure t
@@ -94,10 +94,6 @@
     ("C-v" . icomplete-vertical-mode)
     ("SPC" . self-insert-command))
   :custom
-  ;; Show icomplete vertically
-  (icomplete-vertical-mode t)
-  ;; Scroll
-  (icomplete-scroll t)
   ;; Show before typing anything
   (icomplete-show-matches-on-no-input t)
   ;; Don't bother waiting, immediately run
@@ -109,13 +105,17 @@
   (icomplete-hide-common-prefix nil)
   :hook
   ;; Truncate lines, else marginalia breaks stuff
-  (icomplete-minibuffer-setup . (lambda () (setq truncate-lines t))))
+  (icomplete-minibuffer-setup . (lambda () (setq truncate-lines t)))
+  ;; Show icomplete vertically
+  (after-init . icomplete-vertical-mode)
+  ;; Scroll
+  (icomplete-vertical-mode . (lambda () (setq icomplete-scroll t))))
 
 ;; Show useful information like the docstring in completions
 (use-package marginalia
   :ensure t
-  :custom
-  (marginalia-mode 1)
+  :hook
+  (after-init . marginalia-mode)
   :bind
   ( :map minibuffer-local-map
     ("M-a" . marginalia-cycle)))
@@ -133,9 +133,9 @@
      (variable (styles orderless basic)))))
 
 (use-package savehist
-  :custom
+  :hook
   ;; Save history between sessions
-  (savehist-mode 1))
+  (after-init . savehist-mode))
 
 (use-package consult
   :ensure t
@@ -210,11 +210,10 @@
           ("S-<tab>" . completion-at-point)
           ("<backtab>" . completion-at-point))
   :custom
-  ;; Always enabled
-  (global-corfu-mode t)
   ;; Allow cycling
   (corfu-cycle t)
   :hook
+  ;; Always enabled
   (after-init . global-corfu-mode))
 
 (use-package corfu-popupinfo

@@ -30,20 +30,28 @@
 
 ;; Disable the scroll bar
 (use-package scroll-bar
-  :custom (scroll-bar-mode nil)) ;;  Also see frame defaults
+  :hook
+  ;;  Also see frame defaults
+  (after-init . (lambda () (scroll-bar-mode -1))))
 
 ;; Disable tool bar
 (use-package tool-bar
-  :custom (tool-bar-mode nil))
+  :hook
+  (after-init . (lambda () (tool-bar-mode -1))))
 
 (use-package emacs
-  :custom
+  :hook
   ;; Disable menu bar, unless it's on macOS ('cause it doesn't take
   ;; up any extra screen space there)
-  (menu-bar-mode
-   (if (eq system-type 'darwin)
-       t
-     nil))
+  (after-init
+   . (lambda ()
+       (menu-bar-mode
+        (if (eq system-type 'darwin)
+            t
+          -1))))
+  ;; High precision scroll
+  (after-init . pixel-scroll-precision-mode)
+  :custom
   ;; Show square corners or arrows to denote
   ;; the edge of a buffer
   (indicate-buffer-boundaries 'left)
@@ -51,8 +59,6 @@
   (visible-bell 1)
   ;; Scroll by line when going off edge of screen
   (scroll-conservatively 101)
-  ;; High precision scroll
-  (pixel-scroll-precision-mode t)
   ;; Resize by pixel rather than char
   (frame-resize-pixelwise t)
   ;; Preserve location on screen when scrolling
@@ -103,7 +109,8 @@
 
 ;; Bring up a menu when in partially completed key chord
 (use-package which-key
-  :custom (which-key-mode t))
+  :hook
+  (after-init . which-key-mode))
 
 ;; Allow highlighting hex colors (don't enable by default)
 (use-package rainbow-mode
@@ -112,11 +119,12 @@
 ;; Show a breadcrumb at the top of the screen
 (use-package breadcrumb
   :ensure t
-  :custom (breadcrumb-mode t))
+  :hook
+  (after-init . breadcrumb-mode))
 
-;; When in a text mode, don't truncate lines but wrap them
 (use-package simple
   :hook
+  ;; When in a text mode, don't truncate lines but wrap them
   (text-mode . visual-line-mode)
   :custom
   ;; Please no tabs
@@ -187,8 +195,8 @@
 ;; Use ligatures, only prog-mode currently
 (use-package ligature
   :ensure t
-  :custom
-  (global-ligature-mode t)
+  :hook
+  (after-init . global-ligature-mode)
   :config
   (ligature-set-ligatures '(prog-mode org-mode)
                           '("==" "!=" ">=" "<=" "->" "=>"
@@ -320,11 +328,15 @@
 (use-package imacs-completion
   :ensure t)
 
+(use-package eglot
+  :defines eglot-mode-map)
+
 (use-package elec-pair
   :functions electric-pair-default-inhibit
-  :custom
+  :hook
   ;; Electric pair ootb [TODO] not in org?
-  (electric-pair-mode t)
+  (after-init . electric-pair-mode)
+  :custom
   (electric-pair-pairs
    '((34 . 34) ;; ""
      (91 . 93) ;; []
@@ -334,7 +346,7 @@
 (use-package avy
   :ensure t
   ;; Easy jump / yank
-  :bind (("M-j" . avy-goto-char-timer)))
+  :bind ("M-j" . avy-goto-char-timer))
 
 ;; Show documentation
 (use-package eldoc-box
@@ -365,10 +377,11 @@
 
 (use-package emms
   :ensure t
-  :bind (("C-x C-a p e" . emms)
-         ("C-x C-a p p" . emms-start)
-         ("C-x C-a p s" . emms-stop)
-         ("C-x C-a p r" . my/radio-play))
+  :bind
+  ("C-x C-a p e" . emms)
+  ("C-x C-a p p" . emms-start)
+  ("C-x C-a p s" . emms-stop)
+  ("C-x C-a p r" . my/radio-play)
   :custom
   ;; mpv backend for emms
   (emms-player-list '(emms-player-mpv))
@@ -459,14 +472,16 @@
 
 (use-package undo-fu-session
   :ensure t
+  :hook
   ;; Save undo history
-  :custom (undo-fu-session-global-mode t))
+  (after-init . undo-fu-session-global-mode))
 
 ;; Ibuffer instead of whatever it was before
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
+  :hook
+  (ibuffer-mode . ibuffer-auto-mode)
   :custom
-  (ibuffer-auto-mode t)
   (ibuffer-show-empty-filter-groups nil)
   (ibuffer-formats
    '(( mark modified read-only locked " "
@@ -503,8 +518,9 @@
   (ibuffer . (lambda () (ibuffer-vc-set-filter-groups-by-vc-root))))
 
 (use-package delsel
+  :hook
   ;; Delete selection when typing and region active
-  :custom (delete-selection-mode t))
+  (after-init . delete-selection-mode))
 
 (use-package indent-bars
   :ensure t
@@ -543,17 +559,19 @@
   (after-init . diff-hl-margin-mode))
 
 (use-package recentf
-  :custom
+  :hook
   ;; Keep track of recently visited files
-  (recentf-mode t)
+  (after-init . recentf-mode)
+  :custom
   ;; Increase the limit
   (recentf-max-saved-items 200)
   :bind ("C-x C-r" . recentf))
 
 (use-package saveplace
-  :custom
+  :hook
   ;; Remember where last in file on reopen
-  (save-place-mode t)
+  (after-init . save-place-mode)
+  :custom
   ;; Autosave every 3 seconds
   (save-place-autosave-interval 3.0))
 
@@ -588,10 +606,10 @@
 ;; And treesit based hide blocks
 (use-package treesit-fold
   :ensure t
-  :custom
-  (global-treesit-fold-mode t)
+  :hook
+  (after-init . global-treesit-fold-mode)
   ;; With the indicators, nice
-  (global-treesit-fold-indicators-mode t))
+  (after-init . global-treesit-fold-indicators-mode))
 
 ;; And unify the fold types
 (use-package kirigami
@@ -632,7 +650,8 @@
 
 ;; Use editorconfig
 (use-package editorconfig
-  :custom (editorconfig-mode t))
+  :hook
+  (after-init . editorconfig-mode))
 
 ;; Easier window switching
 (use-package ace-window
@@ -684,8 +703,8 @@
   :ensure t)
 
 (use-package mb-depth
-  :custom
-  (minibuffer-depth-indicate-mode t))
+  :hook
+  (after-init . minibuffer-depth-indicate-mode))
 
 (use-package subword
   :hook (after-init . global-subword-mode))
@@ -710,15 +729,15 @@
     (add-to-list 'god-exempt-major-modes mode)))
 
 (use-package hl-line
-  :custom
-  (global-hl-line-mode t))
+  :hook
+  (after-init . global-hl-line-mode))
 
 (use-package s
   :functions s-trim)
 
 (use-package autorevert
-  :custom
-  (global-auto-revert-mode t))
+  :hook
+  (after-init . global-auto-revert-mode))
 
 (use-package apheleia
   :ensure t
@@ -748,12 +767,13 @@
 ;;(use-package xref
 ;;  :hook
 ;;  (after-init . global-xref-mouse-mode))
+(add-hook 'after-init (lambda () (global-xref-mouse-mode 1)))
 
 (use-package system-taskbar
   :hook
   (after-init . system-taskbar-mode))
 
-(use-package tty-tip-mode
+(use-package tty-tip
   :hook
   (after-init . tty-tip-mode))
 
