@@ -19,7 +19,6 @@
   nixd,
   rassumfrassum,
   rust-analyzer,
-  ty,
   typescript-language-server,
   zls,
   zuban,
@@ -102,8 +101,7 @@ let
       jdt-language-server # jdtls for Java
       biome # these two for
       typescript-language-server # TypeScript
-      zuban # these two
-      ty # for Python
+      zuban # for python
       rust-analyzer # for Rust
       zls # for Zig
       nixd # for Nix

@@ -34,9 +34,9 @@
   (eglot-documentation-renderer 'markdown-ts-view-mode)
   :hook
   ;; Hook into a variety of prog modes
-  (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode
-     nix-mode java-ts-mode js-ts-mode typescript-ts-mode
-     lua-ts-mode rustic-mode scala-mode elm-mode markdown-ts-mode)
+  (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode python-ts-mode
+     nix-mode java-ts-mode js-ts-mode typescript-ts-mode lus-ts-mode rustic-mode
+     scala-mode elm-mode markdown-ts-mode)
    . eglot-ensure)
   :preface
   ;; I don't know why eglot started
@@ -49,21 +49,23 @@
       (cons server (map-delete kv :cancel-on-quit))))
   :config
   (advice-add 'jsonrpc-request :filter-args #'remove:cancel-on-quit)
-  ;; Add swift lsp
-  (add-to-list 'eglot-server-programs '(swift-mode . ("sourcekit-lsp")))
-  (add-to-list 'eglot-server-programs '(markdown-ts-mode . ("harper-ls" "--stdio")))
-  (add-to-list 'eglot-server-programs '(org-mode . ("harper-ls" "--stdio")))
   (setq-default eglot-workspace-configuration
                 '(:harper-ls (:linters (:OxfordComma :json-false))))
-  (setcdr
-   (assoc
-    '((js-mode :language-id "javascript")
-      (js-ts-mode :language-id "javascript")
-      (tsx-ts-mode :language-id "typescriptreact")
-      (typescript-ts-mode :language-id "typescript")
-      (typescript-mode :language-id "typescript"))
-    eglot-server-programs)
-   '("rass" "--" "typescript-language-server" "--stdio" "--" "biome" "lsp-proxy")))
+  (dolist
+      (addition
+       '((swift-mode . ("sourcekit-lsp"))
+         ((markdown-ts-mode org-mode) . ("harper-ls" "--stdio"))
+         (((js-mode :language-id "javascript")
+           (js-ts-mode :language-id "javascript")
+           (tsx-ts-mode :language-id "typescriptreact")
+           (typescript-ts-mode :language-id "typescript")
+           (typescript-mode :language-id "typescript")
+           )
+          . ("rass" "--"
+             "typescript-language-server" "--stdio" "--"
+             "biome" "lsp-proxy"))
+         ((python-mode python-ts-mode) . ("zuban" "server"))))
+    (add-to-list 'eglot-server-programs addition)))
 
 ;; Snippets completion
 (use-package yasnippet
