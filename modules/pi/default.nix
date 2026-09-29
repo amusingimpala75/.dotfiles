@@ -58,6 +58,7 @@
             pi-telegram
             pkgs.pi-subagents
             pkgs.pi-mcp-adapter
+            ./skills
           ]
           ++ roDirs;
           inherit
@@ -153,7 +154,6 @@
               "permission-gate"
               "protected-paths"
               "status-line"
-              # "subagent"
               "tools"
             ])
             ++ [
@@ -184,10 +184,7 @@
         ];
 
         # Custom agents, and to specify the models
-        file."${config-dir}/agents" = {
-          source = ./agents;
-          recursive = true;
-        };
+        file."${config-dir}/agents".source = config.lib.file.mkOutOfStoreSymlink ./agents;
       };
     };
 
