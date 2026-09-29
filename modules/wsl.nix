@@ -89,7 +89,7 @@
     };
 
   flake-file.inputs.nixos-wsl = {
-    url = "github:nix-community/NixOS-WSL/main";
+    url = "github:nix-community/NixOS-WSL";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 }
