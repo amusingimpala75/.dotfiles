@@ -6,21 +6,25 @@
 
 buildNpmPackage (finalAttrs: {
   pname = "pi-subagents";
-  version = "0.14.3";
+  version = "0.19.0";
 
   src = fetchFromGitHub {
     owner = "tintinweb";
     repo = "pi-subagents";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-ZztgK9TUrpLsTSmYTOlHu8f6P5G/EA3MmVhqSfFZLQA=";
+    hash = "sha256-1K6U5+2qLgOV7lUWbvqUne/Pf7oMRDf40GXLl8gv6Bk=";
   };
 
   npmDepsFetcherVersion = 2;
-  npmDepsHash = "sha256-SSk/wL7T/DkkaOLAToI/eW8zReuwGnJE4Wfbc4KXcno=";
+  npmDepsHash = "sha256-MfBxGLUgfzO0RcwggITW3XU4rpxeGGpVXM2Qmm/E8tc=";
 
   # The project's package-lock.json needed the npm-lockfile-fix script run on it
+  # Run something like:
+  # nix build .#pi-subagents.src
+  # , npm-lockfile-fix result/package-lock.json --cout | jq > mine.json
+  # diff -u result/package-lock.json mine.json > packages/by-name/pi-subagents/package-lock.json.patch
   postPatch = ''
-    cp ${./package-lock.json} ./package-lock.json
+    patch package-lock.json < ${./package-lock.json.patch}
   '';
 
   dontNpmBuild = true;
