@@ -57,6 +57,7 @@
             pi-minimal-footer
             pi-telegram
             pkgs.pi-subagents
+            pkgs.pi-mcp-adapter
           ]
           ++ roDirs;
           inherit
@@ -161,6 +162,7 @@
               pi-minimal-footer
               pi-telegram
               "${pkgs.pi-subagents}/lib/node_modules/@tintinweb"
+              "${pkgs.pi-mcp-adapter}/lib/node_modules/pi-mcp-adapter"
             ];
           skills = [
             ./skills
