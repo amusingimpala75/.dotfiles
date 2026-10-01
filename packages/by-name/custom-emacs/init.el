@@ -402,10 +402,15 @@
   (require 'emms-setup)
   (emms-minimalistic))
 
-(use-package vscode-icon
+(use-package material-icons
   :ensure t
-  :functions
-  vscode-icon-for-file)
+  :hook
+  (dired-mode . material-icons-dired-icons-mode)
+  (ibuffer-mode . material-icons-ibuffer-icons-mode)
+  :init
+  (setq material-icons-size 22)
+  (with-eval-after-load 'speedbar
+    (material-icons-speedbar-icons-mode t)))
 
 (use-package dired
   :functions
@@ -414,36 +419,11 @@
   :custom
   ;; B/c Darwin is weird
   (dired-use-ls-dired (not (eq system-type 'darwin)))
+  ;; Reduce columns
+  (dired-hide-details-preserved-columns '(1 3 5 6 7 8))
+  (dired-listing-switches "-alXh --group-directories-first")
   :hook
-  ;; Reduce columns and add icons (only if not already
-  ;; in dired-sidebar)
-  (dired-mode . (lambda ()
-                  (require 'dired-sidebar)
-                  (unless (my/dired-sidebar-bufferp)
-                    (setq-local dired-hide-details-preserved-columns
-                                '(1 3 5 6 7 8))
-                    (dired-hide-details-mode)
-                    (add-hook 'dired-after-readin-hook
-                              'dired-sidebar-tui-dired-display nil t)))))
-
-(use-package dired-sidebar
-  :ensure t
-  :after vscode-icon
-  :bind ("C-x C-d" . dired-sidebar-toggle-sidebar)
-  :functions
-  dired-sidebar-tui-dired-display
-  dired-sidebar-buffer
-  :hook
-  ;; Auto-revert
-  (dired-sidebar-mode . (lambda ()
-                          (unless (file-remote-p default-directory)
-                            (auto-revert-mode))))
-  :custom
-  (dired-sidebar-theme 'vscode)
-  :preface
-  (defun my/dired-sidebar-bufferp ()
-    "Check if the current buffer is a dired-sidebar buffer."
-    (eq (current-buffer) (dired-sidebar-buffer))))
+  (dired-mode . dired-hide-details-mode))
 
 (use-package pdf-tools
   :ensure t
@@ -495,31 +475,7 @@
   :hook
   (ibuffer-mode . ibuffer-auto-mode)
   :custom
-  (ibuffer-show-empty-filter-groups nil)
-  (ibuffer-formats
-   '(( mark modified read-only locked " "
-       (icon 2 2 :left) (name 18 18 :left :elide) " "
-       (size 9 -1 :right) " "
-       (mode 16 16 :left :elide) " "
-       filename-and-process)
-     ( mark " "
-       (name 16 -1) " "
-       filename)))
-  (ibuffer-human-readable-size t)
-  :preface
-  (defun my/icon-for-buffer (buffer)
-    (with-current-buffer buffer
-      (cond
-       ((buffer-file-name) (vscode-icon-for-file (buffer-file-name)))
-       ((derived-mode-p 'dired-mode) (vscode-icon-for-file (dired-current-directory)))
-       ((derived-mode-p 'eshell-mode) (vscode-icon-for-file "foo.sh"))
-       (t nil))))
-  :config
-  (define-ibuffer-column icon
-    (:name " ")
-    (if-let* ((icon (my/icon-for-buffer buffer)))
-        (propertize " " 'display icon)
-      "  ")))
+  (ibuffer-show-empty-filter-groups nil))
 
 ;; Grouping ibuffer by project root
 (use-package ibuffer-vc
@@ -798,6 +754,7 @@
   (speedbar-window-default-width 40)
   (speedbar-window-max-width 40)
   :bind
+  ("C-x C-d" . speedbar)
   ( :map speedbar-file-key-map
     ("q" . speedbar)))
 

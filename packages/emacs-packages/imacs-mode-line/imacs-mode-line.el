@@ -44,7 +44,9 @@
    '( eldoc-mode hs-minor-mode which-key-mode completion-preview-mode
       buffer-face-mode org-indent-mode visual-line-mode god-local-mode
       treesit-fold-mode yas-minor-mode subword-mode apheleia-mode
-      buffer-terminator-mode super-save-mode outline-minor-mode)))
+      buffer-terminator-mode super-save-mode outline-minor-mode
+      material-icons-speedbar-icons-mode material-icons-dired-icons-mode
+      material-icons-ibuffer-icons-mode)))
 
 ;; Just show the bare styled numbers, no
 ;; brackets or 'Flymake'
