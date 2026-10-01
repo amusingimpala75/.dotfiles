@@ -14,8 +14,8 @@ let
     domain = "codeberg.org";
     owner = "MonadicSheep";
     repo = "emacs-reader";
-    rev = "98c5046683e997902a83092b65cdb70ab120e000";
-    hash = "sha256-Jo8ZecM4Y22T5kc5zJzCvSywkxwcpNEtQ3HHMJNesac=";
+    rev = "424c84659b2882021700640eac9ed8f0995db0f6";
+    hash = "sha256-XKLLX2/r8kTEIkkqGCmcGR/OU3/iXiZmwLjqVAZDX7s=";
   };
   core = stdenv.mkDerivation {
     inherit src;
@@ -39,7 +39,7 @@ let
 in
 melpaBuild {
   pname = "reader";
-  version = "0-unstable-2026-02-17";
+  version = "0-unstable-2026-09-30";
   inherit src;
   files = ''(:defaults "${lib.getLib core}/lib/render-core.*")'';
 }
