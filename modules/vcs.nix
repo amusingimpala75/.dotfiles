@@ -30,6 +30,7 @@
           **/.DS_Store
           .direnv
           .envrc
+          /result
           .env
         '').overrideAttrs
           (_: {
