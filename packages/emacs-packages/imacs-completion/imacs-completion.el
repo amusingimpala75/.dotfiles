@@ -238,6 +238,9 @@
         (append completion-preview-commands
                 '(org-self-insert-command org-delete-backward-char))))
 
+(use-package copilot
+  :ensure t)
+
 (provide 'imacs-completion)
 
 ;;; imacs-completion.el ends here

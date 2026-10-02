@@ -98,5 +98,7 @@
 
       xdg.configFile."home-manager/packages".text =
         config.home.packages |> map (pkg: pkg.pname or pkg.name) |> builtins.toJSON;
+
+      nixpkgs.allowUnfreeList = [ "copilot-language-server" ];
     };
 }

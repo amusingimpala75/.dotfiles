@@ -13,6 +13,7 @@
   bash-language-server,
   biome,
   clang-tools,
+  copilot-language-server,
   gopls,
   harper,
   jdt-language-server,
@@ -108,6 +109,8 @@ let
       bash-language-server # for Bash
       gopls # for Go
       harper # for grammar
+      # AI tab complete
+      copilot-language-server
     ];
   };
 in

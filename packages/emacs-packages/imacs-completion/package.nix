@@ -1,6 +1,7 @@
 {
   cape,
   consult,
+  copilot,
   corfu,
   embark,
   embark-consult,
@@ -21,6 +22,7 @@ melpaBuild {
   packageRequires = [
     cape
     consult
+    copilot
     corfu
     embark
     embark-consult
