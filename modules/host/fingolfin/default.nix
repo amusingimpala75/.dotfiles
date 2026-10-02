@@ -8,6 +8,7 @@
     {
       imports = with self.modules.nixos; [
         dictionary
+        sshfs
         wsl
       ];
 
