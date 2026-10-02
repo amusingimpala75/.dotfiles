@@ -833,6 +833,9 @@
   ( :map newsticker-treeview-list-mode-map
     ("C-c y" . my/newsticker-youtube-emms)))
 
+(use-package editorconfig
+  :hook (after-init . editorconfig-mode))
+
 ;; Direnv support
 (use-package envrc
   :ensure t

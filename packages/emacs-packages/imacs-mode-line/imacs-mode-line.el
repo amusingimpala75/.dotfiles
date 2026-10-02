@@ -46,7 +46,7 @@
       treesit-fold-mode yas-minor-mode subword-mode apheleia-mode
       buffer-terminator-mode super-save-mode outline-minor-mode
       material-icons-speedbar-icons-mode material-icons-dired-icons-mode
-      material-icons-ibuffer-icons-mode)))
+      material-icons-ibuffer-icons-mode editorconfig-mode)))
 
 ;; Just show the bare styled numbers, no
 ;; brackets or 'Flymake'
