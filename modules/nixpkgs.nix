@@ -25,6 +25,7 @@ let
         ((prev.emacsPackagesFor emacs).overrideScope (
           efinal: _: {
             inherit (efinal.melpaPackages) telega;
+            inherit (prev.bleeding.emacsPackagesFor emacs) pilish;
           }
         ));
     })

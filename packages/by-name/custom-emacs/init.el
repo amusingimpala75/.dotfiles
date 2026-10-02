@@ -836,6 +836,11 @@
 (use-package editorconfig
   :hook (after-init . editorconfig-mode))
 
+(use-package pilish
+  :ensure t
+  :init
+  (defalias 'pi 'pilish))
+
 ;; Direnv support
 (use-package envrc
   :ensure t
