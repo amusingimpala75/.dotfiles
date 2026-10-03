@@ -31,7 +31,7 @@
   (org-hide-emphasis-markers t)
   ;; setup org modules for tempo
   ;; (I'm not using any of the ol modules currently, could change)
-  (org-modules '(org-tempo ox-typst ox-pandoc))
+  (org-modules '(org-tempo ox-pandoc))
   :functions
   org-beginning-of-line
   org-end-of-line
@@ -86,7 +86,8 @@
 ;; Colorize text blocks on export
 (use-package engrave-faces
   :ensure t
-  :defer t)
+  :defer t
+  :custom (org-latex-src-block-backend 'engraved))
 
 ;; Showing markup delimiters on hover
 (use-package org-appear
@@ -99,14 +100,6 @@
 (use-package org-present
   :ensure t
   :defer t)
-
-;; Export org mode things with typst
-(use-package ox-typst
-  :ensure t
-  :defer t
-  :custom
-  ;; Typst should be set up per-project
-  (org-typst-process "nix develop -c typst c \"%s\""))
 
 (provide 'imacs-org)
 ;;; imacs-org.el ends here

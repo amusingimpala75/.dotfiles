@@ -2,7 +2,6 @@
   org-modern,
   org-modern-indent,
   ox-pandoc,
-  ox-typst,
   engrave-faces,
   org-appear,
   org-present,
@@ -17,7 +16,6 @@ melpaBuild {
     org-modern
     org-modern-indent
     ox-pandoc
-    ox-typst
     engrave-faces
     org-appear
     org-present
