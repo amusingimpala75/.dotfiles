@@ -85,6 +85,11 @@
 (use-package battery
   :hook (after-init . display-battery-mode))
 
+;; Hide the dired switches in the modeline
+(use-package dired
+  :custom
+  (dired-switches-in-mode-line 0))
+
 (provide 'imacs-mode-line)
 
 ;;; imacs-mode-line.el ends here
