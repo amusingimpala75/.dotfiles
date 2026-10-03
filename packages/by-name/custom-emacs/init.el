@@ -655,9 +655,6 @@
   :ensure t
   :hook org-mode)
 
-(use-package casual
-  :ensure t)
-
 (use-package whitespace
   :hook (before-save . whitespace-cleanup))
 
@@ -770,22 +767,6 @@
   :hook
   (after-init . (lambda () (when (my/discord-installed-p) (elcord-mode 1)))))
 
-(use-package discourse
-  :ensure t
-  :custom
-  (discourse-default-url "https://discourse.nixos.org")
-  :config
-  (add-to-list 'auth-sources "~/.config/sops-nix/secrets/rendered/nixos_discourse.authinfo"))
-
-(use-package clatter
-  :ensure t
-  :custom
-  (clatter-networks
-   '(("libera" :server "irc.libera.chat" :port 6697 :tls t :nick "amusingimpala75")))
-  :config
-  (require 'gnutls)
-  (add-to-list 'auth-sources "~/.config/sops-nix/secrets/rendered/libera-chat.authinfo"))
-
 (use-package verb
   :ensure t)
 
@@ -795,16 +776,6 @@
 
 (use-package eplot
   :ensure t)
-
-(use-package telega
-  :ensure t)
-
-(defvar my/signel-account-location
-  "~/.config/sops-nix/secrets/emacs-signel-number.el")
-
-(use-package signel
-  :ensure t
-  :custom (signel-account (my/user-secret-else my/signel-account-location nil)))
 
 (defvar my/emails-accounts-location
   "~/.config/sops-nix/secrets/emacs-emails.el")
@@ -819,19 +790,10 @@
 (defvar my/emacs-feeds-location
   "~/.config/sops-nix/secrets/emacs-feeds.el")
 
-(defun my/newsticker-youtube-emms ()
-  "Open the current newsticker YouTube video with emms."
-  (interactive)
-  (emms-play-url (get-text-property (point) :nt-link)))
-
 (use-package newsticker
   :custom
   (newsticker-url-list (my/user-secret-else my/emacs-feeds-location nil))
   (newsticker-url-list-defaults nil))
-(use-package newst-treeview
-  :bind
-  ( :map newsticker-treeview-list-mode-map
-    ("C-c y" . my/newsticker-youtube-emms)))
 
 (use-package editorconfig
   :hook (after-init . editorconfig-mode))

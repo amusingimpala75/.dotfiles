@@ -5,7 +5,6 @@
   librsvg,
   mpv,
   pandoc,
-  signal-cli,
   unzip,
   vimPlugins,
   zip,
@@ -86,7 +85,7 @@ let
       # Dictionary support
       (aspellWithDicts (dicts: [ dicts.en ]))
       # emms
-      mpv
+      (mpv.override { youtubeSupport = false; })
       # ox-pandoc
       pandoc
       # Compression
@@ -94,8 +93,6 @@ let
       zip
       # eplot
       librsvg
-      # signel
-      signal-cli
       # LSPs
       rassumfrassum
       clang-tools # clangd for C
