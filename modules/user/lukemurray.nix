@@ -1,4 +1,5 @@
 {
+  inputs,
   self,
   ...
 }:
@@ -10,6 +11,8 @@
       ...
     }:
     {
+      imports = [ inputs.home-manager.darwinModules.home-manager ];
+
       users.users.lukemurray = {
         createHome = true;
         home = "/Users/lukemurray";
@@ -32,6 +35,11 @@
             # tailscale-app
           ]);
       };
+
+      home-manager.users.lukemurray = {
+        imports = self.homeConfigurations.lukemurray.config._rootModules;
+      };
+
       # [TODO] I long for the day nix-darwin finishes the
       # migration and I can roll the defaults into the
       # user definition

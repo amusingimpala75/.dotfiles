@@ -4,6 +4,16 @@
   ...
 }:
 {
+  flake.modules.nixos.murrayle23 = {
+    imports = [ inputs.home-manager.nixosModules.home-manager ];
+
+    home-manager.users.murrayle23 = {
+      imports = self.homeConfigurations.murrayle23.config._rootModules;
+    };
+
+    wsl.defaultUser = "murrayle23";
+  };
+
   flake.homeConfigurations = self.lib.mkHome "x86_64-linux" "murrayle23" (
     {
       pkgs,

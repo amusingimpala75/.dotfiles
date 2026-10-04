@@ -1,5 +1,6 @@
 {
   inputs,
+  lib,
   self,
   ...
 }:
@@ -39,30 +40,42 @@
       "${username}" = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = import inputs.nixpkgs { inherit system; };
         modules =
-          with self.modules.homeManager;
-          with self.modules.generic;
-          [
-            nixpkgs
-            nix
-            sops
-            mainModule
-            (
-              {
-                config,
-                pkgs,
-                ...
-              }:
-              {
-                home = {
-                  inherit username;
-                  homeDirectory =
-                    if pkgs.stdenv.hostPlatform.isDarwin then "/Users/${username}" else "/home/${username}";
-                };
-                news.display = "silent";
-                programs.home-manager.enable = true;
-                systemd.user.sessionVariables = config.home.sessionVariables;
-              }
-            )
+          let
+            rootModules =
+              with self.modules.homeManager;
+              with self.modules.generic;
+              [
+                nixpkgs
+                nix
+                sops
+                mainModule
+                (
+                  {
+                    config,
+                    pkgs,
+                    ...
+                  }:
+                  {
+                    home = {
+                      inherit username;
+                      homeDirectory =
+                        if pkgs.stdenv.hostPlatform.isDarwin then "/Users/${username}" else "/home/${username}";
+                    };
+                    news.display = "silent";
+                    programs.home-manager.enable = true;
+                    systemd.user.sessionVariables = config.home.sessionVariables;
+                  }
+                )
+              ];
+          in
+          rootModules
+          ++ [
+            {
+              options._rootModules = lib.mkOption {
+                description = "list of the root modules imported";
+                default = rootModules;
+              };
+            }
           ];
       };
     };

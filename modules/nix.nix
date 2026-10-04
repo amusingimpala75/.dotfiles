@@ -9,7 +9,8 @@ let
     nix = {
       nixPath = [ ];
       registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
-      package = pkgs.nix;
+      # Or should this be mkDefault?
+      package = lib.mkForce pkgs.nix;
       settings = {
         experimental-features = [
           "flakes"

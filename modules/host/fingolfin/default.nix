@@ -8,11 +8,10 @@
     {
       imports = with self.modules.nixos; [
         dictionary
+        murrayle23
         sshfs
         wsl
       ];
-
-      wsl.defaultUser = "murrayle23";
 
       programs.ssh.startAgent = true;
 
