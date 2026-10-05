@@ -59,13 +59,6 @@
           });
 
       home = {
-        packages = [
-          pkgs.noto-fonts-cjk-sans
-          pkgs.maple-mono.NF-CN-unhinted
-          pkgs.liberation_ttf
-          pkgs.youtube-rss # for newsticker
-        ];
-
         shellAliases = {
           vim = config.home.sessionVariables.EDITOR;
           vi = config.home.sessionVariables.EDITOR;

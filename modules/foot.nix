@@ -1,11 +1,13 @@
 {
   flake.wrappers.foot =
     {
+      pkgs,
       wlib,
       ...
     }:
     {
       imports = [ wlib.wrapperModules.foot ];
+
       settings = {
         main = {
           dpi-aware = true;
@@ -13,6 +15,15 @@
           gamma-correct-blending = true;
           include = "~/.config/foot/foot.ini";
         };
+      };
+
+      package = pkgs.symlinkJoin {
+        inherit (pkgs.foot) pname version;
+        paths = with pkgs; [
+          foot
+          maple-mono.NF-CN-unhinted
+          noto-fonts-color-emoji
+        ];
       };
     };
 }

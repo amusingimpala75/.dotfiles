@@ -7,6 +7,7 @@
   pandoc,
   unzip,
   vimPlugins,
+  youtube-rss,
   zip,
 
   # Language servers
@@ -23,6 +24,11 @@
   typescript-language-server,
   zls,
   zuban,
+
+  # Fonts
+  maple-mono,
+  liberation_ttf,
+  noto-fonts-cjk-sans,
 
   # builders
   emacsWithPackagesFromUsePackage,
@@ -92,6 +98,8 @@ symlinkJoin {
     zip
     # eplot
     librsvg
+    # newsticker
+    youtube-rss
     # LSPs
     rassumfrassum
     clang-tools # clangd for C
@@ -107,6 +115,11 @@ symlinkJoin {
     harper # for grammar
     # AI tab complete
     copilot-language-server
+
+    # Fonts
+    maple-mono.NF-CN-unhinted
+    liberation_ttf
+    noto-fonts-cjk-sans
   ];
 
   meta = {

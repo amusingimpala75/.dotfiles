@@ -54,7 +54,6 @@
       home.packages = with pkgs; [
         custom-foot
         custom-fastfetch
-        noto-fonts-color-emoji
         get-win-sid
         # [TODO] switch back to bleeding (i.e. module) once no longer broken on weaselway
         ladybird
