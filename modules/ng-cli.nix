@@ -31,6 +31,7 @@
         sd
         tlrc
         (if pkgs.stdenv.hostPlatform.isDarwin then darwin.trash else trashy)
+        ncdu
       ];
       programs = {
         bat = {

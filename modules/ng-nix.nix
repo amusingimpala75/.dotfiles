@@ -52,10 +52,11 @@
 
         home = {
           packages = with pkgs; [
-            pkgs.custom-nix-init
-            pkgs.custom-nixpkgs-review
-            pkgs.custom-nurl
+            custom-nix-init
+            custom-nixpkgs-review
+            custom-nurl
             nix-tree
+            nix-update
             (writeShellApplication {
               name = "ns";
               runtimeInputs = [
