@@ -9,3 +9,5 @@ These are my dotfiles for NixOS, home-manager, Nix-darwin, and WSL, and thus als
 - Autowiring of configurations, apps, and templates so one can simply make a folder and starting putting stuff in it and rather than first remembering (or C-c C-v -ing) the magic incantation to get it to work. I hope to expose this as a flakeModule in the near future.
 - Interface for configuring Windows applications through WSL. I hope to expose this as a homeManagerModule in the near future. I still have to decide if I'm going to add support for installing stuff with scoop or just manually vendoring it (probably the latter; custom =wsl.packages= here we come)
 - Crappy interface for ricing (it's lowkey kinda awful and I should just move to Stylix)
+
+=grill-me=, =grill-with-docs=, =grilling=, and =domain-modeling= skills from Matt Pocock

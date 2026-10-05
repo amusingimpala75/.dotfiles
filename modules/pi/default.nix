@@ -76,8 +76,10 @@
         ];
 
         # Custom agents and skills remain mutable, out-of-store resources.
-        file."${config-dir}/agents".source = config.lib.file.mkOutOfStoreSymlink ./agents;
-        file."${config-dir}/skills".source = config.lib.file.mkOutOfStoreSymlink ./skills;
+        file."${config-dir}/agents".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/pi/agents";
+        file."${config-dir}/skills".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/pi/skills";
       };
     };
 }
