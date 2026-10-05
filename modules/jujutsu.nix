@@ -33,6 +33,12 @@
         imports = [ wlib.wrapperModules.jujutsu ];
         settings = {
           aliases = {
+            push-all = [
+              "git"
+              "push"
+              "--remote"
+              "*"
+            ];
             get-change-ids = [
               "log"
               "-G"
