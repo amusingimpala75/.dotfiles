@@ -1,8 +1,4 @@
 {
-  inputs,
-  ...
-}:
-{
   flake.modules.homeManager.pi =
     {
       config,
@@ -11,113 +7,12 @@
     }:
     let
       config-dir = ".config/pi/agent";
-
-      build =
-        {
-          outName ? null,
-          allowNix ? false,
-          allowedPackages ? [ ],
-          rwDirs ? [ ],
-          rwFiles ? [ ],
-          roDirs ? [ ],
-          roFiles ? [ ],
-          env ? { },
-        }:
-        inputs.agent-sandbox.lib.${pkgs.stdenv.hostPlatform.system}.mkSandbox {
-          pkg = pkgs.pi-coding-agent;
-          binName = "pi";
-          outName = if outName != null then outName else "pi";
-          allowedPackages =
-            with pkgs;
-            [
-              bash
-              coreutils
-              fd
-              findutils
-              config.wrappers.custom-git.wrapper
-              gnugrep
-              gnused
-              jq
-              config.wrappers.jujutsu-weave.wrapper
-              ripgrep
-              which
-            ]
-            ++ allowedPackages;
-          rwDirs = [
-            "$HOME/${config-dir}"
-            "$HOME/Library/Application Support/rtk"
-          ]
-          ++ rwDirs;
-          roDirs = [
-            pkgs.pi-coding-agent.src
-            pi-minimal-footer
-            pi-telegram
-            pkgs.pi-subagents
-            ./skills
-          ]
-          ++ roDirs;
-          inherit
-            rwFiles
-            roFiles
-            allowNix
-            ;
-          allowUnixSockets = allowNix;
-          env = {
-            inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR PI_OFFLINE;
-            DEEPSEEK_API_KEY = "$(cat ${config.sops.secrets.deepseek_api_key.path})";
-          }
-          // env;
-        };
-      pi-minimal-footer = pkgs.runCommand "pi-minimal-footer" { } ''
-        mkdir -p $out
-        substitute ${inputs.pi-minimal-footer + "/index.ts"} $out/pi-minimal-footer.ts \
-            --replace-fail '{ buildSessionContext }' '{ buildSessionContext, getAgentDir }' \
-            --replace-fail 'homedir(), ".pi", "agent"' 'getAgentDir()'
-      '';
-      pi-telegram = pkgs.runCommand "pi-telegram" { } ''
-        mkdir -p $out
-        substitute ${inputs.pi-telegram + "/index.ts"} $out/pi-telegram.ts \
-            --replace-fail $'agent";\n' $'agent";\nimport { getAgentDir } from "@mariozechner/pi-coding-agent";\n ' \
-            --replace-fail 'homedir(), ".pi", "agent"' 'getAgentDir()'
-      '';
     in
     {
       programs.pi-coding-agent = {
         enable = true;
         context = ./global-agents.md;
         configDir = "${config.home.homeDirectory}/${config-dir}";
-        package = pkgs.symlinkJoin {
-          name = "pi-configs";
-          paths = [
-            (build { })
-            (build {
-              outName = "pi-nix";
-              allowNix = true;
-              allowedPackages = [
-                config.wrappers.nix-init.wrapper
-                config.wrappers.nurl.wrapper
-              ];
-              roFiles = [
-                # [TODO] fix: I think its still unautheticated rate-limiting?
-                "${config.sops.templates."nix-gh-ro-access.conf".path}"
-              ];
-              roDirs = [
-                "$HOME/.config/nix"
-              ];
-              rwDirs = [
-                "$HOME/.cache/nix"
-                "$HOME/.local/share/nix"
-              ];
-            })
-            (build {
-              outName = "pi-go";
-              allowedPackages = [ pkgs.go ];
-              rwDirs = [
-                "$HOME/go/pkg"
-              ];
-            })
-          ];
-        };
         settings = {
           defaultModel = "gpt-5.6-terra";
           defaultProvider = "openai-codex";
@@ -155,9 +50,10 @@
               "tools"
             ])
             ++ [
-              pi-minimal-footer
-              pi-telegram
+              "${pkgs.pi-minimal-footer}/extensions/pi-minimal-footer.ts"
+              "${pkgs.pi-telegram}/extensions/pi-telegram.ts"
               "${pkgs.pi-subagents}/lib/node_modules/@tintinweb"
+              "${pkgs.gondolin.pi-extension}/extensions/pi-gondolin.ts"
             ];
           quietStartup = "header";
           skills = [
@@ -173,6 +69,7 @@
         sessionVariables = {
           PI_AGENT_DIR = "$HOME/${config-dir}/sessions"; # Stupid ccusage
           PI_OFFLINE = 1;
+          DEEPSEEK_API_KEY = "$(cat ${config.sops.secrets.deepseek_api_key.path})";
         };
 
         packages = with pkgs; [
@@ -183,21 +80,4 @@
         file."${config-dir}/agents".source = config.lib.file.mkOutOfStoreSymlink ./agents;
       };
     };
-
-  flake-file.inputs = {
-    agent-sandbox = {
-      url = "github:archie-judd/agent-sandbox.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    pi-minimal-footer = {
-      url = "github:ogulcancelik/pi-extensions/1deb3f144d0b64e3e67f61c95922360c4bb25b47?dir=packages/pi-minimal-footer";
-      flake = false;
-    };
-
-    pi-telegram = {
-      url = "github:badlogic/pi-telegram/cb34008460b6c1ca036d92322f69d87f626be0fc";
-      flake = false;
-    };
-  };
 }

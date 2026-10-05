@@ -19,10 +19,6 @@
     );
 
   inputs = {
-    agent-sandbox = {
-      url = "github:archie-judd/agent-sandbox.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     angrr = {
       url = "github:linyinfeng/angrr";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -107,14 +103,6 @@
     nur = {
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    pi-minimal-footer = {
-      url = "github:ogulcancelik/pi-extensions/1deb3f144d0b64e3e67f61c95922360c4bb25b47?dir=packages/pi-minimal-footer";
-      flake = false;
-    };
-    pi-telegram = {
-      url = "github:badlogic/pi-telegram/cb34008460b6c1ca036d92322f69d87f626be0fc";
-      flake = false;
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";

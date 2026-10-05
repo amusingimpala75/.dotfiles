@@ -1,0 +1,22 @@
+diff --git a/packages/pi-minimal-footer/index.ts b/packages/pi-minimal-footer/index.ts
+index 3e4a0122fc..9230117a84 100644
+--- a/packages/pi-minimal-footer/index.ts
++++ b/packages/pi-minimal-footer/index.ts
+@@ -8,7 +8,7 @@
+  */
+ 
+ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+-import { buildSessionContext } from "@earendil-works/pi-coding-agent";
++import { buildSessionContext, getAgentDir } from "@earendil-works/pi-coding-agent";
+ import { visibleWidth, truncateToWidth } from "@earendil-works/pi-tui";
+ import { execSync } from "node:child_process";
+ import { existsSync, readFileSync } from "node:fs";
+@@ -144,7 +144,7 @@
+ // ============ Auth Loading ============
+ 
+ function loadAuthJson(): Record<string, any> {
+-  const authPath = join(homedir(), ".pi", "agent", "auth.json");
++  const authPath = join(getAgentDir(), "auth.json");
+   try {
+     if (existsSync(authPath)) {
+       return JSON.parse(readFileSync(authPath, "utf-8"));
