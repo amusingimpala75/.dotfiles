@@ -19,14 +19,7 @@
 
       services.emacs = {
         enable = true;
-        package = pkgs.custom-emacs.override {
-          font-family-fixed = "Maple Mono NF CN";
-          font-family-variable = "Liberation Serif";
-          opacity = 0.9;
-          theme-package = epkgs: epkgs.ef-themes;
-          theme-file-name = "ef-themes";
-          theme-name = "ef-elea-dark";
-        };
+        package = pkgs.custom-emacs;
 
         client.enable = true;
         client.arguments = [ "-c" ];

@@ -5,8 +5,6 @@
 
 ;; Bind key for :bind keyword
 (require 'bind-key)
-;; Nix-adjacent settings
-(require 'nix-settings)
 
 ;; Custom application prefix map
 (define-prefix-command 'my/applications nil "Applications")
@@ -141,6 +139,11 @@
   ("M-l" . downcase-dwim)
   ("M-c" . capitalize-dwim))
 
+(use-package ef-themes
+  :ensure t
+  :preface
+  (defvar my/theme 'ef-elea-dark))
+
 ;; Load the theme from the nix settings. Has to
 ;; be this way to avoid an error on loading
 ;; i.e. needs to be deferred
@@ -153,6 +156,7 @@
 
 (use-package frame
   :preface
+  (defvar my/opacity 90)
   ;; Update if macOS ever supports alpha-background
   (defvar my/alpha-setting (if (string-match-p "PGTK"
                                                system-configuration-features)
@@ -178,10 +182,10 @@
 (use-package cus-face
   :custom-face
   ;; Load face settings from nix-settings
-  (default ((t ( :family ,my/font-family-fixed-pitch
-                 :height ,(* my/font-size 10)))))
-  (variable-pitch ((t (:family ,my/font-family-variable-pitch))))
-  (fixed-pitch ((t (:family ,my/font-family-fixed-pitch))))
+  (default ((t ( :family "Maple Mono NF CN"
+                 :height 160))))
+  (variable-pitch ((t (:family "Liberation Serif"))))
+  (fixed-pitch ((t (:family "Maple Mono NF CN"))))
   :config
   (add-hook 'after-make-frame-functions
             (lambda (frame)

@@ -34,16 +34,6 @@
   emacsWithPackagesFromUsePackage,
   lib,
   symlinkJoin,
-  writeText,
-
-  # configuration options
-  font-size ? 16,
-  font-family-fixed ? "Iosevka",
-  font-family-variable ? "Iosevka Etoile",
-  opacity ? 1.0,
-  theme-package ? epkgs: epkgs.gruvbox-theme,
-  theme-file-name ? "gruvbox-theme",
-  theme-name ? "gruvbox-dark-hard",
   ...
 }:
 symlinkJoin {
@@ -66,24 +56,6 @@ symlinkJoin {
             "doxygen"
           ])
         ))
-        (epkgs.trivialBuild {
-          pname = "nix-settings";
-          version = "0.1.0";
-          src = writeText "nix-settings.el" ''
-            ;;; -*- lexical-binding: t; -*-
-            (defvar my/font-family-fixed-pitch "${font-family-fixed}")
-            (defvar my/font-family-variable-pitch "${font-family-variable}")
-            (defvar my/font-size ${toString font-size})
-
-            (defvar my/opacity (truncate ${toString (opacity * 100)}))
-
-            (require '${theme-file-name})
-            (defvar my/theme '${theme-name})
-
-            (provide 'nix-settings)
-          '';
-          packageRequires = [ (theme-package epkgs) ];
-        })
       ];
     })
 
