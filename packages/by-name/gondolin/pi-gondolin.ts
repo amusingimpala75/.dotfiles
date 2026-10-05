@@ -364,6 +364,18 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
+  pi.registerCommand("gondolin-reload", {
+    description: "Force-restart the Gondolin VM",
+    handler: async (_args, ctx) => {
+      // If startup is already in progress, let it finish so stopVm can close
+      // the resulting VM rather than returning the in-flight instance.
+      if (vmStarting) await vmStarting.catch(() => undefined);
+      await stopVm(ctx);
+      await ensureVm(ctx);
+      ctx.ui.notify("Gondolin VM reloaded.", "info");
+    },
+  });
+
   pi.registerCommand("gondolin-memory-mounts", {
     description: "Hide workspace directories behind guest-local memory mounts",
     handler: async (_args, ctx) => {
