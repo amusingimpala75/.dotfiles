@@ -7,7 +7,6 @@
 let
   common = pkgs: {
     nix = {
-      nixPath = [ ];
       registry = lib.mapAttrs (_: flake: { inherit flake; }) inputs;
       # Or should this be mkDefault?
       package = lib.mkForce pkgs.nix;
@@ -18,6 +17,7 @@ let
           "pipe-operators"
         ];
         flake-registry = "";
+        nix-path = [ ];
       };
     };
   };
