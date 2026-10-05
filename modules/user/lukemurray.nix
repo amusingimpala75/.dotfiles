@@ -21,7 +21,6 @@
           [
             play-audio
             gcc # for emacs?
-            darwin.trash
             unquarantine
             screen-saver
             run-ntfy-when-done

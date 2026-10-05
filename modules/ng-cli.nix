@@ -29,6 +29,7 @@
       home.packages = with pkgs; [
         sd
         tlrc
+        (if pkgs.stdenv.hostPlatform.isDarwin then darwin.trash else trashy)
       ];
       programs = {
         bat = {
