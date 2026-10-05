@@ -75,7 +75,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
       cat > $out/extensions/pi-gondolin.ts <<'EOF'
       process.env.PATH = "${lib.makeBinPath [ qemu ]}:" + (process.env.PATH ?? "");
       EOF
-      cat ${finalAttrs.src}/host/examples/pi-gondolin.ts >> $out/extensions/pi-gondolin.ts
+      cat ${./pi-gondolin.ts} >> $out/extensions/pi-gondolin.ts
       ln -s ${finalAttrs.finalPackage}/lib/node_modules/gondolin \
         $out/node_modules/@earendil-works/gondolin
       cat > $out/package.json <<'EOF'

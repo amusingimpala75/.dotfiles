@@ -70,10 +70,12 @@
           PI_AGENT_DIR = "$HOME/${config-dir}/sessions"; # Stupid ccusage
           PI_OFFLINE = 1;
           DEEPSEEK_API_KEY = "$(cat ${config.sops.secrets.deepseek_api_key.path})";
+          GONDOLIN_GUEST_DIR = "$HOME/${pkgs.gondolin-build-nix-image.output}";
         };
 
         packages = with pkgs; [
           ccusage
+          gondolin-build-nix-image
         ];
 
         # Custom agents, and to specify the models
