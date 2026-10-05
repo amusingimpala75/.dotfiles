@@ -5,7 +5,8 @@
       ".",
       "~/.config",
       "~/.local",
-      "~/Library"
+      "~/Library",
+      "~/.dotfiles/modules/pi/skills"
     ]
   },
   "network": {
