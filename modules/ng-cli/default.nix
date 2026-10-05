@@ -11,8 +11,6 @@
     {
       imports = [
         "${inputs.home-manager}/modules/programs/atuin.nix" # for fzf.nix
-        "${inputs.home-manager}/modules/programs/bat.nix"
-        "${inputs.home-manager}/modules/programs/bottom.nix"
         "${inputs.home-manager}/modules/programs/direnv.nix"
         "${inputs.home-manager}/modules/programs/eza.nix"
         "${inputs.home-manager}/modules/programs/fd.nix"
@@ -28,27 +26,14 @@
       ];
 
       home.packages = with pkgs; [
+        custom-bottom
+        custom-bat
         sd
         tlrc
         (if pkgs.stdenv.hostPlatform.isDarwin then darwin.trash else trashy)
         ncdu
       ];
       programs = {
-        bat = {
-          enable = true;
-          extraPackages = with pkgs.bat-extras; [
-            batman
-            batdiff
-            batpipe
-            batgrep
-            prettybat
-          ];
-          config = { 
-            theme = "base16";
-            wrap = "never";
-          };
-        };
-        bottom.enable = true;
         eza = {
           enable = true;
           icons = "auto";
