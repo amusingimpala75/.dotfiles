@@ -1,5 +1,6 @@
 {
   fzf,
+  lib,
   nix-search-tv,
   writeShellApplication,
 }:
@@ -10,4 +11,5 @@ writeShellApplication {
     nix-search-tv
   ];
   text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
+  meta.platforms = lib.platforms.all;
 }
