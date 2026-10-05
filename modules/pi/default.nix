@@ -25,7 +25,7 @@
         settings = {
           defaultModel = "gpt-5.6-terra";
           defaultProvider = "openai-codex";
-          defaultThinkingLevel = "high";
+          defaultThinkingLevel = "max";
           defaultTools = [
             "+codemode"
             "+tool_search"
