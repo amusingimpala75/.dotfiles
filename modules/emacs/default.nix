@@ -38,18 +38,11 @@
         package = config.services.emacs.package;
       };
 
-      sops.secrets =
-        lib.genAttrs
-          [
-            "emacs-feeds.el"
-            "emacs-radio-channels.el"
-            "emacs-emails.el"
-          ]
-          (file: {
-            format = "binary";
-            sopsFile = "${self}/secrets/${file}";
-            path = "%r/${file}";
-          });
+      sops.secrets."emacs-radio-channels.el" = {
+        format = "binary";
+        sopsFile = "${self}/secrets/emacs-radio-channels.el";
+        path = "%r/emacs-radio-channels.el";
+      };
 
       home = {
         shellAliases = {

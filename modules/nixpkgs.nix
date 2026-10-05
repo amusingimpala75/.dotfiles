@@ -20,13 +20,6 @@ let
     self.overlays.emacs-packages
 
     (_: prev: {
-      emacsPackagesFor =
-        emacs:
-        ((prev.emacsPackagesFor emacs).overrideScope (
-          _: _: {
-            inherit (prev.bleeding.emacsPackagesFor emacs) pilish;
-          }
-        ));
       inherit (prev.bleeding) jujutsu;
     })
 

@@ -320,15 +320,6 @@
   :custom
   (java-ts-mode-enable-doxygen t))
 
-(use-package groovy-mode
-  :ensure t)
-
-(use-package elm-mode
-  :ensure t)
-
-(use-package coffee-mode
-  :ensure t)
-
 (use-package typst-ts-mode
   :ensure t)
 
@@ -722,9 +713,6 @@
   (help-window-select t)
   (view-lossage-auto-refresh t))
 
-(use-package devdocs
-  :ensure t)
-
 (use-package buffer-terminator
   :ensure t
   :hook
@@ -770,41 +758,12 @@
   :hook
   (after-init . (lambda () (when (my/discord-installed-p) (elcord-mode 1)))))
 
-(use-package verb
-  :ensure t)
-
 (use-package tooltip
   :custom
   (tooltip-hide-delay 60))
 
-(use-package eplot
-  :ensure t)
-
-(defvar my/emails-accounts-location
-  "~/.config/sops-nix/secrets/emacs-emails.el")
-
-(use-package minimail
-  :ensure t
-  :custom
-  (mail-user-agent 'minimail)
-  :config
-  (load-file my/emails-accounts-location))
-
-(defvar my/emacs-feeds-location
-  "~/.config/sops-nix/secrets/emacs-feeds.el")
-
-(use-package newsticker
-  :custom
-  (newsticker-url-list (my/user-secret-else my/emacs-feeds-location nil))
-  (newsticker-url-list-defaults nil))
-
 (use-package editorconfig
   :hook (after-init . editorconfig-mode))
-
-(use-package pilish
-  :ensure t
-  :init
-  (defalias 'pi 'pilish))
 
 ;; Direnv support
 (use-package envrc
