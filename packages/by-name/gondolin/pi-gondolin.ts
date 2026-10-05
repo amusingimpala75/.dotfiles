@@ -18,9 +18,11 @@ import {
   getAgentDir,
 } from "@earendil-works/pi-coding-agent";
 
-import { MemoryProvider, RealFSProvider, VM } from "@earendil-works/gondolin";
+import { MemoryProvider, ReadonlyProvider, RealFSProvider, VM } from "@earendil-works/gondolin";
 
 const GUEST_WORKSPACE = "/workspace";
+const GUEST_HOST_STORE = "/host-store";
+const HOST_NIX_STORE = "/nix/store";
 // Gondolin images run as root, whose home directory is /root. Mount only Pi's
 // skills there, rather than exposing the complete Pi configuration directory.
 const GUEST_SKILLS_DIR = "/root/.config/pi/agent/skills";
@@ -304,6 +306,7 @@ export default function (pi: ExtensionAPI) {
           mounts: {
             [GUEST_WORKSPACE]: new RealFSProvider(localCwd),
             ...workspaceMemoryMounts,
+            [GUEST_HOST_STORE]: new ReadonlyProvider(new RealFSProvider(HOST_NIX_STORE)),
             [GUEST_SKILLS_DIR]: new RealFSProvider(SKILLS_DIR),
           },
         },
