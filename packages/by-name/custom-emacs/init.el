@@ -738,10 +738,6 @@
 ;;  (after-init . global-xref-mouse-mode))
 (add-hook 'after-init (lambda () (global-xref-mouse-mode 1)))
 
-(use-package system-taskbar
-  :hook
-  (after-init . system-taskbar-mode))
-
 (use-package tty-tip
   :hook
   (after-init . tty-tip-mode))

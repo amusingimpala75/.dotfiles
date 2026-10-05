@@ -112,7 +112,7 @@ let
   };
 in
 symlinkJoin {
-  pname = "emacs-with-packages";
+  pname = "custom-emacs";
   inherit (emacs) version;
   paths = [ pkg ];
   buildInputs = [ makeWrapper ];
