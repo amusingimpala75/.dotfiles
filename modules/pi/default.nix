@@ -57,7 +57,6 @@
             pi-minimal-footer
             pi-telegram
             pkgs.pi-subagents
-            pkgs.pi-mcp-adapter
             ./skills
           ]
           ++ roDirs;
@@ -125,9 +124,13 @@
           ];
         };
         settings = {
-          defaultProvider = "openai-codex";
           defaultModel = "gpt-5.6-terra";
+          defaultProvider = "openai-codex";
           defaultThinkingLevel = "high";
+          defaultTools = [
+            "+codemode"
+            "+tool_search"
+          ];
           enableInstallTelemetry = false;
           extensions =
             let
@@ -162,11 +165,12 @@
               pi-minimal-footer
               pi-telegram
               "${pkgs.pi-subagents}/lib/node_modules/@tintinweb"
-              "${pkgs.pi-mcp-adapter}/lib/node_modules/pi-mcp-adapter"
             ];
+          quietStartup = "header";
           skills = [
             ./skills
           ];
+          tuiMode = "regular";
         };
       };
 
