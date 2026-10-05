@@ -93,21 +93,6 @@
             meta.platforms = lib.platforms.linux;
           };
         };
-
-      noctalia-shell =
-        {
-          pkgs,
-          wlib,
-          ...
-        }:
-        {
-          imports = [ wlib.wrapperModules.noctalia-shell ];
-
-          outOfStoreConfig = "~/.dotfiles/modules/nnn-stack/noctalia";
-          package = pkgs.bleeding.noctalia-shell;
-
-          meta.platforms = lib.platforms.linux;
-        };
     };
   };
 }
