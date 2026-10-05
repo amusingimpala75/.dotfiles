@@ -14,6 +14,10 @@
       settings."*" = {
         AddKeysToAgent = "yes";
       };
+      settings."research" = {
+        HostName = "10.37.104.75";
+        User = "murrayle23";
+      };
     };
   };
 }
