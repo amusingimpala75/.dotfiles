@@ -27,6 +27,7 @@ binds {
   Mod+R { spawn-sh "noctalia msg wallpaper-random"; }
   Mod+M { maximize-column; }
   Mod+Shift+M { fullscreen-window; }
+  Mod+Tab { toggle-overview; }
 }
 
 layout {

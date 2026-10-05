@@ -37,7 +37,6 @@
         zsh
 
         "${inputs.home-manager}/modules/services/podman"
-        "${inputs.home-manager}/modules/programs/foot.nix"
         "${inputs.home-manager}/modules/programs/noctalia"
       ];
 
@@ -49,11 +48,11 @@
       wsl.username = "MURRAYLE23";
 
       services.podman.enable = true;
-      programs.foot.enable = true;
       programs.noctalia.enable = true;
       programs.noctalia.package = pkgs.custom-noctalia;
 
       home.packages = with pkgs; [
+        custom-foot
         noto-fonts-color-emoji
         get-win-sid
         # [TODO] switch back to bleeding (i.e. module) once no longer broken on weaselway
