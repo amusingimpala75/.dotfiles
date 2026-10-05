@@ -1,4 +1,5 @@
 {
+  inputs,
   self,
   ...
 }:
@@ -12,12 +13,23 @@
     {
       imports = [
         self.wrappers.git.install
+        "${inputs.home-manager}/modules/programs/gh.nix"
       ];
 
-      home.packages = [
-        pkgs.git-remote-setup
-        pkgs.custom-gh
+      home.packages = with pkgs; [
+        git-remote-setup
+        gh-dash
+        gh-enhance
       ];
+
+      programs.gh = {
+        enable = true;
+        settings = {
+          git_protocol = "ssh";
+          telemetry = "disabled";
+          version = "1";
+        };
+      };
 
       wrappers = {
         git = {
@@ -70,46 +82,6 @@
           push.autoSetupRemote = true;
           tag.sort = "version:refname";
           # Get username and email from further wrapping
-        };
-      };
-
-    gh = {
-      imports = [ self.wrapperModules.gh-wrapper ];
-
-      settings = {
-        git_protocol = "ssh";
-        telemetry = "disabled";
-        version = "1";
-      };
-    };
-
-    gh-wrapper =
-      {
-        config,
-        lib,
-        pkgs,
-        wlib,
-        ...
-      }:
-      {
-        imports = [ wlib.modules.default ];
-
-        options.settings = lib.mkOption {
-          type = wlib.types.structuredValueWith {
-            nullable = false;
-            typeName = "JSON";
-          };
-          default = { };
-        };
-
-        config = {
-          package = pkgs.gh;
-          env.GH_CONFIG_DIR = dirOf config.constructFiles.generatedConfig.path;
-          constructFiles.generatedConfig = {
-            content = builtins.toJSON config.settings;
-            relPath = "config/config.yml";
-            builder = ''${lib.getExe' pkgs.remarshal "json2yaml"} "$1" "$2"'';
-          };
         };
       };
   };
