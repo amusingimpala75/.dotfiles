@@ -1,6 +1,5 @@
 {
   lib,
-  self,
   ...
 }:
 {
@@ -13,7 +12,7 @@
       {
         programs.niri = {
           enable = true;
-          package = self.packages.${pkgs.stdenv.hostPlatform.system}.niri;
+          package = pkgs.custom-niri;
         };
       };
 
@@ -36,9 +35,11 @@
           ];
           settings = {
             spawn-at-startup = [
-              (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.noctalia-shell)
+              (lib.getExe pkgs.custom-noctalia-shell)
             ];
           };
+
+          meta.platforms = lib.platforms.linux;
         };
 
       noctalia-shell =
@@ -51,23 +52,10 @@
           imports = [ wlib.wrapperModules.noctalia-shell ];
 
           outOfStoreConfig = "~/.dotfiles/modules/nnn-stack/noctalia";
-          package = pkgs.bleeding.noctalia-shell;
+          package = pkgs.noctalia-shell;
+
+          meta.platforms = lib.platforms.linux;
         };
     };
   };
-
-  perSystem =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      wrappers.packages.niri = true;
-      wrappers.packages.noctalia-shell = true;
-
-      packages = lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
-        niri = self.wrappers.niri.wrap { inherit pkgs; };
-        noctalia-shell = self.wrappers.noctalia-shell.wrap { inherit pkgs; };
-      };
-    };
 }

@@ -24,7 +24,10 @@ let
       xdg.configFile."rift/config.toml".source =
         config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/scrolling/rift.toml";
 
-      home.packages = [ pkgs.rift-wm ];
+      home.packages = [
+        pkgs.custom-sketchybar
+        pkgs.rift-wm
+      ];
     };
 in
 {

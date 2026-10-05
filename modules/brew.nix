@@ -4,11 +4,33 @@
   ...
 }:
 {
-  flake.modules.darwin.brew = {
-    nixpkgs.overlays = [
-      inputs.brew-nix.overlays.default
-      self.overlays.brew-hashes
-    ];
+  flake = {
+    modules.darwin.brew = {
+      nixpkgs.overlays = [
+        inputs.brew-nix.overlays.default
+        self.overlays.brew-hashes
+      ];
+    };
+
+    overlays.brew-hashes =
+      final: prev:
+      let
+        replace-hash =
+          package: hash:
+          package.overrideAttrs (old: {
+            src = final.fetchurl {
+              url = builtins.head old.src.urls;
+              inherit hash;
+            };
+          });
+      in
+      {
+        brewCasks = prev.brewCasks.overrideScope (
+          bfinal: bprev: {
+            steam = replace-hash bprev.steam "sha256-4av7qqe+Pg9IoODUwxMjPgWGGx0mrzKDDdyDi+iPJpE=";
+          }
+        );
+      };
   };
 
   flake-file.inputs = {

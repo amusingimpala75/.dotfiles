@@ -1,4 +1,5 @@
 {
+  lib,
   self,
   ...
 }:
@@ -7,7 +8,7 @@
     by-name = final: prev: {
       local = prev.local.overrideScope (
         _: _:
-        prev.lib.packagesFromDirectoryRecursive {
+        lib.packagesFromDirectoryRecursive {
           inherit (final) callPackage;
           directory = self + "/packages/by-name";
         }
@@ -19,7 +20,7 @@
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (
           efinal: _:
-          final.lib.packagesFromDirectoryRecursive {
+          lib.packagesFromDirectoryRecursive {
             inherit (efinal) callPackage;
             directory = "${self}/packages/emacs-packages";
           }
@@ -28,7 +29,7 @@
 
     lib =
       final: prev:
-      prev.lib.packagesFromDirectoryRecursive {
+      lib.packagesFromDirectoryRecursive {
         inherit (final) callPackage;
         directory = "${self}/packages/lib";
       };

@@ -39,6 +39,4 @@
         };
       };
   };
-
-  perSystem.wrappers.packages.delta-wrapper = true;
 }

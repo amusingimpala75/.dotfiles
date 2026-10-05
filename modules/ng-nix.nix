@@ -17,8 +17,6 @@
         "${inputs.home-manager}/modules/programs/nh.nix"
         "${inputs.home-manager}/modules/programs/nix-index.nix"
         "${inputs.home-manager}/modules/programs/nix-your-shell.nix"
-        self.modules.homeManager.nix-init
-        self.modules.homeManager.nurl
       ];
 
       options.ng-nix = {
@@ -55,7 +53,9 @@
 
         home = {
           packages = with pkgs; [
-            self.packages.${pkgs.stdenv.hostPlatform.system}.nixpkgs-review
+            pkgs.custom-nix-init
+            pkgs.custom-nixpkgs-review
+            pkgs.custom-nurl
             nix-tree
             (writeShellApplication {
               name = "ns";

@@ -112,34 +112,9 @@
             '';
             executable = true;
           };
+
+          meta.platforms = lib.platforms.darwin;
         };
       };
   };
-
-  flake.modules.homeManager.sketchybar = {
-    imports = [ self.wrappers.sketchybar.install ];
-    wrappers.sketchybar.enable = true;
-  };
-
-  perSystem =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      packages = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-        sketchybar =
-          (self.wrappers.sketchybar.wrap {
-            inherit pkgs;
-          }).overrideAttrs
-            (_: {
-              meta.platforms = lib.platforms.darwin;
-            });
-      };
-
-      wrappers.packages = {
-        sketchybar-wrapper = true;
-        sketchybar = true;
-      };
-    };
 }

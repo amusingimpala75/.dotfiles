@@ -8,7 +8,13 @@
     inputs.flake-parts.flakeModules.modules
     inputs.nix-darwin.flakeModules.default
   ];
-  systems = lib.systems.flakeExposed;
+
+  systems = [
+    "aarch64-darwin"
+    "aarch64-linux"
+    "x86_64-linux"
+  ];
+
   perSystem =
     {
       pkgs,

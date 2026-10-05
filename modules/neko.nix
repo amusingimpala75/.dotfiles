@@ -8,7 +8,7 @@ let
     launchd.agents.neko = {
       enable = true;
       config = {
-        ProgramArguments = [ (lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.custom-neko-go) ];
+        ProgramArguments = [ (lib.getExe pkgs.custom-neko-go) ];
         RunAtLoad = true;
         KeepAlive = true;
       };
@@ -28,7 +28,7 @@ in
         (lib.mkIf pkgs.stdenv.hostPlatform.isLinux nixos)
       ];
 
-    wrappers.custom-neko-go =
+    wrappers.neko-go =
       {
         pkgs,
         ...
@@ -83,6 +83,4 @@ in
         };
       };
   };
-
-  perSystem.wrappers.packages.neko-go-wrapper = true;
 }

@@ -79,7 +79,7 @@
             default-command = "log";
             diff-editor = ":builtin";
             diff-formatter = ":git";
-            pager = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.delta;
+            pager = lib.getExe pkgs.custom-delta;
             show-cryptographic-signatures = true;
           };
           working-copy.eol-conversion = "input";

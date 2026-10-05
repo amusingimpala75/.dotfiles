@@ -11,27 +11,27 @@
     }:
     {
       imports = [
-        self.wrappers.gh.install
-        self.wrappers.custom-git.install
+        self.wrappers.git.install
       ];
 
-      home.packages = [ pkgs.git-remote-setup ];
+      home.packages = [
+        pkgs.git-remote-setup
+        pkgs.custom-gh
+      ];
 
       wrappers = {
-        custom-git = {
+        git = {
           enable = true;
           settings.user = {
             email = config.vcs.email;
             name = config.vcs.username;
           };
         };
-
-        gh.enable = true;
       };
     };
 
   flake.wrappers = {
-    custom-git =
+    git =
       {
         lib,
         pkgs,
@@ -59,7 +59,7 @@
           interactive.diffFilter = "${lib.getExe pkgs.delta} --color-only";
           pager =
             let
-              path = lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.delta;
+              path = lib.getExe pkgs.custom-delta;
             in
             {
               blame = path;
@@ -113,6 +113,4 @@
         };
       };
   };
-
-  perSystem.wrappers.packages.gh-wrapper = true;
 }

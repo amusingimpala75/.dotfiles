@@ -87,7 +87,6 @@
         radicle
         scrolling
         ssh
-        sketchybar
         vcs
         wallust
         window-borders

@@ -24,7 +24,6 @@ let
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (
           efinal: _: {
-            inherit (efinal.melpaPackages) telega;
             inherit (prev.bleeding.emacsPackagesFor emacs) pilish;
           }
         ));
@@ -34,6 +33,7 @@ let
     self.overlays.lib
 
     self.overlays.by-name
+    self.overlays.wrappers
 
     self.overlays.flatten
   ];
