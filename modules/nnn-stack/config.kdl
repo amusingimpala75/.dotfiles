@@ -22,7 +22,24 @@ binds {
   Mod+WheelScrollUp { focus-workspace-up; }
   Mod+WheelScrollDown { focus-workspace-down; }
 
-  Mod+X { spawn-sh "noctalia msg panel-toggle launcher"; }
+  Mod+Space { spawn-sh "noctalia msg panel-toggle launcher"; }
   Mod+W { spawn-sh "noctalia msg panel-toggle wallpaper"; }
   Mod+R { spawn-sh "noctalia msg wallpaper-random"; }
+  Mod+M { maximize-column; }
+  Mod+Shift+M { fullscreen-window; }
 }
+
+layout {
+  always-center-single-column
+}
+
+window-rule {
+  geometry-corner-radius 16
+  clip-to-geometry true
+}
+
+hotkey-overlay {
+  skip-at-startup
+}
+
+prefer-no-csd
