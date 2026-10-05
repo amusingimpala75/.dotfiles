@@ -34,6 +34,7 @@
           gh-notify
           gh-skyline
           gh-stack
+          gh-yule-log
         ];
       };
 
