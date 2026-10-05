@@ -50,6 +50,11 @@
         };
         zoxide.enable = true;
       };
+
+      home.shellAliases = {
+        tree = "eza -T";
+      };
+
       services.tldr-update = {
         enable = true;
         package = pkgs.tlrc;
