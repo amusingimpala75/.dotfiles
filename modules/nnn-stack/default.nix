@@ -61,9 +61,18 @@
           meta.platforms = lib.platforms.linux;
         };
 
-      noctalia = {
-        imports = [ self.wrapperModules.noctalia-wrapper ];
-      };
+      noctalia =
+        {
+          pkgs,
+          ...
+        }:
+        {
+          imports = [ self.wrapperModules.noctalia-wrapper ];
+          runtimePkgs = with pkgs; [
+            evtest
+            qrencode
+          ];
+        };
 
       # [TODO] remove once nix-community/nix-wrapper-modules#598 is completed
       noctalia-wrapper =
