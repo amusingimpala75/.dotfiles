@@ -490,7 +490,12 @@ export default function (pi: ExtensionAPI) {
     },
   });
 
-  pi.on("user_bash", () => vm ? { operations: createGondolinBashOps(vm, localCwd) } : undefined);
+  // Selecting an image stops the current VM. Start its replacement before
+  // routing a direct ! command so it cannot fall through to host execution.
+  pi.on("user_bash", async (_event, ctx) => {
+    const activeVm = await ensureVm(ctx);
+    return { operations: createGondolinBashOps(activeVm, localCwd) };
+  });
   pi.on("before_agent_start", async (event, ctx) => {
     await ensureVm(ctx);
     return {

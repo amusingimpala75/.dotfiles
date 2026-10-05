@@ -65,11 +65,18 @@ esac
 # Match Pi's getAgentDir(): PI_CODING_AGENT_DIR overrides ~/.pi/agent.
 registry="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}/gondolin-images.json"
 temporary_dir=$(mktemp -d)
+image_build_parent=
+remove_directory() {
+  # Builds and Nix copies can preserve read-only directory modes. Restore
+  # owner write permission before removing their temporary output.
+  chmod -R u+w "$1" 2>/dev/null || true
+  rm -rf "$1"
+}
 cleanup() {
-  # nix copy preserves the Nix store's read-only directory modes. Restore
-  # owner write permission before removing the temporary staged closure.
-  chmod -R u+w "$temporary_dir" 2>/dev/null || true
-  rm -rf "$temporary_dir"
+  remove_directory "$temporary_dir"
+  if [ -n "$image_build_parent" ]; then
+    remove_directory "$image_build_parent"
+  fi
 }
 trap cleanup EXIT
 
@@ -127,7 +134,10 @@ environment = {
     if definition.get("type") == "exported" and isinstance(definition.get("value"), str)
 }
 # These values are meaningful in the host build environment, not in the guest
-# where /workspace is the project mount.
+# where /workspace is the project mount. In particular, Nix dev shells provide
+# HOME=/homeless-shelter while evaluating package builds; retain Alpine's guest
+# user home instead.
+environment.pop("HOME", None)
 environment.pop("PWD", None)
 environment.pop("OLDPWD", None)
 # Gondolin applies env.PATH directly, bypassing Alpine's profile scripts. Keep
@@ -164,7 +174,12 @@ config = {
     "rootfs": {"label": "gondolin-nix"},
     "env": environment,
     "postBuild": {
-        "copy": [{"src": store_root, "dest": "/"}],
+        "copy": [
+            {"src": store_root, "dest": "/"},
+            {"src": "@global-gitignore@", "dest": "/etc/gitignore"},
+            {"src": "@agent-gitconfig@", "dest": "/etc/gitconfig"},
+            {"src": "@agent-jj-config@", "dest": "/etc/jj/config.toml"},
+        ],
         "commands": [
             "mkdir -p /etc/nix /root/.config/nix",
             "printf '%s\\n%s\\n' 'experimental-features = nix-command flakes pipe-operators' 'build-users-group =' > /etc/nix/nix.conf",

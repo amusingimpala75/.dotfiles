@@ -61,7 +61,7 @@
             ];
           };
           fsmonitor.backend = "watchman";
-          git.private-commits = "visible_heads()";
+          git.private-commits = "visible_heads() | description('private:*')";
           merge-tools.delta.diff-expected-exit-codes = [
             0
             1
