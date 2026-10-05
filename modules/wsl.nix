@@ -12,20 +12,6 @@
       imports = [ inputs.nixos-wsl.nixosModules.default ];
       wsl.enable = true;
       wsl.startMenuLaunchers = true;
-      systemd.services."wsl-mnt-guard" = {
-        overrideStrategy = "asDropin";
-        unitConfig.ConditionPathIsMountPoint = "/mnt/wsl";
-        serviceConfig = {
-          ExecStart = [
-            ""
-            "${pkgs.coreutils}/bin/true"
-          ];
-          ExecStop = [
-            ""
-            "-${pkgs.util-linux}/bin/mount --make-rslave /mnt/wsl"
-          ];
-        };
-      };
     };
 
   flake.modules.homeManager.wsl =
