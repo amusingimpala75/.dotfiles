@@ -1,5 +1,6 @@
 {
   fetchFromGitHub,
+  lib,
   stdenvNoCC,
 }:
 stdenvNoCC.mkDerivation {
@@ -32,4 +33,6 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  meta.platforms = lib.platforms.all;
 }
