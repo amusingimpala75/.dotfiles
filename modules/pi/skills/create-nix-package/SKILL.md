@@ -39,6 +39,7 @@ If the user only gives a package name, discover the canonical upstream source be
    - Read upstream docs for install/build/test instructions when present.
 4. Write or update the derivation in the project’s preferred location.
 5. Build it with Nix and fix failures.
+   - Treat failed build attempts as experiments: once the package works, remove every workaround, dependency, override, patch, phase, or environment variable that was tried but is not required by the final solution. Leave the smallest clear changeset.
 6. Run the packaged program or otherwise perform a meaningful smoke test.
 7. Leave a concise summary of files changed, build/test commands run, and any caveats.
 
@@ -124,8 +125,9 @@ Requirements:
 - Prefer `stdenvNoCC.mkDerivation` over `stdenv.mkDerivation` when no C/C++/Objective-C compiler toolchain is needed.
 - Use `stdenv.mkDerivation` only when compilation or compiler-provided setup hooks are actually required.
 - Keep dependencies in the correct attributes:
-  - `nativeBuildInputs`: tools run on the build machine, including build systems, code generators, wrappers, pkg-config, install helpers.
-  - `buildInputs`: libraries linked/used for the host package.
+  - `nativeBuildInputs`: tools that run while building, including build systems, code generators, wrappers, pkg-config, and install helpers. Do not put host/runtime libraries here merely because their commands were used during the build.
+  - `buildInputs`: host-platform libraries and other dependencies linked into or needed by the built package at runtime. Do not put build-only tools here: doing so can unnecessarily enlarge the runtime closure.
+  - When cross-compilation is relevant, be especially precise: build-machine executables belong in `nativeBuildInputs`; host-package libraries belong in `buildInputs`.
   - `propagatedBuildInputs`: only for dependencies consumers must see.
   - `nativeCheckInputs`: test-only tools.
 - Preserve `runHook pre*` and `runHook post*` in custom phases.
@@ -193,6 +195,7 @@ If tests are expensive or require network/secrets/GUI, do not run them blindly. 
 - `__structuredAttrs` and `strictDeps` are enabled.
 - `stdenvNoCC` is used when a compiler is unnecessary.
 - `finalAttrs` is used for version/tag/hash references where helpful.
-- Dependencies are minimized and in the correct input attributes.
+- Dependencies are minimized and correctly split between native build tools and host/runtime inputs, without unnecessarily enlarging the runtime closure.
+- Failed-experiment workarounds and other no-longer-needed code or dependencies have been removed.
 - Metadata is accurate, including `license` and `mainProgram` when applicable.
 - The final response lists changed files and exact validation commands run.
