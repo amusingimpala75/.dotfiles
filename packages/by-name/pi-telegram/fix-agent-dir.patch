@@ -2,15 +2,15 @@ diff --git a/index.ts b/index.ts
 index c7bcfa8f87..a843b1a0e5 100644
 --- a/index.ts
 +++ b/index.ts
-@@ -1,10 +1,9 @@
+@@ -1,10 +1,10 @@
  import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
  import { basename, extname, join } from "node:path";
 -import { homedir } from "node:os";
  
  import type { ImageContent, TextContent } from "@mariozechner/pi-ai";
  import type { AgentMessage } from "@mariozechner/pi-agent-core";
--import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
-+import type { ExtensionAPI, ExtensionContext, getAgentDir } from "@mariozechner/pi-coding-agent";
+ import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
++import { getAgentDir } from "@mariozechner/pi-coding-agent";
  import { Type } from "@sinclair/typebox";
  
  interface TelegramConfig {

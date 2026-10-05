@@ -34,8 +34,4 @@ out why things are the way they are.
   setup. If you find yourself denied access to a file, please consider if the action
   can be done with minimal impedance a different way. If it is still not possible to be
   done that way, please prompt the user about potentially modifying the sandbox to be able
-  to acess what is needed.
-- In Gondolin VMs, the host Nix store is mounted read-only at `/host-store`; inspect host
-  store paths there rather than attempting to access or modify `/nix/store`. Try not to grep
-  over the entire store if at all possible.
-- Prefer `wget` over `curl`, as `wget` is installed and `curl` is not.
+  to access what is needed.

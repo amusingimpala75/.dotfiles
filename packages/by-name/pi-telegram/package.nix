@@ -14,22 +14,14 @@ stdenvNoCC.mkDerivation {
     hash = "sha256-2Gvr3AogpEHkmGkHetVfaPW9VHyMH9TZaK3swKbvQCw=";
   };
 
-  patches = [ ];
+  patches = [
+    ./fix-agent-dir.patch
+  ];
 
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/extensions
-    cat index.ts >> $out/extensions/pi-telegram.ts
-    cat > $out/package.json <<'EOF'
-    {
-      "name": "pi-telegram",
-      "private": true,
-      "pi": {
-        "extensions": ["./extensions/pi-telegram.ts"]
-      }
-    }
-    EOF
+    cp -r . $out
 
     runHook postInstall
   '';

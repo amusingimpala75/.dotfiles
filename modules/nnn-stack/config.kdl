@@ -7,7 +7,7 @@ input {
 }
 
 binds {
-  Mod+Return { spawn "foot"; }
+  Mod+Return { spawn-sh "setpriv --inh-caps=-all --ambient-caps=-all foot"; }
 
   Mod+Minus { set-column-width "-10%"; }
   Mod+Equal { set-column-width "+10%"; }

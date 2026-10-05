@@ -55,14 +55,12 @@
               "plan-mode/index"
               "permission-gate"
               "protected-paths"
-              "status-line"
+              "subagent/index"
               "tools"
             ])
             ++ [
-              "${pkgs.pi-minimal-footer}/extensions/pi-minimal-footer.ts"
-              "${pkgs.pi-telegram}/extensions/pi-telegram.ts"
-              "${pkgs.pi-subagents}/lib/node_modules/@tintinweb"
-              "${pkgs.gondolin.pi-extension}/extensions/pi-gondolin.ts"
+              pkgs.pi-telegram
+              pkgs.pi-sandbox
             ];
           quietStartup = "header";
           tuiMode = "regular";
@@ -74,24 +72,30 @@
       home = {
         sessionVariables = {
           PI_AGENT_DIR = "${config.home.homeDirectory}/${config-dir}/sessions"; # Stupid ccusage
-          # The Gondolin extension exposes these exact outputs to the VM
-          # without relying on a derivation file being retained by Nix.
-          GONDOLIN_PI_CODING_AGENT_PACKAGE = config.programs.pi-coding-agent.package.outPath;
-          GONDOLIN_PI_CODING_AGENT_SOURCE = config.programs.pi-coding-agent.package.src.outPath;
           PI_OFFLINE = 1;
           DEEPSEEK_API_KEY = "$(cat ${config.sops.secrets.deepseek_api_key.path})";
         };
 
-        packages = with pkgs; [
-          ccusage
-          gondolin-build-nix-image
-        ];
+        packages =
+          with pkgs;
+          [
+            ccusage
+          ]
+          ++ (lib.optionals pkgs.stdenv.hostPlatform.isLinux (
+            with pkgs;
+            [
+              bubblewrap
+              socat
+            ]
+          ));
 
         # Custom agents and skills remain mutable, out-of-store resources.
         file."${config-dir}/agents".source =
           config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/pi/agents";
         file."${config-dir}/skills".source =
           config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/pi/skills";
+        file."${config-dir}/sandbox.json".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/pi/sandbox.json";
       };
     };
 }

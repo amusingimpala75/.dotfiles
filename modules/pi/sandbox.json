@@ -1,0 +1,14 @@
+{
+  "filesystem": {
+    "allowRead": [
+      "/nix/store",
+      ".",
+      "~/.config",
+      "~/.local",
+      "~/Library"
+    ]
+  },
+  "network": {
+    "allowAllUnixSockets": true
+  }
+}
