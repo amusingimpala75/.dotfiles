@@ -45,7 +45,8 @@
         package = config.services.emacs.package;
       };
 
-      sops.secrets = lib.genAttrs
+      sops.secrets =
+        lib.genAttrs
           [
             "emacs-feeds.el"
             "emacs-radio-channels.el"

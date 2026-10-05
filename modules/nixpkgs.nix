@@ -23,7 +23,7 @@ let
       emacsPackagesFor =
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (
-          efinal: _: {
+          _: _: {
             inherit (prev.bleeding.emacsPackagesFor emacs) pilish;
           }
         ));

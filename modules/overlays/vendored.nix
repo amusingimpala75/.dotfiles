@@ -15,7 +15,7 @@
       );
     };
 
-    emacs-packages = final: prev: {
+    emacs-packages = _: prev: {
       emacsPackagesFor =
         emacs:
         ((prev.emacsPackagesFor emacs).overrideScope (
@@ -28,7 +28,7 @@
     };
 
     lib =
-      final: prev:
+      final: _:
       lib.packagesFromDirectoryRecursive {
         inherit (final) callPackage;
         directory = "${self}/packages/lib";

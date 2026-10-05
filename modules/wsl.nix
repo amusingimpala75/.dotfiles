@@ -3,16 +3,11 @@
   ...
 }:
 {
-  flake.modules.nixos.wsl =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      imports = [ inputs.nixos-wsl.nixosModules.default ];
-      wsl.enable = true;
-      wsl.startMenuLaunchers = true;
-    };
+  flake.modules.nixos.wsl = {
+    imports = [ inputs.nixos-wsl.nixosModules.default ];
+    wsl.enable = true;
+    wsl.startMenuLaunchers = true;
+  };
 
   flake.modules.homeManager.wsl =
     {

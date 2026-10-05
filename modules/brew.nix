@@ -26,7 +26,7 @@
       in
       {
         brewCasks = prev.brewCasks.overrideScope (
-          bfinal: bprev: {
+          _: bprev: {
             steam = replace-hash bprev.steam "sha256-4av7qqe+Pg9IoODUwxMjPgWGGx0mrzKDDdyDi+iPJpE=";
           }
         );
