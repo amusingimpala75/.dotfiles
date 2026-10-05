@@ -2,6 +2,7 @@ _: {
   perSystem =
     {
       pkgs,
+      self',
       ...
     }:
     {
@@ -11,8 +12,8 @@ _: {
           fennel-ls
           just
           luaPackages.fennel
-          nixfmt
-          nixfmt-tree
+          nixfmt-rs
+          self'.formatter
           pre-commit
           sops
         ];

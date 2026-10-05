@@ -18,7 +18,7 @@
     {
       packages = lib.filterAttrs (_: v: lib.isDerivation v) pkgs.local;
 
-      formatter = pkgs.nixfmt-tree;
+      formatter = pkgs.nixfmt-tree.override { nixfmt = pkgs.nixfmt-rs; };
     };
 
   flake-file.inputs = {
