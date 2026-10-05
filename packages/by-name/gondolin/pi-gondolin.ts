@@ -284,7 +284,8 @@ export default function (pi: ExtensionAPI) {
     const image = await selectedImage();
     const label = image ? `${image.name} (${image.devShell ?? "default"})` : "built-in image";
     const mode = sandboxEnabled ? state : "disabled (host)";
-    ctx.ui.setStatus("gondolin", ctx.ui.theme.fg("accent", `Gondolin: ${mode} — ${label}`));
+    const color = sandboxEnabled ? "accent" : "warning";
+    ctx.ui.setStatus("gondolin", ctx.ui.theme.fg(color, `Gondolin: ${mode} — ${label}`));
   }
 
   /**

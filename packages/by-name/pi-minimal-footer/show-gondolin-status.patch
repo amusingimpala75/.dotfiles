@@ -1,0 +1,24 @@
+diff --git a/packages/pi-minimal-footer/index.ts b/packages/pi-minimal-footer/index.ts
+index 3e4a012..a1c4e57 100644
+--- a/packages/pi-minimal-footer/index.ts
++++ b/packages/pi-minimal-footer/index.ts
+@@ -1114,6 +1114,11 @@ export default function (pi: ExtensionAPI) {
+           if (branchStr) locationVariants.push(branchStr);
+           const locationBlock = locationVariants.length > 0 ? fitFooterSegment(width, locationVariants) : "";
+ 
++          // The Gondolin extension publishes the selected image and sandbox
++          // state through ctx.ui.setStatus("gondolin", ...). Keep it as a
++          // separate block so it wraps cleanly on narrow terminals.
++          const gondolinStatus = footerData.getExtensionStatuses().get("gondolin") ?? "";
++
+           const statusBlocks = [
+             locationBlock,
+             fitFooterSegment(width, modelStr === plainModelStr ? [plainModelStr] : [modelStr, plainModelStr]),
+@@ -1139,6 +1144,7 @@ export default function (pi: ExtensionAPI) {
+                 includeCounts: false,
+               }),
+             ]),
++            fitFooterSegment(width, gondolinStatus ? [gondolinStatus] : []),
+           ];
+ 
+           lines.push(...wrapFooterSegments(statusBlocks, width, sep));

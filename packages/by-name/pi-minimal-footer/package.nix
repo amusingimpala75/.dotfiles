@@ -14,7 +14,10 @@ stdenvNoCC.mkDerivation {
     hash = "sha256-njwAfX8NW0cXp2c4Rfh0xmrGwd7isHqH5jD2/z8LTqM=";
   };
 
-  patches = [ ./fix-agent-dir.patch ];
+  patches = [
+    ./fix-agent-dir.patch
+    ./show-gondolin-status.patch
+  ];
 
   installPhase = ''
     runHook preInstall
