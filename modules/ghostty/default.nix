@@ -30,6 +30,6 @@
 
       home.packages = [ pkgs.maple-mono.NF-CN-unhinted ];
 
-      home.file.".hushlogin".text = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin "";
+      home.file.".hushlogin" = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin { text = ""; };
     };
 }

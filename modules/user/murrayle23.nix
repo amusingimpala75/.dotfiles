@@ -25,6 +25,8 @@
         cloudflare-manager
         direnv
         emacs
+        firefox
+        ghostty
         git
         jujutsu
         ng-cli
@@ -37,6 +39,8 @@
         zsh
 
         "${inputs.home-manager}/modules/services/podman"
+        "${inputs.home-manager}/modules/programs/foot.nix"
+        "${inputs.home-manager}/modules/programs/noctalia"
       ];
 
       vcs = {
@@ -47,6 +51,9 @@
       wsl.username = "MURRAYLE23";
 
       services.podman.enable = true;
+      programs.foot.enable = true;
+      programs.noctalia.enable = true;
+      programs.noctalia.package = pkgs.custom-noctalia;
 
       home.packages = with pkgs; [
         noto-fonts-color-emoji
@@ -57,7 +64,7 @@
         inputs.automader.packages.${pkgs.stdenv.hostPlatform.system}.automader
       ];
 
-      home.stateVersion = "24.05";
+      home.stateVersion = "26.05";
     }
   );
 
@@ -65,5 +72,4 @@
     url = "github:amusingimpala75/automata_grader";
     inputs.nixpkgs.follows = "nixpkgs";
   };
-
 }

@@ -16,6 +16,11 @@
           package = pkgs.custom-niri;
         };
 
+        programs.noctalia = {
+          enable = true;
+          package = pkgs.custom-noctalia;
+        };
+
         services.displayManager.noctalia-greeter = {
           enable = true;
           # passwordlessSyncUsers = [ "your-username" ];
