@@ -87,7 +87,7 @@
 
         env.GIT_CONFIG_GLOBAL = pkgs.writeText "jj-git-config" ''
           [core]
-            excludesFile = ${self.packages.${pkgs.stdenv.hostPlatform.system}.global-gitignore}
+            excludesFile = ${pkgs.global-gitignore}
         '';
       };
 

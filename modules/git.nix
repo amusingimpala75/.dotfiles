@@ -44,7 +44,7 @@
           branch.sort = "-comitterdate";
           column.ui = "auto";
           commit.verbose = true;
-          core.excludesFile = self.packages.${pkgs.stdenv.hostPlatform.system}.global-gitignore;
+          core.excludesFile = pkgs.global-gitignore;
           credential.helper = lib.getExe pkgs.git-credential-oauth;
           credential."https://github.com".helper = "${lib.getExe pkgs.gh} auth git-credential";
           delta.syntax-theme = "ansi";
