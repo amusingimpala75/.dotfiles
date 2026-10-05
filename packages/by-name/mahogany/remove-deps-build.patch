@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index 186f45d590..6a937d3aac 100644
+--- a/Makefile
++++ b/Makefile
+@@ -19,7 +19,7 @@
+ 
+ .PHONY: doc run runNoExec clean test
+ 
+-$(BUILD_DIR)/mahogany: $(BUILD_DIR)/heart/libheart.so build-mahogany.lisp build/internal/projectDependencies FORCE
++$(BUILD_DIR)/mahogany: $(BUILD_DIR)/heart/libheart.so build-mahogany.lisp FORCE
+ 	$(call $(LISP), build-mahogany.lisp)
+ 
+ build/internal/projectDependencies: mahogany.asd

@@ -1,137 +1,105 @@
-# AI generated, but at least for now it compiles and runs correctly
 {
   fetchFromGitHub,
   lib,
-  stdenv,
+
+  cairo,
+  libdrm,
+  libinput,
+  libxkbcommon,
+  makeWrapper,
   meson,
   ninja,
-  pkg-config,
-  makeWrapper,
-  sbcl,
-  wlroots_0_19,
-  wayland,
-  wayland-scanner,
-  wayland-protocols,
-  libxkbcommon,
-  libxcb,
-  cairo,
   pango,
-  libdrm,
+  pkg-config,
+  sbcl,
+  wayland,
+  wayland-protocols,
+  wayland-scanner,
+  wlroots_0_20,
 }:
 
-let
-  sbclEnv = sbcl.withPackages (
-    ps: with ps; [
-      alexandria
-      cl-ansi-text
-      cl-colors2
-      terminfo
-      adopt
-      iterate
-      atomics
-      fset
-      bordeaux-threads
-      cffi
-      cffi-grovel
-      closer-mop
-      fiasco
-    ]
-  );
-
-in
-stdenv.mkDerivation {
+sbcl.buildASDFSystem {
   pname = "mahogany";
-  version = "unstable-2026-03-19";
+  version = "0-unstable-2026-09-27";
 
   src = fetchFromGitHub {
     owner = "stumpwm";
     repo = "mahogany";
-    rev = "d18e1042a50a72211a5310555741b22a12c868b2";
-    hash = "sha256-8kbclq1hwU2VL1alPI8tNByuszDJU3sPuvn4cW5MpvE=";
+    rev = "e1d310538f1f7e54e2734187bc297b2ac1ff7817";
+    hash = "sha256-EgDAysOQxnSIdwoDsnYdQ9GivkYRNkLQW3X1czhrgbQ=";
     fetchSubmodules = true;
   };
 
+  patches = [ ./remove-deps-build.patch ];
+
+  lispLibs = with sbcl.pkgs; [
+    adopt
+    alexandria
+    atomics
+    bordeaux-threads
+    cffi-grovel
+    cl-ansi-text
+    closer-mop
+    float-features
+    fset
+    iterate
+    terminfo
+  ];
+
   nativeBuildInputs = [
+    makeWrapper
     meson
     ninja
     pkg-config
-    makeWrapper
-    wayland
+    sbcl
+    wayland-protocols
     wayland-scanner
-    sbclEnv
   ];
 
   buildInputs = [
-    wlroots_0_19
-    wayland
-    wayland-protocols
-    libxkbcommon
-    libxcb
     cairo
-    pango
     libdrm
+    libinput
+    libxkbcommon
+    pango
+    wayland
+    wlroots_0_20
   ];
 
-  dontConfigure = true;
-  hardeningDisable = [ "fortify" ];
-  dontStrip = true;
-  CFLAGS = "-I${lib.getDev libdrm}/include/libdrm";
-  C_INCLUDE_PATH = "${lib.getDev libdrm}/include/libdrm";
+  preBuild = ''
+    export LD_LIBRARY_PATH="${lib.makeLibraryPath [ libxkbcommon ]}:$LD_LIBRARY_PATH"
+    # Error about dangling symlink otherwise
+    rm guix.scm
+    export HOME=$PWD/.home
+    mkdir -p "$HOME"
+  '';
 
   buildPhase = ''
     runHook preBuild
 
-    export LD_LIBRARY_PATH="${
-      lib.makeLibraryPath [
-        wayland
-        libxkbcommon
-        wlroots_0_19
-        cairo
-        pango
-      ]
-    }:$LD_LIBRARY_PATH"
+    make
 
-    make LISP=sbcl
     runHook postBuild
-  '';
-
-  checkPhase = ''
-    runHook preCheck
-    export LD_LIBRARY_PATH="${
-      lib.makeLibraryPath [
-        wayland
-        libxkbcommon
-        wlroots_0_19
-        cairo
-        pango
-      ]
-    }:$LD_LIBRARY_PATH"
-    make LISP=sbcl test
-    runHook postCheck
   '';
 
   installPhase = ''
     runHook preInstall
 
     install -Dm755 build/mahogany $out/bin/mahogany
-    install -Dm755 build/lib/libheart.so $out/lib/libheart.so
+    install -Dm755 build/heart/libheart.so $out/lib/libheart.so
 
     wrapProgram $out/bin/mahogany \
-      --set SBCL_HOME "${sbcl}/lib/sbcl" \
       --prefix LD_LIBRARY_PATH : "$out/lib:${
         lib.makeLibraryPath [
-          wlroots_0_19
           libxkbcommon
-          wayland
-          cairo
-          pango
+          wlroots_0_20
         ]
       }"
 
     runHook postInstall
   '';
 
-  doCheck = true;
+  env.CFLAGS = "-O2 -I${lib.getDev libdrm}/include/libdrm";
 
   meta = {
     description = "Wayland tiling window manager inspired by StumpWM";
