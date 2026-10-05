@@ -32,35 +32,18 @@
           ];
           enableInstallTelemetry = false;
           extensions =
-            let
-              pi-extensions = "${pkgs.pi-coding-agent.src}/packages/coding-agent/examples/extensions";
-              fileExtension = name: "${pi-extensions}/${name}.ts";
-              complexExtension =
-                name: hash:
-                let
-                  pkg = pkgs.buildNpmPackage {
-                    pname = "pi-${name}";
-                    version = "git";
-                    src = "${pi-extensions}/${name}";
-                    npmDepsHash = hash;
-                  };
-                in
-                "${pkg}/lib/node_modules";
-              officialExtension =
-                args: if builtins.isString args then fileExtension args else complexExtension args.name args.hash;
-            in
-            (map officialExtension [
-              "commands"
-              "notify"
-              "plan-mode/index"
-              "permission-gate"
-              "protected-paths"
-              "subagent/index"
-              "tools"
-            ])
-            ++ [
-              pkgs.pi-telegram
-              pkgs.pi-sandbox
+            with pkgs;
+            with pi-extensions;
+            [
+              commands
+              notify
+              permission-gate
+              pi-sandbox
+              pi-telegram
+              plan-mode
+              protected-paths
+              subagent
+              tools
             ];
           quietStartup = "header";
           tuiMode = "regular";
