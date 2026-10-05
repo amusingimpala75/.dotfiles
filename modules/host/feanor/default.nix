@@ -15,10 +15,11 @@
         # [TODO] add persisting some folders with impermanence
         btrfs-rollback
         ram-compression
-        hollowknight-login
         amusingimpala75
         nnn-stack
       ];
+
+    services.displayManager.noctalia-greeter.passwordlessSyncUsers = [ "amusingimpala75" ];
     boot.btrfs-rollback.device = "/dev/mapper/crypted";
     hardware.facter.reportPath = ./hardware.json;
     programs.zsh.enable = true;
