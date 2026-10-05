@@ -40,6 +40,7 @@
               permission-gate
               pi-sandbox
               pi-telegram
+              pi-usage
               plan-mode
               protected-paths
               subagent
