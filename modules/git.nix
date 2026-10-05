@@ -18,8 +18,6 @@
 
       home.packages = with pkgs; [
         git-remote-setup
-        gh-dash
-        gh-enhance
       ];
 
       programs.gh = {
@@ -29,6 +27,14 @@
           telemetry = "disabled";
           version = "1";
         };
+        extensions = with pkgs; [
+          gh-contribs
+          gh-dash
+          gh-enhance
+          gh-notify
+          gh-skyline
+          gh-stack
+        ];
       };
 
       wrappers = {
