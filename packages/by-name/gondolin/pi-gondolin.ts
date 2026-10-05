@@ -282,6 +282,18 @@ export default function (pi: ExtensionAPI) {
     ctx.ui.setStatus("gondolin", ctx.ui.theme.fg("accent", `Gondolin: ${state} — ${label}`));
   }
 
+  /**
+   * Map Pi's Nix-store entrypoint into the guest on demand, rather than making
+   * the agent search the whole store. The mapping is only meaningful inside
+   * Gondolin.
+   */
+  async function agentGuestStorePath(): Promise<string | undefined> {
+    const entrypoint = process.argv[1];
+    if (!entrypoint) return undefined;
+    const resolved = await realpath(entrypoint).catch(() => path.resolve(entrypoint));
+    return pathInMount(resolved, HOST_NIX_STORE, GUEST_HOST_STORE);
+  }
+
   async function ensureVm(ctx?: ExtensionContext): Promise<VM> {
     const image = await selectedImage();
     // The path alone is not enough: a rebuild replaces its contents in place.
@@ -330,6 +342,30 @@ export default function (pi: ExtensionAPI) {
       vmImageKey = undefined;
     }
   }
+
+  pi.registerTool({
+    name: "gondolin_host_store_path",
+    label: "Gondolin host-store path",
+    description: "Return Pi's exact /host-store path inside the Gondolin VM. Call only when you need to inspect Pi's Nix-store files.",
+    parameters: Type.Object({}),
+    annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+    async execute() {
+      if (!sandboxEnabled) {
+        return {
+          content: [{ type: "text", text: "Gondolin sandboxing is disabled, so /host-store is not mounted." }],
+          details: { sandboxEnabled, guestPath: undefined },
+        };
+      }
+      const guestPath = await agentGuestStorePath();
+      const text = guestPath
+        ? `Pi's host-store entrypoint is available at: ${guestPath}`
+        : "Pi's entrypoint is not located in the host Nix store.";
+      return {
+        content: [{ type: "text", text }],
+        details: { sandboxEnabled, guestPath },
+      };
+    },
+  });
 
   pi.registerCommand("gondolin-image", {
     description: "Select the Gondolin image used by this Pi session",
