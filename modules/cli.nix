@@ -17,7 +17,7 @@
         doxx
         file
         htmlq
-        jaq
+        jq
         killall
         scc
         tree

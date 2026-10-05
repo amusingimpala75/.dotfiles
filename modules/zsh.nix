@@ -78,9 +78,7 @@
         plugins = with pkgs; [
           {
             name = "jq";
-            src = jq-zsh-plugin.override {
-              jq = jaq;
-            };
+            src = jq-zsh-plugin;
             file = "share/jq-zsh-plugin/jq.plugin.zsh";
           }
           {
