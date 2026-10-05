@@ -14,6 +14,9 @@
     {
       imports = [
         inputs.nix-index-database.homeModules.nix-index
+        "${inputs.home-manager}/modules/programs/nh.nix"
+        "${inputs.home-manager}/modules/programs/nix-index.nix"
+        "${inputs.home-manager}/modules/programs/nix-your-shell.nix"
         self.modules.homeManager.nix-init
         self.modules.homeManager.nurl
       ];

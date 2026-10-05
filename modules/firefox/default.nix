@@ -11,6 +11,10 @@
       ...
     }:
     {
+      imports = [
+        "${inputs.home-manager}/modules/programs/firefox"
+      ];
+
       programs.firefox = {
         enable = true;
         package = pkgs.bleeding.firefox;

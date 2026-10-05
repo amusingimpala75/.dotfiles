@@ -1,4 +1,8 @@
 {
+  inputs,
+  ...
+}:
+{
   flake.modules.homeManager.wallust =
     {
       config,
@@ -8,6 +12,12 @@
       ...
     }:
     {
+      imports = [
+        "${inputs.home-manager}/modules/programs/ghostty.nix"
+        "${inputs.home-manager}/modules/programs/vim.nix"
+        "${inputs.home-manager}/modules/programs/wallust.nix"
+      ];
+
       programs.wallust = {
         enable = true;
         settings = {

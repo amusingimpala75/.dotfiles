@@ -1,4 +1,5 @@
 {
+  inputs,
   lib,
   self,
   ...
@@ -10,7 +11,11 @@
       ...
     }:
     {
-      imports = [ self.wrappers.jujutsu-weave.install ];
+      imports = [
+        "${inputs.home-manager}/modules/programs/gpg.nix"
+        self.wrappers.jujutsu-weave.install
+      ];
+
       wrappers.jujutsu-weave = {
         enable = true;
         settings.user = {

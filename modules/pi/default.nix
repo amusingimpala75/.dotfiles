@@ -1,4 +1,8 @@
 {
+  inputs,
+  ...
+}:
+{
   flake.modules.homeManager.pi =
     {
       config,
@@ -9,6 +13,10 @@
       config-dir = ".config/pi/agent";
     in
     {
+      imports = [
+        "${inputs.home-manager}/modules/programs/pi-coding-agent.nix"
+      ];
+
       programs.pi-coding-agent = {
         enable = true;
         context = ./global-agents.md;

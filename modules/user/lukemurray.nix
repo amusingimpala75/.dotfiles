@@ -1,5 +1,4 @@
 {
-  inputs,
   self,
   ...
 }:
@@ -11,7 +10,7 @@
       ...
     }:
     {
-      imports = [ inputs.home-manager.darwinModules.home-manager ];
+      imports = [ self.modules.darwin.home-manager ];
 
       users.users.lukemurray = {
         createHome = true;

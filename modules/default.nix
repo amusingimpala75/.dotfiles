@@ -7,7 +7,6 @@
   imports = [
     inputs.flake-parts.flakeModules.modules
     inputs.nix-darwin.flakeModules.default
-    inputs.home-manager.flakeModules.home-manager
   ];
   systems = lib.systems.flakeExposed;
   perSystem =
@@ -29,10 +28,6 @@
 
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs-overlay = {

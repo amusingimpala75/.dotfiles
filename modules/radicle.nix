@@ -1,10 +1,18 @@
 {
+  inputs,
+  ...
+}:
+{
   flake.modules.homeManager.radicle =
     {
       pkgs,
       ...
     }:
     {
+      imports = [
+        "${inputs.home-manager}/modules/programs/radicle.nix"
+      ];
+
       home.packages = [ pkgs.radicle-desktop ];
 
       nixpkgs.config.permittedInsecurePackages = [

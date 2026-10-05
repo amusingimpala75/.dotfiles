@@ -39,6 +39,7 @@
     mkHome = system: username: mainModule: {
       "${username}" = inputs.home-manager.lib.homeManagerConfiguration {
         pkgs = import inputs.nixpkgs { inherit system; };
+        minimal = true;
         modules =
           let
             rootModules =
@@ -56,6 +57,12 @@
                     ...
                   }:
                   {
+                    imports = [
+                      "${inputs.home-manager}/modules/programs/home-manager.nix"
+                      "${inputs.home-manager}/modules/misc/fontconfig.nix"
+                      "${inputs.home-manager}/modules/misc/xdg"
+                    ];
+
                     home = {
                       inherit username;
                       homeDirectory =

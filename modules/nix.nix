@@ -25,7 +25,10 @@ in
 {
   flake.modules = {
     darwin.nix =
-      { pkgs, ... }:
+      {
+        pkgs,
+        ...
+      }:
       {
         imports = [
           (common pkgs)
@@ -34,11 +37,16 @@ in
         nix.channel.enable = false;
       };
     homeManager.nix =
-      { config, pkgs, ... }:
+      {
+        config,
+        pkgs,
+        ...
+      }:
       {
         imports = [
           (common pkgs)
           self.modules.homeManager.store-garbage-collect
+          "${inputs.home-manager}/modules/services/nix-gc.nix"
         ];
         sops.secrets."gh_ro_public_api_key" = { };
         sops.templates."nix-gh-ro-access.conf" = {
@@ -51,7 +59,10 @@ in
         '';
       };
     nixos.nix =
-      { pkgs, ... }:
+      {
+        pkgs,
+        ...
+      }:
       {
         imports = [
           (common pkgs)

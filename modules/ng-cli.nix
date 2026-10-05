@@ -1,10 +1,31 @@
 {
+  inputs,
+  ...
+}:
+{
   flake.modules.homeManager.ng-cli =
     {
       pkgs,
       ...
     }:
     {
+      imports = [
+        "${inputs.home-manager}/modules/programs/atuin.nix" # for fzf.nix
+        "${inputs.home-manager}/modules/programs/bat.nix"
+        "${inputs.home-manager}/modules/programs/bottom.nix"
+        "${inputs.home-manager}/modules/programs/direnv.nix"
+        "${inputs.home-manager}/modules/programs/eza.nix"
+        "${inputs.home-manager}/modules/programs/fd.nix"
+        "${inputs.home-manager}/modules/programs/fish.nix" # for fd.nix
+        "${inputs.home-manager}/modules/programs/fzf.nix"
+        "${inputs.home-manager}/modules/programs/git.nix" # for direnv.nix
+        "${inputs.home-manager}/modules/programs/man" # for fish.nix
+        "${inputs.home-manager}/modules/programs/mcfly.nix" # for fzf.nix
+        "${inputs.home-manager}/modules/programs/ripgrep.nix"
+        "${inputs.home-manager}/modules/programs/zoxide.nix"
+        "${inputs.home-manager}/modules/services/tldr-update.nix"
+      ];
+
       home.packages = with pkgs; [
         sd
         tlrc

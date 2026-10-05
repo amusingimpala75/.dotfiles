@@ -1,4 +1,8 @@
 {
+  inputs,
+  ...
+}:
+{
   flake.modules.homeManager.ghostty =
     {
       lib,
@@ -6,6 +10,11 @@
       ...
     }:
     {
+      imports = [
+        "${inputs.home-manager}/modules/programs/ghostty.nix"
+        "${inputs.home-manager}/modules/programs/vim.nix"
+      ];
+
       programs.ghostty = {
         enable = true;
         package = if pkgs.stdenv.hostPlatform.isLinux then pkgs.ghostty else pkgs.ghostty-bin;

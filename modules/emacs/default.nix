@@ -1,4 +1,5 @@
 {
+  inputs,
   self,
   ...
 }:
@@ -11,6 +12,11 @@
       ...
     }:
     {
+      imports = [
+        "${inputs.home-manager}/modules/programs/emacs.nix"
+        "${inputs.home-manager}/modules/services/emacs.nix"
+      ];
+
       services.emacs = {
         enable = true;
         package = pkgs.custom-emacs.override {
@@ -39,8 +45,7 @@
         package = config.services.emacs.package;
       };
 
-      sops.secrets = (
-        lib.genAttrs
+      sops.secrets = lib.genAttrs
           [
             "emacs-feeds.el"
             "emacs-radio-channels.el"
@@ -50,8 +55,7 @@
             format = "binary";
             sopsFile = "${self}/secrets/${file}";
             path = "%r/${file}";
-          })
-      );
+          });
 
       home = {
         packages = [

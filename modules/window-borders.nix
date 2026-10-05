@@ -1,3 +1,7 @@
+{
+  inputs,
+  ...
+}:
 let
   darwin =
     {
@@ -6,6 +10,10 @@ let
       ...
     }:
     {
+      imports = [
+        "${inputs.home-manager}/modules/services/jankyborders.nix"
+      ];
+
       services.jankyborders = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
         enable = true;
         settings = {

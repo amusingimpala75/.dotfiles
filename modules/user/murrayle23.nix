@@ -5,7 +5,7 @@
 }:
 {
   flake.modules.nixos.murrayle23 = {
-    imports = [ inputs.home-manager.nixosModules.home-manager ];
+    imports = [ self.modules.nixos.home-manager ];
 
     home-manager.users.murrayle23 = {
       imports = self.homeConfigurations.murrayle23.config._rootModules;
@@ -35,6 +35,8 @@
         wallust
         wsl
         zsh
+
+        "${inputs.home-manager}/modules/services/podman"
       ];
 
       vcs = {

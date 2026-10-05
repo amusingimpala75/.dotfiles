@@ -1,5 +1,13 @@
 {
+  inputs,
+  ...
+}:
+{
   flake.modules.homeManager.discord = {
+    imports = [
+      "${inputs.home-manager}/modules/programs/vesktop"
+    ];
+
     programs.vesktop = {
       enable = true;
       settings = {
