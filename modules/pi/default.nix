@@ -23,7 +23,7 @@
         configDir = "${config.home.homeDirectory}/${config-dir}";
         package = pkgs.bleeding.pi-coding-agent;
         settings = {
-          defaultModel = "gpt-6.1-sol";
+          defaultModel = "gpt-5.6-terra";
           defaultProvider = "openai-codex";
           defaultThinkingLevel = "high";
           defaultTools = [
