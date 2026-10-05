@@ -37,12 +37,11 @@
             [
               commands
               notify
-              permission-gate
+              pi-lancet-guard
               pi-sandbox
               pi-telegram
               pi-usage
               plan-mode
-              protected-paths
               subagent
               tools
             ];
@@ -72,6 +71,10 @@
               socat
             ]
           ));
+
+        file."${config-dir}/lancet-guard.json".text = builtins.toJSON {
+          enabled = true;
+        };
 
         # Custom agents and skills remain mutable, out-of-store resources.
         file."${config-dir}/agents".source =

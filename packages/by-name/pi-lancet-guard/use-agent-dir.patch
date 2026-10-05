@@ -1,0 +1,42 @@
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -14,9 +14,8 @@
+  * No API key, and no network except the explicit `/lancet-guard setup` model download.
+  */
+ 
+-import os from "node:os";
+ import path from "node:path";
+-import { CONFIG_DIR_NAME } from "@earendil-works/pi-coding-agent";
++import { CONFIG_DIR_NAME, getAgentDir } from "@earendil-works/pi-coding-agent";
+ import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-agent";
+ import { Box, Text } from "@earendil-works/pi-tui";
+ import { judgeCommand, judgePath } from "./gate.ts";
+@@ -74,7 +73,7 @@
+ }
+ 
+ function globalSettingsPath(): string {
+-    return path.join(os.homedir(), CONFIG_DIR_NAME, SETTINGS_FILE);
++    return path.join(getAgentDir(), SETTINGS_FILE);
+ }
+ 
+ function settingsFile(ctx: ExtensionContext): GuardSettings {
+--- a/tests/extension.test.mjs
++++ b/tests/extension.test.mjs
+@@ -21,7 +21,7 @@
+ const { modelDirectory } = await import("../src/model-store.mjs");
+ const { classifier, useRuntimeImporter } = await import("../src/runtime.mjs");
+ const { MODEL_FILES } = await import("../src/model-manifest.mjs");
+-const settingsFile = path.join(home, ".pi", "lancet-guard.json");
++const settingsFile = path.join(agent, "lancet-guard.json");
+ 
+ function instance({ hasUI = false, answer, trusted = false } = {}) {
+     const handlers = {};
+@@ -96,6 +96,8 @@
+         const guard = instance();
+         await guard.command("off --global");
+         assert.equal(JSON.parse(fs.readFileSync(settingsFile, "utf8")).enabled, false);
++        assert.equal(fs.existsSync(path.join(home, ".pi", "lancet-guard.json")), false);
++        assert.ok(guard.notes.at(-1).text.includes(settingsFile));
+     });
+ });
+ 
