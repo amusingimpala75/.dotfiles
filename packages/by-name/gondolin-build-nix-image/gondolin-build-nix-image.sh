@@ -66,8 +66,8 @@ esac
 registry="${PI_CODING_AGENT_DIR:-$HOME/.pi/agent}/gondolin-images.json"
 temporary_dir=$(mktemp -d)
 cleanup() {
-  # cp -a preserves the Nix store's read-only directory modes. Restore owner
-  # write permission before removing the temporary staged closure.
+  # nix copy preserves the Nix store's read-only directory modes. Restore
+  # owner write permission before removing the temporary staged closure.
   chmod -R u+w "$temporary_dir" 2>/dev/null || true
   rm -rf "$temporary_dir"
 }
@@ -91,15 +91,18 @@ case "$devshell" in
 esac
 flake_ref="$project_root#$devshell_attr"
 
-# The closure is copied into the image's own /nix/store. This is intentionally
-# done before serialising print-dev-env: every store path referenced by PATH is
-# available in the guest without exposing the host's store.
+# Copy the complete dev-shell closure into a chroot Nix store. This is
+# intentionally done before serialising print-dev-env: every store path
+# referenced by PATH is available in the guest without exposing the host's
+# store. A chroot store rooted at $temporary_dir places paths under
+# $temporary_dir/nix/store, preserving their guest location of /nix/store.
 devshell_path=$(nix build --no-link --print-out-paths "$flake_ref")
-store_root="$temporary_dir/store-root"
-mkdir -p "$store_root"
-nix path-info --recursive "$devshell_path" | while IFS= read -r store_path; do
-  cp -a --parents "$store_path" "$store_root"
-done
+# The chroot store is not a binary cache. Dev-shell closures can include local
+# derivations and therefore do not necessarily carry binary-cache signatures.
+# The source was just built/resolved from the user's local store, so bypass
+# destination signature checks while staging it into the image.
+nix copy --no-check-sigs --to "$temporary_dir" "$devshell_path"
+store_root="$temporary_dir/nix/store"
 # Gondolin stages postBuild.copy recursively. Its staging implementation must
 # create child paths after each copied directory, so source directories cannot
 # retain Nix's read-only mode while it performs that copy.
@@ -154,6 +157,7 @@ config = {
             "git",
             "jujutsu",
             "python3",
+            "ripgrep",
         ],
     },
     "container": {"force": True},
