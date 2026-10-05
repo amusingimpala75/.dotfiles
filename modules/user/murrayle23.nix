@@ -25,8 +25,6 @@
         cloudflare-manager
         direnv
         emacs
-        firefox
-        ghostty
         git
         jujutsu
         ng-cli

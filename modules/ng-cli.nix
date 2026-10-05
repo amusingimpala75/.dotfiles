@@ -36,7 +36,17 @@
       programs = {
         bat = {
           enable = true;
-          config.theme = "base16";
+          extraPackages = with pkgs.bat-extras; [
+            batman
+            batdiff
+            batpipe
+            batgrep
+            prettybat
+          ];
+          config = { 
+            theme = "base16";
+            wrap = "never";
+          };
         };
         bottom.enable = true;
         eza = {
