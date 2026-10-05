@@ -21,8 +21,9 @@
         enable = true;
         context = ./global-agents.md;
         configDir = "${config.home.homeDirectory}/${config-dir}";
+        package = pkgs.bleeding.pi-coding-agent;
         settings = {
-          defaultModel = "gpt-5.6-terra";
+          defaultModel = "gpt-6.1-sol";
           defaultProvider = "openai-codex";
           defaultThinkingLevel = "high";
           defaultTools = [
