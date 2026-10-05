@@ -12,17 +12,24 @@ jobs:
       matrix:
         runner: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      actions: read
     steps:
     - uses: actions/checkout@v6
     - uses: DeterminateSystems/nix-installer-action@v22
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
+    - uses: Mic92/hestia@v3
 
     - name: Check flake
       run: nix -Lv flake check
 
   discover:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
     steps:
@@ -30,6 +37,8 @@ jobs:
     - uses: DeterminateSystems/nix-installer-action@v22
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
+    - uses: Mic92/hestia@v3
+
     - id: set
       run: |
         matrix=$(nix eval --impure --json --expr "import .github/workflows/package-runner-matrix.nix")
@@ -41,12 +50,16 @@ jobs:
       matrix:
         build: ${{ fromJson(needs.discover.outputs.matrix) }}
     runs-on: ${{ matrix.build.runner }}
+    permissions:
+      contents: read
+      actions: read
 
     steps:
     - uses: actions/checkout@v6
     - uses: DeterminateSystems/nix-installer-action@v22
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
+    - uses: Mic92/hestia@v3
 
     - name: Build package
       run: NIXPKGS_ALLOW_UNFREE=1 nix build --impure .#${{ matrix.build.package }}
