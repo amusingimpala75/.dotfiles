@@ -8,11 +8,11 @@
   flake.modules.homeManager.jujutsu =
     {
       config,
+      pkgs,
       ...
     }:
     {
       imports = [
-        "${inputs.home-manager}/modules/programs/gpg.nix"
         self.wrappers.jujutsu-weave.install
       ];
 
@@ -24,7 +24,7 @@
         };
       };
       # for other's signatures
-      programs.gpg.enable = true;
+      home.packages = [ pkgs.gnupg ];
     };
 
   flake.wrappers = {
