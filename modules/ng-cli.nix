@@ -20,7 +20,8 @@
         "${inputs.home-manager}/modules/programs/fzf.nix"
         "${inputs.home-manager}/modules/programs/git.nix" # for direnv.nix
         "${inputs.home-manager}/modules/programs/man" # for fish.nix
-        "${inputs.home-manager}/modules/programs/mcfly.nix" # for fzf.nix
+        "${inputs.home-manager}/modules/programs/mcfly.nix"
+        "${inputs.home-manager}/modules/programs/pay-respects.nix"
         "${inputs.home-manager}/modules/programs/ripgrep.nix"
         "${inputs.home-manager}/modules/programs/zoxide.nix"
         "${inputs.home-manager}/modules/services/tldr-update.nix"
@@ -42,7 +43,18 @@
           icons = "auto";
         };
         fd.enable = true;
-        fzf.enable = true;
+        fzf = {
+          enable = true;
+          historyWidget.zsh.command = "";
+        };
+        mcfly.enable = true;
+        pay-respects = {
+          enable = true;
+          options = [
+            "--nocnf"
+            "--alias"
+          ];
+        };
         ripgrep.enable = true;
         zoxide.enable = true;
       };
