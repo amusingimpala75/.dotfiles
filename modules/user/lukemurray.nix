@@ -88,6 +88,7 @@
         pi
         radicle
         scrolling
+        ssh
         sketchybar
         vcs
         wallust

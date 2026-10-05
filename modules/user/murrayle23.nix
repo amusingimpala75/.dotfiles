@@ -30,6 +30,7 @@
         ng-cli
         ng-nix
         pi
+        ssh
         vcs
         wallust
         wsl
