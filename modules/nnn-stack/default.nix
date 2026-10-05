@@ -43,7 +43,7 @@
             {
               include = [
                 { optional = true; }
-                "~/.dotfiles/modules/flake/nnn-stack/config.kdl"
+                "~/.dotfiles/modules/nnn-stack/config.kdl"
               ];
             }
           ];

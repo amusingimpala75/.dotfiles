@@ -10,6 +10,7 @@
         dictionary
         murrayle23
         sshfs
+        weaselway
         wsl
       ];
 
