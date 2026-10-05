@@ -56,6 +56,8 @@
       home.packages = with pkgs; [
         noto-fonts-color-emoji
         get-win-sid
+        # [TODO] switch back to bleeding (i.e. module) once no longer broken on weaselway
+        ladybird
         play-audio
         wsl-open
 
