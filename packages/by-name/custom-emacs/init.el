@@ -325,6 +325,9 @@
 (use-package coffee-mode
   :ensure t)
 
+(use-package typst-ts-mode
+  :ensure t)
+
 (use-package imacs-completion
   :ensure t)
 

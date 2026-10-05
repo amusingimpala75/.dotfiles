@@ -36,7 +36,7 @@
   ;; Hook into a variety of prog modes
   (( c-ts-mode bash-ts-mode fennel-mode go-ts-mode haskell-mode python-ts-mode
      nix-mode java-ts-mode js-ts-mode typescript-ts-mode lus-ts-mode rustic-mode
-     scala-mode elm-mode markdown-ts-mode)
+     scala-mode elm-mode markdown-ts-mode typst-ts-mode)
    . eglot-ensure)
   :preface
   ;; I don't know why eglot started
@@ -64,7 +64,8 @@
           . ("rass" "--"
              "typescript-language-server" "--stdio" "--"
              "biome" "lsp-proxy"))
-         ((python-mode python-ts-mode) . ("zuban" "server"))))
+         ((python-mode python-ts-mode) . ("zuban" "server"))
+         (typst-ts-mode . ("tinymist"))))
     (add-to-list 'eglot-server-programs addition)))
 
 ;; Snippets completion
