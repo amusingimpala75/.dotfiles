@@ -5,8 +5,6 @@
 {
   flake.modules.homeManager.ng-nix =
     {
-      config,
-      lib,
       pkgs,
       ...
     }:
@@ -32,16 +30,9 @@
         custom-nix-init
         custom-nixpkgs-review
         custom-nurl
-        nix-tree
+        nixpkgs-search
         nix-update
-        (writeShellApplication {
-          name = "ns";
-          runtimeInputs = [
-            fzf
-            nix-search-tv
-          ];
-          text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
-        })
+        nix-tree
       ];
     };
 
