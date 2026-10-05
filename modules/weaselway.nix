@@ -26,6 +26,12 @@
           });
         })
       ];
+      nix.settings.substituters = [
+        # Cause I don't trust their random cachix
+        # Unfortunate I have to do this instead of
+        # being able to remove the annoying entry
+        "https://cache.nixos.org"
+      ];
 
       environment.systemPackages = [
         (pkgs.writeShellApplication {
@@ -36,11 +42,7 @@
           '';
           runtimeInputs = [
             (pkgs.custom-niri.wrap {
-              settings = {
-                debug = {
-                  render-drm-device = "/dev/dri/renderD129";
-                };
-              };
+              settings.debug.render-drm-device = "/dev/dri/renderD129";
             })
           ];
         })
