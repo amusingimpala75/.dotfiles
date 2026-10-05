@@ -75,6 +75,33 @@
             ${lib.getExe pkgs.bible.asv} random
           '';
         syntaxHighlighting.enable = true;
+        plugins = with pkgs; [
+          {
+            name = "jq";
+            src = jq-zsh-plugin.override {
+              jq = jaq;
+            };
+            file = "share/jq-zsh-plugin/jq.plugin.zsh";
+          }
+          {
+            name = "autopair";
+            src = zsh-autopair;
+            file = "share/zsh/zsh-autopair/autopair.zsh";
+          }
+          {
+            name = "zsh-llm-assist";
+            src = fetchFromGitHub {
+              owner = "championswimmer";
+              repo = "zsh-llm-assist";
+              rev = "13ec3e94a63a0787de1306ca2ac0a315ce3d80ce";
+              hash = "sha256-bFUeZAmV4KOaxNfBko7PPaVs2nR/n5sPmuFopWMamr0=";
+            };
+            file = "zsh-llm-assist.plugin.zsh";
+          }
+        ];
+        sessionVariables = {
+          ZSH_LLM_CLI_TOOL = "pi";
+        };
       };
     };
 }
