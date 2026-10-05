@@ -14,7 +14,9 @@
     {
       imports = [
         "${inputs.home-manager}/modules/programs/bat.nix"
+        "${inputs.home-manager}/modules/programs/fish.nix"
         "${inputs.home-manager}/modules/programs/ghostty.nix"
+        "${inputs.home-manager}/modules/programs/man"
         "${inputs.home-manager}/modules/programs/vim.nix"
         "${inputs.home-manager}/modules/programs/wallust.nix"
       ];
