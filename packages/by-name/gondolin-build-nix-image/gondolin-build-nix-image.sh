@@ -127,6 +127,13 @@ environment = {
 # where /workspace is the project mount.
 environment.pop("PWD", None)
 environment.pop("OLDPWD", None)
+# Gondolin applies env.PATH directly, bypassing Alpine's profile scripts. Keep
+# the dev-shell tools first, but retain the conventional Alpine command paths.
+alpine_path = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+if environment.get("PATH"):
+    environment["PATH"] = f'{environment["PATH"]}:{alpine_path}'
+else:
+    environment["PATH"] = alpine_path
 environment["NIX_CONFIG"] = (
     "experimental-features = nix-command flakes pipe-operators\\n"
     "build-users-group ="
@@ -144,6 +151,9 @@ config = {
             "bash",
             "openssh",
             "nix",
+            "git",
+            "jujutsu",
+            "python3",
         ],
     },
     "container": {"force": True},
@@ -165,8 +175,8 @@ PY
 mkdir -p "$(dirname "$image_dir")"
 gondolin build --config "$temporary_dir/gondolin-build.json" --output "$image_dir"
 
-# Keep the global directory -> image mapping consumed by pi-gondolin. Do not
-# replace a user's selected image merely because another image was built.
+# Keep the global directory -> image mapping consumed by pi-gondolin. A
+# successful build also becomes the selected image for the next Pi session.
 python3 - "$registry" "$project_root" "$image_name" "$image_dir" "$devshell" <<'PY'
 import json
 import os
@@ -201,17 +211,28 @@ if isinstance(previous, dict) and isinstance(previous.get("memoryMounts"), list)
             continue
         memory_mounts.add(mount)
 
+previous_image = images.get(project_root)
+previous_revision = (
+    previous_image.get("revision", 0)
+    if isinstance(previous_image, dict) and isinstance(previous_image.get("revision", 0), int)
+    else 0
+)
 image = {
     "name": name,
     "imagePath": image_path,
     "devShell": devshell,
+    # Bump this even when the output path is reused. The Pi extension uses it
+    # to replace an already-running VM with the rebuilt image.
+    "revision": previous_revision + 1,
 }
 if memory_mounts:
     image["memoryMounts"] = sorted(memory_mounts)
 images[project_root] = image
 registry["version"] = 1
 registry["images"] = images
-registry.setdefault("lastSelected", project_root)
+# Building an image is an explicit request to use it. This also means the next
+# Pi session selects a newly rebuilt project image without /gondolin-image.
+registry["lastSelected"] = project_root
 
 os.makedirs(os.path.dirname(registry_path), exist_ok=True)
 temporary_path = f"{registry_path}.{os.getpid()}.tmp"

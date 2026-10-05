@@ -34,6 +34,8 @@ type ImageDefinition = {
   name: string;
   imagePath: string;
   devShell?: string;
+  /** Incremented by the builder so a reused output path still refreshes the VM. */
+  revision?: number;
   /** Workspace-relative directories hidden from the host by guest memory mounts. */
   memoryMounts?: string[];
 };
@@ -91,6 +93,9 @@ async function loadRegistry(): Promise<ImageRegistry> {
           name: image.name,
           imagePath: image.imagePath,
           ...(typeof image.devShell === "string" ? { devShell: image.devShell } : {}),
+          ...(Number.isSafeInteger(image.revision) && (image.revision as number) >= 0
+            ? { revision: image.revision as number }
+            : {}),
           ...(memoryMounts ? { memoryMounts } : {}),
         };
       }
@@ -213,7 +218,10 @@ function createGondolinBashOps(vm: VM, localCwd: string): BashOperations {
         : undefined;
 
       try {
-        const process = vm.exec(["/bin/bash", "-lc", command], {
+        // A login shell sources Alpine's /etc/profile, which replaces the
+        // PATH embedded in the Gondolin image. Preserve the image's exported
+        // Nix dev-shell environment instead.
+        const process = vm.exec(["/bin/bash", "-c", command], {
           cwd: toGuestPath(localCwd, cwd),
           signal: controller.signal,
           stdout: "pipe",
@@ -241,11 +249,14 @@ export default function (pi: ExtensionAPI) {
 
   let vm: VM | null = null;
   let vmStarting: Promise<VM> | null = null;
+  let vmImageKey: string | undefined;
   let selectedProjectRoot: string | undefined;
 
   async function selectedImage(): Promise<ImageDefinition | undefined> {
     const registry = await loadRegistry();
-    const preferred = selectedProjectRoot ?? registry.lastSelected;
+    // The builder updates lastSelected when it produces an image. Prefer it
+    // over an in-memory selection so a rebuild is picked up by a live Pi host.
+    const preferred = registry.lastSelected ?? selectedProjectRoot;
     if (preferred && registry.images[preferred] && await imageExists(registry.images[preferred])) {
       selectedProjectRoot = preferred;
       return registry.images[preferred];
@@ -270,11 +281,14 @@ export default function (pi: ExtensionAPI) {
   }
 
   async function ensureVm(ctx?: ExtensionContext): Promise<VM> {
-    if (vm) return vm;
+    const image = await selectedImage();
+    // The path alone is not enough: a rebuild replaces its contents in place.
+    const requestedImageKey = image ? `${image.imagePath}\0${image.revision ?? 0}` : "built-in";
+    if (vm && vmImageKey === requestedImageKey) return vm;
+    if (vm) await stopVm(ctx);
     if (vmStarting) return vmStarting;
 
     vmStarting = (async () => {
-      const image = await selectedImage();
       const registry = await loadRegistry();
       const currentDirectory = await realpath(localCwd).catch(() => localCwd);
       const memoryMounts = closestProjectImage(registry, currentDirectory)?.image.memoryMounts ?? [];
@@ -295,6 +309,7 @@ export default function (pi: ExtensionAPI) {
         },
       });
       vm = created;
+      vmImageKey = requestedImageKey;
       if (ctx) await setStatus(ctx, "running");
       return created;
     })();
@@ -309,6 +324,7 @@ export default function (pi: ExtensionAPI) {
     } finally {
       vm = null;
       vmStarting = null;
+      vmImageKey = undefined;
     }
   }
 
