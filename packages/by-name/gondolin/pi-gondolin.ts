@@ -349,8 +349,12 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
+      const currentDirectory = await realpath(localCwd).catch(() => localCwd);
+      const projectDefault = closestProjectImage(registry, currentDirectory)?.projectRoot;
       const choices = available.map(({ projectRoot, image }) =>
-        `${image.name} — ${projectRoot}${image.devShell ? ` (${image.devShell})` : ""}`,
+        `${image.name} — ${projectRoot}${
+          projectRoot === projectDefault ? " (default for this project)" : ""
+        }`,
       );
       const choice = await ctx.ui.select("Gondolin image", choices);
       if (!choice) return;
