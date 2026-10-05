@@ -288,15 +288,39 @@ export default function (pi: ExtensionAPI) {
   }
 
   /**
-   * Map Pi's Nix-store entrypoint into the guest on demand, rather than making
-   * the agent search the whole store. The mapping is only meaningful inside
-   * Gondolin.
+   * Home Manager supplies the exact Pi package and source outputs. Keeping
+   * these references in the user environment makes both guest paths stable
+   * even when Nix garbage-collects the package derivation.
    */
-  async function agentGuestStorePath(): Promise<string | undefined> {
-    const entrypoint = process.argv[1];
-    if (!entrypoint) return undefined;
-    const resolved = await realpath(entrypoint).catch(() => path.resolve(entrypoint));
-    return pathInMount(resolved, HOST_NIX_STORE, GUEST_HOST_STORE);
+  function agentGuestStorePaths(): {
+    entrypoint: string | undefined;
+    sources: string[];
+    sourceLookupError?: string;
+  } {
+    const entrypoint = process.env.GONDOLIN_PI_CODING_AGENT_PACKAGE;
+    const source = process.env.GONDOLIN_PI_CODING_AGENT_SOURCE;
+    const guestEntrypoint = entrypoint
+      ? pathInMount(entrypoint, HOST_NIX_STORE, GUEST_HOST_STORE)
+      : undefined;
+    const guestSource = source
+      ? pathInMount(source, HOST_NIX_STORE, GUEST_HOST_STORE)
+      : undefined;
+
+    if (!guestEntrypoint) {
+      return {
+        entrypoint: undefined,
+        sources: [],
+        sourceLookupError: "GONDOLIN_PI_CODING_AGENT_PACKAGE is not a host Nix-store path.",
+      };
+    }
+    if (!guestSource) {
+      return {
+        entrypoint: guestEntrypoint,
+        sources: [],
+        sourceLookupError: "GONDOLIN_PI_CODING_AGENT_SOURCE is not a host Nix-store path.",
+      };
+    }
+    return { entrypoint: guestEntrypoint, sources: [guestSource] };
   }
 
   async function ensureVm(ctx?: ExtensionContext): Promise<VM> {
@@ -350,24 +374,31 @@ export default function (pi: ExtensionAPI) {
 
   pi.registerTool({
     name: "gondolin_host_store_path",
-    label: "Gondolin host-store path",
-    description: "Return Pi's exact /host-store path inside the Gondolin VM. Call only when you need to inspect Pi's Nix-store files.",
+    label: "Gondolin host-store paths",
+    description: "Return Pi's exact /host-store package and source paths inside the Gondolin VM. Call only when you need to inspect Pi's Nix-store files.",
     parameters: Type.Object({}),
     annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
     async execute() {
       if (!sandboxEnabled) {
         return {
           content: [{ type: "text", text: "Gondolin sandboxing is disabled, so /host-store is not mounted." }],
-          details: { sandboxEnabled, guestPath: undefined },
+          details: { sandboxEnabled, entrypoint: undefined, sources: [] },
         };
       }
-      const guestPath = await agentGuestStorePath();
-      const text = guestPath
-        ? `Pi's host-store entrypoint is available at: ${guestPath}`
-        : "Pi's entrypoint is not located in the host Nix store.";
+      const { entrypoint, sources, sourceLookupError } = agentGuestStorePaths();
+      const lines = entrypoint
+        ? [`Pi's host-store package: ${entrypoint}`]
+        : ["Pi's package is not located in the host Nix store."];
+      if (sources.length > 0) {
+        lines.push("Pi source-store paths:", ...sources.map((source) => `- ${source}`));
+      } else if (sourceLookupError) {
+        lines.push(`Source lookup unavailable: ${sourceLookupError}`);
+      } else if (entrypoint) {
+        lines.push("No derivation source paths are retained by Nix.");
+      }
       return {
-        content: [{ type: "text", text }],
-        details: { sandboxEnabled, guestPath },
+        content: [{ type: "text", text: lines.join("\n") }],
+        details: { sandboxEnabled, entrypoint, sources, sourceLookupError },
       };
     },
   });
