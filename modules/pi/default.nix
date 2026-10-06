@@ -41,8 +41,6 @@
               config.wrappers.jujutsu-weave.wrapper
               ripgrep
               which
-
-              rtk
             ]
             ++ allowedPackages;
           rwDirs = [
@@ -51,9 +49,7 @@
           ]
           ++ rwDirs;
           roDirs = [
-            pkgs.rtk.src
             pkgs.pi-coding-agent.src
-            inputs.pi-cd
             pi-minimal-footer
             pi-telegram
             pkgs.pi-subagents
@@ -69,7 +65,6 @@
           env = {
             inherit (config.home.sessionVariables) PI_CODING_AGENT_DIR PI_OFFLINE;
             DEEPSEEK_API_KEY = "$(cat ${config.sops.secrets.deepseek_api_key.path})";
-            RTK_TELEMETRY_DISABLED = 1;
           }
           // env;
         };
@@ -160,8 +155,6 @@
               "tools"
             ])
             ++ [
-              "${pkgs.rtk.src}/hooks/pi/rtk.ts"
-              "${inputs.pi-cd}/extensions/cd.ts"
               pi-minimal-footer
               pi-telegram
               "${pkgs.pi-subagents}/lib/node_modules/@tintinweb"
@@ -184,7 +177,6 @@
 
         packages = with pkgs; [
           ccusage
-          rtk
         ];
 
         # Custom agents, and to specify the models
@@ -196,11 +188,6 @@
     agent-sandbox = {
       url = "github:archie-judd/agent-sandbox.nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    pi-cd = {
-      url = "github:Acelogic/pi-cd/6b5c3347d99a92092286640f7e7f3132cf358901";
-      flake = false;
     };
 
     pi-minimal-footer = {

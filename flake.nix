@@ -108,10 +108,6 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pi-cd = {
-      url = "github:Acelogic/pi-cd/6b5c3347d99a92092286640f7e7f3132cf358901";
-      flake = false;
-    };
     pi-minimal-footer = {
       url = "github:ogulcancelik/pi-extensions/1deb3f144d0b64e3e67f61c95922360c4bb25b47?dir=packages/pi-minimal-footer";
       flake = false;
