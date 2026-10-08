@@ -43,6 +43,7 @@
 
       noctalia-shell =
         {
+          pkgs,
           wlib,
           ...
         }:
@@ -50,6 +51,7 @@
           imports = [ wlib.wrapperModules.noctalia-shell ];
 
           outOfStoreConfig = "~/.dotfiles/modules/nnn-stack/noctalia";
+          package = pkgs.bleeding.noctalia-shell;
         };
     };
   };
