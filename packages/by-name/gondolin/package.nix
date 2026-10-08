@@ -24,7 +24,11 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname src;
     pnpm = pnpm_12;
-    hash = "sha256-8zZYuHJ21i7ise6Yb7rFztyFDydnGT1o95jPFxVDcaE=";
+    hash =
+      if stdenvNoCC.hostPlatform.isLinux then
+        "sha256-8zZYuHJ21i7ise6Yb7rFztyFDydnGT1o95jPFxVDcaE="
+      else
+        "sha256-RgrN6vYlcoNmG6NsQUcQhP40ipboTuEubQaoN3se+Rw=";
     fetcherVersion = 4;
   };
 
