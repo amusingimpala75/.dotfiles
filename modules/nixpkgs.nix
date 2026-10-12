@@ -28,6 +28,7 @@ let
             inherit (prev.bleeding.emacsPackagesFor emacs) pilish;
           }
         ));
+      inherit (prev.bleeding) jujutsu;
     })
 
     self.overlays.lib
