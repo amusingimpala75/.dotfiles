@@ -6,6 +6,11 @@
     }:
     {
       home.packages = [ pkgs.radicle-desktop ];
+
+      nixpkgs.config.permittedInsecurePackages = [
+        pkgs.radicle-node.name
+      ];
+
       programs.radicle = {
         enable = true;
         # Most of these are just the defaults
