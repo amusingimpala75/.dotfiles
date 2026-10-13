@@ -21,9 +21,14 @@ import {
 import { RealFSProvider, VM } from "@earendil-works/gondolin";
 
 const GUEST_WORKSPACE = "/workspace";
-// Keep global extension state in Pi's configured agent directory.  This
-// respects PI_CODING_AGENT_DIR rather than assuming an XDG/home-directory path.
-const REGISTRY_PATH = path.join(getAgentDir(), "gondolin-images.json");
+// Gondolin images run as root, whose home directory is /root. Mount only Pi's
+// skills there, rather than exposing the complete Pi configuration directory.
+const GUEST_SKILLS_DIR = "/root/.config/pi/agent/skills";
+// Keep global extension state in Pi's configured agent directory. This respects
+// PI_CODING_AGENT_DIR rather than assuming an XDG/home-directory path.
+const AGENT_DIR = getAgentDir();
+const SKILLS_DIR = path.join(AGENT_DIR, "skills");
+const REGISTRY_PATH = path.join(AGENT_DIR, "gondolin-images.json");
 
 type ImageDefinition = {
   name: string;
@@ -93,13 +98,21 @@ function shQuote(value: string): string {
   return `'${value.replace(/'/g, "'\\''")}'`;
 }
 
+function pathInMount(localPath: string, localRoot: string, guestRoot: string): string | undefined {
+  const rel = path.relative(localRoot, localPath);
+  if (rel === "") return guestRoot;
+  if (rel.startsWith("..") || path.isAbsolute(rel)) return undefined;
+  return path.posix.join(guestRoot, ...rel.split(path.sep));
+}
+
 function toGuestPath(localCwd: string, localPath: string): string {
-  const rel = path.relative(localCwd, localPath);
-  if (rel === "") return GUEST_WORKSPACE;
-  if (rel.startsWith("..") || path.isAbsolute(rel)) {
-    throw new Error(`path escapes workspace: ${localPath}`);
-  }
-  return path.posix.join(GUEST_WORKSPACE, ...rel.split(path.sep));
+  const workspacePath = pathInMount(localPath, localCwd, GUEST_WORKSPACE);
+  if (workspacePath) return workspacePath;
+
+  const skillsPath = pathInMount(localPath, SKILLS_DIR, GUEST_SKILLS_DIR);
+  if (skillsPath) return skillsPath;
+
+  throw new Error(`path escapes mounted filesystems: ${localPath}`);
 }
 
 function createGondolinReadOps(vm: VM, localCwd: string): ReadOperations {
@@ -225,6 +238,7 @@ export default function (pi: ExtensionAPI) {
         vfs: {
           mounts: {
             [GUEST_WORKSPACE]: new RealFSProvider(localCwd),
+            [GUEST_SKILLS_DIR]: new RealFSProvider(SKILLS_DIR),
           },
         },
       });

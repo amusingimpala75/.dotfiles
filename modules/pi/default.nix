@@ -56,9 +56,6 @@
               "${pkgs.gondolin.pi-extension}/extensions/pi-gondolin.ts"
             ];
           quietStartup = "header";
-          skills = [
-            ./skills
-          ];
           tuiMode = "regular";
         };
       };
@@ -78,8 +75,9 @@
           gondolin-build-nix-image
         ];
 
-        # Custom agents, and to specify the models
+        # Custom agents and skills remain mutable, out-of-store resources.
         file."${config-dir}/agents".source = config.lib.file.mkOutOfStoreSymlink ./agents;
+        file."${config-dir}/skills".source = config.lib.file.mkOutOfStoreSymlink ./skills;
       };
     };
 }
