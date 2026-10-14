@@ -170,6 +170,7 @@ gondolin build --config "$temporary_dir/gondolin-build.json" --output "$image_di
 python3 - "$registry" "$project_root" "$image_name" "$image_dir" "$devshell" <<'PY'
 import json
 import os
+import posixpath
 import sys
 
 registry_path, project_root, name, image_path, devshell = sys.argv[1:]
@@ -183,11 +184,31 @@ if not isinstance(registry, dict):
 images = registry.get("images")
 if not isinstance(images, dict):
     images = {}
-images[project_root] = {
+# Image rebuilds must not discard workspace-specific guest memory mounts that
+# were configured by the Pi extension. Validate and canonicalise them here so a
+# malformed hand-edited registry cannot produce an invalid Gondolin mount path.
+previous = images.get(project_root)
+memory_mounts = set()
+if isinstance(previous, dict) and isinstance(previous.get("memoryMounts"), list):
+    for mount in previous["memoryMounts"]:
+        if not isinstance(mount, str):
+            continue
+        mount = mount.strip().replace("\\", "/")
+        if not mount or "\0" in mount or mount.startswith("/"):
+            continue
+        mount = posixpath.normpath(mount)
+        if mount in (".", "..") or mount.startswith("../"):
+            continue
+        memory_mounts.add(mount)
+
+image = {
     "name": name,
     "imagePath": image_path,
     "devShell": devshell,
 }
+if memory_mounts:
+    image["memoryMounts"] = sorted(memory_mounts)
+images[project_root] = image
 registry["version"] = 1
 registry["images"] = images
 registry.setdefault("lastSelected", project_root)

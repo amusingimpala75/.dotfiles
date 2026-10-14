@@ -1,5 +1,5 @@
 import { constants as fsConstants } from "node:fs";
-import { access, mkdir, readFile, realpath, rename, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, realpath, rename, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import type {
@@ -18,7 +18,7 @@ import {
   getAgentDir,
 } from "@earendil-works/pi-coding-agent";
 
-import { RealFSProvider, VM } from "@earendil-works/gondolin";
+import { MemoryProvider, RealFSProvider, VM } from "@earendil-works/gondolin";
 
 const GUEST_WORKSPACE = "/workspace";
 // Gondolin images run as root, whose home directory is /root. Mount only Pi's
@@ -34,6 +34,8 @@ type ImageDefinition = {
   name: string;
   imagePath: string;
   devShell?: string;
+  /** Workspace-relative directories hidden from the host by guest memory mounts. */
+  memoryMounts?: string[];
 };
 
 type ImageRegistry = {
@@ -44,6 +46,31 @@ type ImageRegistry = {
 
 function emptyRegistry(): ImageRegistry {
   return { version: 1, images: {} };
+}
+
+/**
+ * Return a canonical, workspace-relative POSIX path suitable for a nested VFS
+ * mount. The registry is shared across host platforms, so never store host
+ * path separators in it.
+ */
+function normaliseMemoryMount(value: string): string | undefined {
+  const input = value.trim().replaceAll("\\", "/");
+  if (input === "" || input.includes("\0") || path.posix.isAbsolute(input)) return undefined;
+
+  const normalised = path.posix.normalize(input);
+  if (normalised === "." || normalised === ".." || normalised.startsWith("../")) {
+    return undefined;
+  }
+  return normalised;
+}
+
+function memoryMountsFrom(value: unknown): string[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const mounts = [...new Set(value
+    .filter((entry): entry is string => typeof entry === "string")
+    .map(normaliseMemoryMount)
+    .filter((entry): entry is string => entry !== undefined))].sort();
+  return mounts.length > 0 ? mounts : undefined;
 }
 
 async function loadRegistry(): Promise<ImageRegistry> {
@@ -59,10 +86,12 @@ async function loadRegistry(): Promise<ImageRegistry> {
       if (typeof rawImage !== "object" || rawImage === null) continue;
       const image = rawImage as Record<string, unknown>;
       if (typeof image.name === "string" && typeof image.imagePath === "string") {
+        const memoryMounts = memoryMountsFrom(image.memoryMounts);
         registry.images[projectRoot] = {
           name: image.name,
           imagePath: image.imagePath,
           ...(typeof image.devShell === "string" ? { devShell: image.devShell } : {}),
+          ...(memoryMounts ? { memoryMounts } : {}),
         };
       }
     }
@@ -113,6 +142,25 @@ function toGuestPath(localCwd: string, localPath: string): string {
   if (skillsPath) return skillsPath;
 
   throw new Error(`path escapes mounted filesystems: ${localPath}`);
+}
+
+function projectImageCandidates(
+  registry: ImageRegistry,
+  currentDirectory: string,
+): Array<{ projectRoot: string; image: ImageDefinition }> {
+  return Object.entries(registry.images)
+    .filter(([projectRoot]) =>
+      currentDirectory === projectRoot || currentDirectory.startsWith(`${projectRoot}${path.sep}`),
+    )
+    .sort(([left], [right]) => right.length - left.length)
+    .map(([projectRoot, image]) => ({ projectRoot, image }));
+}
+
+function closestProjectImage(
+  registry: ImageRegistry,
+  currentDirectory: string,
+): { projectRoot: string; image: ImageDefinition } | undefined {
+  return projectImageCandidates(registry, currentDirectory)[0];
 }
 
 function createGondolinReadOps(vm: VM, localCwd: string): ReadOperations {
@@ -203,18 +251,13 @@ export default function (pi: ExtensionAPI) {
       return registry.images[preferred];
     }
 
-    // A registry may have been created before anything was selected.  In that
+    // A registry may have been created before anything was selected. In that
     // case prefer the closest image definition for Pi's current project.
     const currentDirectory = await realpath(localCwd).catch(() => localCwd);
-    const candidates = Object.entries(registry.images)
-      .filter(([projectRoot]) =>
-        currentDirectory === projectRoot || currentDirectory.startsWith(`${projectRoot}${path.sep}`),
-      )
-      .sort(([left], [right]) => right.length - left.length);
-    for (const [projectRoot, image] of candidates) {
-      if (await imageExists(image)) {
-        selectedProjectRoot = projectRoot;
-        return image;
+    for (const projectImage of projectImageCandidates(registry, currentDirectory)) {
+      if (await imageExists(projectImage.image)) {
+        selectedProjectRoot = projectImage.projectRoot;
+        return projectImage.image;
       }
     }
     return undefined;
@@ -232,12 +275,21 @@ export default function (pi: ExtensionAPI) {
 
     vmStarting = (async () => {
       const image = await selectedImage();
+      const registry = await loadRegistry();
+      const currentDirectory = await realpath(localCwd).catch(() => localCwd);
+      const memoryMounts = closestProjectImage(registry, currentDirectory)?.image.memoryMounts ?? [];
+      const workspaceMemoryMounts = Object.fromEntries(memoryMounts.map((relativePath) => [
+        path.posix.join(GUEST_WORKSPACE, relativePath),
+        new MemoryProvider(),
+      ]));
+
       if (ctx) await setStatus(ctx, "starting");
       const created = await VM.create({
         ...(image ? { sandbox: { imagePath: image.imagePath } } : {}),
         vfs: {
           mounts: {
             [GUEST_WORKSPACE]: new RealFSProvider(localCwd),
+            ...workspaceMemoryMounts,
             [GUEST_SKILLS_DIR]: new RealFSProvider(SKILLS_DIR),
           },
         },
@@ -290,6 +342,94 @@ export default function (pi: ExtensionAPI) {
       await stopVm(ctx);
       await setStatus(ctx, "selected");
       ctx.ui.notify(`Gondolin image selected: ${selection.image.name}`, "info");
+    },
+  });
+
+  pi.registerCommand("gondolin-memory-mounts", {
+    description: "Hide workspace directories behind guest-local memory mounts",
+    handler: async (_args, ctx) => {
+      const registry = await loadRegistry();
+      const currentDirectory = await realpath(localCwd).catch(() => localCwd);
+      const projectImage = closestProjectImage(registry, currentDirectory);
+      if (!projectImage) {
+        ctx.ui.notify(
+          "No Gondolin image is registered for this project. Run gondolin-build-nix-image first.",
+          "warning",
+        );
+        return;
+      }
+
+      const { projectRoot, image } = projectImage;
+      const memoryMounts = new Set(image.memoryMounts ?? []);
+      let changed = false;
+      while (true) {
+        const mounts = [...memoryMounts].sort();
+        const addChoice = "Add workspace directory…";
+        const doneChoice = "Done";
+        const choices = [addChoice, ...mounts.map((mount) => `Remove ${mount}`), doneChoice];
+        const choice = await ctx.ui.select(
+          `Gondolin memory mounts — ${projectRoot}`,
+          choices,
+        );
+        if (!choice || choice === doneChoice) break;
+
+        if (choice === addChoice) {
+          const input = await ctx.ui.input(
+            "Directory to hide from the host",
+            "e.g. node_modules or frontend/node_modules",
+          );
+          if (input === undefined) continue;
+          const mount = normaliseMemoryMount(input);
+          if (!mount) {
+            ctx.ui.notify("Enter a non-empty path relative to the workspace (no .. or leading /).", "warning");
+            continue;
+          }
+          if (memoryMounts.has(mount)) {
+            ctx.ui.notify(`${mount} is already a guest-local memory mount.`, "warning");
+            continue;
+          }
+          try {
+            const parent = await stat(path.join(localCwd, path.posix.dirname(mount)));
+            if (!parent.isDirectory()) throw new Error("not a directory");
+          } catch {
+            ctx.ui.notify(
+              `The parent directory of ${mount} must exist in the host workspace before it can be mounted.`,
+              "warning",
+            );
+            continue;
+          }
+          memoryMounts.add(mount);
+          changed = true;
+          continue;
+        }
+
+        const mount = choice.slice("Remove ".length);
+        if (memoryMounts.delete(mount)) changed = true;
+      }
+
+      if (!changed) return;
+      if (vm && !await ctx.ui.confirm(
+        "Restart Gondolin VM?",
+        "Applying this change restarts the VM and permanently discards all guest-local memory mounts, including installed dependencies.",
+      )) return;
+
+      const mounts = [...memoryMounts].sort();
+      if (mounts.length > 0) {
+        registry.images[projectRoot] = { ...image, memoryMounts: mounts };
+      } else {
+        const { memoryMounts: _memoryMounts, ...imageWithoutMemoryMounts } = image;
+        registry.images[projectRoot] = imageWithoutMemoryMounts;
+      }
+      await saveRegistry(registry);
+
+      // VFS mounts are established at VM startup, so restart to apply the
+      // saved configuration before the next tool invocation.
+      await stopVm(ctx);
+      await setStatus(ctx, "configured");
+      ctx.ui.notify(
+        `Gondolin memory mounts updated for ${projectRoot}: ${mounts.length === 0 ? "none" : mounts.join(", ")}`,
+        "info",
+      );
     },
   });
 
