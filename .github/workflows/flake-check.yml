@@ -12,6 +12,28 @@ permissions:
   contents: read
 
 jobs:
+  ci-passed:
+    name: CI passed
+    runs-on: ubuntu-latest
+    needs: [updater-tests, check, discover, builds]
+    # Run even if a prerequisite fails or is skipped; a skipped gate must not
+    # accidentally satisfy the branch ruleset's required status check.
+    if: ${{ always() }}
+    steps:
+    - name: Require every CI job to succeed
+      env:
+        RESULTS: ${{ toJSON(needs.*.result) }}
+      run: |
+        python3 - <<'PY'
+        import json
+        import os
+        import sys
+
+        results = json.loads(os.environ["RESULTS"])
+        print(f"CI job results: {results}")
+        sys.exit(0 if results and all(result == "success" for result in results) else 1)
+        PY
+
   updater-tests:
     runs-on: ubuntu-latest
     steps:

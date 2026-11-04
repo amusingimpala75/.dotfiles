@@ -33,7 +33,12 @@ the key in App settings and replace the Actions secret if it is compromised.
 No branch-protection bypass is needed or recommended.
 
 Ensure repository/organization policy allows this App and GitHub Actions.
-Protect `master` with your desired required checks and reviews. Permit force
+Protect `master` with a branch ruleset requiring pull requests and the **CI passed**
+status check (source: GitHub Actions). This gate requires the updater tests, both
+flake checks, matrix discovery, and all package builds to succeed; failed,
+cancelled, or skipped prerequisites fail the gate. Run CI once if the check is
+not yet available in the ruleset picker. Individual matrix checks need not be
+required separately. Add any desired review requirements. Permit force
 pushes to the unprotected `automation/flake-*/` branches; refreshes replace their
 generated commit. Consider dismissing stale approvals when a PR changes.
 There is no automatic merge.
