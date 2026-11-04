@@ -22,15 +22,15 @@ if [ ! -d "/mnt/c/Users" ]; then
 fi
 
 PROFILE_LIST_KEY='HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList'
-ESCAPED_PLK=$(escape_str <<< "$PROFILE_LIST_KEY")
+ESCAPED_PLK=$(escape_str <<<"$PROFILE_LIST_KEY")
 
 # Get list of sids
-SUBQUERY=$(escape_str <<< "$PROFILE_LIST_KEY\\S")
+SUBQUERY=$(escape_str <<<"$PROFILE_LIST_KEY\\S")
 IFS=$'\n'
 for line in $(reg.exe query "$PROFILE_LIST_KEY" | escape_str | rg -F "$SUBQUERY" | unwindows); do
     SID=${line#"$ESCAPED_PLK\\\\"}
     # What have I done to this world to deserve this?
     if reg.exe query "$PROFILE_LIST_KEY\\$SID" | tr ' ' '\n' | escape_str | grep -iq "C:\\\\\\\\Users\\\\\\\\$USERNAME"; then
-       echo "$SID"
+        echo "$SID"
     fi
 done
