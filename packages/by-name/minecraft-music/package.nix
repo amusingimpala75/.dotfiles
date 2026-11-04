@@ -3,6 +3,8 @@
   fetchurl,
   jq,
   lib,
+  nix,
+  nix-update,
   runCommand,
   symlinkJoin,
   writeShellApplication,
@@ -21,19 +23,39 @@ let
     ''
   ) (builtins.fromJSON (builtins.readFile ./index.json));
   albums = builtins.fromJSON (builtins.readFile ./albums.json);
-in
-(symlinkJoin {
-  name = "minecraft-music";
-  inherit paths;
   update = writeShellApplication {
     name = "update-minecraft-music";
-    text = builtins.readFile ./update.sh;
+    text = ''
+      output=${
+        lib.escapeShellArg (
+          let
+            path = toString ./index.json;
+            storePrefix = "${builtins.storeDir}/";
+          in
+          if lib.hasPrefix storePrefix path then
+            lib.concatStringsSep "/" (lib.drop 1 (lib.splitString "/" (lib.removePrefix storePrefix path)))
+          else
+            path
+        )
+      }
+    ''
+    + builtins.readFile ./update.sh;
     meta.platforms = lib.platforms.all;
     runtimeInputs = [
       curl
       jq
+      nix
+      nix-update
     ];
   };
+in
+(symlinkJoin {
+  pname = "minecraft-music";
+  # The next update records the Mojang snapshot used to generate index.json.
+  version = "0-unstable";
+  inherit paths;
+  passthru.update = update;
+  passthru.updateScript = lib.getExe update;
   passthru.albums = builtins.mapAttrs (
     name: value:
     let

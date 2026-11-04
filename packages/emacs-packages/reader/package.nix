@@ -2,6 +2,7 @@
   fetchFromGitea,
   lib,
   melpaBuild,
+  nix-update-script,
   stdenv,
 
   emacs,
@@ -10,6 +11,7 @@
   ...
 }:
 let
+  version = "0-unstable-2026-09-30";
   src = fetchFromGitea {
     domain = "codeberg.org";
     owner = "MonadicSheep";
@@ -18,8 +20,8 @@ let
     hash = "sha256-XKLLX2/r8kTEIkkqGCmcGR/OU3/iXiZmwLjqVAZDX7s=";
   };
   core = stdenv.mkDerivation {
-    inherit src;
-    name = "emacs-reader-core";
+    inherit src version;
+    pname = "emacs-reader-core";
     buildFlags = [ "CC=cc" ];
     nativeBuildInputs = [ pkg-config ];
     buildInputs = [
@@ -39,7 +41,14 @@ let
 in
 melpaBuild {
   pname = "reader";
-  version = "0-unstable-2026-09-30";
-  inherit src;
+  inherit src version;
+  passthru.updateScript = nix-update-script {
+    attrPath = "emacs-reader";
+    extraArgs = [
+      "--flake"
+      "--version=branch"
+    ];
+  };
+
   files = ''(:defaults "${lib.getLib core}/lib/render-core.*")'';
 }

@@ -6,15 +6,21 @@
   autoPatchelfHook,
   pi-coding-agent,
   callPackage,
+  coreutils,
+  nix,
+  nix-update,
+  nodejs,
+  writeShellApplication,
 }:
 buildNpmPackage (finalAttrs: {
   pname = "pi-lancet-guard";
-  version = "0.6.1";
+  # Track the SpecPi source release; the extension has its own version in package.json.
+  version = "0.37.1";
 
   src = fetchFromGitHub {
     owner = "TannerMidd";
     repo = "SpecPi";
-    tag = "v0.37.1";
+    tag = "v${finalAttrs.version}";
     hash = "sha256-cBKt7Bt4gsZt3ZyeWkvojDHKCHlmUx4LE92N075BC8c=";
   };
   sourceRoot = "${finalAttrs.src.name}/packages/lancet-guard";
@@ -25,7 +31,7 @@ buildNpmPackage (finalAttrs: {
   patches = [ ./use-agent-dir.patch ];
 
   # Upstream's development lockfile lacks integrity hashes for nested Pi packages.
-  # Generated with npm pkg delete devDependencies && npm install --package-lock-only --ignore-scripts.
+  # Regenerated from the selected source by passthru.updateScript (nix-update -u).
   postPatch = ''
     cp ${./package.json} package.json
     cp ${./package-lock.json} package-lock.json
@@ -36,7 +42,48 @@ buildNpmPackage (finalAttrs: {
   dontNpmBuild = true;
 
   model = callPackage ./model.nix { };
-  passthru.model = finalAttrs.model;
+  passthru = {
+    inherit (finalAttrs) model;
+    updateScript = lib.getExe finalAttrs.passthru.update;
+    update = writeShellApplication {
+      name = "update-pi-lancet-guard";
+      runtimeInputs = [
+        coreutils
+        nix
+        nix-update
+        nodejs
+      ];
+      text = ''
+        package_dir="$PWD/packages/by-name/pi-lancet-guard"
+        test -f "$package_dir/package.nix"
+        work=$(mktemp -d)
+        cp "$package_dir"/{package.nix,package.json,package-lock.json} "$work/"
+        cleanup() {
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            cp "$work"/{package.nix,package.json,package-lock.json} "$package_dir/"
+          fi
+          rm -rf "$work"
+          exit "$status"
+        }
+        trap cleanup EXIT
+
+        # Do not use -u here: this is the source-only part of this custom updater.
+        nix-update --flake --src-only pi-lancet-guard "$@"
+        src=$(nix build --no-link --print-out-paths .#pi-lancet-guard.src)
+        mkdir "$work/npm"
+        cp "$src/packages/lancet-guard/package.json" "$work/npm/package.json"
+        chmod u+w "$work/npm/package.json"
+        (
+          cd "$work/npm"
+          npm pkg delete devDependencies --workspaces=false
+          npm install --package-lock-only --ignore-scripts --workspaces=false --no-audit --no-fund
+        )
+        cp "$work/npm"/{package.json,package-lock.json} "$package_dir/"
+        nix-update --flake --version=skip --no-src pi-lancet-guard
+      '';
+    };
+  };
 
   nativeBuildInputs = lib.optionals stdenv.hostPlatform.isLinux [ autoPatchelfHook ];
   buildInputs = lib.optionals stdenv.hostPlatform.isLinux [ stdenv.cc.cc.lib ];

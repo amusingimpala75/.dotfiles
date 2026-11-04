@@ -3,11 +3,12 @@
   fetchFromGitHub,
   lib,
   stdenv,
+  nix-update-script,
   ...
 }:
 stdenv.mkDerivation {
   pname = "brightness";
-  version = "git+02-28-2021";
+  version = "0-unstable-2021-02-28";
 
   src = fetchFromGitHub {
     owner = "nriley";
@@ -19,6 +20,14 @@ stdenv.mkDerivation {
   makeFlags = [ "prefix=$(out)" ];
 
   buildInputs = [ apple-sdk ];
+
+  passthru.updateScript = nix-update-script {
+    attrPath = "brightness";
+    extraArgs = [
+      "--flake"
+      "--version=branch"
+    ];
+  };
 
   meta = {
     description = "CLI application to set the screen brightness";

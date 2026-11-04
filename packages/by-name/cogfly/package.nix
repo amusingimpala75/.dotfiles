@@ -14,7 +14,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "Nix-main";
     repo = "Cogfly";
-    rev = finalAttrs.version;
+    tag = finalAttrs.version;
     hash = "sha256-noOe0Jyb53swzloY7e1TWI6oYzOpQclrTU38/R5mvXk=";
   };
 
