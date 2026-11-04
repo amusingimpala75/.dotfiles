@@ -21,7 +21,10 @@
       ...
     }:
     {
-      packages = lib.filterAttrs (_: v: lib.isDerivation v) pkgs.local;
+      packages = lib.filterAttrs (_: v: lib.isDerivation v) pkgs.local // {
+        emacs-reader = pkgs.emacsPackages.reader;
+        emacs-org-modern-indent = pkgs.emacsPackages.org-modern-indent;
+      };
     };
 
   flake-file.inputs = {

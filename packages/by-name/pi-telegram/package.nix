@@ -2,9 +2,10 @@
   fetchFromGitHub,
   lib,
   stdenvNoCC,
+  nix-update-script,
 }:
 stdenvNoCC.mkDerivation {
-  name = "pi-telegram";
+  pname = "pi-telegram";
   version = "0-unstable-2026-04-03";
 
   src = fetchFromGitHub {
@@ -25,6 +26,14 @@ stdenvNoCC.mkDerivation {
 
     runHook postInstall
   '';
+
+  passthru.updateScript = nix-update-script {
+    attrPath = "pi-telegram";
+    extraArgs = [
+      "--flake"
+      "--version=branch"
+    ];
+  };
 
   meta.platforms = lib.platforms.all;
 }

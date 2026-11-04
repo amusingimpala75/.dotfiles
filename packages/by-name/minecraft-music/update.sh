@@ -16,4 +16,5 @@ object_index_lines=$(while IFS= read -r s; do
     echo "{\"filename\": \"$filename\", \"url\": \"$url\", \"sha256\": \"$sha256\"}"
 done < <(jq -rc '.[]' <<<"$objects"))
 object_index="[$(paste -sd, - <<<"$object_index_lines")]"
-echo "$object_index" | jq >index.json
+nix-update --flake --src-only --version="$latest_version" minecraft-music
+echo "$object_index" | jq >"${output:?}"

@@ -6,6 +6,7 @@
 
   lib,
   stdenv,
+  writeShellScript,
   ...
 }:
 stdenv.mkDerivation {
@@ -68,6 +69,11 @@ stdenv.mkDerivation {
 
   passthru = {
     dbName = "web1913";
+    # Immutable historical dataset, not an automatically updated software release.
+    # Use nix-update -u so this policy is respected.
+    updateScript = writeShellScript "web1913-update" ''
+      echo "web1913 is intentionally pinned to its historical Debian snapshot."
+    '';
   };
 
   meta = {

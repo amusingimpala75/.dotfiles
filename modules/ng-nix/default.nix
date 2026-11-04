@@ -29,9 +29,9 @@
         custom-nh
         custom-nix-init
         custom-nixpkgs-review
+        custom-nix-update
         custom-nurl
         nixpkgs-search
-        nix-update
         nix-tree
       ];
     };

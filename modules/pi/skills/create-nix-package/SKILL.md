@@ -153,6 +153,26 @@ Use regular `stdenv` when building native code, when a compiler is needed during
 - If a hash mismatch occurs, update the hash from Nix’s reported `got:` value after verifying the source is expected.
 - Prefer `hash = "sha256-...";` over legacy hash attributes unless local style differs.
 
+## Update scripts
+
+For independently versioned upstream packages, declare `passthru.updateScript` so the update policy lives in the derivation, not only in documentation or remembered CLI flags. Add `nix-update-script` to the package's function arguments and prefer the standard helper over a handwritten wrapper:
+
+```nix
+passthru.updateScript = nix-update-script {
+  attrPath = "example";
+  extraArgs = [ "--flake" ];
+};
+```
+
+- Set `attrPath` to the actual exported attribute (for example, `emacs-reader`, not its internal `pname` of `reader`).
+- Use `--flake` for this repository's flake packages. For Nixpkgs packages, omit it and normally use `nix-update-script { }` for release updates.
+- For commit snapshots, add `"--version=branch"` to `extraArgs` (or `"--version=branch=<branch>"` for a specific branch). Use a conventional `<release-or-0>-unstable-YYYY-MM-DD` version and a pinned commit `rev`. Do not leave branch-update policy only in the README.
+- For release packages, link the source `tag` or download URL to `finalAttrs.version`; use `tag` for release tags and `rev` for commit revisions where the fetcher supports that distinction.
+- Use a custom update script only when the standard helper cannot coordinate the required work, such as generating an asset index or regenerating locally maintained dependency manifests. Expose a runnable command through `passthru.updateScript`, and declare its runtime tools. Inner calls to `nix-update` must not use `-u`, which would recursively invoke the custom script.
+- Keep existing custom updaters intact unless a change is necessary. Integration should be the smallest required changeset: do not rewrite variables into temporary files, add unrelated hardening, or otherwise refactor the updater just to expose it through `passthru.updateScript`. Set generated output paths explicitly relative to the repository root.
+- Local sources and packages that inherit their source/version from another package do not need independent update scripts. Intentionally frozen sources need an explicit documented policy; `nix-update` has no universal opt-out, so an intentional no-op script is only respected when callers use `-u`.
+- Evaluate the resulting `updateScript` command and verify its attribute path and flags. Avoid advancing package versions merely to test wiring. Document that `nix-update --flake -u <attr>` runs the declared script; nix-update 1.16 also requires `<nixpkgs>` in `NIX_PATH` for this mode.
+
 ## Build-system notes
 
 Follow existing project conventions first. Common patterns:
@@ -198,4 +218,5 @@ If tests are expensive or require network/secrets/GUI, do not run them blindly. 
 - Dependencies are minimized and correctly split between native build tools and host/runtime inputs, without unnecessarily enlarging the runtime closure.
 - Failed-experiment workarounds and other no-longer-needed code or dependencies have been removed.
 - Metadata is accurate, including `license` and `mainProgram` when applicable.
+- Independently updateable upstream packages declare an appropriate `passthru.updateScript`, including branch flags for commit snapshots and the correct flake attribute path.
 - The final response lists changed files and exact validation commands run.

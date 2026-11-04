@@ -8,6 +8,7 @@
   libxkbcommon,
   makeWrapper,
   meson,
+  nix-update-script,
   ninja,
   pango,
   pkg-config,
@@ -100,6 +101,14 @@ sbcl.buildASDFSystem {
   '';
 
   env.CFLAGS = "-O2 -I${lib.getDev libdrm}/include/libdrm";
+
+  passthru.updateScript = nix-update-script {
+    attrPath = "mahogany";
+    extraArgs = [
+      "--flake"
+      "--version=branch"
+    ];
+  };
 
   meta = {
     description = "Wayland tiling window manager inspired by StumpWM";

@@ -4,6 +4,7 @@
   lib,
   lua55Packages,
   readline,
+  nix-update-script,
   ...
 }:
 lua55Packages.buildLuaPackage {
@@ -29,6 +30,14 @@ lua55Packages.buildLuaPackage {
     "INSTALL_DIR=$(out)/lib/lua/${lua55Packages.lua.luaversion}"
     "LUA_DIR=lua-${lua55Packages.lua.version}"
   ];
+
+  passthru.updateScript = nix-update-script {
+    attrPath = "rift-lua";
+    extraArgs = [
+      "--flake"
+      "--version=branch"
+    ];
+  };
 
   meta = {
     description = "Lua API for Rift WM";

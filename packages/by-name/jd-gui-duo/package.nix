@@ -4,7 +4,6 @@
   lib,
   makeWrapper,
   maven,
-  mkDarwinApplication ? null,
   stdenv,
   ...
 }:
@@ -15,9 +14,12 @@ maven.buildMavenPackage (finalAttrs: {
   src = fetchFromGitHub {
     owner = "nbauma109";
     repo = "jd-gui-duo";
-    rev = finalAttrs.version;
+    tag = finalAttrs.version;
     hash = "sha256-AahkB8PfsFT8q/IrbrX7qLVZpO912XEn598tjhVX/Qg=";
   };
+
+  __structuredAttrs = true;
+  strictDeps = true;
 
   mvnJdk = jdk25;
   mvnHash = "sha256-DWwXzdngSgsl7qicGdH1ElMQvef6uFs+L+iVoN7FgfY=";
@@ -37,6 +39,8 @@ maven.buildMavenPackage (finalAttrs: {
   ];
 
   installPhase = ''
+    runHook preInstall
+
     mkdir -p $out/share/jd-gui-duo
     cp -r app/target/jd-gui-duo-app-${finalAttrs.version}.jar \
       app/src/main/resources/org/jd/gui/images/JDGUI.icns \
@@ -44,6 +48,30 @@ maven.buildMavenPackage (finalAttrs: {
       $out/share/jd-gui-duo/
     makeWrapper ${lib.getExe jdk25} $out/bin/jd-gui-duo \
       --add-flags "-jar $out/share/jd-gui-duo/jd-gui-duo-app-${finalAttrs.version}.jar"
+  ''
+  + lib.optionalString stdenv.hostPlatform.isDarwin ''
+    app="$out/Applications/JD-GUI Duo.app/Contents"
+    mkdir -p "$app/MacOS" "$app/Resources"
+    ln -s "$out/bin/jd-gui-duo" "$app/MacOS/jd-gui-duo"
+    cp "$out/share/jd-gui-duo/JDGUI.icns" "$app/Resources/JDGUI.icns"
+    cat > "$app/Info.plist" <<'EOF'
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+      <key>CFBundleExecutable</key><string>jd-gui-duo</string>
+      <key>CFBundleName</key><string>JD-GUI Duo</string>
+      <key>CFBundleIdentifier</key><string>org.jd.gui.duo</string>
+      <key>CFBundleIconFile</key><string>JDGUI.icns</string>
+      <key>CFBundlePackageType</key><string>APPL</string>
+      <key>CFBundleVersion</key><string>${finalAttrs.version}</string>
+      <key>CFBundleShortVersionString</key><string>${finalAttrs.version}</string>
+    </dict>
+    </plist>
+    EOF
+  ''
+  + ''
+    runHook postInstall
   '';
 
   meta = {
@@ -52,15 +80,3 @@ maven.buildMavenPackage (finalAttrs: {
     license = lib.licenses.gpl3;
   };
 })
-|> (
-  if stdenv.hostPlatform.isLinux then
-    lib.id
-  else
-    package:
-    mkDarwinApplication {
-      inherit package;
-      exeName = "jd-gui-duo";
-      appName = "JD-GUI Duo";
-      img = "${package}/share/jd-gui-duo/JDGUI.icns";
-    }
-)
