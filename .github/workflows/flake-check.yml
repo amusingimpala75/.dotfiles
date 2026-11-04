@@ -4,9 +4,23 @@ name: Flake Check
   push:
     branches:
     - master
+  pull_request:
+    branches: [master]
   workflow_dispatch: { }
 
+permissions:
+  contents: read
+
 jobs:
+  updater-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        persist-credentials: false
+    - name: Test update PR lifecycle
+      run: python3 -m unittest discover -s .github/scripts -p 'test_*.py'
+
   check:
     strategy:
       matrix:

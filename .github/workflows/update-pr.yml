@@ -1,0 +1,56 @@
+name: Maintain update PR
+
+'on':
+  workflow_call:
+    inputs:
+      track:
+        required: true
+        type: string
+      refresh-only:
+        required: true
+        type: boolean
+    secrets:
+      app-id:
+        required: true
+      app-private-key:
+        required: true
+
+permissions:
+  contents: read
+
+# Tracks use different branches. Serialize each track, without cancelling a
+# running regeneration. Every run reads current master, not the triggering SHA.
+concurrency:
+  group: flake-update-${{ inputs.track }}
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+    - uses: actions/create-github-app-token@v2
+      id: app
+      with:
+        app-id: ${{ secrets.app-id }}
+        private-key: ${{ secrets.app-private-key }}
+        owner: ${{ github.repository_owner }}
+        repositories: ${{ github.event.repository.name }}
+        permission-contents: write
+        permission-pull-requests: write
+
+    - uses: actions/checkout@v6
+      with:
+        ref: master
+        token: ${{ steps.app.outputs.token }}
+
+    - uses: DeterminateSystems/nix-installer-action@v22
+      with:
+        extra-conf: experimental-features = flakes nix-command pipe-operators
+
+    - name: Maintain update PR
+      env:
+        GH_TOKEN: ${{ steps.app.outputs.token }}
+        UPDATE_TRACK: ${{ inputs.track }}
+        REFRESH_ONLY: ${{ inputs.refresh-only }}
+      run: python3 .github/scripts/update-pr.py
