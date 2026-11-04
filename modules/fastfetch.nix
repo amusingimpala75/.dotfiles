@@ -8,7 +8,8 @@
     {
       imports = [ wlib.wrapperModules.fastfetch ];
       aliases = [ "neofetch" ];
-      settings = "${config.package.passthru.unwrapped.src}/presets/examples/13.jsonc"
+      settings =
+        "${config.package.passthru.unwrapped.src}/presets/examples/13.jsonc"
         |> builtins.readFile
         |> builtins.split "\n"
         |> builtins.filter builtins.isString

@@ -5,13 +5,13 @@ dry_run=false
 
 while (($#)); do
     case "$1" in
-        --dry-run)
-            dry_run=true
-            ;;
-        *)
-            echo "Unknown option: $1" >&2
-            exit 1
-            ;;
+    --dry-run)
+        dry_run=true
+        ;;
+    *)
+        echo "Unknown option: $1" >&2
+        exit 1
+        ;;
     esac
     shift
 done
@@ -58,14 +58,13 @@ if [ -n "$radicle_url" ]; then
 fi
 
 export repo
-mapfile -t urls < <(envsubst < "$GIT_REMOTE_SETUP_PROVIDERS")
+mapfile -t urls < <(envsubst <"$GIT_REMOTE_SETUP_PROVIDERS")
 
 urls+=("${manual_urls[@]}")
 
-
 # Select fetch and push urls
 push_urls=$(printf '%s\n' "${urls[@]}" | gum choose --header="Fetch URLs:" --no-limit)
-fetch_url="$(gum choose --header="Push URL: " <<< "$push_urls")"
+fetch_url="$(gum choose --header="Push URL: " <<<"$push_urls")"
 
 # Set the fetch url
 if $dry_run; then
@@ -83,4 +82,4 @@ while IFS= read -r url; do
     else
         "${cmd[@]}"
     fi
-done <<< "$push_urls"
+done <<<"$push_urls"

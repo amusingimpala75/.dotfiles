@@ -15,21 +15,21 @@ handle=""
 
 while (($#)); do
     case "$1" in
-        --include-shorts)
-            include_shorts=true
-            ;;
-        --*)
-            printf 'unknown option: %s\n' "$1" >&2
+    --include-shorts)
+        include_shorts=true
+        ;;
+    --*)
+        printf 'unknown option: %s\n' "$1" >&2
+        exit 1
+        ;;
+    *)
+        if [ -z "$handle" ]; then
+            handle="$1"
+        else
+            print_usage
             exit 1
-            ;;
-        *)
-            if [ -z "$handle" ]; then
-                handle="$1"
-            else
-                print_usage
-                exit 1
-            fi
-            ;;
+        fi
+        ;;
     esac
     shift
 done
@@ -42,7 +42,7 @@ fi
 channel_url="https://www.youtube.com/@$handle"
 
 if ! page="$(
-   curl \
+    curl \
         --fail \
         --silent \
         --show-error \
@@ -52,18 +52,18 @@ if ! page="$(
         --retry 3 \
         --retry-delay 1 \
         "$channel_url"
-     )"; then
+)"; then
     printf 'Could not fetch channel page for @%s\n' "$handle" >&2
     exit 1
 fi
 
-channel_rss_url=$(htmlq 'link[type="application/rss+xml"]' -a href <<< "$page")
+channel_rss_url=$(htmlq 'link[type="application/rss+xml"]' -a href <<<"$page")
 
 if [ -z "$channel_rss_url" ]; then
     printf 'Invalid page fetched\n' >&2
 fi
 
-if [[ "$include_shorts" == true ]]; then
+if [[ $include_shorts == true ]]; then
     echo "$channel_rss_url"
     exit 0
 else

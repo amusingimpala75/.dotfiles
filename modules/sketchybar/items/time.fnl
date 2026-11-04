@@ -1,34 +1,42 @@
-(local sbar (require "sketchybar"))
-(local defaults (require "defaults"))
+(local sbar (require :sketchybar))
+(local defaults (require :defaults))
 
 (fn set-popup [item on]
   (doto item
-    (: :set {:popup {:drawing (if on "on" "off")}})))
+    (: :set {:popup {:drawing (if on :on :off)}})))
 
-(let [time-item (sbar.add "item" {:position "right"
-                                  :update_freq 1
-                                  :popup {:align "center"}
-                                  :background {:padding_right defaults.bar-padding}})
-      date-item (sbar.add "item" {:position (.. "popup." time-item.name)
-                                  :update_freq 60
-                                  :background {:padding_right defaults.bar-padding
-                                               :padding_left defaults.bar-padding}})]
+(let [time-item (sbar.add :item
+                          {:position :right
+                           :update_freq 1
+                           :popup {:align :center}
+                           :background {:padding_right defaults.bar-padding}})
+      date-item (sbar.add :item
+                          {:position (.. :popup. time-item.name)
+                           :update_freq 60
+                           :background {:padding_right defaults.bar-padding
+                                        :padding_left defaults.bar-padding}})]
   (doto time-item
-    (: :subscribe "routine" (lambda []
-                              (time-item:set {:label {:string (os.date "%H:%M:%S")}})))
-    (: :subscribe "mouse.entered" (lambda []
-                                    (set-popup time-item true)))
-    (: :subscribe "mouse.exited" (lambda []
-                                   (set-popup time-item false)))
-    (: :subscribe "mouse.exited.global" (lambda []
-                                          (set-popup time-item false))))
+    (: :subscribe :routine
+       (lambda []
+         (time-item:set {:label {:string (os.date "%H:%M:%S")}})))
+    (: :subscribe :mouse.entered
+       (lambda []
+         (set-popup time-item true)))
+    (: :subscribe :mouse.exited
+       (lambda []
+         (set-popup time-item false)))
+    (: :subscribe :mouse.exited.global
+       (lambda []
+         (set-popup time-item false))))
+
   (fn date-update []
     (date-item:set {:label {:string (os.date "%a %d %b")}}))
-  (doto date-item
-    (: :subscribe "routine" date-update)
-    (: :subscribe "forced" date-update)
-    (: :subscribe "mouse.clicked" (lambda []
-                                    (set-popup time-item false)
-                                    (sbar.exec "open -a \"Calendar\""))))
 
+  (doto date-item
+    (: :subscribe :routine date-update)
+    (: :subscribe :forced date-update)
+    (: :subscribe :mouse.clicked
+       (lambda []
+         (set-popup time-item false)
+         (sbar.exec "open -a \"Calendar\""))))
   time-item)

@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
-if [ $# -lt 1 ]
-then
+if [ $# -lt 1 ]; then
     echo "usage: play-audio <audio file> [loop times]"
     exit 1
 fi
@@ -9,31 +8,27 @@ fi
 FILE="$1"
 LOOP=""
 
-if [ $# -lt 2 ]
-then
+if [ $# -lt 2 ]; then
     LOOP=1
 else
     LOOP="$2"
 fi
 
-if [ ! -f "$FILE" ]
-then
+if [ ! -f "$FILE" ]; then
     echo "$FILE: file not found"
     exit 1
 fi
 
-if ! ffprobe "$FILE" >/dev/null 2>&1
-then
+if ! ffprobe "$FILE" >/dev/null 2>&1; then
     echo "$FILE: not a valid audio file"
     exit 1
 fi
 
 MSG=$(ffprobe "$FILE" -v quiet -show_entries format_tags=title,composer -of json |
-          jaq -r '.format.tags | "\(.composer // "Unknown") - \(.title // "Unknown"| gsub("_"; " "))" // "missing"')
+    jaq -r '.format.tags | "\(.composer // "Unknown") - \(.title // "Unknown"| gsub("_"; " "))" // "missing"')
 
 echo "$MSG - $FILE"
 
-for _ in $(seq 1 "$LOOP")
-do
+for _ in $(seq 1 "$LOOP"); do
     ffplay -nodisp -autoexit "$FILE" >/dev/null 2>&1
 done
