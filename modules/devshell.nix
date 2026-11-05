@@ -7,9 +7,11 @@
     {
       devShells.default = pkgs.mkShell {
         packages = with pkgs; [
+          bash-language-server
           fennel-ls
           just
           luaPackages.fennel
+          nixd
           pre-commit
           sops
         ];

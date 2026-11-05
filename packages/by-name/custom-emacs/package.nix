@@ -2,28 +2,13 @@
   # pkgs
   aspellWithDicts,
   emacs,
-  librsvg,
+  harper,
   mpv,
   pandoc,
+  rassumfrassum,
   unzip,
   vimPlugins,
-  youtube-rss,
   zip,
-
-  # Language servers
-  bash-language-server,
-  biome,
-  clang-tools,
-  copilot-language-server,
-  gopls,
-  harper,
-  jdt-language-server,
-  nixd,
-  rassumfrassum,
-  rust-analyzer,
-  typescript-language-server,
-  zls,
-  zuban,
 
   # Fonts
   maple-mono,
@@ -68,25 +53,10 @@ symlinkJoin {
     # Compression
     unzip
     zip
-    # eplot
-    librsvg
-    # newsticker
-    youtube-rss
-    # LSPs
+    # LSP multiplexer
     rassumfrassum
-    clang-tools # clangd for C
-    jdt-language-server # jdtls for Java
-    biome # these two for
-    typescript-language-server # TypeScript
-    zuban # for python
-    rust-analyzer # for Rust
-    zls # for Zig
-    nixd # for Nix
-    bash-language-server # for Bash
-    gopls # for Go
-    harper # for grammar
-    # AI tab complete
-    copilot-language-server
+    # Grammar LSP
+    harper
 
     # Fonts
     maple-mono.NF-CN-unhinted
