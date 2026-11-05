@@ -112,13 +112,7 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    weaselway = {
-      url = "github:weaselway/weaselway";
-      inputs = {
-        nixos-wsl.follows = "nixos-wsl";
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
+    weaselway.url = "github:weaselway/weaselway";
     wrappers = {
       url = "github:nix-community/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";

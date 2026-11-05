@@ -26,12 +26,6 @@
           });
         })
       ];
-      nix.settings.substituters = [
-        # Cause I don't trust their random cachix
-        # Unfortunate I have to do this instead of
-        # being able to remove the annoying entry
-        "https://cache.nixos.org"
-      ];
 
       environment.systemPackages = [
         (pkgs.writeShellApplication {
@@ -49,9 +43,5 @@
       ];
     };
 
-  flake-file.inputs.weaselway = {
-    url = "github:weaselway/weaselway";
-    inputs.nixpkgs.follows = "nixpkgs";
-    inputs.nixos-wsl.follows = "nixos-wsl";
-  };
+  flake-file.inputs.weaselway.url = "github:weaselway/weaselway";
 }
