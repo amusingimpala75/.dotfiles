@@ -63,6 +63,8 @@
           with pkgs;
           [
             ccusage
+            paseo
+            paseo-desktop
           ]
           ++ (lib.optionals pkgs.stdenv.hostPlatform.isLinux (
             with pkgs;
