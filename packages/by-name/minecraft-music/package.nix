@@ -52,7 +52,7 @@ in
 (symlinkJoin {
   pname = "minecraft-music";
   # The next update records the Mojang snapshot used to generate index.json.
-  version = "0-unstable";
+  version = "26.4-snapshot-7";
   inherit paths;
   passthru.update = update;
   passthru.updateScript = lib.getExe update;
