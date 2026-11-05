@@ -400,6 +400,11 @@
     "sha256": "sha256-1Qu6dLSnfT6cLinMmuFDhqGfwa5mcCfZ3v/nKjFoqXw="
   },
   {
+    "filename": "flurry.ogg",
+    "url": "https://resources.download.minecraft.net/72/72de8fe781ed5367dd66d9253ac7e15cebe30f98",
+    "sha256": "sha256-hyhV3WpYO5GNib9BW5VXhGfWiURxncIVF1O73zoeVew="
+  },
+  {
     "filename": "lava_chicken.ogg",
     "url": "https://resources.download.minecraft.net/3f/3fad13f1e9f4fa6eedcab98ca691c6c112087b07",
     "sha256": "sha256-xjvbmmb6Tw1EPTOAbdgYj3gSety+m2YH0S84LqzTZsc="
