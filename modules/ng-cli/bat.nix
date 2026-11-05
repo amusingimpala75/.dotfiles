@@ -20,7 +20,10 @@
           batdiff
           batpipe
           batgrep
-          prettybat
+          (prettybat.override {
+            withClangTools = false;
+            withRustFmt = false;
+          })
         ];
       };
 

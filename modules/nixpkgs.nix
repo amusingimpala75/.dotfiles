@@ -19,10 +19,6 @@ let
     inputs.emacs-overlay.overlays.default
     self.overlays.emacs-packages
 
-    (_: prev: {
-      inherit (prev.bleeding) jujutsu;
-    })
-
     self.overlays.lib
 
     self.overlays.by-name

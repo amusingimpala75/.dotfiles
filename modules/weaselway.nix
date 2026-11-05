@@ -36,7 +36,7 @@
           '';
           runtimeInputs = [
             (pkgs.custom-niri.wrap {
-              settings.debug.render-drm-device = "/dev/dri/renderD129";
+              settings.debug.render-drm-device = "/dev/dri/by-path/platform-dxgdrm-render";
             })
           ];
         })
