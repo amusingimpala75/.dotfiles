@@ -12,6 +12,18 @@
   nodejs,
   writeShellApplication,
 }:
+let
+  # Nixpkgs drops pi-schema from Pi 1.5.0; restore it only for Lancet's tests.
+  pi-for-checks = pi-coding-agent.overrideAttrs (old: {
+    postInstall =
+      lib.optionalString (old.version == "1.5.0") ''
+        nm="$out/lib/node_modules/pi-monorepo/node_modules"
+        rm -f "$nm/@earendil-works/pi-schema"
+        cp -r packages/schema "$nm/@earendil-works/pi-schema"
+      ''
+      + old.postInstall;
+  });
+in
 buildNpmPackage (finalAttrs: {
   pname = "pi-lancet-guard";
   # Track the SpecPi source release; the extension has its own version in package.json.
@@ -94,8 +106,8 @@ buildNpmPackage (finalAttrs: {
 
     # Test with the same Pi APIs that will supply the extension's optional peers at runtime.
     mkdir -p node_modules/@earendil-works
-    ln -s ${pi-coding-agent}/lib/node_modules/pi-monorepo node_modules/@earendil-works/pi-coding-agent
-    ln -s ${pi-coding-agent}/lib/node_modules/pi-monorepo/node_modules/@earendil-works/pi-tui node_modules/@earendil-works/pi-tui
+    ln -s ${pi-for-checks}/lib/node_modules/pi-monorepo node_modules/@earendil-works/pi-coding-agent
+    ln -s ${pi-for-checks}/lib/node_modules/pi-monorepo/node_modules/@earendil-works/pi-tui node_modules/@earendil-works/pi-tui
     npm test
     rm node_modules/@earendil-works/{pi-coding-agent,pi-tui}
 
