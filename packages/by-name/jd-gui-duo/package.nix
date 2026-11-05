@@ -9,20 +9,20 @@
 }:
 maven.buildMavenPackage (finalAttrs: {
   pname = "jd-gui-duo";
-  version = "2.0.114";
+  version = "2.0.116";
 
   src = fetchFromGitHub {
     owner = "nbauma109";
     repo = "jd-gui-duo";
     tag = finalAttrs.version;
-    hash = "sha256-AahkB8PfsFT8q/IrbrX7qLVZpO912XEn598tjhVX/Qg=";
+    hash = "sha256-BnpV46LfdVvVo23i7LY50INREFeOT7QcWGSy4SSdUOQ=";
   };
 
   __structuredAttrs = true;
   strictDeps = true;
 
   mvnJdk = jdk25;
-  mvnHash = "sha256-DWwXzdngSgsl7qicGdH1ElMQvef6uFs+L+iVoN7FgfY=";
+  mvnHash = "sha256-xXIF3K2+3HFSFxg68En5gzOkHDnQuWFIJYmtlq15X+c=";
   mvnParameters = lib.strings.join " " [
     "-pl"
     "app"
