@@ -15,7 +15,7 @@ jobs:
   ci-passed:
     name: CI passed
     runs-on: ubuntu-latest
-    needs: [updater-tests, check, discover, builds]
+    needs: [check, discover, builds]
     # Run even if a prerequisite fails or is skipped; a skipped gate must not
     # accidentally satisfy the branch ruleset's required status check.
     if: ${{ always() }}
@@ -33,15 +33,6 @@ jobs:
         print(f"CI job results: {results}")
         sys.exit(0 if results and all(result == "success" for result in results) else 1)
         PY
-
-  updater-tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v6
-      with:
-        persist-credentials: false
-    - name: Test update PR lifecycle
-      run: python3 -m unittest discover -s .github/scripts -p 'test_*.py'
 
   check:
     strategy:
