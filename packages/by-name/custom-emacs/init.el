@@ -294,9 +294,6 @@
   ;; We do our own management of LSP
   :custom (rustic-lsp-setup-p nil))
 
-(use-package zig-mode
-  :ensure t)
-
 (use-package c-ts-mode
   :custom
   ;; Offset of 4 is good
@@ -422,14 +419,6 @@
   (dired-listing-switches "-alXh --group-directories-first")
   :hook
   (dired-mode . dired-hide-details-mode))
-
-(use-package pdf-tools
-  :ensure t
-  :config
-  ;; Compile in the pdf tools
-  (pdf-tools-install nil t))
-;; (use-package pdf-roll
-;;   :hook pdf-view-mode)
 
 ;; Nicer looking org mode editing (centered column)
 (use-package writeroom-mode
