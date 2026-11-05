@@ -42,7 +42,7 @@ lua55Packages.buildLuaPackage {
   meta = {
     description = "Lua API for Rift WM";
     homepage = "https://github.com/acsandmann/rift.lua";
-    license = lib.licenses.apsl20;
+    license = lib.licenses.asl20;
     platforms = lib.platforms.darwin;
   };
 }
