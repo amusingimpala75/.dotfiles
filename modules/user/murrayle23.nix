@@ -36,7 +36,6 @@
         wsl
         zsh
 
-        "${inputs.home-manager}/modules/services/podman"
         "${inputs.home-manager}/modules/programs/noctalia"
       ];
 
@@ -47,7 +46,6 @@
 
       wsl.username = "MURRAYLE23";
 
-      services.podman.enable = true;
       programs.noctalia.enable = true;
       programs.noctalia.package = pkgs.custom-noctalia;
 
@@ -55,20 +53,11 @@
         custom-foot
         custom-fastfetch
         get-win-sid
-        # [TODO] switch back to bleeding (i.e. module) once no longer broken on weaselway
-        ladybird
         play-audio
         wsl-open
-
-        inputs.automader.packages.${pkgs.stdenv.hostPlatform.system}.automader
       ];
 
       home.stateVersion = "26.05";
     }
   );
-
-  flake-file.inputs.automader = {
-    url = "github:amusingimpala75/automata_grader";
-    inputs.nixpkgs.follows = "nixpkgs";
-  };
 }

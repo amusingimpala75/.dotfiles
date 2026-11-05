@@ -23,10 +23,6 @@
       url = "github:linyinfeng/angrr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    automader = {
-      url = "github:amusingimpala75/automata_grader";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     bible = {
       url = "github:amusingimpala75/bible.sh";
       inputs.nixpkgs.follows = "nixpkgs";
