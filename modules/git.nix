@@ -60,7 +60,7 @@
       {
         imports = [ wlib.wrapperModules.git ];
         settings = {
-          branch.sort = "-comitterdate";
+          branch.sort = "-committerdate";
           column.ui = "auto";
           commit.verbose = true;
           core.excludesFile = pkgs.global-gitignore;
