@@ -17,7 +17,6 @@
           just
           luaPackages.fennel
           nixd
-          pre-commit
           sops
         ];
       };
