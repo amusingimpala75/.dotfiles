@@ -6,7 +6,12 @@ name: Flake Check
     - master
   pull_request:
     branches: [master]
-  workflow_dispatch: { }
+  workflow_dispatch:
+    inputs:
+      force-rebuild:
+        description: Build every package, ignoring previous success records
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -22,17 +27,17 @@ jobs:
     steps:
     - name: Require every CI job to succeed
       env:
-        RESULTS: ${{ toJSON(needs.*.result) }}
+        CHECK_RESULT: ${{ needs.check.result }}
+        DISCOVER_RESULT: ${{ needs.discover.result }}
+        BUILD_RESULT: ${{ needs.builds.result }}
+        BUILD_COUNT: ${{ needs.discover.outputs.count }}
       run: |
-        python3 - <<'PY'
-        import json
-        import os
-        import sys
-
-        results = json.loads(os.environ["RESULTS"])
-        print(f"CI job results: {results}")
-        sys.exit(0 if results and all(result == "success" for result in results) else 1)
-        PY
+        [[ "$CHECK_RESULT" == success && "$DISCOVER_RESULT" == success ]]
+        if [[ "$BUILD_COUNT" == 0 ]]; then
+          [[ "$BUILD_RESULT" == skipped ]]
+        else
+          [[ "$BUILD_RESULT" == success ]]
+        fi
 
   check:
     strategy:
@@ -50,20 +55,44 @@ jobs:
 
   discover:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
+      count: ${{ steps.set.outputs.count }}
     steps:
     - uses: actions/checkout@v6
     - uses: DeterminateSystems/nix-installer-action@v22
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
     - id: set
+      env:
+        GH_TOKEN: ${{ github.token }}
+        FORCE_REBUILD: ${{ inputs.force-rebuild || false }}
       run: |
-        matrix=$(nix eval --impure --json --expr "import .github/workflows/package-runner-matrix.nix")
+        records='[]'
+        if [[ "$FORCE_REBUILD" != true ]]; then
+          if ! records=$(gh api --paginate --slurp --method GET \
+            "repos/$GITHUB_REPOSITORY/actions/caches" \
+            -f ref=refs/heads/master -f key=package-build-success-v2- -f per_page=100 \
+            | jq '[.[].actions_caches[] | select(.ref == "refs/heads/master") | .key]'); then
+            echo '::warning::Cannot read build records; building all packages'
+            records='[]'
+          fi
+        fi
+        # Evaluate a locked source with explicit arguments, without ambient files or environment.
+        flake_ref=$(bash .github/workflows/flake-ref.sh)
+        # Evaluation may build imported sources, so their derivations must be written.
+        matrix=$(nix-instantiate --eval --strict --json --pure-eval --read-write-mode \
+          --argstr flakeRef "$flake_ref" --argstr successfulBuilds "$records" \
+          - < .github/workflows/package-runner-matrix.nix)
         echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+        echo "count=$(jq length <<< "$matrix")" >> "$GITHUB_OUTPUT"
 
   builds:
     needs: discover
+    if: ${{ needs.discover.outputs.count != '0' }}
     strategy:
       matrix:
         build: ${{ fromJson(needs.discover.outputs.matrix) }}
@@ -76,4 +105,24 @@ jobs:
         extra-conf: experimental-features = flakes nix-command pipe-operators
 
     - name: Build package
-      run: NIXPKGS_ALLOW_UNFREE=1 nix build --impure .#${{ matrix.build.package }}
+      env:
+        PACKAGE: ${{ matrix.build.package }}
+        SYSTEM: ${{ matrix.build.system }}
+        DRV: ${{ matrix.build.drvPath }}
+      run: |
+        flake_ref=$(bash .github/workflows/flake-ref.sh)
+        nix-build --pure-eval --argstr flakeRef "$flake_ref" \
+          --argstr system "$SYSTEM" --argstr package "$PACKAGE" \
+          - < .github/workflows/build-package.nix
+        mkdir -p .ci-package-success
+        printf '%s\n' "$DRV" > .ci-package-success/record
+
+    # Only successful builds on master may publish trusted evidence. The cache
+    # contains a tiny marker, not Nix outputs; eviction merely causes rebuilds.
+    - name: Record successful master build
+      if: ${{ success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+      continue-on-error: true
+      uses: actions/cache/save@v4
+      with:
+        path: .ci-package-success/record
+        key: ${{ matrix.build.cacheKey }}
