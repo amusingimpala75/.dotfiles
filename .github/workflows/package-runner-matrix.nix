@@ -1,9 +1,15 @@
+{
+  flakeRef,
+  successfulBuilds ? "[]",
+}:
 let
-  flake = builtins.getFlake ("path:" + (toString ../..));
+  flake = builtins.getFlake flakeRef;
+  ciPackages = import (flake.outPath + "/.github/workflows/package-builds.nix") { inherit flake; };
+  records = builtins.fromJSON successfulBuilds;
   gen-platform-matrix =
     { system, runner }:
     let
-      packages = flake.packages.${system};
+      packages = ciPackages.${system};
       whitelisted = [
         "write-flake"
         "write-inputs"
@@ -17,9 +23,23 @@ let
         )
       ) packages;
     in
-    map (package: {
-      inherit package runner;
-    }) (builtins.attrNames filtered);
+    builtins.filter (build: !(builtins.elem build.cacheKey records)) (
+      map (
+        package:
+        let
+          drvPath = filtered.${package}.drvPath;
+        in
+        {
+          inherit
+            package
+            runner
+            system
+            drvPath
+            ;
+          cacheKey = "package-build-success-v2-${system}-${package}-${baseNameOf drvPath}";
+        }
+      ) (builtins.attrNames filtered)
+    );
 in
 flake.inputs.nixpkgs.lib.flatten (
   map gen-platform-matrix [
