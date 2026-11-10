@@ -16,6 +16,11 @@
       ];
 
       programs.firefox = {
+        configPath =
+          if pkgs.stdenv.hostPlatform.isDarwin then
+            "Library/Application Support/org.nixos.firefox"
+          else
+            ".mozilla/firefox";
         enable = true;
         package = pkgs.bleeding.firefox;
         profiles."default-release" = {

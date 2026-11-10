@@ -12,25 +12,19 @@
       ];
     };
 
-    overlays.brew-hashes =
-      final: prev:
-      let
-        replace-hash =
-          package: hash:
-          package.overrideAttrs (old: {
-            src = final.fetchurl {
-              url = builtins.head old.src.urls;
-              inherit hash;
-            };
-          });
-      in
-      {
-        brewCasks = prev.brewCasks.overrideScope (
-          _: bprev: {
-            steam = replace-hash bprev.steam "sha256-4av7qqe+Pg9IoODUwxMjPgWGGx0mrzKDDdyDi+iPJpE=";
-          }
-        );
+    overlays.brew-hashes = _: prev: {
+      brewCasks = prev.brewCasks // {
+        steam = prev.brewCasks.steam.overrideAttrs (_: {
+          # Valve's ZIP contains a tarball rather than Steam.app directly.
+          unpackPhase = ''
+            runHook preUnpack
+            unzip -q "$src"
+            tar -xzf SteamMacBootstrapper.tar.gz --exclude='._*'
+            runHook postUnpack
+          '';
+        });
       };
+    };
   };
 
   flake-file.inputs = {
