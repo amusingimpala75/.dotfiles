@@ -754,6 +754,10 @@
 (use-package editorconfig
   :hook (after-init . editorconfig-mode))
 
+(use-package trust-manager
+  :ensure t
+  :hook (after-init . trust-manager-mode))
+
 ;; Direnv support
 (use-package envrc
   :ensure t
