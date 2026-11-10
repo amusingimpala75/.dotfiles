@@ -37,7 +37,8 @@ auto_focus_blacklist = []
 #   "rift-cli subscribe cli --event windows_changed --command sh --args -c --args 'sketchybar --trigger rift_windows_changed RIFT_WORKSPACE_NAME=\"$RIFT_WORKSPACE_NAME\" RIFT_WINDOW_COUNT=\"$RIFT_WINDOW_COUNT\"'"
 # ]
 run_on_start = [
-  "sh -lc sketchybar"
+  "sh -lc sketchybar",
+  "sh -lc borders"
 ]
 
 hot_reload = true
