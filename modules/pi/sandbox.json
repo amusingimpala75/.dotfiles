@@ -6,7 +6,9 @@
       "~/.config",
       "~/.local",
       "~/Library",
-      "~/.dotfiles/modules/pi/skills"
+      "~/.dotfiles/modules/pi/skills",
+      "~/.cache/nix",
+      "~/.nix-defexpr"
     ]
   },
   "network": {

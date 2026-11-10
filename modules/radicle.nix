@@ -13,7 +13,9 @@
         "${inputs.home-manager}/modules/programs/radicle.nix"
       ];
 
-      home.packages = [ pkgs.radicle-desktop ];
+      # The build is broken, and it doesn't help radicle-node being insecure
+      # results in having to build from source
+      # home.packages = [ pkgs.radicle-desktop ];
 
       nixpkgs.config.permittedInsecurePackages = [
         pkgs.radicle-node.name
