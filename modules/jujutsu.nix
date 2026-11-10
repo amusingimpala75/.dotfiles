@@ -59,7 +59,10 @@
               "jj run -j 4 -- pre-commit run --all-files && jj git push"
             ];
           };
-          fsmonitor.backend = "watchman";
+          fsmonitor = {
+            backend = "watchman";
+            watchman.register-snapshot-trigger = true;
+          };
           git.private-commits = "visible_heads() | description('private:*')";
           merge-tools.delta.diff-expected-exit-codes = [
             0
@@ -83,6 +86,8 @@
           };
           working-copy.eol-conversion = "input";
         };
+
+        runtimePkgs = [ pkgs.watchman ];
 
         env.GIT_CONFIG_GLOBAL = pkgs.writeText "jj-git-config" ''
           [core]
