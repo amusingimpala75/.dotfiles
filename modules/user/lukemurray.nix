@@ -89,7 +89,6 @@
         ssh
         vcs
         wallust
-        window-borders
         zsh
       ];
 
