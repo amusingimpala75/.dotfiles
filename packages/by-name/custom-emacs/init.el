@@ -424,7 +424,7 @@
 (use-package writeroom-mode
   :ensure t)
 
-(use-package reader
+(use-package emureader
   :ensure t)
 
 (use-package files

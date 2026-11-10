@@ -22,7 +22,7 @@
     }:
     {
       packages = lib.filterAttrs (_: v: lib.isDerivation v) pkgs.local // {
-        emacs-reader = pkgs.emacsPackages.reader;
+        emacs-emureader = pkgs.emacsPackages.emureader;
         emacs-org-modern-indent = pkgs.emacsPackages.org-modern-indent;
       };
     };
