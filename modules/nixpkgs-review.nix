@@ -13,7 +13,12 @@
             delta = pkgs.custom-delta;
           };
         });
-        flags."--systems" = "all";
+        appendFlag = [
+          [
+            "--systems"
+            "all"
+          ]
+        ];
       };
     };
 }
