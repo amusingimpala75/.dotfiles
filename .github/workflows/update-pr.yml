@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-    - uses: actions/create-github-app-token@v2
+    - uses: actions/create-github-app-token@v2.2.2
       id: app
       with:
         app-id: ${{ secrets.app-id }}
@@ -39,7 +39,7 @@ jobs:
         permission-contents: write
         permission-pull-requests: write
 
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v6.1.0
       with:
         ref: master
         token: ${{ steps.app.outputs.token }}

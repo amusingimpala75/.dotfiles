@@ -24,6 +24,7 @@
           version = "1";
         };
         extensions = with pkgs; [
+          gh-actions-lock
           gh-contribs
           gh-dash
           gh-enhance
