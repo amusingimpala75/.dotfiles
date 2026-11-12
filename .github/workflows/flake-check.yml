@@ -45,7 +45,7 @@ jobs:
         runner: [ ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.runner }}
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v6.1.0
     - uses: DeterminateSystems/nix-installer-action@v22
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
@@ -62,7 +62,7 @@ jobs:
       matrix: ${{ steps.set.outputs.matrix }}
       count: ${{ steps.set.outputs.count }}
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v6.1.0
     - uses: DeterminateSystems/nix-installer-action@v22
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
@@ -99,7 +99,7 @@ jobs:
     runs-on: ${{ matrix.build.runner }}
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v6.1.0
     - uses: DeterminateSystems/nix-installer-action@v22
       with:
         extra-conf: experimental-features = flakes nix-command pipe-operators
@@ -122,7 +122,7 @@ jobs:
     - name: Record successful master build
       if: ${{ success() && github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
       continue-on-error: true
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v4.3.0
       with:
         path: .ci-package-success/record
         key: ${{ matrix.build.cacheKey }}
