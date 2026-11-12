@@ -52,7 +52,6 @@
       home.packages = with pkgs; [
         custom-foot
         custom-fastfetch
-        get-win-sid
         play-audio
         wsl-open
       ];

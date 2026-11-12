@@ -16,10 +16,6 @@
         "${inputs.home-manager}/modules/programs/gh.nix"
       ];
 
-      home.packages = with pkgs; [
-        git-remote-setup
-      ];
-
       programs.gh = {
         enable = true;
         settings = {

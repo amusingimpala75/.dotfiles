@@ -22,8 +22,6 @@
           email = config.vcs.email;
         };
       };
-      # for other's signatures
-      home.packages = [ pkgs.gnupg ];
     };
 
   flake.wrappers = {
@@ -87,7 +85,7 @@
           working-copy.eol-conversion = "input";
         };
 
-        runtimePkgs = [ pkgs.watchman ];
+        runtimePkgs = with pkgs; [ gnupg watchman ];
 
         env.GIT_CONFIG_GLOBAL = pkgs.writeText "jj-git-config" ''
           [core]
