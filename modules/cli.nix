@@ -19,7 +19,6 @@
         htmlq
         jq
         killall
-        scc
         tree
         up
       ];

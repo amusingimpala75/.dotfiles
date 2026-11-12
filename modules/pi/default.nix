@@ -39,7 +39,6 @@
               notify
               pi-lancet-guard
               pi-sandbox
-              pi-telegram
               pi-usage
               plan-mode
               subagent
