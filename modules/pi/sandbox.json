@@ -7,8 +7,12 @@
       "~/.local",
       "~/Library",
       "~/.dotfiles/modules/pi/skills",
-      "~/.cache/nix",
       "~/.nix-defexpr"
+    ],
+    "allowWrite": [
+      ".",
+      "/tmp",
+      "~/.cache/nix"
     ]
   },
   "network": {
