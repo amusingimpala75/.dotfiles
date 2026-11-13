@@ -26,7 +26,7 @@
               if direnv status | grep -q "Loaded RC";
               then
                 __my_zsh_direnv_status=direnv
-              elif echo "''${PATH%:*}" | grep -q "/nix/store"; # Change PATH%:* because Ghostty will add its entry onto the path, as the last item
+              elif echo "''${PATH%:*:*}" | grep -q "/nix/store"; # Change PATH%:* because Ghostty and jq-zsh will add their entries onto the path, as the last item
               then
                 if [ -z "$IN_NIX_SHELL" ]
                 then

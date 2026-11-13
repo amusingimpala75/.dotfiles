@@ -26,7 +26,7 @@
       };
 
       launchd.agents.emacs.config.EnvironmentVariables = {
-        TERMINFO = "${config.programs.ghostty.package.terminfo}/share/terminfo/";
+        TERMINFO = "${pkgs.ghostty-bin.terminfo}/share/terminfo/";
       };
 
       fonts.fontconfig.enable = true;
