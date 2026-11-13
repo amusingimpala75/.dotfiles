@@ -102,6 +102,7 @@
       home.packages = with pkgs; [
         blockbench
         cogfly
+        bleeding.lumafly
       ];
 
       targets.darwin = {
