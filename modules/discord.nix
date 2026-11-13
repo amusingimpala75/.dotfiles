@@ -5,34 +5,15 @@
 {
   flake.modules.homeManager.discord = {
     imports = [
-      "${inputs.home-manager}/modules/programs/vesktop"
+      "${inputs.home-manager}/modules/programs/discord.nix"
     ];
 
-    programs.vesktop = {
-      enable = true;
-      settings = {
-        appBadge = true;
-        arRPC = true;
-        autoStartMinimized = true;
-        clickTrayToShowHide = true;
-        disableMinSize = false;
-        disableSmoothScroll = false;
-        discordBranch = "stable";
-        enableMenu = false;
-        enableRoundedCorners = true;
-        enableShadow = true;
-        enableSplashScreen = false;
-        enableTaskbarFlashing = false;
-        hardwareAcceleration = true;
-        hardwareVideoAcceleration = true;
-        minimzeToTray = true;
-        nativeTitleBar = false;
-        openLinkWithElectron = false;
-        staticTitle = false;
-        transparencyOption = "mica";
-        tray = true;
-        webRTCIPHandlingPolicy = "default";
-      };
-    };
+    # On switch, nix-darwin may fail on macOS 27 or later
+    # when it tries to write the settings. Go to Settings
+    # -> Privacy & Security -> Files & Folders -> <Your Terminal>
+    # and give it access to Discord's app data folder
+    programs.discord.enable = true;
+
+    nixpkgs.allowUnfreeList = [ "discord" ];
   };
 }
