@@ -20,7 +20,7 @@ let
   # The next update records the Mojang snapshot used to generate index.json.
   version = "26.4-snapshot-7";
   links = map (track: {
-    name = track.name;
+    inherit (track) name;
     path = track;
   });
   albums = builtins.fromJSON (builtins.readFile ./albums.json);
