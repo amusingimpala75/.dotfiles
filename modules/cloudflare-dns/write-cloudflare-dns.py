@@ -119,5 +119,5 @@ for name, entries in new_settings.items():
                 name=record.name,
                 content=record.content,
                 ttl=1,
-                proxied=True,
+                proxied=(record.type != 'TXT'),
             )
