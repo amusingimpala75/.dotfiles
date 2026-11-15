@@ -2,19 +2,14 @@
   flake.wrappers.fastfetch =
     {
       config,
+      pkgs,
       wlib,
       ...
     }:
     {
-      imports = [ wlib.wrapperModules.fastfetch ];
+      imports = [ wlib.modules.default ];
       aliases = [ "neofetch" ];
-      settings =
-        "${config.package.passthru.unwrapped.src}/presets/examples/13.jsonc"
-        |> builtins.readFile
-        |> builtins.split "\n"
-        |> builtins.filter builtins.isString
-        |> map (line: line |> builtins.split "(^|[[:space:]]+)//.*" |> builtins.head)
-        |> builtins.concatStringsSep ""
-        |> builtins.fromJSON;
+      package = pkgs.fastfetch;
+      flags."--config" = "${config.package.passthru.unwrapped.src}/presets/examples/13.jsonc";
     };
 }

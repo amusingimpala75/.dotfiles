@@ -1,6 +1,5 @@
 {
   lib,
-  self,
   ...
 }:
 {
@@ -63,49 +62,27 @@
 
       noctalia =
         {
-          pkgs,
-          ...
-        }:
-        {
-          imports = [ self.wrapperModules.noctalia-wrapper ];
-          runtimePkgs = with pkgs; [
-            evtest
-            qrencode
-          ];
-        };
-
-      # [TODO] remove once nix-community/nix-wrapper-modules#598 is completed
-      noctalia-wrapper =
-        {
           config,
           pkgs,
           wlib,
           ...
         }:
         {
-          imports = [ wlib.modules.default ];
-
-          options.settings = lib.mkOption {
-            type = wlib.types.structuredValueWith {
-              nullable = false;
-              typeName = "TOML";
-            };
-            default = { };
+          imports = [ wlib.wrapperModules.noctalia ];
+          runtimePkgs = with pkgs; [
+            evtest
+            qrencode
+          ];
+          # this really should be PR'd
+          constructFiles.settings = lib.mkForce {
+            content = builtins.toJSON config.settings;
+            output = config.configDrvOutput;
+            relPath = "noctalia/settings.toml";
+            builder = ''
+              ${lib.getExe' pkgs.remarshal "json2toml"} "$1" "$2"
+            '';
           };
-
-          config = {
-            package = pkgs.noctalia;
-            env.NOCTALIA_CONFIG_HOME = placeholder config.outputName;
-            constructFiles.generatedConfig = {
-              content = builtins.readFile (
-                (pkgs.formats.toml { }).generate config.constructFiles.generatedConfig.relPath config.settings
-              );
-              output = config.outputName;
-              relPath = "noctalia/settings.toml";
-            };
-
-            meta.platforms = lib.platforms.linux;
-          };
+          meta.platforms = lib.platforms.linux;
         };
     };
   };
