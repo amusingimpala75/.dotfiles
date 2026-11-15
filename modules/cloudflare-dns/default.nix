@@ -139,6 +139,10 @@ in
         name = "";
         content = "\"v=spf1 include:_spf.porkbun.com ~all\"";
       }
+      {
+        name = "_atproto";
+        content = "did=did:plc:22e3awh25awcfjmzt5q26u4u";
+      }
     ];
   };
 
