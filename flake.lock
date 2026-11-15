@@ -724,11 +724,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793856116,
-        "narHash": "sha256-QUeRSbY+kr84e7b+zxIlyHMrHqr8SrMIeuAWNR3lMhY=",
+        "lastModified": 1794558749,
+        "narHash": "sha256-o3qP4WjKWRyghN80cnpVsY0i0dU7oc0A+32lYudaBP0=",
         "owner": "nix-community",
         "repo": "nix-wrapper-modules",
-        "rev": "fcac2fa0c16711ff7fd09176cb3842d0c0ca5183",
+        "rev": "ec3ec32509e1bd97cd9886658b04702a2a7b7007",
         "type": "github"
       },
       "original": {
