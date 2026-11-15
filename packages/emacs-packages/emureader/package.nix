@@ -2,7 +2,6 @@
   fetchFromGitea,
   lib,
   melpaBuild,
-  nix-update-script,
   stdenv,
 
   emacs,
