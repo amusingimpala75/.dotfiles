@@ -99,53 +99,6 @@ in
 {
   imports = [ module ];
 
-  cloudflare-dns."amusingimpala.com" = {
-    # GitHub's IPv4
-    A = [
-      "185.199.108.153"
-      "185.199.109.153"
-      "185.199.110.153"
-      "185.199.111.153"
-    ];
-    # GitHub's IPv6
-    AAAA = [
-      "2606:50c0:8000::153"
-      "2606:50c0:8001::153"
-      "2606:50c0:8002::153"
-      "2606:50c0:8003::153"
-    ];
-    CNAME = {
-      "*" = "uixie.porkbun.com";
-      "avogadrio" = "amusingimpala75.github.io";
-      "memory" = "amusingimpala75.github.io";
-      "www" = "amusingimpala75.github.io";
-      "comp451" = "my-platform-36w.pages.dev";
-      "utils" = "amusingimpala75.github.io";
-    };
-    MX = [
-      "fwd1.porkbun.com"
-      "fwd2.porkbun.com"
-    ];
-    TXT = [
-      {
-        name = "_acme-challenge";
-        content = "\"p9at7-oulXa9RED2C8hnPPa1Vst4qI5XzDrzxCXcUbI\"";
-      }
-      {
-        name = "_acme-challenge";
-        content = "\"-uzX8sWHBQhNMW_q-A3w5nrh8vE59aCnhg0SFFKW6Kw\"";
-      }
-      {
-        name = "";
-        content = "\"v=spf1 include:_spf.porkbun.com ~all\"";
-      }
-      {
-        name = "_atproto";
-        content = "did=did:plc:22e3awh25awcfjmzt5q26u4u";
-      }
-    ];
-  };
-
   flake.modules.homeManager.cloudflare-manager.sops.secrets."cloudflare_dns_api_token" = { };
   flake.flakeModules.cloudflare-dns = module;
 }
