@@ -27,16 +27,32 @@ class Record:
     name: str
     type: str
     content: str
+    proxied: bool
+    ttl: int
+    priority: int | None
 
     @classmethod
     def from_nix(cls, type: str, domain: str, value: any) -> Record:
         match type:
-            case 'A' | 'AAAA' | 'MX':
+            case 'A' | 'AAAA':
                 return Record(
                     id=None,
                     name=domain,
                     type=type,
                     content=value,
+                    proxied=True,
+                    ttl=1,
+                    priority=None,
+                )
+            case 'MX':
+                return Record(
+                    id=None,
+                    name=domain,
+                    type=type,
+                    content=value,
+                    proxied=False,
+                    ttl=1,
+                    priority=10,
                 )
             case 'CNAME':
                 return Record(
@@ -44,6 +60,9 @@ class Record:
                     name=value[0] + '.' + domain,
                     type=type,
                     content=value[1],
+                    proxied=False,
+                    ttl=1,
+                    priority=None,
                 )
             case 'TXT':
                 return Record(
@@ -51,13 +70,24 @@ class Record:
                     name=value['name'] + ('.' if value['name'] != '' else '') + domain,
                     type=type,
                     content=value['content'],
+                    proxied=False,
+                    ttl=1,
+                    priority=None,
                 )
             case _:
                 print(f'unrecognized record type {type} for {domain} with value {value}')
 
     @classmethod
     def from_cf(cls, entry: any) -> Record:
-        return Record(id=entry.id, name=entry.name, type=entry.type, content=entry.content)
+        return Record(
+            id=entry.id,
+            name=entry.name,
+            type=entry.type,
+            content=entry.content,
+            proxied=entry.proxied,
+            ttl=entry.ttl,
+            priority=getattr(entry, 'priority', None),
+        )
 
     @property
     def without_id(self) -> Record:
@@ -66,6 +96,9 @@ class Record:
             name=self.name,
             type=self.type,
             content=self.content,
+            proxied=self.proxied,
+            ttl=self.ttl,
+            priority=self.priority,
         )
 
 with open(new_settings_path) as file:
@@ -118,6 +151,7 @@ for name, entries in new_settings.items():
                 type=record.type,
                 name=record.name,
                 content=record.content,
-                ttl=1,
-                proxied=(record.type != 'TXT'),
+                ttl=record.ttl,
+                proxied=record.proxied,
+                priority=record.priority,
             )
