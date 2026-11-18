@@ -84,15 +84,13 @@
         ng-cli
         ng-nix
         pi
-        radicle
         scrolling
         ssh
+        tangled
         vcs
         wallust
         zsh
       ];
-
-      programs.radicle.settings.node.alias = "amusingimpala75@finarfin";
 
       vcs = {
         email = "69653100+amusingimpala75@users.noreply.github.com";

@@ -104,6 +104,7 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    tg.url = "git+https://tangled.org/did:plc:g5uweck3xar3m745g43giuhr";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
