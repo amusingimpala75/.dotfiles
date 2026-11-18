@@ -31,6 +31,7 @@
         ng-nix
         pi
         ssh
+        tangled
         vcs
         wallust
         wsl
