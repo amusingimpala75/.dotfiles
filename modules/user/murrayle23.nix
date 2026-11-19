@@ -25,13 +25,10 @@
         cloudflare-manager
         direnv
         emacs
-        git
-        jujutsu
         ng-cli
         ng-nix
         pi
         ssh
-        tangled
         vcs
         wallust
         wsl
@@ -39,11 +36,6 @@
 
         "${inputs.home-manager}/modules/programs/noctalia"
       ];
-
-      vcs = {
-        email = "69653100+amusingimpala75@users.noreply.github.com";
-        username = "amusingimpala75";
-      };
 
       wsl.username = "MURRAYLE23";
 

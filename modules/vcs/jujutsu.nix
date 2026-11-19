@@ -6,21 +6,11 @@
 {
   flake.modules.homeManager.jujutsu =
     {
-      config,
+      pkgs,
       ...
     }:
     {
-      imports = [
-        self.wrappers.jujutsu-weave.install
-      ];
-
-      wrappers.jujutsu-weave = {
-        enable = true;
-        settings.user = {
-          name = config.vcs.username;
-          email = config.vcs.email;
-        };
-      };
+      home.packages = [ pkgs.custom-jujutsu ];
     };
 
   flake.wrappers = {
@@ -76,6 +66,10 @@
             diff-formatter = ":git";
             pager = lib.getExe pkgs.custom-delta;
             show-cryptographic-signatures = true;
+          };
+          user = {
+            email = "git@amusingimpala.com";
+            name = "amusingimpala75";
           };
           working-copy.eol-conversion = "input";
         };

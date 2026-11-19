@@ -76,8 +76,6 @@
         emacs
         firefox
         ghostty
-        git
-        jujutsu
         ladybird
         minecraft
         neko
@@ -86,16 +84,10 @@
         pi
         scrolling
         ssh
-        tangled
         vcs
         wallust
         zsh
       ];
-
-      vcs = {
-        email = "69653100+amusingimpala75@users.noreply.github.com";
-        username = "amusingimpala75";
-      };
 
       home.packages = with pkgs; [
         blockbench
