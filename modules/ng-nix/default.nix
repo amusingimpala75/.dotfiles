@@ -13,6 +13,8 @@
         inputs.nix-index-database.homeModules.nix-index
         "${inputs.home-manager}/modules/programs/nix-index.nix"
         "${inputs.home-manager}/modules/programs/nix-your-shell.nix"
+        "${inputs.home-manager}/modules/programs/fish.nix" # for nix-your-shell
+        "${inputs.home-manager}/modules/programs/man" # for nix-your-shell
       ];
 
       programs = {

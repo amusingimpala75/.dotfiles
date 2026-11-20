@@ -29,7 +29,6 @@
         pi
         ssh
         vcs
-        wallust
         wsl
         zsh
 
