@@ -25,7 +25,6 @@
         cloudflare-manager
         direnv
         emacs
-        ng-cli
         ng-nix
         pi
         ssh

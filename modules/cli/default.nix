@@ -3,7 +3,7 @@
   ...
 }:
 {
-  flake.modules.homeManager.ng-cli =
+  flake.modules.homeManager.cli =
     {
       pkgs,
       ...
@@ -21,16 +21,8 @@
         "${inputs.home-manager}/modules/services/tldr-update.nix"
       ];
 
-      home.packages = with pkgs; [
-        custom-bottom
-        custom-bat
-        fd
-        ripgrep
-        sd
-        tlrc
-        (if pkgs.stdenv.hostPlatform.isDarwin then darwin.trash else trashy)
-        ncdu
-      ];
+      nixpkgs.overlays = [ inputs.bible.overlays.default ];
+
       programs = {
         eza = {
           enable = true;
@@ -51,8 +43,30 @@
         zoxide.enable = true;
       };
 
-      home.shellAliases = {
-        tree = "eza -T";
+      home = {
+        packages = with pkgs; [
+          bible.asv
+          chafa
+          custom-bat
+          custom-bottom
+          doxx
+          fd
+          file
+          htmlq
+          jq
+          killall
+          ncdu
+          ripgrep
+          sd
+          tlrc
+          (if pkgs.stdenv.hostPlatform.isDarwin then darwin.trash else trashy)
+          tree
+          up
+        ];
+
+        shellAliases = {
+          tree = "eza -T";
+        };
       };
 
       services.tldr-update = {
@@ -60,4 +74,9 @@
         package = pkgs.tlrc;
       };
     };
+
+  flake-file.inputs.bible = {
+    url = "github:amusingimpala75/bible.sh";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 }
