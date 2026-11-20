@@ -76,6 +76,7 @@
         emacs
         firefox
         ghostty
+        iets
         ladybird
         minecraft
         neko
