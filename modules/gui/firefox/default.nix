@@ -121,8 +121,9 @@
             "extensions.pocket.enabled" = false;
             "network.IDN_show_punycode" = true;
             "privacy.donottrackheader.enabled" = true;
+            "privacy.fingerprintingProtection" = true;
+            "privacy.fingerprintingProtection.overrides" = "+AllTargets,-CSSPrefersColorScheme";
             "privacy.query_stripping.enabled" = true;
-            "privacy.resistFingerprinting" = true;
             "privacy.trackingprotection.enabled" = true;
             "sidebar.verticalTabs" = true;
             "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
