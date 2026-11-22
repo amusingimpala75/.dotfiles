@@ -26,6 +26,7 @@ let
 
       home.packages = with pkgs; [
         custom-jankyborders
+        custom-neko-go
         custom-sketchybar
         rift-wm
       ];

@@ -1,33 +1,9 @@
 {
-  lib,
   self,
   ...
 }:
-let
-  darwin = pkgs: {
-    launchd.agents.neko = {
-      enable = true;
-      config = {
-        ProgramArguments = [ (lib.getExe pkgs.custom-neko-go) ];
-        RunAtLoad = true;
-        KeepAlive = true;
-      };
-    };
-  };
-  nixos = { };
-in
 {
   flake = {
-    modules.homeManager.neko =
-      {
-        pkgs,
-        ...
-      }:
-      lib.mkMerge [
-        (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (darwin pkgs))
-        (lib.mkIf pkgs.stdenv.hostPlatform.isLinux nixos)
-      ];
-
     wrappers.neko-go =
       {
         pkgs,

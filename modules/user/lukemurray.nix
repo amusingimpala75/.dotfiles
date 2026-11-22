@@ -79,7 +79,6 @@
         iets
         ladybird
         minecraft
-        neko
         ng-nix
         pi
         scrolling
