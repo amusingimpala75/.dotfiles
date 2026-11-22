@@ -38,7 +38,8 @@ auto_focus_blacklist = []
 # ]
 run_on_start = [
   "sh -lc sketchybar",
-  "sh -lc borders"
+  "sh -lc borders",
+  "sh -lc neko"
 ]
 
 hot_reload = true
