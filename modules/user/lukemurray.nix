@@ -88,12 +88,6 @@
         zsh
       ];
 
-      home.packages = with pkgs; [
-        blockbench
-        cogfly
-        bleeding.lumafly
-      ];
-
       targets.darwin = {
         copyApps.enable = true;
         linkApps.enable = false;
