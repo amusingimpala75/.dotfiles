@@ -40,7 +40,7 @@ class Record:
                     name=domain,
                     type=type,
                     content=value,
-                    proxied=True,
+                    proxied=False, # [TODO] renable proxying. breaks GH pages when mismatch with its CNAMEs
                     ttl=1,
                     priority=None,
                 )
