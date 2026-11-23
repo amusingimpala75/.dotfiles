@@ -1,6 +1,7 @@
 (local sbar (require :sketchybar))
 (local defaults (require :defaults))
 (local rift (require :rift))
+(local json (require :dkjson))
 (local wallust (require :wallust))
 
 (local client (let [[client err] [(rift.connect)]]
@@ -36,9 +37,14 @@
           (sbar.animate :tanh 15 animate)))
 
       (fn clicked [_]
-        ;; [TODO] switch to using the rift client object from above
-        (sbar.exec (.. "~/.nix-profile/bin/rift-cli execute workspace switch "
-                       (tonumber (- i 1)))))
+        ;; Rift's workspace commands use zero-based indices.
+        (let [request (json.encode {:execute_command {:command {:layout {:switch_to_workspace (- i
+                                                                                                 1)}}}})
+              [response err] [(client:send_request request)]]
+          (when (not response)
+            (error err))
+          (when response.error
+            (error response.error))))
 
       (client:subscribe [:workspace_changed] space-changed)
       (space:subscribe :mouse.clicked clicked)

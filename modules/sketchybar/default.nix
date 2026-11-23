@@ -30,6 +30,7 @@
                 src = lib.sourceFilesBySuffices ./. [ ".fnl" ];
               })
               (pkgs.rift-lua.override { lua55Packages = ps; })
+              ps.dkjson
               ps.fennel
             ];
 
