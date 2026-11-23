@@ -1,5 +1,4 @@
 {
-  lib,
   self,
   ...
 }:
@@ -30,6 +29,18 @@
               "--remote"
               "*"
             ];
+            fetch-rebase = [
+              "util"
+              "exec"
+              "--"
+              "sh"
+              "-c"
+              ''
+                old_trunk=$(jj get-change-ids 'trunk()')
+                jj git fetch
+                jj rebase -s "$old_trunk+ & mutable()" --onto 'trunk()'
+              ''
+            ];
             get-change-ids = [
               "log"
               "-G"
@@ -37,13 +48,13 @@
               "change_id.short() ++ '\n'"
               "-r"
             ];
-            clean-push = [
+            watch = [
               "util"
               "exec"
               "--"
               "sh"
               "-c"
-              "jj run -j 4 -- pre-commit run --all-files && jj git push"
+              "viddy -t -n 1 jj log --color=always --ignore-working-copy"
             ];
           };
           git.private-commits = "visible_heads() | description('private:*')";
@@ -60,11 +71,14 @@
             behavior = "drop";
           };
           git.sign-on-push = true;
+          templates = {
+            git_push_bookmark = ''"amusingimpala/" ++ description.first_line().lower().replace(regex:"[^a-z0-9]", "-").trim() ++ "-" ++ change_id.short()'';
+          };
           ui = {
             default-command = "log";
             diff-editor = ":builtin";
             diff-formatter = ":git";
-            pager = lib.getExe pkgs.custom-delta;
+            pager = "delta";
             show-cryptographic-signatures = true;
           };
           user = {
@@ -74,7 +88,11 @@
           working-copy.eol-conversion = "input";
         };
 
-        runtimePkgs = [ pkgs.gnupg ];
+        runtimePkgs = with pkgs; [
+          custom-delta
+          gnupg
+          viddy
+        ];
 
         env.GIT_CONFIG_GLOBAL = pkgs.writeText "jj-git-config" ''
           [core]
@@ -89,9 +107,10 @@
       }:
       {
         imports = [ self.wrapperModules.jujutsu ];
+
         settings = {
           merge-tools.weave = {
-            program = lib.getExe' pkgs.weave "weave-driver";
+            program = "weave-driver";
             merge-args = [
               "$base"
               "$left"
@@ -109,6 +128,8 @@
           };
           ui.merge-editor = "weave";
         };
+
+        runtimePkgs = [ pkgs.weave ];
       };
   };
 }
