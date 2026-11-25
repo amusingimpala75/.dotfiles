@@ -30,7 +30,8 @@
       "raw.githubusercontent.com",
 
       "crates.io",
-      "*.crates.io"
+      "*.crates.io",
+      "release-assets.githubusercontent.com"
     ]
   }
 }
