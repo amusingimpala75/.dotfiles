@@ -1,6 +1,5 @@
 {
   inputs,
-  self,
   ...
 }:
 {
@@ -38,12 +37,6 @@
         package = config.services.emacs.package;
       };
 
-      sops.secrets."emacs-radio-channels.el" = {
-        format = "binary";
-        sopsFile = "${self}/secrets/emacs-radio-channels.el";
-        path = "%r/emacs-radio-channels.el";
-      };
-
       home = {
         shellAliases = {
           vim = config.home.sessionVariables.EDITOR;
@@ -57,7 +50,7 @@
       };
 
       xdg.configFile."emacs/snippets".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/emacs/snippets";
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/modules/gui/emacs/snippets";
 
       xdg.configFile."home-manager/packages".text =
         config.home.packages |> map (pkg: pkg.pname or pkg.name) |> builtins.toJSON;

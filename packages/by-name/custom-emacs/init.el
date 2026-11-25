@@ -353,22 +353,14 @@
   :bind ( :map eglot-mode-map
           ("C-c C-e" . 'eldoc-box-help-at-point)))
 
-(defvar my/radio-channel-location
-  "~/.config/sops-nix/secrets/emacs-radio-channels.el")
-
-(defun my/radio-play ()
-  "Ask the user for a radio channel to play."
-  (interactive)
-  (let* ((my/radio-channels (my/user-secret-else my/radio-channel-location nil))
-         (choice (completing-read "Station:"
-                                  (seq-map (lambda (pair)
-                                             (car pair))
-                                           my/radio-channels)))
-         (association (assoc choice my/radio-channels)))
-    (message "playing %s" choice)
-    (emms-play-url (if association
-                       (cdr association)
-                     choice))))
+(use-package eradio
+  :ensure t
+  :custom
+  (eradio-channels '(("KBach" . "https://kbaq.streamguys1.com/kbaq_mp3_128")))
+  (eradio-player '("mpv" "--no-video" "--no-terminal"))
+  :bind
+  ("C-x C-a r p" . eradio-play)
+  ("C-x C-a r s" . eradio-stop))
 
 (defun my/kbaq-current-piece ()
   "Fetch the currently-playing music on KBAQ."
@@ -382,20 +374,6 @@
             (title (plist-get song :title))
             (composer (plist-get song :composer)))
        (message "%s by %s" title composer)))))
-
-(use-package emms
-  :ensure t
-  :bind
-  ("C-x C-a p e" . emms)
-  ("C-x C-a p p" . emms-start)
-  ("C-x C-a p s" . emms-stop)
-  ("C-x C-a p r" . my/radio-play)
-  :custom
-  ;; mpv backend for emms
-  (emms-player-list '(emms-player-mpv))
-  :config
-  (require 'emms-setup)
-  (emms-minimalistic))
 
 (use-package material-icons
   :ensure t
