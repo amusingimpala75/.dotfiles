@@ -734,7 +734,23 @@
 
 (use-package trust-manager
   :ensure t
-  :hook (after-init . trust-manager-mode))
+  :hook
+  (after-init . trust-manager-mode)
+  (trust-manager-mode . condense-trust))
+
+(defun condense-trust ()
+  "Removes paths who have a prefix already in `trusted-content'."
+  (when (and trust-manager-mode (listp trusted-content))
+    (setq trusted-content
+          (seq-remove
+           (lambda (entry)
+             (seq-some
+              (lambda (prefix?)
+                (and (not (equal entry prefix?))
+                     (string-suffix-p "/" prefix?)
+                     (string-prefix-p prefix? entry)))
+              trusted-content))
+           (copy-sequence trusted-content)))))
 
 ;; Direnv support
 (use-package envrc
