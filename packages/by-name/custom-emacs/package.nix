@@ -17,6 +17,7 @@
 
   # builders
   emacsWithPackagesFromUsePackage,
+  fetchFromGitHub,
   lib,
   symlinkJoin,
   ...
@@ -42,6 +43,17 @@ symlinkJoin {
           ])
         ))
       ];
+      override = _: prev: {
+        # Fix the lexical cookie
+        nord-theme = prev.nord-theme.overrideAttrs {
+          src = fetchFromGitHub {
+            owner = "KevinBoyette";
+            repo = "nord-emacs";
+            rev = "3724815f068ed000fcf922c1aa6aca46c77ae633";
+            hash = "sha256-665DFiKiDv3zVg41kkv85wihkGWOoD3YJZUpCbau6+U=";
+          };
+        };
+      };
     })
 
     # Dictionary support

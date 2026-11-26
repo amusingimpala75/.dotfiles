@@ -139,20 +139,19 @@
   ("M-l" . downcase-dwim)
   ("M-c" . capitalize-dwim))
 
-(use-package ef-themes
+(use-package nord-theme
   :ensure t
-  :preface
-  (defvar my/theme 'ef-elea-dark))
-
-;; Load the theme from the nix settings. Has to
-;; be this way to avoid an error on loading
-;; i.e. needs to be deferred
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame (load-theme my/theme t))))
-  (add-hook 'after-init-hook (lambda ()
-                               (load-theme my/theme t))))
+  :config
+  (if (daemonp)
+      (add-hook
+       'after-make-frame-functions
+       (lambda (frame)
+         (with-selected-frame frame
+           (load-theme 'nord t))))
+    (add-hook
+     'after-init-hook
+     (lambda ()
+       (load-theme 'nord t)))))
 
 (use-package frame
   :preface
