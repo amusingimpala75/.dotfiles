@@ -14,6 +14,7 @@
         dictionary
         linux-builder
         lukemurray
+        tailscale
         user-applications
       ];
 
