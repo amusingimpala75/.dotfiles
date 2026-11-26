@@ -11,49 +11,57 @@ let
     {
       options.cloudflare-dns =
         let
-          domainEntry = lib.types.submodule {
-            options = {
-              A = lib.mkOption {
-                description = "A DNS entries";
-                default = [ ];
-                example = [ "1.2.3.4" ];
-                type = lib.types.listOf lib.types.str;
-              };
-              AAAA = lib.mkOption {
-                description = "AAAA DNS entries";
-                default = [ ];
-                example = [ "1:2:3::4" ];
-                type = lib.types.listOf lib.types.str;
-              };
-              CNAME = lib.mkOption {
-                description = "CNAME DNS entries";
-                default = { };
-                example = {
-                  "www" = "example.com";
+          record =
+            recordType:
+            lib.types.submodule {
+              options = {
+                content = lib.mkOption {
+                  type = lib.types.str;
+                  description = "DNS record value.";
                 };
-                type = lib.types.attrsOf lib.types.str;
-              };
-              MX = lib.mkOption {
-                description = "MX DNS entries";
-                default = [ ];
-                type = lib.types.listOf lib.types.str;
-              };
-              TXT = lib.mkOption {
-                description = "TXT DNS entries";
-                default = [ ];
-                example = [
+                ttl = lib.mkOption {
+                  type = lib.types.ints.positive;
+                  default = 1;
+                  description = "TTL in seconds; 1 selects Cloudflare's automatic TTL.";
+                };
+              }
+              //
+                lib.optionalAttrs
+                  (builtins.elem recordType [
+                    "A"
+                    "AAAA"
+                    "CNAME"
+                  ])
                   {
-                    name = "_acme-challenge.example.com";
-                    content = "...";
+                    proxied = lib.mkOption {
+                      type = lib.types.bool;
+                      default = false;
+                      description = "Whether Cloudflare proxies this record.";
+                    };
                   }
-                ];
-                type = lib.types.listOf (lib.types.attrsOf lib.types.str);
+              // lib.optionalAttrs (recordType == "MX") {
+                priority = lib.mkOption {
+                  type = lib.types.ints.between 0 65535;
+                  default = 10;
+                  description = "MX priority (lower values are preferred).";
+                };
               };
             };
-          };
+          domainEntry = lib.types.attrsOf (
+            lib.types.submodule {
+              options = lib.genAttrs [ "A" "AAAA" "CNAME" "MX" "TXT" ] (
+                recordType:
+                lib.mkOption {
+                  type = lib.types.listOf (record recordType);
+                  default = [ ];
+                  description = "${recordType} records at this relative name.";
+                }
+              );
+            }
+          );
         in
         lib.mkOption {
-          description = "cloudflare dns settings";
+          description = "Cloudflare records keyed by zone, relative name (@ for apex), and type. Undeclared records in managed zones are deleted.";
           default = { };
           type = lib.types.attrsOf domainEntry;
         };
@@ -99,6 +107,15 @@ in
 {
   imports = [ module ];
 
-  flake.modules.homeManager.cloudflare-manager.sops.secrets."cloudflare_dns_api_token" = { };
+  flake.modules.homeManager.cloudflare-manager =
+    {
+      config,
+      ...
+    }:
+    {
+      sops.secrets."cloudflare_dns_api_token" = { };
+      home.sessionVariables.CLOUDFLARE_API_TOKEN_FILE =
+        config.sops.secrets."cloudflare_dns_api_token".path;
+    };
   flake.flakeModules.cloudflare-dns = module;
 }

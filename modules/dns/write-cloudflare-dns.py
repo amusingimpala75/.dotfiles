@@ -5,15 +5,22 @@ import sys
 
 from cloudflare import Cloudflare
 
-token: str | None = os.environ.get('CLOUDFLARE_API_TOKEN')
+token_path: str | None = os.environ.get('CLOUDFLARE_API_TOKEN_FILE')
 new_settings_path: str | None = os.environ.get('CLOUDFLARE_NEW_DNS_SETTINGS')
 
-if token is None:
-    print('Must provide token with CLOUDFLARE_API_TOKEN')
-    exit()
+if not token_path:
+    sys.exit('Must provide token file with CLOUDFLARE_API_TOKEN_FILE')
 elif new_settings_path is None:
-    print('Must provide new settings with CLOUDFLARE_NEW_DNS_SETTINGS')
-    exit()
+    sys.exit('Must provide new settings with CLOUDFLARE_NEW_DNS_SETTINGS')
+
+try:
+    with open(token_path) as file:
+        token = file.read().strip()
+except OSError:
+    sys.exit(f'Could not read token file: {token_path}')
+
+if not token:
+    sys.exit(f'Token file is empty: {token_path}')
 
 dry_run: bool = '--dry-run' in sys.argv
 
@@ -32,50 +39,16 @@ class Record:
     priority: int | None
 
     @classmethod
-    def from_nix(cls, type: str, domain: str, value: any) -> Record:
-        match type:
-            case 'A' | 'AAAA':
-                return Record(
-                    id=None,
-                    name=domain,
-                    type=type,
-                    content=value,
-                    proxied=False, # [TODO] renable proxying. breaks GH pages when mismatch with its CNAMEs
-                    ttl=1,
-                    priority=None,
-                )
-            case 'MX':
-                return Record(
-                    id=None,
-                    name=domain,
-                    type=type,
-                    content=value,
-                    proxied=False,
-                    ttl=1,
-                    priority=10,
-                )
-            case 'CNAME':
-                return Record(
-                    id=None,
-                    name=value[0] + '.' + domain,
-                    type=type,
-                    content=value[1],
-                    proxied=False,
-                    ttl=1,
-                    priority=None,
-                )
-            case 'TXT':
-                return Record(
-                    id=None,
-                    name=value['name'] + ('.' if value['name'] != '' else '') + domain,
-                    type=type,
-                    content=value['content'],
-                    proxied=False,
-                    ttl=1,
-                    priority=None,
-                )
-            case _:
-                print(f'unrecognized record type {type} for {domain} with value {value}')
+    def from_nix(cls, type: str, zone: str, name: str, value: dict) -> Record:
+        return Record(
+            id=None,
+            name=zone if name == '@' else f'{name}.{zone}',
+            type=type,
+            content=value['content'],
+            proxied=value.get('proxied', False),
+            ttl=value.get('ttl', 1),
+            priority=value.get('priority', 10) if type == 'MX' else None,
+        )
 
     @classmethod
     def from_cf(cls, entry: any) -> Record:
@@ -105,13 +78,13 @@ with open(new_settings_path) as file:
     data: dict[str, any] = json.load(file)
 
 new_settings: dict[str, tuple[Record, ...]] = {
-    domain:
-        [Record.from_nix('A', domain, record) for record in entry['A']] +
-        [Record.from_nix('AAAA', domain, record) for record in entry['AAAA']] +
-        [Record.from_nix('CNAME', domain, record) for record in entry['CNAME'].items()] +
-        [Record.from_nix('MX', domain, record) for record in entry['MX']] +
-        [Record.from_nix('TXT', domain, record) for record in entry['TXT']]
-    for domain, entry in data.items()
+    zone: tuple(
+        Record.from_nix(type, zone, name, record)
+        for name, types in names.items()
+        for type, records in types.items()
+        for record in records
+    )
+    for zone, names in data.items()
 }
 
 for name, entries in new_settings.items():
