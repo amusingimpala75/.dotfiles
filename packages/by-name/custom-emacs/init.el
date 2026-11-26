@@ -752,6 +752,20 @@
               trusted-content))
            (copy-sequence trusted-content)))))
 
+(use-package advent-mode
+  :ensure t
+  :custom
+  ;; [TODO] find all config values
+  ;; Setup folder structure as I do it
+  (advent-root-dir "~/advent-of-code")
+  (advent-year-dir-format "%04d")
+  (advent-day-dir-format "%02d")
+  ;; [TODO] Look into this
+  (advent-new-files '("solution.py"))
+  (advent-keymap-prefix "C-c a")
+  :hook
+  (after-init . global-advent-mode))
+
 ;; Direnv support
 (use-package envrc
   :ensure t
