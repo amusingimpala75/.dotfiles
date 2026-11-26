@@ -21,6 +21,7 @@
           [
             play-audio
             gcc # for emacs?
+            kapitsa
             unquarantine
             screen-saver
             run-ntfy-when-done
