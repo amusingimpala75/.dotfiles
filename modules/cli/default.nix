@@ -15,8 +15,7 @@
         "${inputs.home-manager}/modules/programs/eza.nix"
         "${inputs.home-manager}/modules/programs/fzf.nix"
         "${inputs.home-manager}/modules/programs/git.nix" # for direnv.nix
-        "${inputs.home-manager}/modules/programs/mcfly.nix"
-        "${inputs.home-manager}/modules/programs/pay-respects.nix"
+        "${inputs.home-manager}/modules/programs/mcfly.nix" # for fzf.nix
         "${inputs.home-manager}/modules/programs/zoxide.nix"
         "${inputs.home-manager}/modules/services/tldr-update.nix"
       ];
@@ -28,18 +27,7 @@
           enable = true;
           icons = "auto";
         };
-        fzf = {
-          enable = true;
-          historyWidget.zsh.command = "";
-        };
-        mcfly.enable = true;
-        pay-respects = {
-          enable = true;
-          options = [
-            "--nocnf"
-            "--alias"
-          ];
-        };
+        fzf.enable = true;
         zoxide.enable = true;
       };
 
