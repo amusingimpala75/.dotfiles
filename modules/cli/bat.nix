@@ -1,50 +1,34 @@
 {
-  self,
-  ...
-}:
-{
   flake.wrappers = {
     bat =
       {
-        pkgs,
-        ...
-      }:
-      {
-        imports = [ self.wrapperModules.bat-wrapper ];
-        flags = {
-          "--theme" = "base16";
-          "--wrap" = "never";
-        };
-        extraPackages = with pkgs.bat-extras; [
-          batman
-          batdiff
-          batpipe
-          batgrep
-          (prettybat.override {
-            withClangTools = false;
-            withRustFmt = false;
-          })
-        ];
-      };
-
-    bat-wrapper =
-      {
-        config,
-        lib,
         pkgs,
         wlib,
         ...
       }:
       {
-        imports = [ wlib.modules.default ];
-        options.extraPackages = lib.mkOption {
-          type = lib.types.listOf lib.types.package;
-          default = [ ];
+        imports = [ wlib.wrapperModules.bat ];
+
+        settings = {
+          theme = "base16";
+          wrap = "never";
         };
 
-        config.package = pkgs.symlinkJoin {
+        package = pkgs.symlinkJoin {
           name = "bat";
-          paths = [ pkgs.bat ] ++ config.extraPackages;
+          paths = [
+            pkgs.bat
+          ]
+          ++ (with pkgs.bat-extras; [
+            batman
+            batdiff
+            batpipe
+            batgrep
+            (prettybat.override {
+              withClangTools = false;
+              withRustFmt = false;
+            })
+          ]);
           meta.mainProgram = "bat";
         };
       };

@@ -62,7 +62,6 @@
 
       noctalia =
         {
-          config,
           pkgs,
           wlib,
           ...
@@ -73,15 +72,6 @@
             evtest
             qrencode
           ];
-          # this really should be PR'd
-          constructFiles.settings = lib.mkForce {
-            content = builtins.toJSON config.settings;
-            output = config.configDrvOutput;
-            relPath = "noctalia/settings.toml";
-            builder = ''
-              ${lib.getExe' pkgs.remarshal "json2toml"} "$1" "$2"
-            '';
-          };
           meta.platforms = lib.platforms.linux;
         };
     };
