@@ -91,6 +91,7 @@ jobs:
         echo "count=$(jq length <<< "$matrix")" >> "$GITHUB_OUTPUT"
 
   builds:
+    name: ${{ matrix.build.system }}-${{ matrix.build.package }}
     needs: discover
     if: ${{ needs.discover.outputs.count != '0' }}
     strategy:
