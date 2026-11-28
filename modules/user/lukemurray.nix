@@ -118,7 +118,7 @@
             ShowStatusBar = true;
           };
           "NSGlobalDomain" = {
-            # AppleInterfaceStyle # This doesn't seem to work
+            AppleInterfaceStyleSwitchesAutomatically = true;
             InitialKeyRepeat = 10;
             KeyRepeat = 1;
           };

@@ -32,7 +32,7 @@
 
         selection-invert-fg-bg = true;
         window-theme = "system";
-        theme = "wallust";
+        theme = "light:Nord Light,dark:Nord";
 
         mouse-hide-while-typing = true;
         cursor-style = "block";

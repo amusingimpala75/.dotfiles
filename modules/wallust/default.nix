@@ -13,11 +13,11 @@
     }:
     {
       imports = [
-        "${inputs.home-manager}/modules/programs/bat.nix"
-        "${inputs.home-manager}/modules/programs/fish.nix"
-        "${inputs.home-manager}/modules/programs/ghostty.nix"
-        "${inputs.home-manager}/modules/programs/man"
-        "${inputs.home-manager}/modules/programs/vim.nix"
+        # "${inputs.home-manager}/modules/programs/bat.nix"
+        # "${inputs.home-manager}/modules/programs/fish.nix"
+        # "${inputs.home-manager}/modules/programs/ghostty.nix"
+        # "${inputs.home-manager}/modules/programs/man"
+        # "${inputs.home-manager}/modules/programs/vim.nix"
         "${inputs.home-manager}/modules/programs/wallust.nix"
       ];
 
@@ -27,10 +27,6 @@
           palette = "softdark16";
           check_contrast = true;
           templates = {
-            ghostty = {
-              template = ./ghostty.wallust;
-              target = "~/.config/ghostty/themes/wallust";
-            };
             # Really can be replaced with a templated_hook,
             # waiting for that to be properly released in 4.0
             palette = {
@@ -44,15 +40,6 @@
             };
           };
           hooks = {
-            darwin-system-appearance = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin ''
-              if grep "dark" < "$HOME/.local/state/wallust/palette.txt" > /dev/null
-              then
-                ${lib.getExe pkgs.set-appearance} "true"
-              else
-                ${lib.getExe pkgs.set-appearance} "false"
-              fi
-            '';
-            ghostty = ''osascript -e 'tell application "Ghostty" to perform action "reload_config" on focused terminal of selected tab of front window' > /dev/null'';
             wallpaper =
               if pkgs.stdenv.hostPlatform.isDarwin then
                 ''${lib.getExe pkgs.desktoppr} "$(cat ~/.local/state/wallust/wallpaper.txt)"''
@@ -66,7 +53,5 @@
           };
         };
       };
-
-      programs.ghostty.settings.theme = "wallust";
     };
 }

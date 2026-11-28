@@ -136,7 +136,20 @@
               enhanced-github
               gaoptout
               github-file-icons
-              gruvbox-dark-theme # TODO integrate with theme system
+              # [TODO] vendor to get the auto-update functionality
+              (pkgs.nur.repos.rycee.firefox-addons.buildFirefoxXpiAddon {
+                pname = "nord-firefox";
+                version = "3.0";
+                addonId = "{f4c9e1d6-6630-4600-ad50-d223eab7f3e7}";
+                url = "https://addons.mozilla.org/firefox/downloads/file/5070529/nord_firefox-3.0.xpi";
+                sha256 = "sha256-O+7jj6Xa4Z8nld5aNhxkhSl2Jou9w6PhAxoARwyGS7I=";
+                meta = {
+                  description = "An arctic, north-bluish clean and elegant Mozilla Firefox theme.";
+                  license = lib.licenses.cc-by-30;
+                  mozPermissions = [ ];
+                  platforms = lib.platforms.all;
+                };
+              })
               indie-wiki-buddy
               return-youtube-dislikes
               nopow
